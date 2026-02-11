@@ -1,3 +1,28 @@
 **/.*
-**/__pycache__/*
 !.gitignore
+
+# --- API Credentials ---
+# You mentioned APIconfig.json contains login credentials. 
+# This MUST be ignored to protect your accounts.
+./config
+.env
+DemoOutput/
+BLAST/
+cache/
+.cache/
+
+# --- Python Environment ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# --- Operating System Files ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
