@@ -10,5 +10,21 @@
 	"ReaxysAPIkey":"obtain@https://www.elsevier.com/solutions/reaxys/contact-sales",
 	"ReaxysUsername":"obtain@https://www.elsevier.com/solutions/reaxys/contact-sales",
 	"ReaxysPassowrd":"obtain@https://www.elsevier.com/solutions/reaxys/contact-sales",
-	"ReaxysURL":"https://www.reaxys.com/reaxys/api"
+	"ReaxysURL":"https://www.reaxys.com/reaxys/api",
+	"SBSurl":"obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"SBStoken_url" : "obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"SBSecret": "obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"SBSclientID" : "obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"SBSuser" : "obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"SBSpassword" : "obtain@https://www.elsevier.com/products/scibite/contact-us",
+	"postgreSQLdb":"obtain@https://www.elsevier.com/solutions/professional-services",
+	"postgreSQLhost":"obtain@https://www.elsevier.com/solutions/professional-services",
+	"postgreSQLport":"obtain@https://www.elsevier.com/solutions/professional-services",
+	"postgreSQLuser":"obtain@https://www.elsevier.com/solutions/professional-services",
+	"postgreSQLpswd":"obtain@https://www.elsevier.com/solutions/professional-services",
+	"neo4jURL" : "obtain@https://www.elsevier.com/solutions/professional-services",
+	"neo4juri" : "obtain@https://www.elsevier.com/solutions/professional-services",
+	"neo4jdb" : "obtain@https://www.elsevier.com/solutions/professional-services",
+	"neo4juser" : "obtain@https://www.elsevier.com/solutions/professional-services",
+	"neo4jpswd" : "obtain@https://www.elsevier.com/solutions/professional-services"
 }
