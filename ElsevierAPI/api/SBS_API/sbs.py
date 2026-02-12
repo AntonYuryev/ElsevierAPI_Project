@@ -1,6 +1,6 @@
-from ..utils import load_api_config, greek2english,urlencode,json,multithread,execution_time
-from ..ETM_API.references import Reference,DocMine, Author
-from ..ETM_API.references import AUTHORS,_AUTHORS_,GRANT_APPLICATION,JOURNAL,SENTENCE,RELEVANCE
+from ...utils.utils import load_api_config, greek2english,urlencode,json,multithread,execution_time
+from ..ResnetAPI.references import Reference,DocMine, Author
+from ..ResnetAPI.references import AUTHORS,_AUTHORS_,GRANT_APPLICATION,JOURNAL,SENTENCE,RELEVANCE
 from scibite_toolkit.scibite_search import SBSRequestBuilder as s
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re,threading,requests

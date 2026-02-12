@@ -4,9 +4,10 @@ import xlsxwriter,re,time,json,unicodedata
 from datetime import timedelta
 from urllib.parse import urlencode,quote
 from titlecase import titlecase
-from ..utils import list2str,sortdict
+from ...utils.utils import list2str,sortdict
 from collections import defaultdict
 from typing import Generator
+
 
 
 AUTHORS = 'Authors'
@@ -39,6 +40,9 @@ GRANT_APPLICATION = 'Grant Application'
 EMAIL = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", flags=re.IGNORECASE)
 CLINVAR_ID = 'Clinvar RCV ID'
 CLINVAR_ACC = 'Clinvar RCV Accession'
+WEIGHT = 'weight'
+NODEWEIGHT = 'nodeweight' 
+RELWEIGHT = 'relweight'
 
 INT_PROPS = {PS_CITATION_INDEX,PUBYEAR,ETM_CITATION_INDEX,SBS_CITATION_INDEX}
 FLOAT_PROPS = {RELEVANCE}

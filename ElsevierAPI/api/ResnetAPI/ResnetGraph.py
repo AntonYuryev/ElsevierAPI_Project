@@ -1,6 +1,6 @@
 import networkx as nx
 from networkx.exception import NetworkXError
-from ..pandas.panda_tricks import df,np,pd
+from ...utils.pandas.panda_tricks import df,np,pd
 from datetime import timedelta
 import os, math, time, torch,glob,csv
 from typing import Generator
@@ -13,11 +13,11 @@ from collections import defaultdict,deque
 from concurrent.futures import ThreadPoolExecutor,as_completed
 from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT
 from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,DIRECT_RELTYPES,OBJECT_TYPE
-from ..ETM_API.references import Reference, pubmed_hyperlink, make_hyperlink
-from ..ETM_API.references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS
-from ..ETM_API.RefStats import RefStats,IDENTIFIER_COLUMN
-from ..utils import execution_time, execution_time2,list2str,unpack,normalize,sortdict
-from ..Embio.postgres import PostgreSQL
+from .references import Reference, pubmed_hyperlink, make_hyperlink
+from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS
+from .RefStats import RefStats,IDENTIFIER_COLUMN
+from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize
+from ..EmbioPSG_API.postgres import PostgreSQL
 
 
 RESNET = 'resnet'

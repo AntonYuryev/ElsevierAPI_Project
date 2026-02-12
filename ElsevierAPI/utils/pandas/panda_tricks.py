@@ -3,7 +3,7 @@ import numpy as np
 from pandas import ExcelWriter
 from scipy.stats import expon
 import rdfpandas,xlsxwriter,string, os
-from ..ResnetAPI.NetworkxObjects import PSObject
+from ...api.ResnetAPI.NetworkxObjects import PSObject
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype,is_numeric_dtype
 

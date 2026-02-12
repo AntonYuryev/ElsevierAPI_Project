@@ -1,7 +1,6 @@
-from .ResnetGraph import PSObject
+from .ResnetGraph import PSObject,execution_time
 from .SemanticSearch import SemanticSearch,df,ResnetGraph
 from .ResnetAPISession import BIBLIO_PROPERTIES
-from ElsevierAPI import execution_time
 import time
 
 SYMPTOMS_INDICATIONS = 'Indications'

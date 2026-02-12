@@ -1,13 +1,11 @@
-import urllib.request, urllib.parse, requests,os,json
-import regex as re
+import urllib.parse, requests,os,json,regex
 import urllib.error as http_error
 from time import sleep
-from concurrent.futures import ThreadPoolExecutor,as_completed
-from ..utils import multithread
+from ...utils.utils import multithread
 
 DRUGNAME_FIELDS = ['openfda.brand_name', 'openfda.generic_name','openfda.substance_name']
 DOSAGE_FIELD = 'dosage_and_administration'
-CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/FDA/drug_labels_cache')
+CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/FDA/drug_labels_cache')
 
 def get_field(label:dict,keys:list):
     try:
@@ -18,7 +16,7 @@ def get_field(label:dict,keys:list):
 def replace_in(s:str,any_pattern_in:list,with_str=''):
     new_str = s
     for pattern in any_pattern_in:
-        new_str = re.sub(pattern, lambda x: with_str, new_str)
+        new_str = regex.sub(pattern, lambda x: with_str, new_str)
 
     return new_str
 
@@ -124,7 +122,7 @@ class FDA:
         return labels
 
 
-    child_dose_pattern = re.compile(r"\b(child|pediat)\b", re.IGNORECASE)
+    child_dose_pattern = regex.compile(r"\b(child|pediat)\b", regex.IGNORECASE)
     def __child_doses(self, drug:str):
       drug2dose = dict()
       labels = self.drug_labels(drug)

@@ -1,8 +1,8 @@
 import urllib.request,urllib.parse,json,time
 from collections import defaultdict
-from ..pandas.panda_tricks import df
-from ..ResnetAPI.NetworkxObjects import Reference,PUBYEAR
-from .. import execution_time
+from ...utils.pandas.panda_tricks import df
+from ...utils.utils import execution_time
+from ..ResnetAPI.references import Reference,PUBYEAR
 import urllib.error as http_error
 from time import sleep
 

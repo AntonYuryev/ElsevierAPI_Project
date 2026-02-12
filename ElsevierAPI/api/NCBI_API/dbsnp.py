@@ -1,13 +1,12 @@
 import urllib.parse,os,time
-from lxml import etree as ET
-from ..utils import dir2flist,execution_time,pretty_xml,next_tag,dir2flist,PCT,attempt_request4
-from ..ETM_API.references import Reference,TITLE,SENTENCE,AUTHORS,PUBYEAR,JOURNAL
+from ...utils.utils import et,dir2flist,execution_time,pretty_xml,next_tag,dir2flist,PCT,attempt_request4
+from ..ResnetAPI.references import Reference,TITLE,SENTENCE,AUTHORS,PUBYEAR,JOURNAL
 from ..ResnetAPI.NetworkxObjects import PSRelation,OBJECT_TYPE
 from ..ResnetAPI.ResnetAPIcache import PSObject, ResnetGraph
 import pandas as pd
 
 BASE_URL = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'
-CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/NCBI/__snpcache__/')
+CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/NCBI/__snpcache__/')
 DBSNP_CACHE_BASE = 'dbsnp'
 
 class SNP(PSObject):
@@ -67,8 +66,8 @@ def downloadSNP(rsids:list,mapdic:dict[str, dict[str, dict[str, PSObject]]])->tu
                 params.update({'id':ids})
                 url=BASE_URL+'efetch.fcgi?'+urllib.parse.urlencode(params)
                 response = attempt_request4(url)
-                snps = ET.fromstring('<documents>'+response.data.decode().strip()+'</documents>')
-                f.write(pretty_xml(ET.tostring(snps),True))
+                snps = et.fromstring('<documents>'+response.data.decode().strip()+'</documents>')
+                f.write(pretty_xml(et.tostring(snps),True))
                 id2snps, gvs2genes_rels = xml2SNP(snps,mapdic)
                 id2snp.update(id2snps)
                 gvs2genes += gvs2genes_rels
@@ -93,7 +92,7 @@ def dbsnp_hyperlink(rs_ids:list, as_count=True):
         return '=HYPERLINK("'+base_url+data+'",\"{}\")'.format( ','.join(rs_ids))
     
 
-def parseMAF(snp_record:ET._Element)->dict[str:float]:
+def parseMAF(snp_record:et._Element)->dict[str:float]:
     '''
     output:
       {allele:(total_population_frequency)}
@@ -124,7 +123,7 @@ def parseMAF(snp_record:ET._Element)->dict[str:float]:
     return to_return
 
 
-def parseGene(snp_record:ET._Element)->list[tuple[str,str]]:
+def parseGene(snp_record:et._Element)->list[tuple[str,str]]:
     '''
     output:
       [(gene_name,gene_id)...]
@@ -140,7 +139,7 @@ def parseGene(snp_record:ET._Element)->list[tuple[str,str]]:
     return genes
 
 
-def parseFunction(snp_record:ET._Element):
+def parseFunction(snp_record:et._Element):
     fxns = list() 
     for fxn in snp_record.findall('./FXN_CLASS'):
         fn = str(fxn.text)
@@ -149,7 +148,7 @@ def parseFunction(snp_record:ET._Element):
     return fxns
 
 
-def parseSNP(snpdocsum:ET._Element,mapdic:dict[str,dict[str,dict[str,PSObject]]])->tuple[SNP,list[PSRelation]]:
+def parseSNP(snpdocsum:et._Element,mapdic:dict[str,dict[str,dict[str,PSObject]]])->tuple[SNP,list[PSRelation]]:
   gv2genes = list() #[(gene_name, gene_id)]
   snp_id = 'rs'+snpdocsum.find('./SNP_ID').text
   snp = SNP(snp_id,snp_id)
@@ -179,7 +178,7 @@ def parseSNP(snpdocsum:ET._Element,mapdic:dict[str,dict[str,dict[str,PSObject]]]
   return snp, gv2genes
 
 
-def xml2SNP(doc_summaries:ET._Element,mapdic: dict[str, dict[str, dict[str, PSObject]]],_4rsids:list=[])->tuple[dict[str,SNP],list[PSRelation]]:
+def xml2SNP(doc_summaries:et._Element,mapdic: dict[str, dict[str, dict[str, PSObject]]],_4rsids:list=[])->tuple[dict[str,SNP],list[PSRelation]]:
     id2snp = dict()
     gvs2genes = list()
     if _4rsids:

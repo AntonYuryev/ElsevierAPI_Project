@@ -1,11 +1,11 @@
 from .ResnetAPISession import time, math, NO_REL_PROPERTIES
 from .ResnetAPIcache import APIcache,os,CACHE_DIR
 from .ResnetGraph import REFCOUNT, ResnetGraph, nx, EFFECT,NUMBER_OF_TARGETS,PROTEIN_TYPES,PSObject
-from ..pandas.panda_tricks import df, ExcelWriter
+from ...utils.pandas.panda_tricks import df, ExcelWriter
 from .Drugs4Disease import Drugs4Targets
 from .Drugs4Disease import ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS,RANK,DRUG2TARGET_REGULATOR_SCORE,PHARMAPENDIUM_ID
 from .Zeep2Experiment import Experiment, Sample, ENSEMBL_ID,HAS_PVALUE
-from ..utils import Tee,execution_time
+from ...utils.utils import Tee,execution_time
 from scipy.stats._mannwhitneyu import mannwhitneyu
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor

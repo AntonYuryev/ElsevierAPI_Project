@@ -1,10 +1,10 @@
 from .ResnetAPIcache import APIcache
 from .PathwayStudioGOQL import OQL
 from .ResnetGraph import ResnetGraph,EFFECT,REFCOUNT,PROTEIN_TYPES,PSObject,CONSISTENCY
-from ..utils import execution_time2,time,execution_time
+from ...utils.utils import execution_time2,time,execution_time
 from math import log, sqrt
 from collections import defaultdict
-from ..Embio.cypher import Cypher
+from ..EmbioPSG_API.cypher import Cypher
 
 class DrugTargetConsistency(APIcache):
     '''

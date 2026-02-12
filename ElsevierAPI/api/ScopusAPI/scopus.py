@@ -1,8 +1,8 @@
 import urllib.request,urllib.parse,json,os
 from xml.etree.ElementTree import fromstring
 from time import sleep
-from ..ETM_API.references import Reference, Author, DocMine
-from ..ETM_API.references import SCOPUS_CI,ARTICLE_ID_TYPES,INSTITUTIONS,AUTHORS,PUBLISHER,_AUTHORS_
+from ..ResnetAPI.references import Reference, Author, DocMine
+from ..ResnetAPI.references import SCOPUS_CI,ARTICLE_ID_TYPES,INSTITUTIONS,AUTHORS,PUBLISHER,_AUTHORS_
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from titlecase import titlecase
 
@@ -10,7 +10,7 @@ from titlecase import titlecase
 AUTHOR_SEARCH = 0
 AUTHOR_RETRIEVAL = 1
 SCOPUS_API_BASEURL = 'https://api.elsevier.com/content/'
-SCOPUS_CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/ScopusAPI/__scpcache__/')
+SCOPUS_CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/__scpcache__/')
 # for Scopus query limits read https://dev.elsevier.com/guides/Scopus%20API%20Guide_V1_20230907.pdf
 SCOPUS_AUTHORIDS = 'scopusAuthors'
 SCOPUS_CITESCORE = 'CiteScore'

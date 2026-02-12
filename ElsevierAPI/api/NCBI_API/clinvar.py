@@ -1,15 +1,14 @@
 import urllib.parse, os, time
-from lxml import etree as ET
 from time import sleep
-from ..utils import dir2flist, execution_time,pretty_xml,next_tag,dir2flist,replace_non_unicode,urn_encode,attempt_request4
+from ...utils.utils import et,dir2flist, execution_time,pretty_xml,next_tag,dir2flist,replace_non_unicode,urn_encode,attempt_request4
 from ..ResnetAPI.NetworkxObjects import PSObject,PSRelation,AUTHORS,JOURNAL,PUBYEAR
 from ..ResnetAPI.ResnetGraph import ResnetGraph,Reference,TITLE,SENTENCE,OBJECT_TYPE
-from ..ETM_API.references import CLINVAR_ID,CLINVAR_ACC
+from ..ResnetAPI.references import CLINVAR_ID,CLINVAR_ACC
 from collections import defaultdict
 
 
 BASE_URL = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'
-CLINVAR_CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/NCBI/__clinvarcache__/')
+CLINVAR_CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/NCBI/__clinvarcache__/')
 CLINVAR_CACHE_BASE = 'clinvar'
 CLINVAR_CLASSIFICATION = 'ClinVar classification'
 VCV_ID = 'Clinvar VCV ID'
@@ -53,7 +52,7 @@ def rs2rcv(rsids:list):
     req_l = BASE_URL+'elink.fcgi?'+urllib.parse.urlencode(elink_params)
     # https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?&db=clinvar&dbfrom=snp&id=
     response_l = attempt_request4(req_l)
-    link2cv = ET.fromstring(response_l.data)
+    link2cv = et.fromstring(response_l.data)
     cvids = [e.text for e in link2cv.findall('LinkSet/LinkSetDb/Link/Id')]
     
   for i in range(0, len(cvids), stepSize):
@@ -61,7 +60,7 @@ def rs2rcv(rsids:list):
     efecth_params = {'db':'clinvar','id':cvids_chunk}
     url = BASE_URL+'esummary.fcgi?'+urllib.parse.urlencode(efecth_params)
     response = attempt_request4(url) # https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?&db=clinvar&id=
-    cvs = ET.fromstring(response.data)
+    cvs = et.fromstring(response.data)
     rcvs = [e.text for e in cvs.findall('DocumentSummarySet/DocumentSummary/supporting_submissions/rcv/string')]
     rcv_ids.update(rcvs)
     print(f'Downloaded {i+stepSize} SNPs out of {len(cvids)}')
@@ -69,7 +68,7 @@ def rs2rcv(rsids:list):
   return rcv_ids
 
 
-def parse_measureset(measureset:ET._Element,assertion_id:str,only_rsids=set())->tuple[PSObject,PSObject,set]:
+def parse_measureset(measureset:et._Element,assertion_id:str,only_rsids=set())->tuple[PSObject,PSObject,set]:
     '''
     output:
       gv, gene, molecular_consequences
@@ -144,11 +143,11 @@ def parse_measureset(measureset:ET._Element,assertion_id:str,only_rsids=set())->
           gene_name = attr.get('Accession')
     else:
       gene_name = measured_relationship.find('./Symbol/ElementValue').text
-      assert(isinstance(measured_relationship,ET._Element))
+      assert(isinstance(measured_relationship,et._Element))
       if measured_relationship.get('Type','') == 'within single gene':
         gene_xrefs = measured_relationship.findall('./XRef')
         for xref in gene_xrefs:
-          assert(isinstance(xref,ET._Element))
+          assert(isinstance(xref,et._Element))
           db = xref.get('DB','')
           if db == 'Gene':
             geneid = xref.get('ID')
@@ -184,9 +183,9 @@ def db2attr(db:str):
   return replace_non_unicode(normdb[:47]+' ID') # max attribute name length = 50 
 
 
-def parse_trait(assertion:ET._Element):
+def parse_trait(assertion:et._Element):
     trait = assertion.find('./TraitSet/Trait')
-    assert(isinstance(trait,ET._Element))
+    assert(isinstance(trait,et._Element))
     trait_type = trait.get('Type','')
 
     traid_ids = defaultdict(set)
@@ -209,7 +208,7 @@ def parse_trait(assertion:ET._Element):
         objtype = ''
       else:
         print(f'Unknown type "{trait_type}" for trait "{trait_name_s}"')
-        debug_info = pretty_xml(ET.tostring(assertion).decode())
+        debug_info = pretty_xml(et.tostring(assertion).decode())
         print(debug_info)
 
       if objtype:
@@ -235,7 +234,7 @@ def parse_trait(assertion:ET._Element):
       return PSObject(),[]
 
 
-def rcv2psrels(ClinVarSet:ET._Element,mapdic:dict[str,dict[str,dict[str,PSObject]]],
+def rcv2psrels(ClinVarSet:et._Element,mapdic:dict[str,dict[str,dict[str,PSObject]]],
                only4rsids=set()) -> tuple[PSObject,PSRelation,PSRelation]:
   '''
   input:
@@ -377,7 +376,7 @@ def rcv2psrels(ClinVarSet:ET._Element,mapdic:dict[str,dict[str,dict[str,PSObject
   return gv,rel_fa,rel_gc
 
    
-def rcv2rn(ClinVarResultSet:ET._Element, mapdic:dict[str,dict[str,dict[str,PSObject]]], only4rsids:list,include_benign=False):
+def rcv2rn(ClinVarResultSet:et._Element, mapdic:dict[str,dict[str,dict[str,PSObject]]], only4rsids:list,include_benign=False):
   all_rels = list()
   for ClinVarSet in ClinVarResultSet.findall('ClinVarSet'):
     gv,rel_fa,rel_gc = rcv2psrels(ClinVarSet,mapdic,only4rsids)
@@ -432,8 +431,8 @@ def downloadCV(_4rsids:list,mapdic:dict[str, dict[str, dict[str, PSObject]]],inc
             url=BASE_URL+'efetch.fcgi?'+urllib.parse.urlencode(params)
             # url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=clinvar&rettype=clinvarset&id=ids'
             response = attempt_request4(url)           
-            cvs = ET.fromstring(response.data)
-            f.write(pretty_xml(ET.tostring(cvs),True))
+            cvs = et.fromstring(response.data)
+            f.write(pretty_xml(et.tostring(cvs),True))
             chunk_G = rcv2rn(cvs,mapdic,rsids2download,include_benign)
             gene2gv2dis.add_graph(chunk_G)
           f.write('</batch>')

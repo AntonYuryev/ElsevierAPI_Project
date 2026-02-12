@@ -1,9 +1,9 @@
-from .SemanticSearch import SemanticSearch,df,COUNTS,RANK
+from .SemanticSearch import SemanticSearch,df,COUNTS,RANK,REFCOUNT_COLUMN
 from ..ETM_API.etm import REFCOUNT_COLUMN, ETMstat
 from .ResnetAPISession import SNIPPET_PROPERTIES,BIBLIO_PROPERTIES
 from .PathwayStudioGOQL import OQL
 from .NetworkxObjects import PSObject,REFCOUNT,CHILDS
-from ..ETM_API.references import JOURNAL_PROPS,JOURNAL
+from ..ResnetAPI.references import JOURNAL_PROPS,JOURNAL
 from  .Resnet2rdf import ResnetGraph,ResnetRDF
 import time
 
@@ -298,8 +298,8 @@ class BiomarkerReport(SemanticSearch):
             biomarker2disease = self.Graph.add_recent_refs(biomarker2disease,'Biomarker','Disease')
             #biomarker2disease.dropna(subset=['Recent PMIDs','Recent DOIs'],inplace=True, how='all')
         elif max_etm_row:
-            biomarker2disease=self.etm_counter.refs42columns(biomarker2disease,'Biomarker','Disease',ETMstat.basic_query,add2etm_query)
-            self.add_bibliography()
+            biomarker2disease = self.refs2df(biomarker2disease,'Biomarker','Disease')
+            self.add_tm_bibliography_df(biomarker2disease,'Biomarker','Disease')
 
         if self.params['print_rdf']:
             self.bm2dis_graph = ResnetGraph() # to convert into RDF

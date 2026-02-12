@@ -10,10 +10,10 @@ from .ResnetGraph import ResnetGraph,df,REFCOUNT,CHILDS,DBID,PSObject,OBJECT_TYP
 from .NetworkxObjects import RELATION_PROPS,ALL_PSREL_PROPS,EFFECT
 from .PathwayStudioGOQL import OQL
 from .Zeep2Experiment import Experiment
-from ..ETM_API.references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
+from ..ResnetAPI.references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
 from ..ScopusAPI.scopus import loadCI
-from ..utils import unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
-from ..Embio.PSnx2Neo4j import nx2neo4j
+from ...utils.utils import unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
+from ..EmbioPSG_API.PSnx2Neo4j import nx2neo4j
 
 TO_RETRIEVE = 'to_retrieve'
 BELONGS2GROUPS = 'belongs2groups'

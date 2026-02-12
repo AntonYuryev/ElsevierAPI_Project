@@ -1,11 +1,11 @@
 import pandas as pd
-import sys, time, logging, http.client, itertools
+import sys, time, logging, itertools
 from time import sleep
-from .PathwayStudioGOQL import OQL,len
+from .PathwayStudioGOQL import OQL
 from zeep import exceptions as zeep_exceptions
 import requests.exceptions as req_exceptions
 from zeep import helpers # converts zeep objects to dict
-from ..utils import execution_time, load_api_config
+from ...utils.utils import execution_time, load_api_config
 from math import pow
 
 

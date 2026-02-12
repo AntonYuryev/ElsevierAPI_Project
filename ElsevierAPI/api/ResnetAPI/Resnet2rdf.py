@@ -1,7 +1,7 @@
 import rdflib as rdf
 from .ResnetGraph import ResnetGraph
 from .NetworkxObjects import PSObject,PSRelation,REFCOUNT
-from ..ETM_API.references import Reference,PS_REFIID_TYPES,RELEVANCE,TITLE,PUBYEAR,JOURNAL,LOINCID,THRESHOLD, hGRAPHID,EDMID
+from .references import Reference,PS_REFIID_TYPES,RELEVANCE,TITLE,PUBYEAR,JOURNAL,LOINCID,THRESHOLD, hGRAPHID,EDMID
 import json,os
 from pyld import jsonld
 from urllib.parse import quote

@@ -2,11 +2,10 @@ import re,json,itertools,pickle,hashlib,math,copy
 from datetime import datetime
 from collections import defaultdict
 
-from ..utils import normalize
-from ..ETM_API.references import Reference, len, reflist2dict,pubmed_hyperlink,make_hyperlink,pmc_hyperlink
-from ..ETM_API.references import JOURNAL,PS_REFIID_TYPES,NOT_ALLOWED_IN_SENTENCE,PS_BIBLIO_PROPS_ALL,PS_SENTENCE_PROPS,CLINTRIAL_PROPS
-from ..ETM_API.references import MEDLINETA,PUBYEAR,SENTENCE,TITLE,AUTHORS,_AUTHORS_,PS_REFERENCE_PROPS
-#from ..Embio.PSnx2Neo4j import RELATIONID
+from ...utils.utils import normalize
+from .references import Reference, len, reflist2dict,pubmed_hyperlink,make_hyperlink,pmc_hyperlink
+from .references import JOURNAL,PS_REFIID_TYPES,NOT_ALLOWED_IN_SENTENCE,PS_BIBLIO_PROPS_ALL,PS_SENTENCE_PROPS,CLINTRIAL_PROPS
+from .references import MEDLINETA,PUBYEAR,SENTENCE,TITLE,AUTHORS,_AUTHORS_,PS_REFERENCE_PROPS
 
 OBJECT_TYPE = 'ObjTypeName'
 PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']

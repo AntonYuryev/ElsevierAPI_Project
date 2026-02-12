@@ -3,13 +3,13 @@ from .DiseaseTargets import ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS,REFERENCE_I
 from .ResnetGraph import ResnetGraph,PSObject,OBJECT_TYPE,EFFECT,PROTEIN_TYPES
 from .SemanticSearch import RANK,time,PHENOTYPE_WORKSHEET
 from .ResnetAPISession import APISession,OQL,NO_REL_PROPERTIES,BIBLIO_PROPERTIES,ALL_CHILDS
-from ..pandas.panda_tricks import df,np
-from ..FDA.fda_api import FDA
+from ...utils.pandas.panda_tricks import df,np
+from ..FDA_API.fda_api import FDA
 from ..ReaxysAPI.Reaxys_API import drugs2props
 from numpy import nan_to_num
 import networkx as nx
 from .DrugTargetConfidence import DrugTargetConsistency
-from ..utils import run_tasks,execution_time,os,DEFAULT_CONFIG_DIR,sortdict
+from ...utils.utils import run_tasks,execution_time,os,DEFAULT_CONFIG_DIR
 
 
 

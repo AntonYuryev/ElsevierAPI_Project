@@ -10,6 +10,10 @@ from xml.dom import minidom
 from requests.auth import HTTPBasicAuth
 from lxml import etree as et
 from concurrent.futures import ThreadPoolExecutor,as_completed
+import matplotlib.pyplot as plt
+from scipy import stats
+import numpy as np
+from statistics import mean, median
 
 DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/')
 DEFAULT_APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'APIconfig.json')
@@ -548,6 +552,95 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
     elapsed_time = execution_time(start)
     print(f'Finished processing {node_counter} nodes, {control_counter} controls, {pathway_counter} pathways from "{path2rnef}" in {elapsed_time}')
 
+
+
+def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
+  '''
+    input:
+      distribution_list: [{distribution_name:[distribution values]}]
+    kwargs: 
+      'number_of_bins':int,edgecolor:'black',xlabel:values,ylabel:'counts',title,outdir
+  '''
+  kwargs['alpha'] = kwargs.pop('alpha',0.5) # transperancy value
+  kwargs['bins'] = kwargs.pop('number_of_bins',50)
+  kwargs['edgecolor'] = kwargs.pop('edgecolor',"black")
+  data_dir = kwargs.pop('outdir','')
+  xlabel = kwargs.pop('xlabel',"values")
+  ylabel = kwargs.pop('ylabel',"counts")
+
+  for dic in distribution_list:
+    for name, distribution in dic.items():
+      print(f'Plotting distribution for {name} with {len(distribution)} values')
+      counts, bins, patches = plt.hist(distribution, **kwargs)
+      if 'label'  not in kwargs:
+        max_idx = np.argmax(counts)
+        visual_mode = (bins[max_idx] + bins[max_idx + 1]) / 2
+        average = round(mean(distribution),3)
+        _median = round(median(distribution),3)
+        percent_below_avg = round(float(stats.percentileofscore(distribution, average, kind='weak')),2)
+        percent_below_mode = round(stats.percentileofscore(distribution, visual_mode, kind='weak'),2)
+        skewness = stats.skew(distribution).item()
+        new_label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
+      
+      plt.legend(handles=[patches], labels=[new_label], loc='upper right')
+      plt.xlabel(xlabel)
+      plt.ylabel(ylabel)
+      plt.title(f'{name}: {len(distribution)}')
+      #plt.xlim(xmin=-2, xmax=2)
+      #plt.ylim(ymax=1)
+      fout = os.path.join(data_dir,name+'.histogram.png')
+      plt.savefig(fout)
+      y_min, y_max = plt.gca().get_ylim()
+      print(f'y-axis scale for "{name}":', y_min, "to", y_max)
+
+  print(f'Finished building plots for {len(distribution_list)} distribution')
+
+
+def plot_dependecies(Xvalues:list,Yvalues:dict[str,list], **kwargs):
+  '''
+  Yvalues = {label:[values]}
+  '''
+  title = kwargs.get('title',"Dependency Graph")
+  for label, y_values in Yvalues.items():   
+    plt.figure(figsize=(10, 6)) # Optional: Makes the graph larger
+    plt.plot(Xvalues, y_values, label=label)
+    plt.title(title)
+    plt.xlabel(kwargs.get('xlabel',''))
+    plt.ylabel(kwargs.get('ylabel',''))
+    plt.grid(True) # Optional: Add a grid for better readability
+  plt.legend(loc='upper right')
+  plt.gca().ticklabel_format(useOffset=False, style='plain')
+  #plt.show()# Display the plot
+  data_dir = kwargs.pop('outdir','')
+  fout = os.path.join(data_dir,title+'.dependency.png')
+  plt.savefig(fout)
+  print(f'Finished building {len(Yvalues)} dependency plots')
+
+
+def scatter_plot(Xvalues:list,Yvalues:dict[str,list], **kwargs):
+  '''
+  Yvalues = {label:[values]}
+  kwargs:
+    trend_line: default False
+  '''
+  title = kwargs.get('title',"Scatter plot")
+  for label, y_values in Yvalues.items():
+    plt.plot(Xvalues, y_values,'o', label=label) # 'o' = marker='o', linestyle='none'
+    if kwargs.get('trend_line',False):
+      z = np.polyfit(Xvalues, y_values, 1)
+      p = np.poly1d(z)
+      plt.plot(Xvalues, p(Xvalues), "r--", label='Trend Line')
+    plt.title(title)
+    plt.xlabel(kwargs.get('xlabel',''))
+    plt.ylabel(kwargs.get('ylabel',''))
+    plt.grid(True) # Optional: Add a grid for better readability
+  plt.legend(loc='upper right')
+  plt.gca().ticklabel_format(useOffset=False, style='plain')
+  #plt.show()# Display the plot
+  data_dir = kwargs.pop('outdir','')
+  fout = os.path.join(data_dir,title+'.scatter.png')
+  plt.savefig(fout)
+  print(f'Finished building {len(Yvalues)} scatter plots')
 
 
 class Tee(object):

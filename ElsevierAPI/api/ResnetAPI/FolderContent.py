@@ -1,11 +1,11 @@
-from .ResnetAPISession import APISession, time, len,SNIPPET_PROPERTIES,glob,Path
-from .ResnetGraph import ResnetGraph,RESNET,execution_time,OBJECT_TYPE,PSObject,nx, PSRelation, REGULATORS, TARGETS
+from .ResnetAPISession import APISession, time,SNIPPET_PROPERTIES,glob,Path
+from .ResnetGraph import ResnetGraph,RESNET,OBJECT_TYPE,PSObject,nx, PSRelation, REGULATORS, TARGETS
 from collections import Counter,defaultdict
 from .PSPathway import PSPathway
 from lxml import etree as et
 from urllib.parse import quote
 from concurrent.futures import ThreadPoolExecutor,as_completed
-from ..utils import run_tasks,pretty_xml
+from ...utils.utils import run_tasks,pretty_xml,execution_time
 import os
 
 

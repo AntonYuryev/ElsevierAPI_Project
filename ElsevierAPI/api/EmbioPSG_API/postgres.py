@@ -1,8 +1,8 @@
 import psycopg2
-from ..utils import load_api_config, plot_distribution,print_error_info
-from ..pandas.panda_tricks import df,pd
+from ...utils.utils import load_api_config, plot_distribution,print_error_info
+from ...utils.pandas.panda_tricks import df,pd
 from concurrent.futures import ThreadPoolExecutor,as_completed
-from ..ETM_API.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
+from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
 from collections import defaultdict
 
 SNIPPET_ID = 'unique_id'

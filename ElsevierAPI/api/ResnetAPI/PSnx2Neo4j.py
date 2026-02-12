@@ -1,5 +1,5 @@
 from .ResnetGraph import ResnetGraph, PSObject, PSRelation
-from ..utils import execution_time
+from ...utils.utils import execution_time
 from .NetworkxObjects import PS_REFIID_TYPES,OBJECT_TYPE,NONDIRECTIONAL_RELTYPES
 import logging,neo4j, time
 from neo4j import GraphDatabase

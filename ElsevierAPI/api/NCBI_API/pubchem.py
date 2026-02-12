@@ -4,7 +4,7 @@ import urllib.request, json, os
 import xml.etree.ElementTree as ET
 from .NCBIutils import NCBIeutils
 
-NCBI_CACHE = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/NCBI/__ncbipubchemcache__/')
+NCBI_CACHE = os.path.join(os.getcwd(),'ElsevierAPI/.cache/NCBI/__ncbipubchemcache__/')
 
 class Pubchem(NCBIeutils):
   def __init__(self):

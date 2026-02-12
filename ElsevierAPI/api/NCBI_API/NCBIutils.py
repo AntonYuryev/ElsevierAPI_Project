@@ -1,13 +1,10 @@
 
 #C:Windows> py -m pip install entrezpy --user
 import json, datetime,os
-import xml.etree.ElementTree as ET
 from time import sleep
 from urllib.parse import urlencode
-from collections import defaultdict
 from titlecase import titlecase
-from ..utils import attempt_request4,remove_duplicates,sortdict
-from ..ETM_API.references import Reference,JOURNAL,TITLE,AUTHORS,PUBYEAR
+from ...utils.utils import attempt_request4,remove_duplicates
 
 
 RETMAX = 10000

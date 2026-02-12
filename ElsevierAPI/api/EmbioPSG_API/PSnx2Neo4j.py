@@ -1,5 +1,5 @@
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation
-from ..utils import execution_time, load_api_config, multithread, ThreadPoolExecutor,as_completed
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor
 from ..ResnetAPI.NetworkxObjects import PS_REFIID_TYPES,OBJECT_TYPE,NONDIRECTIONAL_RELTYPES,CHILDS,CONNECTIVITY,DBID
 import logging,neo4j, time
 from neo4j import GraphDatabase

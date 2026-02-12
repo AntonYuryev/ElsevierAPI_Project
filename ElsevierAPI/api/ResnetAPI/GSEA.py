@@ -1,13 +1,11 @@
-import time
-import glob
-import os
+import time, glob, os
 import scipy.stats as stats
 import xml.etree.ElementTree as et
 from .rnef2sbgn import make_file_name,to_sbgn_file
 from .FolderContent import FolderContent,PSPathway
 from .Zeep2Experiment import Experiment
-from ..pandas.panda_tricks import df,ExcelWriter
-from ..ETM_API.references import RELATION_PROPS
+from ...utils.pandas.panda_tricks import df,ExcelWriter
+from .NetworkxObjects import RELATION_PROPS
 
 MEASURED_COUNT = '# measured entities'
 MEASURED_ENTITIES = 'measured entities'
@@ -183,7 +181,7 @@ class GSEA(FolderContent):
                 (len(annotated_pathway_counter), len(experiment.samples),experiment.name() ))
         
 
-    def make_report(self,experiment:Experiment)->tuple([df,list]):
+    def make_report(self,experiment:Experiment)->tuple[df,list]:
         report_pd = df(columns=['Pathway','Folder','File',MEASURED_COUNT, MEASURED_ENTITIES])
         significant_pathway_ids = list()
         row = 0

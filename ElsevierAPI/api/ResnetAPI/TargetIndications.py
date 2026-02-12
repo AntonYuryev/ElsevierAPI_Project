@@ -1,11 +1,10 @@
-from .SemanticSearch import SemanticSearch,len,df,pd,TOTAL_REFCOUNT,RELEVANT_CONCEPTS
+from .SemanticSearch import SemanticSearch,df,pd,TOTAL_REFCOUNT,RELEVANT_CONCEPTS
 from .ResnetAPISession import BIBLIO_PROPERTIES,NO_REL_PROPERTIES,SNIPPET_PROPERTIES,REFERENCE_IDENTIFIERS
 from .ResnetGraph import REFCOUNT, PSObject, ResnetGraph, OBJECT_TYPE, EFFECT
-from ..ETM_API.references import PS_SENTENCE_PROPS,PS_BIBLIO_PROPS,SENTENCE
+from ..ResnetAPI.references import PS_SENTENCE_PROPS,PS_BIBLIO_PROPS
 from .PathwayStudioGOQL import OQL
 from .FolderContent import FolderContent,PSPathway
-from concurrent.futures import ThreadPoolExecutor,as_completed
-from ..utils import execution_time,DEFAULT_CONFIG_DIR
+from ...utils.utils import ThreadPoolExecutor,as_completed,execution_time,DEFAULT_CONFIG_DIR
 import time,os
 from collections import defaultdict
 

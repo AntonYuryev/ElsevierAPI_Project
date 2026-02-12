@@ -4,12 +4,12 @@ import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from titlecase import titlecase
-from ..utils import sortdict
-from ..ETM_API.references import Reference,JOURNAL,TITLE,AUTHORS,PUBYEAR
+from ...utils.utils import sortdict
+from ..ResnetAPI.references import Reference,JOURNAL,TITLE,AUTHORS,PUBYEAR
 from .NCBIutils import NCBIeutils
 
 
-PUBMED_CACHE = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/NCBI/__ncbipubmedcache__/')
+PUBMED_CACHE = os.path.join(os.getcwd(),'ElsevierAPI/.cache/NCBI/__ncbipubmedcache__/')
 
 def removeThe(t:str):
     return t[4:] if t.startswith('The ') else t

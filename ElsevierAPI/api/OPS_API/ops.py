@@ -7,7 +7,7 @@ import time
 import json
 import requests
 import urllib.parse
-from .references import DocMine,TITLE,AUTHORS,ABSTRACT,PATENT_APP_NUM,PATENT_GRANT_NUM,CLAIMS
+from ..ResnetAPI.references import DocMine,TITLE,AUTHORS,ABSTRACT,PATENT_APP_NUM,PATENT_GRANT_NUM,CLAIMS
 
 from requests.models import HTTPError
 

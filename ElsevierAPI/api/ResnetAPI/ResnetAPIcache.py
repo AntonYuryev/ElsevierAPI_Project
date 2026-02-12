@@ -2,12 +2,12 @@ import os,glob,zipfile,json,time
 from pathlib import Path
 from shutil import copyfile
 from .ResnetAPISession import REFERENCE_IDENTIFIERS,REFCOUNT
-from .ResnetAPISession import APISession
-from ..utils import execution_time,Tee
+from .ResnetAPISession import APISession, execution_time
+from ...utils.utils import execution_time,Tee
 from .ResnetGraph import EFFECT,ResnetGraph
 from .NetworkxObjects import PSObject,PSObjectDecoder,PSObjectEncoder
 
-CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/ResnetAPI/__pscache__/')
+CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/ResnetAPI/__pscache__/')
 DEFAULT_CACHE_NAME = 'Resnet subset'
 
 class APIcache(APISession):

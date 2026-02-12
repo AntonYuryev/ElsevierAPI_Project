@@ -24,11 +24,10 @@ from lxml import etree as et
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 from time import sleep
-from ..utils import load_api_config, most_frequent, multithread
-from ..ETM_API.references import Reference,PUBYEAR,AUTHORS,PATENT_APP_NUM,JOURNAL,SENTENCE,MEASUREMENT
+from ...utils.utils import load_api_config, most_frequent, multithread
+from ..ResnetAPI.references import Reference,PUBYEAR,AUTHORS,PATENT_APP_NUM,JOURNAL,SENTENCE,MEASUREMENT
 from ..ResnetAPI.NetworkxObjects import EFFECT,PSObject
 from collections import defaultdict
-
 
 
 class Reaxys_API:

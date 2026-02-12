@@ -1,12 +1,12 @@
-import time,math,os
+import time,math
 from .PathwayStudioGOQL import OQL
-from ..ETM_API.references import Reference, NODEWEIGHT, RELWEIGHT
-from ..pandas.panda_tricks import np, pd, df,MAX_TAB_LENGTH
+from ..ResnetAPI.references import Reference, NODEWEIGHT, RELWEIGHT
+from ...utils.pandas.panda_tricks import np, pd, df,MAX_TAB_LENGTH
 from .ResnetGraph import ResnetGraph,PSObject,EFFECT,defaultdict
 from .ResnetAPISession import APISession,CURRENT_SPECS
 from .ResnetAPISession import DO_NOT_CLONE,BELONGS2GROUPS,NO_REL_PROPERTIES,REFERENCE_IDENTIFIERS,DBID
-from ..ETM_API.RefStats import SBSstats
-from ..utils import execution_time,sortdict,ThreadPoolExecutor,unpack
+from .RefStats import SBSstats
+from ...utils.utils import execution_time,sortdict,ThreadPoolExecutor,unpack
 
 
 COUNTS = 'counts'
@@ -1230,6 +1230,22 @@ class SemanticSearch (APISession):
       return self.RefStats.doi_column(between_names_in_col,and_concepts)
 
 
+  def refs2df(self,_2df:df,input_names:list,entity_name_col:str='Name',
+                  add2query=[],add2report=True):
+    """
+    output:
+        copy of _2df with added columns:
+          RefStats.refcount_column(between_names_in_col,and_concepts)
+    """
+    multithread = False if self.params.get('debug',False) else True
+    names2hyperlinks = self.RefStats.reflinks(_2df,entity_name_col,input_names,add2query,multithread)
+    refcountcol = self.tm_refcount_colname(entity_name_col,input_names)
+    my_df = self.RefStats.add_reflinks(names2hyperlinks,refcountcol,_2df,entity_name_col)
+    if add2report:
+      self.add2report(my_df)
+    return my_df
+  
+
   def refs2report(self,to_df_named:str,input_names:list,entity_name_col:str='Name',
                   add2query=[],add2report=True):
     """
@@ -1239,11 +1255,7 @@ class SemanticSearch (APISession):
         copy of self.report_pandas[to_df_named] with added columns:
           RefStats.refcount_column(between_names_in_col,and_concepts)
     """
-    multithread = False if self.params.get('debug',False) else True
-    names2hyperlinks = self.RefStats.reflinks(self.report_df(to_df_named),entity_name_col,input_names,add2query,multithread)
-    refcountcol = self.tm_refcount_colname(entity_name_col,input_names)
-    my_df = self.RefStats.add_reflinks(names2hyperlinks,refcountcol,self.report_df(to_df_named),entity_name_col)
-    #my_df = self.RefStats.add_refs(self.report_df(to_df_named),entity_name_col,input_names,add2query,multithread)
+    my_df = self.refs2df(self.report_df(to_df_named),input_names,entity_name_col,add2query,add2report)
     if add2report:
       self.add2report(my_df)
     return my_df

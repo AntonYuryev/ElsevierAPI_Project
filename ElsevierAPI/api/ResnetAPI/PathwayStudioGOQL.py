@@ -1,5 +1,4 @@
 
-from builtins import len
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE
 NEED_QUOTES = {' ','-','/','(',')','[',']','+','#',':','&'}
 PERCNT = '%'

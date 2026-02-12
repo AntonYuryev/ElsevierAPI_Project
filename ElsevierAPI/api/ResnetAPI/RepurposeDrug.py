@@ -1,9 +1,9 @@
 from .TargetIndications import Indications4targets,OQL,UNKEFFECTDF,ANTAGONIST,AGONIST,time,SNIPPET_PROPERTIES
-from ..pandas.panda_tricks import df
+from ...utils.pandas.panda_tricks import df
 from .ResnetGraph import ResnetGraph,PSObject,PSRelation,OBJECT_TYPE,PROTEIN_TYPES,EFFECT,REGULATORS,TARGETS
-from ..ETM_API.references import MEASUREMENT,PATENT_APP_NUM,PS_REFERENCE_PROPS,PS_SENTENCE_PROPS
+from .references import MEASUREMENT,PATENT_APP_NUM,PS_REFERENCE_PROPS,PS_SENTENCE_PROPS
 from ..ReaxysAPI.Reaxys_API import Reaxys_API
-from ..utils import  execution_time
+from ...utils.utils import  execution_time
 from concurrent.futures import ThreadPoolExecutor
 
 

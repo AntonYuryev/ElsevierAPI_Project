@@ -1,14 +1,13 @@
 
 #C:Windows> py -m pip install entrezpy --user
 import json,os
-import xml.etree.ElementTree as ET
-from ..utils import attempt_request4,list2chunks_generator
+from ...utils.utils import et,attempt_request4,list2chunks_generator
 from .NCBIutils import NCBIeutils
-from ..pandas.panda_tricks import df
+from ...utils.pandas.panda_tricks import df
 
 
 RETMAX = 10000
-PMC_CACHE = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/NCBI/__ncbipmccache__/')
+PMC_CACHE = os.path.join(os.getcwd(),'ElsevierAPI/.cache/NCBI/__ncbipmccache__/')
 
 
 class PMC(NCBIeutils): 
@@ -23,15 +22,15 @@ class PMC(NCBIeutils):
     with open(fpath, "w", encoding='utf-8') as result:
       result.write('<pmc-articleset>\n')
       for xml_str in self.fetch(query_name):
-        articles = ET.fromstring(xml_str).findall('article')
-        [result.write(ET.tostring(a, encoding="unicode")) for a in articles]
+        articles = et.fromstring(xml_str).findall('article')
+        [result.write(et.tostring(a, encoding="unicode")) for a in articles]
         counter += len(articles)
       result.write('</pmc-articleset>\n')
     print(f'Downloaded {counter} PMC articles')
 
 
   @staticmethod
-  def pub_ids(article:ET.Element)->list[str]:
+  def pub_ids(article:et.Element)->list[str]:
     pubids = dict()
     for id_elem in article.findall('front/article-meta/article-id'):
       pubid_type = id_elem.attrib.get('pub-id-type','')
@@ -52,12 +51,12 @@ class PMC(NCBIeutils):
         id_query  += ' [lid]'
         self.query = id_query
         for xml_str in self.fetch(query_name):
-          articles = ET.fromstring(xml_str).findall('article')
+          articles = et.fromstring(xml_str).findall('article')
           for a in articles:
             a_ids = self.pub_ids(a)
             downloaded_ids.update([v for idtype,v in a_ids.items() if idtype in ['pmcid','doi','pii']])
             pubids.append(a_ids)
-            xmlfile.write(ET.tostring(a, encoding="unicode"))
+            xmlfile.write(et.tostring(a, encoding="unicode"))
       xmlfile.write('</pmc-articleset>\n')
     id_df = df(pubids)
     id_df.to_csv(id_fname,sep='\t',index=False)
