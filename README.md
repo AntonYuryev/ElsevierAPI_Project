@@ -10,7 +10,7 @@ This repository serves as a centralized hub for Elsevier data integration. It is
 
 ## The ResnetAPI
 
-The **ResnetAPI** interfaces with the Pathway Studio relational database. It leverages the **Zeep** package for SOAP API communication and transforms relational data into high-performance graph representations using **NetworkX**.
+The **ResnetAPI** interfaces with the Pathway Studio relational database. It leverages the **Zeep** package for SOAP API communication and transforms relational data into high-performance graph representations using **NetworkX**. 
 
 ### Core Components
 
@@ -58,5 +58,4 @@ pip install zeep networkx requests pandas numpy rdflib xlsxwriter textblob scipy
 
 ## Integration Tools
 
-* **Neo4j Export:** Use the `PSnx2Neo4j.py` module to import Resnet data retrieved via the API directly into a local Neo4j server instance for advanced graph visualization and querying.
-
+* **Neo4j support** Use the `PSnx2Neo4j.py` module to import Resnet data retrieved via the API directly into a local Neo4j server instance for advanced graph visualization and querying. APISession parameters now support Resnet graph retreival from Neo4j database with references stored in Postgres database.  Set parameter 'useNeo4j' to True to envoke this option.
