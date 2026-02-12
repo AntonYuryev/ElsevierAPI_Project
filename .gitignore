@@ -5,7 +5,7 @@
 # You mentioned APIconfig.json contains login credentials. 
 # This MUST be ignored to protect your accounts.
 config/
-APIconfig.json
+#APIconfig.json
 DemoOutput/
 cache/
 
