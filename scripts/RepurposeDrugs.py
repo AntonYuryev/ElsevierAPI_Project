@@ -5,21 +5,21 @@ from ElsevierAPI.api.ResnetAPI.RepurposeDrug import RepurposeDrug
 
 
 def do_the_job(dcp:RepurposeDrug):
-        dcp.make_report()
+  dcp.make_report()
 
-        report_path = dcp.report_path()
-        report = ExcelWriter(report_path, engine='xlsxwriter')
-        dcp.add2writer(report)
-        report.close()
+  report_path = dcp.report_path()
+  report = ExcelWriter(report_path, engine='xlsxwriter')
+  dcp.add2writer(report)
+  report.close()
 
-        raw_report_path = dcp.report_path('_raw_data','.xlsx')
-        raw_data_cache = ExcelWriter(raw_report_path, engine='xlsxwriter')
-        dcp.addraw2writer(raw_data_cache)
-        raw_data_cache.close()
+  raw_report_path = dcp.report_path('_raw_data','.xlsx')
+  raw_data_cache = ExcelWriter(raw_report_path, engine='xlsxwriter')
+  dcp.addraw2writer(raw_data_cache)
+  raw_data_cache.close()
 
-        print(f'Report was generated in {execution_time(global_start)}')
-        print(f'Report is in "{report_path}" file')
-        dcp.clear()
+  print(f'Report was generated in {execution_time(global_start)}')
+  print(f'Report is in "{report_path}" file')
+  dcp.clear()
 
 
 if __name__ == "__main__":

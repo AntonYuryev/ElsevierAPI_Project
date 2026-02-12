@@ -4,16 +4,16 @@ from ElsevierAPI.api.ResnetAPI.PathwayStudioZeepAPI import load_api_config
 
 
 def do_the_job(dt:Drugs4Targets):
-    dt.make_report()
-    # dt.add_etm_refs('Drugs',['glioma'])
+  dt.make_report()
+  # dt.add_etm_refs('Drugs',['glioma'])
 
-    report_fpath = dt.report_path('.xlsx')
-    dt.print_report(report_fpath)
+  report_fpath = dt.report_path('.xlsx')
+  dt.print_report(report_fpath)
 
-    raw_data_fpath= dt.report_path('_raw_data.xlsx')
-    dt.print_rawdata(raw_data_fpath)
+  raw_data_fpath= dt.report_path('_raw_data.xlsx')
+  dt.print_rawdata(raw_data_fpath)
 
-    dt.clear()
+  dt.clear()
     
 
 if __name__ == "__main__":
