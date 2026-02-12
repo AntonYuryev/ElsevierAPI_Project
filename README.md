@@ -58,4 +58,4 @@ pip install zeep networkx requests pandas numpy rdflib xlsxwriter textblob scipy
 
 ## Integration Tools
 
-* **Neo4j support** Use the `PSnx2Neo4j.py` module to import Resnet data retrieved via the API directly into a local Neo4j server instance for advanced graph visualization and querying. APISession parameters now support Resnet graph retreival from Neo4j database with references stored in Postgres database.  Set parameter 'useNeo4j' to True to envoke this option.
+* **Neo4j support** Use the `PSnx2Neo4j.py` module to import Resnet data retrieved via the API directly into a local Neo4j server instance for advanced graph visualization and querying. APISession parameters now support Resnet graph retreival from Neo4j database with references stored in Postgres database.  Set parameter `useNeo4j` to True to envoke this option.
