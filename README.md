@@ -47,11 +47,10 @@ To use these APIs, you must obtain credentials for the respective Elsevier servi
 
 ### Installation
 
-This SDK requires the following Python dependencies:
+All SDK requirements are listed in requirements.txt file
 
 ```bash
-pip install zeep networkx requests pandas numpy rdflib xlsxwriter textblob scipy wheel openpyxl python-docx
-
+pip install -r requirements.txt
 ```
 
 ---
