@@ -1,0 +1,102 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT batch (properties,resnet+)>
+<!ATTLIST batch
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT resnet (properties?,nodes,controls?,attachments?)>
+<!ATTLIST resnet
+  xmlns CDATA #FIXED ''
+  name CDATA #IMPLIED
+  type NMTOKEN #IMPLIED
+  urn CDATA #IMPLIED>
+
+<!ELEMENT nodes (node)*>
+<!ATTLIST nodes
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT controls (control)*>
+<!ATTLIST controls
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT attachments (layout,thumbnail)>
+<!ATTLIST attachments
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT node (attr)+>
+<!ATTLIST node
+  xmlns CDATA #FIXED ''
+  local_id NMTOKEN #REQUIRED
+  urn CDATA #REQUIRED>
+
+<!ELEMENT control (link+,attr+)>
+<!ATTLIST control
+  xmlns CDATA #FIXED ''
+  local_id NMTOKEN #REQUIRED>
+
+<!ELEMENT layout (styles,scene)>
+<!ATTLIST layout
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT thumbnail (img)>
+<!ATTLIST thumbnail
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT link EMPTY>
+<!ATTLIST link
+  xmlns CDATA #FIXED ''
+  ref NMTOKEN #REQUIRED
+  type NMTOKEN #REQUIRED>
+
+<!ELEMENT styles (style)*>
+<!ATTLIST styles
+  xmlns CDATA #FIXED ''
+  default_style_sheet CDATA #REQUIRED
+  font_scale CDATA #IMPLIED>
+
+<!ELEMENT scene (vobjs,vlinks)>
+<!ATTLIST scene
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT img EMPTY>
+<!ATTLIST img
+  xmlns CDATA #FIXED ''
+  src CDATA #REQUIRED>
+
+<!ELEMENT style (attr)+>
+<!ATTLIST style
+  xmlns CDATA #FIXED ''
+  local_id NMTOKEN #REQUIRED>
+
+<!ELEMENT vobjs (vobj)+>
+<!ATTLIST vobjs
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT vlinks (vlink)+>
+<!ATTLIST vlinks
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT vobj (attr)+>
+<!ATTLIST vobj
+  xmlns CDATA #FIXED ''
+  local_id NMTOKEN #REQUIRED
+  ref NMTOKEN #IMPLIED
+  style_ref NMTOKEN #IMPLIED
+  type NMTOKEN #REQUIRED>
+
+<!ELEMENT vlink (attr)+>
+<!ATTLIST vlink
+  xmlns CDATA #FIXED ''
+  dst_ref NMTOKEN #REQUIRED
+  src_ref NMTOKEN #REQUIRED>
+
+<!ELEMENT properties (attr)*>
+<!ATTLIST properties
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT attr EMPTY>
+<!ATTLIST attr
+  xmlns CDATA #FIXED ''
+  index CDATA #IMPLIED
+  name CDATA #REQUIRED
+  value CDATA #REQUIRED>

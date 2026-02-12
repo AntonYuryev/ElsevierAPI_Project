@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="batch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="properties"/>
+        <xs:element maxOccurs="unbounded" ref="resnet"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resnet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="properties"/>
+        <xs:element ref="nodes"/>
+        <xs:element minOccurs="0" ref="controls"/>
+        <xs:element minOccurs="0" ref="attachments"/>
+      </xs:sequence>
+      <xs:attribute name="name"/>
+      <xs:attribute name="type" type="xs:NCName"/>
+      <xs:attribute name="urn" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="nodes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="node"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+      <xs:attribute name="local_id" use="required" type="xs:NCName"/>
+      <xs:attribute name="urn" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="controls">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="control"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="control">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="link"/>
+        <xs:element maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+      <xs:attribute name="local_id" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="link">
+    <xs:complexType>
+      <xs:attribute name="ref" use="required" type="xs:NCName"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="attachments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="layout"/>
+        <xs:element ref="thumbnail"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="layout">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="styles"/>
+        <xs:element ref="scene"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="styles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="style"/>
+      </xs:sequence>
+      <xs:attribute name="default_style_sheet" use="required"/>
+      <xs:attribute name="font_scale" type="xs:decimal"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="style">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+      <xs:attribute name="local_id" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="scene">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vobjs"/>
+        <xs:element ref="vlinks"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vobjs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="vobj"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vobj">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+      <xs:attribute name="local_id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="ref" type="xs:NMTOKEN"/>
+      <xs:attribute name="style_ref" type="xs:NCName"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vlinks">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="vlink"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vlink">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+      <xs:attribute name="dst_ref" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="src_ref" use="required" type="xs:NMTOKEN"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="thumbnail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="img"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="img">
+    <xs:complexType>
+      <xs:attribute name="src" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="properties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="attr"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="attr">
+    <xs:complexType>
+      <xs:attribute name="index" type="xs:integer"/>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
