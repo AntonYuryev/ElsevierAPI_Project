@@ -9,6 +9,7 @@ APIconfig.json
 RxAPIsession.json
 DemoOutput/
 cache/
+scripts/
 
 # --- Python Environment ---
 __pycache__/
