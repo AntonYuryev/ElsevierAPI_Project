@@ -1,7 +1,7 @@
 from ElsevierAPI import open_api_session
-from ElsevierAPI.ResnetAPI.ResnetAPISession import SNIPPET_PROPERTIES,BIBLIO_PROPERTIES,REFERENCE_IDENTIFIERS,DATABASE_REFCOUNT_ONLY
-from ElsevierAPI.ResnetAPI.ResnetGraph import REFCOUNT,ResnetGraph,EFFECT
-from ElsevierAPI.ResnetAPI.PathwayStudioGOQL import OQL
+from ElsevierAPI.api.ResnetAPI.ResnetAPISession import SNIPPET_PROPERTIES,BIBLIO_PROPERTIES,REFERENCE_IDENTIFIERS,DATABASE_REFCOUNT_ONLY
+from ElsevierAPI.api.ResnetAPI.ResnetGraph import REFCOUNT,ResnetGraph,EFFECT
+from ElsevierAPI.api.ResnetAPI.PathwayStudioGOQL import OQL
 
 
 pcnt = '%'

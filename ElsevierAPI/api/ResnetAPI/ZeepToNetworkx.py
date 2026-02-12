@@ -3,7 +3,7 @@ from  .PathwayStudioGOQL import OQL
 from  .PathwayStudioZeepAPI import DataModel
 from  .NetworkxObjects import PSObject,PSRelation,len,REGULATORS,TARGETS,EFFECT
 from  .ResnetGraph import ResnetGraph,REFCOUNT
-from ..utils import execution_time
+from ...utils.utils import execution_time
 import math, time
 
 
