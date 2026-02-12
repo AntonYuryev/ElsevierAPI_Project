@@ -8,6 +8,7 @@ config/
 APIconfig.json
 RxAPIsession.json
 DemoOutput/
+DemoInput/
 cache/
 scripts/
 
