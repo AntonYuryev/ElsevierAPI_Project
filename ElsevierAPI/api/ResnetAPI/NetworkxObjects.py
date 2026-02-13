@@ -841,6 +841,8 @@ class PSRelation(PSObject):
 
   def refs(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
     '''
+    input:
+      relid2refs - optional dictionary {RelationID:[Reference]} to use when graph is loaded from Neo4j
     output:
       self.references sorted by PUBYEAR
     '''

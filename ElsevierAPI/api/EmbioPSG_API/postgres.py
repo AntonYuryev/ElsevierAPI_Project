@@ -242,3 +242,21 @@ class PostgreSQL:
       print(f'Cached references for {len(self.rel2refDict)} relations from Postgres')
       #print(f'{len(self.futures)} futures remains in cue')
     return self.rel2refDict
+  
+  
+  def snippets_with(self,keywords:list[str])->dict[int,list[Reference]]:
+    '''
+    output:
+      {relation_id:[Reference]},
+      relation IDs for references containing any of the keywords in their sentences
+      
+    '''
+    start = time.time()
+    vrsn = self.resnet_version
+    sql = f'''SELECT * FROM {vrsn}.reference
+          WHERE {vrsn}.reference.msrc ILIKE ANY (ARRAY[{','.join([f"\'%{kw}%\'" for kw in keywords])}]);
+      '''
+    ref_pd = self.__get_refs(sql)
+    rel2refs = self.__rows2refs(ref_pd)
+    print(f'Snippet search for keywords {keywords} found {len(rel2refs)} relations and {len(ref_pd)} snippets in {execution_time(start)}')
+    return rel2refs

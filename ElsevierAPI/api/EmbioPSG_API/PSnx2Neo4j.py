@@ -140,31 +140,7 @@ class nx2neo4j(GraphDatabase):
     '''
     cypher,param = Cypher.expand(seedProps,propType,_2neighbor_types,by_relProps,dir)        
     return self.fetch_graph(cypher,param)
-
-
-  def create_group(self,group_name:str,link_type:str,members:list[PSObject]):
-    '''
-    if link_type = "part_of" , creates Group with members
-    if link_type = "is_a" creates ontology concept with label equal to label of the first member with members linked by "is_a"
-    '''
-    memberUrns = ResnetGraph.urns(members)
-    if link_type == "part_of":
-      cypher,params = Cypher.create_group(group_name,memberUrns)
-    else:
-      label = members[0].objtype()
-      cypher,params = Cypher.create_ontology_group(group_name,label,memberUrns)
-      
-    with self.session() as session:
-      result = session.run(cypher,params)
-      record = result.single()
-      if record:
-        p_name = record["p"]["Name"]
-        linked_count = len(record["LinkedUrns"])
-        print(f"✅ Success! Merged '{p_name}' and linked {linked_count} new compounds.")
-        print(f"Linked URNs: {record['LinkedUrns']}")
-      else:
-        print("⚠️ Query ran, but no group was created.")
-
+  
 
   def add_connectivity(self,to_nodes:list[PSObject]):
      cypher,params = Cypher.node_connectivity(to_nodes)
@@ -263,10 +239,73 @@ class nx2neo4j(GraphDatabase):
       return [self.__record2psobj(record[0]) for record in result]
     
 
-
+  def mine_sentences(self, with_keywords:list[str])->ResnetGraph:
+    rel2refs = self.postgres.snippets_with(with_keywords)
+    rel_ids = list(map(str,rel2refs.keys()))
+    cypher = 'MATCH (u)-[r]->(t) WHERE r.RelationID IN $rel_ids RETURN u,r,t'
+    params = {'rel_ids':rel_ids}
+    my_graph = self.fetch_graph(cypher,params,request_name='Sentence mining')
+    [rel.refs(relid2refs=rel2refs) for _, _, rel in my_graph.edges.data('relation')]
+    return my_graph
          
     
 ################ LOAD INTO NEO4J ####################### LOAD INTO NEO4J ########################
+
+  def create_group(self,group_name:str,link_type:str,members:list[PSObject]):
+    '''
+    if link_type = "part_of" , creates Group with members
+    if link_type = "is_a" creates ontology concept with label equal to label of the first member with members linked by "is_a"
+    '''
+    memberUrns = ResnetGraph.urns(members)
+    if link_type == "part_of":
+      cypher,params = Cypher.create_group(group_name,memberUrns)
+    else:
+      label = members[0].objtype()
+      cypher,params = Cypher.create_ontology_group(group_name,label,memberUrns)
+      
+    with self.session() as session:
+      result = session.run(cypher,params)
+      record = result.single()
+      if record:
+        p_name = record["p"]["Name"]
+        linked_count = len(record["LinkedUrns"])
+        print(f"✅ Success! Merged '{p_name}' and linked {linked_count} new compounds.")
+        print(f"Linked URNs: {record['LinkedUrns']}")
+      else:
+        print("⚠️ Query ran, but no group was created.")
+
+
+  def add2group(self,group_name:str,link_type:str,nodeProps:dict[str,list[str|int|float]],with_childs=False):
+    '''
+    if link_type = "part_of" , adds members to Group
+    if link_type = "is_a" adds members to ontology concept with label equal to label of the first member with members linked by "is_a"
+    nodeProps = {propName:[propValue1,propValue2,...]}, use OBJECT_TYPE string to speed up node selection
+    '''
+    objtype = nodeProps.pop(OBJECT_TYPE,[])[0]
+    members = set()
+    for propName, propList in nodeProps.items():
+      members.update(self.get_nodes(objtype,propName,propList,with_childs=with_childs))
+    members = list(members)
+    memberUrns = ResnetGraph.urns(members)
+
+    if link_type == "part_of":
+      cypher,params = Cypher.create_group(group_name,memberUrns)
+    else:
+      label = objtype if objtype else members[0].objtype()
+      cypher,params = Cypher.create_ontology_group(group_name,label,memberUrns)
+      
+    with self.session() as session:
+      result = session.run(cypher,params)
+      record = result.single()
+      if record:
+        p_name = record["p"]["Name"]
+        linked_urns = set(memberUrns).intersection(record["LinkedUrns"])
+        print(f"✅ Success! Added '{len(linked_urns)}' to {p_name}.")
+        print(f"Linked URNs: {linked_urns}")
+      else:
+        print("⚠️ Query ran, but no group was updated.")
+
+
   @staticmethod
   def __get_node_labels(node: PSObject):
       lbls = ','.join([k + ':\"' + v[0] + '\"' for k, v in node.items() if k in ENT_PROP_Neo4j])
