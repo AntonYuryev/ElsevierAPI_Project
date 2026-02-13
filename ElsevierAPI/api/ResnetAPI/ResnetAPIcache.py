@@ -42,7 +42,7 @@ class APIcache(APISession):
           'connect_nodes' : [], # [[entity types or dbids],[relation types]]
           'ent_props' : ['Name'], # additional entity props to fetch from database
           'rel_props' : ['URN',EFFECT], # additional relation props to fetch from database
-          'make_simple': True, # if True makes simple graph from database graph
+          'simplify': True, # if True makes simple graph from database graph
           'ranks4simplifying' : [], # parameter for making simple graph
           'refprop2rel':dict(), # {reference_propname:relation_propname} - moves refprops to relprops using PSRelation._refprop2rel()
           'refprop_minmax':0, # parameter for PSRelation._refprop2rel(refprop2rel,refprop_minmax)
@@ -116,7 +116,7 @@ class APIcache(APISession):
       refprop_minmax = kwargs.pop('refprop_minmax',0)
 
       simple_graph = database_g.copy()
-      simple_graph = simple_graph.make_simple(rank4simplifying)
+      simple_graph = simple_graph.simplify(rank4simplifying)
 
       #converting sentence properties to relation properties before making a dump.  Used for pX dump
       for refprop, relprop in refprop2rel.items():

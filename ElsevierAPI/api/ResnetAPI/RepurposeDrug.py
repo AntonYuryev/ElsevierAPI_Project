@@ -664,7 +664,7 @@ class RepurposeDrug(Indications4targets):
 
 
         [drugs2targets.add_rel(rel) for rel in all_rels] # need to add rels on by one here to merge their references, pX and other attributes
-        drugs2targets = drugs2targets.make_simple()
+#        drugs2targets = drugs2targets.simplify()
 
         [drugs2targets[r][t][urn]['relation'].set_affinity() for r,t,urn in drugs2targets.edges(keys=True)]
         # filtering out weak affinity targets:
@@ -673,7 +673,7 @@ class RepurposeDrug(Indications4targets):
         drugs2targets.remove_nodes_by_degree(1)
 
         drugs2targets = self.child_update(drugs2targets,make_new_rels=True)
-        drugs2targets = drugs2targets.make_simple()
+        drugs2targets = drugs2targets.simplify()
         
         return drugs2targets
     

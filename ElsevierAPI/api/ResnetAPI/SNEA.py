@@ -101,10 +101,10 @@ class SNEA(APIcache):
   def report_path(self,extention:str='xlsx')->str:
      kw = dict(self.params)
      return self.report_path_kw(extention,kw)
-     
   
-  def init_dt_future(self,experiment_name:str):
-    dt_kwargs = {'experiment':experiment_name, # used for file naming
+
+  def load_d4t(self,experiment_name:str):
+    kwargs = {'experiment':experiment_name, # used for file naming
             'add_bibliography' : False,
             'init_refstat':False ,
             'consistency_correction4target_rank' : False,
@@ -115,10 +115,31 @@ class SNEA(APIcache):
             'data_dir' : CACHE_DIR,
             'cache_name':'drug2target'
             }
-    
-    self.dt = Drugs4Targets(**dt_kwargs)
-    return self.dt_executor.submit(self.dt.load_dt,**dt_kwargs)
+    self.dt = Drugs4Targets(**kwargs)
+    dtc = self.dt.load_dt(**kwargs)
+    return dtc.network
+     
+  
+  def init_dt_future(self,experiment_name:str):
+    def load_combined():
+      with ThreadPoolExecutor(max_workers=2, thread_name_prefix='Loading drug-target network') as e:
+        future1 = e.submit(self.load_d4t,experiment_name)
+        future2 = e.submit(self.loadLINCS1000)
+        d2tG = future1.result()
+        lincsG = future2.result()
+        self.dt.dt_consist.network = d2tG.compose(lincsG).clean()
+        return self.dt.dt_consist.network
+      
+    return self.dt_executor.submit(load_combined())
+  
 
+  @staticmethod
+  def loadLINCS1000():
+    LINCSfile = os.path.join(CACHE_DIR,'LINCS1000.rnef')
+    if os.path.exists(LINCSfile):
+      return ResnetGraph.fromRNEF(LINCSfile)
+    return ResnetGraph() 
+  
 
   def __load_data__(self,**kwargs):
     experiment_name = self.exp_name()

@@ -704,8 +704,7 @@ class SemanticSearch (APISession):
         # placeholder for possible future use of Scopus citation index:
         # references = [self.RefStats.citation_index(r) for r in references]
         ref_weights = [1.0]*len(references)
-        scopus_score = max([x.get('Relation score',[0.0])[0] for x in references])
-
+ 
         if self.ConceptsHaveWeights: # add ref_nodeweights to ref_weights
         # assumes concepts are annotated by REGULATOR_WEIGHT and/or TARGET_WEIGHT
         # currently does not differentiate between regulators and targets because concepts can be upstream and downstream from entities
@@ -717,8 +716,9 @@ class SemanticSearch (APISession):
         
         if self.relprop2weight:# add ref_relweights to ref_weights
           ref_relweights = [r.get_weight(RELWEIGHT) for r in references]    
-          ref_weights =  [x + y for x, y in zip(ref_weights, ref_relweights)]
+          ref_weights = [x + y for x, y in zip(ref_weights, ref_relweights)]
 
+        scopus_score = max([x.get('Relation score',[0.0])[0] for x in references])
         row_score = float(sum(ref_weights)) * (1 + scopus_score/100)
 
         number_of_children = len(list(my_df.at[idx,self.__temp_id_col__]))

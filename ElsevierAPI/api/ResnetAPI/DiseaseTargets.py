@@ -327,7 +327,7 @@ class DiseaseTargets(SemanticSearch):
         expanded_targetsG.name = expansion_descr
         rel_rank = ['DirectRegulation','Binding','ProtModification','MolTransport','Regulation','PromoterBinding','Expression']
         # assume that Regulation means post-translational regulation
-        expanded_targetsG = expanded_targetsG.make_simple(rel_rank)
+        expanded_targetsG = expanded_targetsG.simplify(rel_rank)
         self.__targets__.update(expanded_targetsG._get_nodes())
         for t in expanded_targets:
           t_neighbors = expanded_targetsG.get_neighbors({t})
@@ -845,7 +845,7 @@ class DiseaseTargets(SemanticSearch):
       disease_network = my_session.get_ppi(self.__targets__, self.params.get('ppiRNEFs',[]), minref=2)
     
     disease_network.name = f'{self._disease2str()} PPPI network'
-    return disease_network.make_simple(['DirectRegulation','ProtModification','Binding']) 
+    return disease_network.simplify(['DirectRegulation','ProtModification','Binding']) 
 
 
   def DiseaseNetworkRegulationScore(self): #` STEP 7e in make_report()->score_target_semantics()

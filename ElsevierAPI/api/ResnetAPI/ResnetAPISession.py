@@ -1903,35 +1903,35 @@ class APISession(PSNetworx):
 
     def child_update(self,g:ResnetGraph,make_new_rels=False):
         '''
-            make_new_rels - if True will create for all child entities the same relations as their parent have
+          make_new_rels - if True will create for all child entities the same relations as their parent have
         '''
         myG = g.copy() if g else self.Graph.copy()
         graph_entities = myG._get_nodes()
         children, parents_with_children = self.load_children4(graph_entities)
         myG.add_psobjs(parents_with_children+list(children))
 
-        visited_parents = set()
-        add2g = ResnetGraph()
-        for r,t,rel in myG.iterate():
+        if make_new_rels:
+          visited_parents = set()
+          add2g = ResnetGraph()
+          for r,t,rel in myG.iterate():
             for i,parent in enumerate([r,t]):
-                if parent not in visited_parents and parent in parents_with_children:
-                    visited_parents.add(parent)
-                    n_neighborhood = myG.neighborhood([parent])
-                    n_neighbors = n_neighborhood._get_nodes()
-                    n_neighbors.remove(parent)
-                    parent_childs = parent.childs()
-                    connections = self.connect_entities(n_neighbors,parent_childs)
-                    add2g = add2g.compose(connections)
-                    if make_new_rels:
-                        for n1,n2,parent_rel in n_neighborhood.iterate():
-                            # must use dict(parent_rel) to make new rel
-                            if n1 == parent:
-                                for c in parent_childs:
-                                    add2g.add_triple(c,n2,dict(parent_rel),parent_rel.refs(),parent_rel.is_directional())
-                            else:
-                                for c in parent_childs:
-                                    add2g.add_triple(n1,c,dict(parent_rel),parent_rel.refs(),parent_rel.is_directional())
-                
+              if parent not in visited_parents and parent in parents_with_children:
+                visited_parents.add(parent)
+                n_neighborhood = myG.neighborhood([parent])
+                n_neighbors = n_neighborhood._get_nodes()
+                n_neighbors.remove(parent)
+                parent_childs = parent.childs()
+               # connections = self.connect_entities(n_neighbors,parent_childs)
+               # add2g = add2g.compose(connections)
+                for n1,n2,parent_rel in n_neighborhood.iterate():
+                  # must use dict(parent_rel) to make new rel
+                  if n1 == parent:
+                    for c in parent_childs:
+                      add2g.add_triple(c,n2,dict(parent_rel),parent_rel.refs(),parent_rel.is_directional())
+                  else:
+                    for c in parent_childs:
+                      add2g.add_triple(n1,c,dict(parent_rel),parent_rel.refs(),parent_rel.is_directional())
+      
         return myG.compose(add2g)
 
 

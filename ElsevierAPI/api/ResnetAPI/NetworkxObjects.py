@@ -12,6 +12,7 @@ PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
 REGULATORS = 'Regulators'
 TARGETS = 'Targets'
 REFCOUNT = 'RelationNumberOfReferences'
+SNIPPET_COUNT = 'RelationNumberOfSentences'
 CHILDS = 'Childs'
 EFFECT = 'Effect'
 MECHANISM = 'Mechanism'
@@ -1127,7 +1128,7 @@ class PSRelation(PSObject):
     return self.Nodes[TARGETS] if TARGETS in self.Nodes else []
       
 
-  def get_regulators_targets(self,reverse4undirected=True)->list[tuple[int,int]]:
+  def get_regulators_targets(self,duplicate4undirected=True)->list[tuple[int,int]]:
       """
       output:
         [(regulator_uid,target_uid)] pairs for directional self
@@ -1145,7 +1146,7 @@ class PSRelation(PSObject):
 
         pairs = list(itertools.combinations(uIdList, 2))
         if pairs:
-          if reverse4undirected:
+          if duplicate4undirected:
             # non-directional relations are added in both directions into MultiDiGraph to allow proper traversal
             reverse_pairs = [(p[1],p[0]) for p in pairs] 
             return pairs + reverse_pairs

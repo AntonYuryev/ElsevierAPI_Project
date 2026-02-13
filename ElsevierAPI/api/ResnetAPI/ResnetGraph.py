@@ -953,7 +953,6 @@ class ResnetGraph (nx.MultiDiGraph):
       ids2remove = {x for x in self.nodes() if self.degree(x) > max_degree}
       ids2remove.update({x for x in self.nodes() if self.degree(x) < min_degree})
 
-
     self.remove_nodes_from(ids2remove)
     if min_degree:
       print(f'{len(ids2remove)} nodes with degree less than {min_degree} and more than {max_degree} were removed')
@@ -2017,27 +2016,25 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   def get_neighbors(self,of_nodes:set[PSObject],allowed_neigbors:list[PSObject]=[]):
-      """
-      Input
-      -----
+    """
+    input:
       of_nodes = {PSObject}
       allowed_neigbors = [PSObject], optional
 
-      Returns
-      -------
+    output:
       list of both upstream and downstream PSObjects
-      """
-      neighbor_uids = set()
-      for n in of_nodes:
-          if self.has_node(n):
-              n_neighbors_uids = list(nx.function.all_neighbors(self, n.uid()))
-              neighbor_uids.update(n_neighbors_uids)
+    """
+    neighbor_uids = set()
+    for n in of_nodes:
+      if self.has_node(n):
+        n_neighbors_uids = list(nx.function.all_neighbors(self, n.uid()))
+        neighbor_uids.update(n_neighbors_uids)
 
-      if allowed_neigbors:
-          allowed_neigbors_uids = self.uids(allowed_neigbors)
-          neighbor_uids = neighbor_uids.intersection(allowed_neigbors_uids)
-      
-      return self.__psobjs(neighbor_uids)
+    if allowed_neigbors:
+      allowed_neigbors_uids = self.uids(allowed_neigbors)
+      neighbor_uids = neighbor_uids.intersection(allowed_neigbors_uids)
+  
+    return self.__psobjs(neighbor_uids)
 
 
   def get_neighbors_rels(self, _4objs:set[PSObject], only_neighbors:list[PSObject]=[]):
@@ -2051,14 +2048,14 @@ class ResnetGraph (nx.MultiDiGraph):
       return neighbor_graph._psrels()
 
 
-  def get_neighbors_refs4(self, _4psobs:set[PSObject], only_neighbors:list[PSObject]=[]):
+  def get_refs2neighbors(self, of_psobs:set[PSObject], only_neighbors:list[PSObject]=[]):
       '''
       Input
       -----
-      _4psobs - {PSObject}
+      of_psobs - {PSObject}
       only_neighbors - [PSObject]
       '''
-      neighbor_graph = self.neighborhood(_4psobs,only_neighbors)
+      neighbor_graph = self.neighborhood(of_psobs,only_neighbors)
       return neighbor_graph.load_references()
 
 
@@ -3056,61 +3053,60 @@ class ResnetGraph (nx.MultiDiGraph):
 
   @staticmethod
   def __bestrel(rels:list[PSRelation],ranks:list[list[str]]=[]) -> PSRelation:
-      '''
-      input:
-      rels - [PSRelation]
-      ranks - [[str,..]], where str - PSRelation obtypes sorted by rank. Order of ranking lists may be important.\n
-      '''
-      #Examples of ranks:\n
-      #[['DirectRegulation','Binding','ProtModification','Regulation'],
-      #['PromoterBinding','Expression','Regulation'],
-      #['Biomarker','StateChange'],
-      #['Biomarker','QuantitativeChange','FunctionalAssosiation'],
-      #['MolSynthesis','Regulation'],
-      #['MolTransport','Regulation'],
-      #['MolTransport','CellExpression'],
-      #['Regulation','FunctionalAssosiation']]
-      def _1st_known_effect(sorted_rels:list[PSRelation]):
-        for rel in sorted_rels:
-          rel_effect = rel.effect()
-          if rel_effect != 'unknown':
-            return rel_effect
-        return 'unknown'
-      
-      for rank_list in ranks:
-        my_rels = [r for r in rels if r.objtype() in rank_list]
-        if len(my_rels) == 1:
-          return my_rels[0]
-        else:
-          my_rels.sort(key=lambda x: x.count_refs(), reverse=True)
-          my_effect = _1st_known_effect(my_rels)
-          for reltype in rank_list:
-            for rel in my_rels:
-              if rel.objtype() == reltype:
-                rel[EFFECT] = [my_effect]
-                return rel
+    '''
+    input:
+    rels - [PSRelation]
+    ranks - [[str,..]], where str - PSRelation obtypes sorted by rank. Order of ranking lists may be important.\n
+    '''
+    #Examples of ranks:\n
+    #[['DirectRegulation','Binding','ProtModification','Regulation'],
+    #['PromoterBinding','Expression','Regulation'],
+    #['Biomarker','StateChange'],
+    #['Biomarker','QuantitativeChange','FunctionalAssosiation'],
+    #['MolSynthesis','Regulation'],
+    #['MolTransport','Regulation'],
+    #['MolTransport','CellExpression'],
+    #['Regulation','FunctionalAssosiation']]
 
-      # we are here because rels cannot be ranked by any ranks
-      # case when relations are annotated with pX from Reaxys
-      rels.sort(key=lambda x: x.pX(), reverse=True)
-      if rels[0].pX() > 0.0:
-        best_rel = rels[0]
+    def _1st_known_effect(sorted_rels:list[PSRelation]):
+      for rel in sorted_rels:
+        rel_effect = rel.effect()
+        if rel_effect != 'unknown':
+          return rel_effect
+      return 'unknown'
+    
+    rels.sort(key=lambda x: x.count_refs(), reverse=True)
+
+    for ranked_reltypes in ranks:
+      ranked_rels = [r for r in rels if r.objtype() in ranked_reltypes]
+      if len(ranked_rels) == 1:
+        return ranked_rels[0]
       else:
-        rels.sort(key=lambda x: x.count_refs(), reverse=True)
-        best_rel = rels[0] 
-        for rel in rels:
-          if rel.is_directional():
-            best_rel = rel
-            break
-              
-      if best_rel.effect() == 'unknown':
-          rels.sort(key=lambda x: x.count_refs(), reverse=True)
-          for rel in rels:
-              rel_effect = rel.effect()
-              if rel_effect != 'unknown':
-                  best_rel[EFFECT] = [rel_effect]
-                  return best_rel
-      return best_rel
+        my_effect = _1st_known_effect(ranked_rels)
+        for reltype in ranked_reltypes:
+          for rel in ranked_rels:
+            if rel.objtype() == reltype:
+              rel[EFFECT] = [my_effect]
+              return rel
+
+    # we are here because rels cannot be ranked by any ranks
+    rels_by_pX = sorted(rels,key=lambda x: x.pX(), reverse=True)
+    if rels_by_pX[0].pX() > 0.0: # case when relations are annotated with pX from Reaxys
+      best_rel = rels_by_pX[0] # choosing relation with highest pX
+    else:
+      best_rel = rels[0] # rels are already sorted by refcount
+      for rel in rels:
+        if rel.is_directional(): #choosing directional relation over non-directional
+          best_rel = rel
+          break
+            
+    if best_rel.effect() == 'unknown':
+      for rel in rels:
+        rel_effect = rel.effect()
+        if rel_effect != 'unknown':
+          best_rel[EFFECT] = [rel_effect]
+          return best_rel
+    return best_rel
               
 
   def __set_bestrel(self, from_rels:list[PSRelation],ranks:list[list[str]]=[]):
@@ -3128,10 +3124,10 @@ class ResnetGraph (nx.MultiDiGraph):
       self.__add_rel(best_rel,refresh_urn=True)
 
 
-  def make_simple(self, rel_type_rank:list[str]=[]):
+  def simplify(self, rel_type_rank:list[str]=[]):
     """
     input:
-      rel_type_rank specifies relaton type priority during relation merge\n
+      "rel_type_rank" specifies relaton type priority during relation merge\n
     output:
       graph with only one edge between nodes.\n
       if rel_type_rank is empty grounds all relations to the one with the biggest reference count.\n
@@ -3153,20 +3149,11 @@ class ResnetGraph (nx.MultiDiGraph):
     for ruid, tuid in self.edges():
       reg2target_rels = simple_g._psrels4(ruid,tuid)
       if len(reg2target_rels) > 1: # need simplification
-        simple_g.__set_bestrel(reg2target_rels,ranks)
+        simple_g.__set_bestrel(reg2target_rels,ranks,edge_duplication=False)
         
     print('%d redundant edges in graph "%s" were removed by simplification' % 
           (self.number_of_edges()-simple_g.number_of_edges(),self.name))
-
-    # now removing non-directional relations created by direction duplication in __add_rel
-    duplicate_rels = [r for u,v,urn,r in simple_g.edges(keys=True,data='relation') if urn not in simple_g.urn2rel.keys()]
-    size_before = simple_g.number_of_edges()
-    [simple_g.remove_relation(r) for r in duplicate_rels]
-
-    print('%d additional non-directional edges in graph "%s" were removed as duplicates of removed relation' % 
-          (size_before-simple_g.number_of_edges(),self.name))
     return simple_g
-  
 
   def curate(self, ranks:list[list[str]]=[]):
       """
@@ -3204,12 +3191,12 @@ class ResnetGraph (nx.MultiDiGraph):
       print(f'Curating {self.name}')
       curated_g = self.copy()
       for ruid, tuid in self.edges():
-          # if regulator_uid ==PSObject.urn2uid('urn:agi-cas:106266-06-2'):
-          #     if  target_uid == PSObject.urn2uid('urn:agi-llid:3351'):
-          #         print('')
-          reg2target_rels = curated_g._psrels4(ruid,tuid)
-          if len(reg2target_rels) > 1: # need simplification
-              curated_g.__set_bestrel(reg2target_rels,curation_rules)
+        # if regulator_uid ==PSObject.urn2uid('urn:agi-cas:106266-06-2'):
+        #     if  target_uid == PSObject.urn2uid('urn:agi-llid:3351'):
+        #         print('')
+        reg2target_rels = curated_g._psrels4(ruid,tuid)
+        if len(reg2target_rels) > 1: # need simplification
+          curated_g.__set_bestrel(reg2target_rels,curation_rules)
               
       print('%d redundant edges in graph "%s" were removed by simplification' % 
           (self.number_of_edges()-curated_g.number_of_edges(),self.name))
@@ -3231,19 +3218,19 @@ class ResnetGraph (nx.MultiDiGraph):
       print(f'Cleaning {self.name}')
       curated_g = self.copy()
       for ruid, tuid in self.edges():
-          reg2target_rels = curated_g._psrels4(ruid,tuid)
-          rtype2rels = dict()
-          for rel in reg2target_rels:
-              reltype = rel.objtype()
-              try:
-                  rtype2rels[reltype].append(rel)
-              except KeyError:
-                  rtype2rels[reltype] = [rel]
+        reg2target_rels = curated_g._psrels4(ruid,tuid)
+        rtype2rels = dict()
+        for rel in reg2target_rels:
+          reltype = rel.objtype()
+          try:
+            rtype2rels[reltype].append(rel)
+          except KeyError:
+            rtype2rels[reltype] = [rel]
 
-          for rtype, sametype_rels in rtype2rels.items():
-              if len(sametype_rels) > 1: # need simplification
-                  curated_g.__set_bestrel(sametype_rels,[[rtype]])
-              
+        for rtype, sametype_rels in rtype2rels.items():
+          if len(sametype_rels) > 1: # need simplification
+            curated_g.__set_bestrel(sametype_rels,[[rtype]],edge_duplication=False)
+            
       print('%d redundant edges in graph "%s" were removed by merging relations of the same type' % 
           (self.number_of_edges()-curated_g.number_of_edges(),self.name))
   

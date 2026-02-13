@@ -256,6 +256,11 @@ class OQL:
 
 
     @staticmethod
+    def select_group_members(group_name:str):
+      return f"SELECT Entity WHERE MemberOf (SELECT Group WHERE Name = '{group_name}')"
+
+
+    @staticmethod
     def select_metabolites():
       return "SELECT Entity WHERE InOntology (SELECT Annotation WHERE Ontology='Pathway Studio Ontology' AND Relationship='is-a') under (SELECT OntologicalNode WHERE Name = ('mammal endogenous compounds and their derivatives'))"
 
