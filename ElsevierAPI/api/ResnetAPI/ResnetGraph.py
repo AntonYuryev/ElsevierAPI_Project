@@ -87,7 +87,7 @@ class ResnetGraph (nx.MultiDiGraph):
     # nodes connected by rel must exist in the graph
     if edge_duplication non-directional relations are duplicated in two directions
     """
-    uid_pairs = rel.get_regulators_targets(reverse4undirected=edge_duplication)
+    uid_pairs = rel.get_regulators_targets(edge_duplication)
     if uid_pairs:
       rel_urn = rel.urn(refresh_urn)
       [self.add_edge(uids[0],uids[1],
