@@ -15,7 +15,7 @@ from scipy import stats
 import numpy as np
 from statistics import mean, median
 
-DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/')
+DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ElsevierAPI/')
 DEFAULT_APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'APIconfig.json')
 PCT = '%'
 
