@@ -2204,6 +2204,10 @@ class ResnetGraph (nx.MultiDiGraph):
     '''
     input:
       add_rel_props,add_pathway_props structure - {PropName:[PropValues]}
+    output:
+      resnet xml element with printed nodes and relations with properties from ent_props, rel_props, add_rel_props, add_pathway_props
+      if delete_nodes is True, nodes will be marked for deletion
+      if add_rel_props is empty, all properties of relations will be printed
     '''
     def _2b_printed(prop_name:str,prop_list:list):
         return prop_name in prop_list if prop_list else True

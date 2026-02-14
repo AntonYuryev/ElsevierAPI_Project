@@ -2,7 +2,6 @@ import time, math, os, glob, json, threading
 import networkx as nx
 from zeep import exceptions
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 
 from .ZeepToNetworkx import PSNetworx, len
@@ -12,7 +11,7 @@ from .PathwayStudioGOQL import OQL
 from .Zeep2Experiment import Experiment
 from ..ResnetAPI.references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
 from ..ScopusAPI.scopus import loadCI
-from ...utils.utils import unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
+from ...utils.utils import ThreadPoolExecutor,as_completed,urlencode,unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
 from ..EmbioPSG_API.PSnx2Neo4j import nx2neo4j
 
 TO_RETRIEVE = 'to_retrieve'
@@ -1195,30 +1194,6 @@ class APISession(PSNetworx):
       return ontology_graph
       
 
-
-    '''
-    def load_ontology(self, parent_ontology_groups:list)->defaultdict[str,list[str]]:
-        """
-        Input
-        -----
-        [List of Ontology Parent Names]
-        
-        Return
-        ------
-        self.child2parent = {child_name:[ontology_parent_names]}
-        """
-        self.child2parent = defaultdict(list)
-        self.add_ent_props(['Name'])
-        for group_name in parent_ontology_groups:
-            self.child_graph([group_name],['Name'],include_parents=False)
-            for id, child in self.Graph.nodes(data=True):
-                child_name = child['Name'][0]
-                self.child2parent[child_name].append(group_name)
-
-        return self.child2parent
-      '''
-
-
     def ontopaths2(self,parent2childs:dict[str,list[PSObject]], ontology_depth:int)->dict[str,str]:
         '''
         Input
@@ -1248,7 +1223,31 @@ class APISession(PSNetworx):
                         name2paths[concept_name] = path_sep+path_sep.join(parent_path_names[1:])
 
         return name2paths
+    
 
+    def group2ontology(self,group_name:str,parent_type:str,addparent2urn=''):
+      '''
+      input:
+        group_name - name of the group to find in database\n
+        parent_type - object type of parents to find in database
+      '''
+      group_graph = self.get_group_members([group_name])
+      group_members = group_graph._get_nodes()
+      parent = PSObject({'Name':[group_name], OBJECT_TYPE:[parent_type],'URN':['urn:agi-smol:'+urlencode(group_name)]})
+      ontology_graph = ResnetGraph._ontologyG_(group_members,parent)
+      if addparent2urn:
+        oql = f'SELECT Entity WHERE URN = {addparent2urn}'
+        ontology_group = self.process_oql(oql)._get_nodes()
+        if not ontology_group:
+          ontology_group = [PSObject({OBJECT_TYPE:['SemanticConcept'],'URN':[addparent2urn]})]
+
+        parent2ontology = ResnetGraph._ontologyG_([parent],ontology_group[0])
+        ontology_graph = ontology_graph.compose(parent2ontology)
+      
+      rnef_path = os.path.join(self.data_dir, group_name+'.rnef')
+      relProps = ["Relationship","Ontology"]
+      ontology_graph.dump2rnef(rnef_path,rel_prop2print=relProps)
+      return
 
 ###################################  WRITE DUMP  CACHE, WRITE, DUMP  CACHE, WRITE DUMP  CACHE ##############################################
     def to_csv(self, file_out, in_graph=ResnetGraph(), access_mode='w',single_rel_row=False):

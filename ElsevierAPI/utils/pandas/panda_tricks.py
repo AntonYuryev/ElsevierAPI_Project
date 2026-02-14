@@ -3,6 +3,7 @@ import numpy as np
 from pandas import ExcelWriter
 from scipy.stats import expon
 import rdfpandas,xlsxwriter,string, os
+from ..utils import unpack
 from ...api.ResnetAPI.NetworkxObjects import PSObject
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype,is_numeric_dtype
@@ -14,23 +15,18 @@ MAX_TAB_LENGTH = 31
 
 class df(pd.DataFrame):
   # re-writing parent pd.DataFrame function is a BAD idea. Use other names
-  pass
-  header_format = {
-                  'bold': True,
-                  'text_wrap': True,
-                  'valign': 'vjustify',#'bottom',#'top', #vcenter',
-                  'align': 'center', # 'left'
-                  'height':15
-                  #'fg_color': '#D7E4BC',
-                  #'border': 1,
-                  }
-  # need to declare format dicts explicitly to avoid pd.DataFrame warnings in stdr
-  column2format = dict() 
-  conditional_frmt = dict()
-  tab_format = dict()
-  col2rank = dict()
-  _name_ = ''
-
+  _metadata = [
+        '_name_', 
+        'column2format', 
+        'conditional_frmt', 
+        'tab_format', 
+        'col2rank', 
+        'Entities4df', 
+        'explodedEntities4df',
+        'header_format'
+    ]
+  
+  
   def __init__(self, *args, **kwargs):
       '''
       kwargs:
@@ -40,9 +36,24 @@ class df(pd.DataFrame):
       pd.DataFrame.__init__(self,*args, **kwargs)
       self._name_ = dfname
       self.column2format = dict() # {column_index:{'font_color':'blue'}}
-      self.col2rank = dict() # {colname:rank(int)}, used for column ranking and sorting by SemanticSearch
       self.conditional_frmt = dict() # {area:{conditional_format}}
       self.tab_format = dict() # font and color of the Excel tab with worksheet
+      self.col2rank = dict() # {colname:rank(int)}, used for column ranking and sorting by SemanticSearch
+      self.Entities4df = dict() # holds {mapping_attribute_coulm_name:{PSObject} with CHILDS property for SemanticSearch.
+      # Usually Entities4df can be linked to ['Name'] column by value
+      self.explodedEntities4df = dict() # holds {mapping_attribute_coulm_name:{PSObject} with CHILDS property for SemanticSearch and their ontology children.
+      self.header_format = {
+                  'bold': True,
+                  'text_wrap': True,
+                  'valign': 'vjustify',#'bottom',#'top', #vcenter',
+                  'align': 'center', # 'left'
+                  'height':15
+      }
+
+         
+  @property
+  def _constructor(self):
+    return df
 
 
   @classmethod 
@@ -71,12 +82,6 @@ class df(pd.DataFrame):
       }
 
 
-  '''def __attrs__(self)->dict[str,dict]:
-    attrs = self.__formats__()
-    attrs['name'] = self._name_
-    return attrs'''
-
-
   def copy_format(self, from_df:'df'):
     [setattr(self, n, a.copy()) for n,a in from_df.__formats__().items()]
 
@@ -87,11 +92,48 @@ class df(pd.DataFrame):
     '''
     [setattr(self, n, a.copy()) for n,a in from_df.__formats__().items()]
     self._name_ = from_df._name_
+    for column, entities in from_df.Entities4df.items():
+      self.add_entities(entities,column)
     return
 
 
   def max_colrank(self)->int:
     return max(self.col2rank.values()) if self.col2rank else 0
+  
+  
+  def set_rank(self, to_column:str, rank:int=None):
+    '''
+      assigns self._max_rank()+1 to new concept if my_rank is None
+    '''
+    if not rank:
+      rank = self.max_colrank()+1
+
+    self.col2rank[to_column] = rank
+    return
+
+
+  def __update_entities(self):
+    for colname, entities in self.Entities4df.items():
+      column_values = set(self[colname].to_list())
+      updated_entities = {x for x in entities if not column_values.isdisjoint(x[colname])}
+      self.Entities4df[colname] = updated_entities
+      children = set(unpack(e.childs() for e in updated_entities))
+      self.explodedEntities4df[colname] = updated_entities|children
+    return
+
+
+  def add_entities(self, entities:list[PSObject], with_values_in_column='Name'):
+    self.Entities4df.update({with_values_in_column:set(entities)})
+    self.__update_entities()
+    return
+
+
+  def entities(self, include_children=True, for_column='Name')->set[PSObject]:
+    return self.explodedEntities4df[for_column] if include_children else self.Entities4df[for_column]
+  
+
+  def uids(self,for_column='Name'):
+    return [o.uid() for o in self.Entities4df[for_column]]
 
 
   def dfcopy(self, only_columns:list = None, rename2:dict = None, deep:bool = True) -> 'df':
@@ -127,6 +169,8 @@ class df(pd.DataFrame):
           new_attr[col] = self_attr[original_col]
       setattr(newdf, attr_name, new_attr)
       
+    newdf.Entities4df = self.Entities4df.copy()
+    newdf.explodedEntities4df = self.explodedEntities4df.copy()
     return newdf
 
 
@@ -190,7 +234,7 @@ class df(pd.DataFrame):
       '''
       Input
       -----
-      args[0] - input filname for reading Excel file add sheet_name=my_worksheet_name to kwargs
+      args[0] - input filname for reading Excel file\n
       kwargs = {sheet_name:str, read_formula:bool,names=[]}
       '''
       df_name = kwargs.pop('name','')
@@ -246,38 +290,42 @@ class df(pd.DataFrame):
 
 
   def pandas2rdf(self, remap:dict):
-      rdf_pandas = pd.DataFrame(self)
-      for c in rdf_pandas.columns:
-          rdf_pandas.rename(columns=remap[c])
-          return rdfpandas.to_graph(rdf_pandas)
+    rdf_pandas = pd.DataFrame(self)
+    for c in rdf_pandas.columns:
+      rdf_pandas.rename(columns=remap[c])
+      return rdfpandas.to_graph(rdf_pandas)
 
 
   def apply_and_concat(self, field, func, column_names):
-          merged_pd = pd.concat((self,self[field].apply(lambda cell: pd.Series(func(field,cell),index=column_names))),axis=1)
-          to_return = df.from_pd(merged_pd)
-          to_return.__copy_attrs(self)
-          return to_return
+    merged_pd = pd.concat((self,self[field].apply(lambda cell: pd.Series(func(field,cell),index=column_names))),axis=1)
+    to_return = df.from_pd(merged_pd)
+    to_return.__copy_attrs(self)
+    return to_return
+
 
   #not yet tested
   def apply_and_concat2(self, concept_name, func, column_names):
-          return pd.concat((self,self['Name'].apply(lambda cell: pd.Series(func(cell,concept_name),index=column_names))),axis=1)
+    merged_pd = pd.concat((self,self['Name'].apply(lambda cell: pd.Series(func(cell,concept_name),index=column_names))),axis=1)
+    to_return = df.from_pd(merged_pd)
+    to_return.__copy_attrs(self)
+    return to_return 
 
 
   @classmethod 
   def from_dict(cls, dic:dict, **kwargs):
-      '''
-      Input
-      -----
-      dic - {col_name:[values]}
-      orient: Literal['columns', 'index', 'tight'] = ...,
-      dtype: _str = ...,
-      columns: list[_str] = ...\n
-      The "orientation" of the data. If the keys of the passed dict should be the columns of the resulting DataFrame, pass 'columns' (default). Otherwise if the keys should be rows, pass 'index'. If 'tight', assume a dict with keys ['index', 'columns', 'data', 'index_names', 'column_names']
-      '''
-      df_name = kwargs.pop('name','')
-      new_pd = cls.from_pd(pd.DataFrame.from_dict(dic,**kwargs))
-      new_pd._name_ = df_name
-      return new_pd
+    '''
+    Input
+    -----
+    dic - {col_name:[values]}
+    orient: Literal['columns', 'index', 'tight'] = ...,
+    dtype: _str = ...,
+    columns: list[_str] = ...\n
+    The "orientation" of the data. If the keys of the passed dict should be the columns of the resulting DataFrame, pass 'columns' (default). Otherwise if the keys should be rows, pass 'index'. If 'tight', assume a dict with keys ['index', 'columns', 'data', 'index_names', 'column_names']
+    '''
+    df_name = kwargs.pop('name','')
+    new_pd = cls.from_pd(pd.DataFrame.from_dict(dic,**kwargs))
+    new_pd._name_ = df_name
+    return new_pd
 
 
   @classmethod 
@@ -571,7 +619,7 @@ class df(pd.DataFrame):
     old_len = len(self)
     new_pd = self[self[in_column] > value]
     removed_rows = old_len - len(new_pd)
-    print(f'{removed_rows} rows were removed from {self._name_} because "{in_column}" value was smaller than {value}')
+    print(f'Removed {removed_rows} out of {old_len} rows from {self._name_} because their "{in_column}" values were smaller than {value}')
     new_df = df.from_pd(new_pd)
     new_df.__copy_attrs(self) 
     return new_df
@@ -850,14 +898,13 @@ class df(pd.DataFrame):
 
 
   def split(self,num_parts:int):
-      split_dataframes = np.array_split(self, num_parts)
-      splits = list()
-      for d in split_dataframes:
-          part = df.from_pd(pd.DataFrame(d,columns=self.columns.to_list()))
-          part.__copy_attrs(self)
-          splits.append(part)
-      
-      return splits
+    split_dataframes = np.array_split(self, num_parts)
+    splits = list()
+    for d in split_dataframes:
+      part = df.from_pd(pd.DataFrame(d,columns=self.columns.to_list()))
+      part.__copy_attrs(self)
+      splits.append(part)
+    return splits
 
 
   def sort_columns(self,column_aggregate_func,ascending=False):
