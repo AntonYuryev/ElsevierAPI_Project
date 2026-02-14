@@ -1,7 +1,7 @@
 from math import log2, isnan
 import time, os
 from .ResnetGraph import ResnetGraph,PSObject
-from ..pandas.panda_tricks import df, pd,np
+from ...utils.pandas.panda_tricks import df, pd,np
 from  .PathwayStudioZeepAPI import DataModel
 import scipy.stats as stats
 from datetime import timedelta

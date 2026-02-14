@@ -1,10 +1,10 @@
 from urllib.error import HTTPError
 import json, http.client, time, urllib.request, urllib.parse,ssl,re
 from collections import defaultdict
-from ..utils import  load_api_config
+from ...utils.utils import  load_api_config
 from time import sleep
-from .references import AUTHORS,INSTITUTIONS,JOURNAL,SENTENCE,EMAIL,RELEVANCE,PUBLISHER,GRANT_APPLICATION
-from .references import DocMine,Reference
+from ..ResnetAPI.references import AUTHORS,INSTITUTIONS,JOURNAL,SENTENCE,EMAIL,RELEVANCE,PUBLISHER,GRANT_APPLICATION
+from ..ResnetAPI.references import DocMine,Reference
 
 DEFAULT_ETM = 'https://covid19-services.elseviertextmining.com/api'
 
