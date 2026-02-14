@@ -1,5 +1,4 @@
-from ElsevierAPI import open_api_session
-from ElsevierAPI.api.ResnetAPI.ResnetAPISession import SNIPPET_PROPERTIES,BIBLIO_PROPERTIES,REFERENCE_IDENTIFIERS,DATABASE_REFCOUNT_ONLY
+from ElsevierAPI.api.ResnetAPI.ResnetAPISession import APISession,SNIPPET_PROPERTIES,BIBLIO_PROPERTIES,REFERENCE_IDENTIFIERS,DATABASE_REFCOUNT_ONLY
 from ElsevierAPI.api.ResnetAPI.ResnetGraph import REFCOUNT,ResnetGraph,EFFECT
 from ElsevierAPI.api.ResnetAPI.PathwayStudioGOQL import OQL
 
@@ -23,38 +22,37 @@ if __name__ == "__main__":
     read_from_file = True
 
     if read_from_file:
-        RNEFfile = 'C:/ResnetDump/simple/Protein_Regulation_Disease.rnef'
-        relprops2print = [REFCOUNT,EFFECT,'Mechanism']
-        entprops2print = ['Name']
-        my_graph = ResnetGraph.fromRNEF(RNEFfile,only_relprops=set(relprops2print))
+      RNEFfile = 'C:/ResnetDump/simple/Protein_Regulation_Disease.rnef'
+      relprops2print = [REFCOUNT,EFFECT,'Mechanism']
+      entprops2print = ['Name']
+      my_graph = ResnetGraph.fromRNEF(RNEFfile,only_relprops=set(relprops2print))
 
-        TSVfile = RNEFfile[:-4]+'tsv'
-        my_graph.print_references(TSVfile, relprops2print, entprops2print)
+      TSVfile = RNEFfile[:-4]+'tsv'
+      my_graph.print_references(TSVfile, relprops2print, entprops2print)
     else:
-        # ps_api retreives data from the database and loads it into APISession.Graph derived from Networkx:MultiDiGraph 
-        ps_api = open_api_session(api_config_file='',what2retrieve=REFERENCE_IDENTIFIERS)#specify here path to your APIconfig file. 
-        #If api_config_file not specified the default APIConfig from __init__.py will be used
+      # ps_api retreives data from the database and loads it into APISession.Graph derived from Networkx:MultiDiGraph 
+      ps_api = APISession(None,what2retrieve=REFERENCE_IDENTIFIERS) #specify here path to your APIconfig file. 
+      #If api_config_file not specified the default APIConfig from __init__.py will be used
 
-        #all_relation_properties = list(PS_ID_TYPES)+list(PS_BIBLIO_PROPS)+list(SENTENCE_PROPS)+list(CLINTRIAL_PROPS)+list(RELATION_PROPS)
-        #ps_api.add_rel_props(['Name','Effect','Mechanism','ChangeType','BiomarkerType','QuantitativeType','Sentence','Title','PMID','DOI'])
-        #add_rel_props specifies what attributes to retreive for relations from the database. The list order defines the column order in the dump file
-        ps_api.add_ent_props(['Description','Alias'])
-        ps_api.add_rel_props([REFCOUNT])
-        #add_ent_props specifies what attributes to retreive for nodes (entities) from the database.The list order defines the column order in the dump file
+      #all_relation_properties = list(PS_ID_TYPES)+list(PS_BIBLIO_PROPS)+list(SENTENCE_PROPS)+list(CLINTRIAL_PROPS)+list(RELATION_PROPS)
+      #ps_api.add_rel_props(['Name','Effect','Mechanism','ChangeType','BiomarkerType','QuantitativeType','Sentence','Title','PMID','DOI'])
+      #add_rel_props specifies what attributes to retreive for relations from the database. The list order defines the column order in the dump file
+      ps_api.add_ent_props(['Description','Alias'])
+      ps_api.add_rel_props([REFCOUNT])
+      #add_ent_props specifies what attributes to retreive for nodes (entities) from the database.The list order defines the column order in the dump file
 
-        ps_api.start_download_from(0) #if download was interrupted change this paramater to resume download from certain position
-        #position must be specified as the number of relations (or entities) downloaded previously
-        my_graph = ps_api.process_oql(my_goql_query,request_name)
-        assert(isinstance(my_graph,ResnetGraph))
-        my_graph.name = ''
+      ps_api.start_download_from(0) #if download was interrupted change this paramater to resume download from certain position
+      #position must be specified as the number of relations (or entities) downloaded previously
+      my_graph = ps_api.process_oql(my_goql_query,request_name)
+      assert(isinstance(my_graph,ResnetGraph))
+      my_graph.name = ''
 
-        #dafault print_rel21row = False to print 1 row per reference in every relation
-        ps_api.print_rel21row = True #if True ResnetAPIsessionDump.tsv will have only 1 row per each relation
-        # with reference properties concatenated into 1 string per property
-        ps_api.sep = '\t'
-        fname = request_name+' relations' if ps_api.print_rel21row else request_name+' references'
-        ps_api.to_csv(fname+'.tsv')
-        ps_api.Graph.dump2rnef(request_name+'.rnef',ps_api.entProps,ps_api.relProps)
+      # with reference properties concatenated into 1 string per property
+      refs21row = True # if False will print each reference in a separate row with all relation properties duplicated. If True will concatenate reference properties into 1 string and print in a single row per relation
+      ps_api.sep = '\t'
+      fname = request_name+' relations' if refs21row else request_name+' references'
+      ps_api.to_csv(fname+'.tsv',single_rel_row=refs21row)
+      ps_api.Graph.dump2rnef(request_name+'.rnef',ps_api.entProps,ps_api.relProps)
     # process_oql retreives data by iterations. Iteration size is controled by ps_api.PageSize
     # ps_api.PageSize defaults to 100 relations per iteration and cannot be bigger than 10,000
     # debug=False retreives resuts only from the first iteration

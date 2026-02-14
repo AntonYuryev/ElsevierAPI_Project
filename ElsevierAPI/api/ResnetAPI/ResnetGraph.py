@@ -2119,14 +2119,17 @@ class ResnetGraph (nx.MultiDiGraph):
 
 ################################# WRITE-DUMP, WRITE-DUMP, WRITE-DUMP ##############################
   def print_triples(self, fileOut, relPropNames, access_mode='w', printHeader=True, add_entities=False, as1row=False):
-      with open(fileOut, access_mode, encoding='utf-8') as f:
-          if printHeader:
-              header = '\t'.join(relPropNames) + '\t' + "Regulators Id" + '\t' + "Targets Id"
-              f.write(header + '\n')
+    '''
+    prints triples in tabular format: relPropNames\tRegulators Id\tTargets Id\n
+    '''
+    with open(fileOut, access_mode, encoding='utf-8') as f:
+      if printHeader:
+        header = '\t'.join(relPropNames) + '\t' + "Regulators Id" + '\t' + "Targets Id"
+        f.write(header + '\n')
 
-          for _,_, rel in self.edges.data('relation'):
-              assert(isinstance(rel,PSRelation))
-              f.write(rel.triple2str(relPropNames,add_entities=add_entities, as1row=as1row))
+      for _,_, rel in self.edges.data('relation'):
+        assert(isinstance(rel,PSRelation))
+        f.write(rel.triple2str(relPropNames,add_entities=add_entities, as1row=as1row))
 
 
   def print_references(self, fileOut:str, relPropNames:list, entity_prop_names=[],access_mode='w',
