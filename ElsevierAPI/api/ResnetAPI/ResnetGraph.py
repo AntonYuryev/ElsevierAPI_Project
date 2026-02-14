@@ -3112,7 +3112,7 @@ class ResnetGraph (nx.MultiDiGraph):
     return best_rel
               
 
-  def __set_bestrel(self, from_rels:list[PSRelation],ranks:list[list[str]]=[]):
+  def __set_bestrel(self, from_rels:list[PSRelation],ranks:list[list[str]]=[],edge_duplication=True):
       '''
       input:
         from_rels = [PSRelation]\n
@@ -3124,7 +3124,7 @@ class ResnetGraph (nx.MultiDiGraph):
       best_rel._add_refs(refs2add)
 
       [self.remove_relation(rel) for rel in from_rels]
-      self.__add_rel(best_rel,refresh_urn=True)
+      self.__add_rel(best_rel,refresh_urn=True,edge_duplication=edge_duplication)
 
 
   def simplify(self, rel_type_rank:list[str]=[]):
@@ -3199,7 +3199,7 @@ class ResnetGraph (nx.MultiDiGraph):
         #         print('')
         reg2target_rels = curated_g._psrels4(ruid,tuid)
         if len(reg2target_rels) > 1: # need simplification
-          curated_g.__set_bestrel(reg2target_rels,curation_rules)
+          curated_g.__set_bestrel(reg2target_rels,curation_rules,edge_duplication=False)
               
       print('%d redundant edges in graph "%s" were removed by simplification' % 
           (self.number_of_edges()-curated_g.number_of_edges(),self.name))

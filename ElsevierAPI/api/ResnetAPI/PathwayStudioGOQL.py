@@ -145,7 +145,7 @@ class OQL:
           values_str = OQL.join_with_quotes(values)
         else: 
           values_str = ', '.join([str(v) for v in values])
-        prop = OBJECT_TYPE if prop == 'objectType' else prop
+        prop = 'objectType' if prop == OBJECT_TYPE else prop
         expand_by_rel_props_str += f' AND {prop} = ({values_str})'
       return expand_by_rel_props_str
 
@@ -191,25 +191,17 @@ class OQL:
         
         expand2neighbors_str = OQL.join_with_quotes(expand2neighbors)
         #expand_by_rel_types_str = OQL.join_with_quotes(expand_by_rel_types)
-        expand_by_rel_props_str = ''
-        for prop, values in by_relProps.items():
-          if isinstance(values[0], str):
-            values_str = OQL.join_with_quotes(values)
-          else: 
-            values_str = ', '.join([str(v) for v in values])
-          expand_by_rel_props_str += f' AND {prop} = ({values_str})'
-          
+        expand_by_rel_props_str = OQL.relProps2oql(by_relProps)
         property_names, values = OQL.get_search_strings(SearchByProperties, PropertyValues)
         expand = 'Select Relation WHERE NeighborOf ' + direction + ' (SELECT Entity WHERE (' + property_names + ') = (' + values + '))'
-
         oql_dir_hint = 'downstream' if direction == 'upstream' else 'upstream' if direction == 'downstream' else ''
 
         if expand_by_rel_props_str:
             if expand2neighbors:
-                expand += f" AND {expand_by_rel_props_str} AND NeighborOf {oql_dir_hint}" 
+                expand += f"{expand_by_rel_props_str} AND NeighborOf {oql_dir_hint}" 
                 expand += ' (SELECT Entity WHERE objectType = (' + expand2neighbors_str + "))"
             else:
-                expand += f" AND {expand_by_rel_props_str}"
+                expand += f"{expand_by_rel_props_str}"
         else:
             if expand2neighbors:
                 expand += ' AND NeighborOf ' + oql_dir_hint + ' (SELECT Entity WHERE objectType = ('

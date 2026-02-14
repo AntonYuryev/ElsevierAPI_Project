@@ -55,10 +55,11 @@ class APISession(PSNetworx):
     sep = '\t'
     dump_oql_queries = False
     max_threads4ontology = 50
+    neo4j = None
 
 ######################################  CONFIGURATION  ######################################
     def useNeo4j(self):
-      return hasattr(self,'neo4j')
+      return hasattr(self,'neo4j') and self.neo4j is not None
     
     def postgres(self):
       return self.neo4j.postgres if self.useNeo4j() else None
