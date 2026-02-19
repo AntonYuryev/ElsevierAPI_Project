@@ -1203,8 +1203,15 @@ class PSRelation(PSObject):
       
 
   def pX(self):
-      pXs = [float(pX) for ref in self.refs() for pX in ref.get_values('pX')]
-      return max(pXs) if pXs else -1.0
+    pXs = []
+    for ref in self.refs():
+      refpX = ref.get_values('pX')
+      [pXs.extend(str(pX).split(',')) for pX in refpX] # some pX values are comma-separated lists of pX values from multiple sentences in the same reference
+
+    if pXs:
+      return max(list(map(float,pXs)))
+    else: 
+      return -1.0
   
 
   def set_affinity(self):
@@ -1245,11 +1252,10 @@ class PSRelation(PSObject):
 
   def _refprop2rel(self,ref_prop:str,relprop:str,min_max=0):
       '''
-      Input
-      -----
-      if min_max < 0 assigns single value to relprop that is the minimum of all ref_prop values
-      if min_max > 0 assigns single value to relprop that is the maximum of all ref_prop values
-      min_max works only if ref_prop values are numerical
+      input:
+        if min_max < 0 assigns single value to relprop that is the minimum of all ref_prop values
+        if min_max > 0 assigns single value to relprop that is the maximum of all ref_prop values
+        min_max works only if ref_prop values are numerical
       '''
       propvals = set()
       for ref in self.refs():

@@ -1,0 +1,2849 @@
+[
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP Label NITROUS OXIDE USP UN1070 Rx ONLY NON-FLAMMABLE GAS 2 OXIDIZER 5.1 NET CONTENTS: WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . DANGER : MAY CAUSE OR INTENSIFY FIRE; OXIDER, CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HATED. MAY CAUSE DROWSINESS OR DIZZINESS; MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flor preventative device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52C (125F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. DISTRIBUTED BY: AIRTEC GASES LAS VEGAS, NV 89109 (702) 454-2400 ATG-05 A15 Airtech N2O2 Label"
+    ],
+    "set_id": "00d2e785-1cdc-496d-abd3-b255ae1cb693",
+    "id": "4110602e-8a56-ff8f-e063-6294a90ab880",
+    "effective_time": "20251013",
+    "version": "11",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Airtec Gases, LLC"
+      ],
+      "product_ndc": [
+        "24312-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4110602e-8a56-ff8f-e063-6294a90ab880"
+      ],
+      "spl_set_id": [
+        "00d2e785-1cdc-496d-abd3-b255ae1cb693"
+      ],
+      "package_ndc": [
+        "24312-003-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Obtain, read and follow all safety instructions before use. Keep away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing contents. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment cleaned for oxygen service. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Get medical help if you feel unwell. IF ON SKIN: Immediately thaw frosted parts with lukewarm water. Do not rub affected area. Get emergency medical help immediately. CAS: 10024-97-2 WARNING: This product can expose you to chemicals including Nitrous Oxide, which is known to the State of California to cause birth defects or other reproductive harm. For more information go to www.P65Warnings.ca.gov. RED BALL OXYGEN Red Ball Oxygen Co, Inc. 609 North Market Street Shreveport, LA 71107 318-425-3211 CONTENTS LITERS nitrous oxide 2026"
+    ],
+    "set_id": "02a3cf7f-d0a5-4edd-bc84-d9162558434b",
+    "id": "4a2f48b9-8be5-327c-e063-6294a90ad295",
+    "effective_time": "20260206",
+    "version": "21",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Red Ball Oxygen Co., Inc."
+      ],
+      "product_ndc": [
+        "46362-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347166"
+      ],
+      "spl_id": [
+        "4a2f48b9-8be5-327c-e063-6294a90ad295"
+      ],
+      "spl_set_id": [
+        "02a3cf7f-d0a5-4edd-bc84-d9162558434b"
+      ],
+      "package_ndc": [
+        "46362-003-01",
+        "46362-003-02",
+        "46362-003-03",
+        "46362-003-04",
+        "46362-003-05",
+        "46362-003-06",
+        "46362-003-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Nitrous Oxide USP UN1070 Non-flammable gas, 2 Oxidizer, 5.1 Rx only. Warning: Administration of nitrous oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects and the precautions to be taken. Warning: HIGH PRESSURE OXIDING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only with equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin or clothing. Cylinder temperature should not exceed 52\u02daC (125\u02daF). Open valve slowly. Close valve after each use and when empty. Use back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). First Aid: IF INHALED, remove to fresh air. If not breathing, give artificial respiration. If breathing is difficult, give oxygen. Call a physician. IN CASE OF FROSTBITE, obtain medical treatment immediately. CAS: 10024-97-2. DO NOT REMOVE THIS PRODUCT LABEL. AIR SUPPLY 2829 Fort Worth Ave Dallas, TX 75211 (214) 337-4761 Contents 2 lb 7 lb 20 lb 30 lb 56 lb Nitrous Oxide"
+    ],
+    "set_id": "044d220f-99fc-49ba-b4ad-18ff54d805f1",
+    "id": "458681a4-40a2-aeb4-e063-6294a90afa5c",
+    "effective_time": "20251209",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Quality Air Products Inc"
+      ],
+      "product_ndc": [
+        "63978-201"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "458681a4-40a2-aeb4-e063-6294a90afa5c"
+      ],
+      "spl_set_id": [
+        "044d220f-99fc-49ba-b4ad-18ff54d805f1"
+      ],
+      "package_ndc": [
+        "63978-201-01",
+        "63978-201-02",
+        "63978-201-03",
+        "63978-201-04",
+        "63978-201-05"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. AWG AMERICAN WELDING AND GAS 1346 Monad Road, Billings, MT 59101 406.256.3344 nitrous oxide"
+    ],
+    "set_id": "07aa2a86-d01e-470f-a12c-9908118bedc6",
+    "id": "423d4f62-2f8c-5a6d-e063-6294a90a47c6",
+    "effective_time": "20251028",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "American Welding & Gas"
+      ],
+      "product_ndc": [
+        "44076-012"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "423d4f62-2f8c-5a6d-e063-6294a90a47c6"
+      ],
+      "spl_set_id": [
+        "07aa2a86-d01e-470f-a12c-9908118bedc6"
+      ],
+      "package_ndc": [
+        "44076-012-01",
+        "44076-012-02",
+        "44076-012-03",
+        "44076-012-04",
+        "44076-012-05",
+        "44076-012-06",
+        "44076-012-07",
+        "44076-012-08",
+        "44076-012-09",
+        "44076-012-10",
+        "44076-012-11",
+        "44076-012-12",
+        "44076-012-13",
+        "44076-012-14"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS 10024-97-2 WARNING: Tis product can expose you to chemicals including Nitrous Oxide, which is known to the State of California to cause birth defects or other reproductive harm. For more information go to www. P65Warnings.ca.gov WSM SUPPLIER LLC 3535 NW 60th Street Miami FL 33142 (305) 455 1220 www.wsmsupplier.com nitrous oxide"
+    ],
+    "set_id": "17e334cc-a3af-d4f0-e063-6294a90ae41e",
+    "id": "40a9f90f-59ef-d5ca-e063-6294a90abc91",
+    "effective_time": "20251008",
+    "version": "3",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "WSM SUPPLIER LLC."
+      ],
+      "product_ndc": [
+        "84120-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347166"
+      ],
+      "spl_id": [
+        "40a9f90f-59ef-d5ca-e063-6294a90abc91"
+      ],
+      "spl_set_id": [
+        "17e334cc-a3af-d4f0-e063-6294a90ae41e"
+      ],
+      "package_ndc": [
+        "84120-003-01",
+        "84120-003-02",
+        "84120-003-03",
+        "84120-003-04",
+        "84120-003-05",
+        "84120-003-06",
+        "84120-003-07",
+        "84120-003-08",
+        "84120-003-09",
+        "84120-003-10",
+        "84120-003-11",
+        "84120-003-12",
+        "84120-003-13",
+        "84120-003-14",
+        "84120-003-15"
+      ],
+      "original_packager_product_ndc": [
+        "55037-301"
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency, and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. CONTENTS: LTRS: CU.FT. AGP AMERICAN GAS PRODUCTS An Air Water Company 15 Sharpners Pond Rd Building G North Andover, MA 01845 617-381-1020 nitrous oxide"
+    ],
+    "set_id": "25c59b03-863d-f108-e063-6294a90ac454",
+    "id": "42ccd446-2035-2a33-e063-6294a90a85b1",
+    "effective_time": "20251104",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "AGP LLC"
+      ],
+      "product_ndc": [
+        "22557-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "42ccd446-2035-2a33-e063-6294a90a85b1"
+      ],
+      "spl_set_id": [
+        "25c59b03-863d-f108-e063-6294a90ac454"
+      ],
+      "package_ndc": [
+        "22557-003-01",
+        "22557-003-02",
+        "22557-003-03",
+        "22557-003-04",
+        "22557-003-05"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL Fullerton Welding Supply 25318 South Highway 88, Inola, OK 74036 918-341-8264 CONTENTS: LTRS: CU.FT. nitrous oxide"
+    ],
+    "set_id": "25dd7dca-2cfd-1e1c-e063-6294a90ad238",
+    "id": "4422f151-77e4-dfc4-e063-6294a90a6a7b",
+    "effective_time": "20251121",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "FULLERTON WELDING SUPPLY"
+      ],
+      "product_ndc": [
+        "42751-1075"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4422f151-77e4-dfc4-e063-6294a90a6a7b"
+      ],
+      "spl_set_id": [
+        "25dd7dca-2cfd-1e1c-e063-6294a90ad238"
+      ],
+      "package_ndc": [
+        "42751-1075-1",
+        "42751-1075-2",
+        "42751-1075-3"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Airgas 2201 Nitrous Oxide Refrigerated Liquid nitrous oxide"
+    ],
+    "set_id": "2b0b9cc4-fca7-4e84-8d9d-0f9852528579",
+    "id": "4358f26d-144b-9a1d-e063-6394a90ac2b5",
+    "effective_time": "20251111",
+    "version": "16",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Nitrous Oxide"
+      ],
+      "product_ndc": [
+        "54260-001"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4358f26d-144b-9a1d-e063-6394a90ac2b5"
+      ],
+      "spl_set_id": [
+        "2b0b9cc4-fca7-4e84-8d9d-0f9852528579"
+      ],
+      "package_ndc": [
+        "54260-001-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/containers in accordance with container supplier/user instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Protect from sunlight, when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 WARNING: This product can expose you to chemicals including Nitrous Oxide, which is know to the State of California to cause birth defects or other reproductive harm. For more information go to www.P65Warnings.ca.gov ANALGESIC SERVICES, INC. 1418 N. MARKET BLVD. SUITE 300 SACRAMENTO, CA 95834 (888) 928-1068 nitrous oxide"
+    ],
+    "set_id": "2c7b70d0-fdd1-00c7-e063-6394a90a637e",
+    "id": "42518002-50ef-a105-e063-6294a90a7637",
+    "effective_time": "20251029",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Analgesic Services Inc"
+      ],
+      "product_ndc": [
+        "52085-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347166"
+      ],
+      "spl_id": [
+        "42518002-50ef-a105-e063-6294a90a7637"
+      ],
+      "spl_set_id": [
+        "2c7b70d0-fdd1-00c7-e063-6394a90a637e"
+      ],
+      "package_ndc": [
+        "52085-003-01",
+        "52085-003-02",
+        "52085-003-03"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS LABEL. CONTENTS: LTRS: CU.FT. HOLSTON GASES 545 W. BAXTER AVENUE KNOXVILLE, TN 37921 865-573-1917 nitrous oxide one"
+    ],
+    "set_id": "3ffb8392-963f-4b3a-b0eb-8791ea6309ff",
+    "id": "439214b7-95d7-02d6-e063-6394a90aafcf",
+    "effective_time": "20251114",
+    "version": "14",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Holston Gases, Inc"
+      ],
+      "product_ndc": [
+        "55050-0018"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "439214b7-95d7-02d6-e063-6394a90aafcf"
+      ],
+      "spl_set_id": [
+        "3ffb8392-963f-4b3a-b0eb-8791ea6309ff"
+      ],
+      "package_ndc": [
+        "55050-0018-1",
+        "55050-0018-2",
+        "55050-0018-3"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 USP Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS LABEL. DJB Gas Services, Inc. DJB Gas Services, Inc 1177 South Swaner Road Salt Lake City, Utah 84104 801-908-7800 . www.djbgas.com nitrous oxide one"
+    ],
+    "set_id": "403d8fa6-0c7a-4b87-a654-e0bb39c14327",
+    "id": "44713b93-5146-fa19-e063-6294a90a6cbd",
+    "effective_time": "20251125",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "DJB Gas Services, Inc"
+      ],
+      "product_ndc": [
+        "43621-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "44713b93-5146-fa19-e063-6294a90a6cbd"
+      ],
+      "spl_set_id": [
+        "403d8fa6-0c7a-4b87-a654-e0bb39c14327"
+      ],
+      "package_ndc": [
+        "43621-003-11",
+        "43621-003-12",
+        "43621-003-13",
+        "43621-003-14",
+        "43621-003-15",
+        "43621-003-16",
+        "43621-003-17",
+        "43621-003-18",
+        "43621-003-19",
+        "43621-003-20",
+        "43621-003-21"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Oxygen Mix Nitrous Oxide Oxygen Mix NITROUS OXIDE NITROUS OXIDE OXYGEN"
+    ],
+    "package_label_principal_display_panel": [
+      "COMPRESSED GAS, OXIDIZING, N.O.S. ( % % %) UN3156 Rx only. WARNING: Administration of this gas mixture may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of gas mixtures, and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY INCREASE RESPIRATION AND HEART RATE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Use and store only outdoors or in a well-ventilated place. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF ACCIDENTALLY INHALED. Remove person to fresh air and keep comfortable for breathing. Get medical advice/attention. CAS: DO NOT REMOVE THIS PRODUCT LABEL. Roberts Oxygen Company, Inc. PO Box 5507 Rockville, MD 20855 301-948-8100 n2o and o2 mix 2025"
+    ],
+    "set_id": "43cfee1f-c7e1-6db4-e063-6294a90a5b4d",
+    "id": "43cfee1f-c7e2-6db4-e063-6294a90a5b4d",
+    "effective_time": "20251117",
+    "version": "1",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide Oxygen Mix"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE OXYGEN MIX"
+      ],
+      "manufacturer_name": [
+        "Roberts Oxygen Company, Inc."
+      ],
+      "product_ndc": [
+        "46123-700"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "spl_id": [
+        "43cfee1f-c7e2-6db4-e063-6294a90a5b4d"
+      ],
+      "spl_set_id": [
+        "43cfee1f-c7e1-6db4-e063-6294a90a5b4d"
+      ],
+      "package_ndc": [
+        "46123-700-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 37736 (0317) Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use an store only outdoors or in a well ventillated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52\u00b0C (125\u00b0F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frozen parts with lukewarm water. Do not rub affected area. Get immediate medical advice.attention. WARNING: This product contains a chemical known to the state of Califorina to cause birth defects or other reproductive harm. CAS: 10024-97-2 BADGER WELDING SUPPLIES, INC. 101 SOUTH DICKINSON STREET \u2022 MADISON WI 53704 608-257-5606 DO NOT REMOVE THIS LABEL CONTENTS ________________________ LTRS. ____________________________________CU. FT. Badger N2O2 SL"
+    ],
+    "set_id": "45c57025-ae3a-4d36-b74f-83d39cf00b08",
+    "id": "4aa5a28e-aba7-2354-e063-6394a90af99e",
+    "effective_time": "20260212",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Badger Welding Supplies, Inc."
+      ],
+      "product_ndc": [
+        "12121-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "spl_id": [
+        "4aa5a28e-aba7-2354-e063-6394a90af99e"
+      ],
+      "spl_set_id": [
+        "45c57025-ae3a-4d36-b74f-83d39cf00b08"
+      ],
+      "package_ndc": [
+        "12121-002-06",
+        "12121-002-03",
+        "12121-002-04",
+        "12121-002-05",
+        "12121-002-07",
+        "12121-002-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP NON-FLAMMABLE GAS 2 OXIDIZER 5.1 UN1070 OXARC 4003 E BROADWAY SPOKANE, WA 99202 1-800-536-9272 www.oxarc.com Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS LABEL Size Contents Size Contents AND 1.74 Liters 50# 18.51 Liters ANE 2.36 Liters 64# 23.69 Liters 20# 7.4 Liters 75# 27.76 Liters Other Liters nitrousoxide1"
+    ],
+    "set_id": "56d37fcb-8abf-4671-9388-a8837c94e5a2",
+    "id": "4475d50c-af27-b545-e063-6294a90a6b20",
+    "effective_time": "20251125",
+    "version": "17",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Oxarc, LLC"
+      ],
+      "product_ndc": [
+        "34057-010"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4475d50c-af27-b545-e063-6294a90a6b20"
+      ],
+      "spl_set_id": [
+        "56d37fcb-8abf-4671-9388-a8837c94e5a2"
+      ],
+      "package_ndc": [
+        "34057-010-01",
+        "34057-010-02",
+        "34057-010-03",
+        "34057-010-04",
+        "34057-010-05",
+        "34057-010-06"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 (R-K14) 114682R Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . DANGER : HIGH PRESSURE OXIDIZING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin, and clothing. Cylinder temperatures should not exceed 52C (125F). Open valve slowly. Close valve after each use and when empty. Use back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. VOLUNTEER WELDING SUPPLY, INC. 815 5 TH AVENUE SOUTH, NASHVILLE, TN 37203 615-256-5658 CONTENTS: _______________________________ LITERS ___ CU FT ____ NITROUS LABEL"
+    ],
+    "set_id": "5c05dbd2-fd6b-462f-957a-b7ecf66ab27e",
+    "id": "44831b3a-2554-9e64-e063-6394a90a8722",
+    "effective_time": "20251126",
+    "version": "11",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Volunteer Welding Supply Inc"
+      ],
+      "product_ndc": [
+        "53511-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "44831b3a-2554-9e64-e063-6394a90a8722"
+      ],
+      "spl_set_id": [
+        "5c05dbd2-fd6b-462f-957a-b7ecf66ab27e"
+      ],
+      "package_ndc": [
+        "53511-003-01",
+        "53511-003-02",
+        "53511-003-03",
+        "53511-003-04",
+        "53511-003-05",
+        "53511-003-06",
+        "53511-003-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Airgas 2201 Nitrous Oxide Refrigerated Liquid nitrous oxide"
+    ],
+    "set_id": "6cd11814-c704-1b74-e053-2991aa0a0619",
+    "id": "435903ef-7e72-cff6-e063-6294a90af4d5",
+    "effective_time": "20251111",
+    "version": "9",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Nitrous Oxide of Canada"
+      ],
+      "product_ndc": [
+        "72343-001"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347107"
+      ],
+      "spl_id": [
+        "435903ef-7e72-cff6-e063-6294a90af4d5"
+      ],
+      "spl_set_id": [
+        "6cd11814-c704-1b74-e053-2991aa0a0619"
+      ],
+      "package_ndc": [
+        "72343-001-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52C (125F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 nitrous oxide",
+      "NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPDI SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In vase of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 WARNING: This product can expose you to chemical including Nitrous Oxide, which is known to the State of California to cause birth defects or other reproductive harm. For more information go to www.p65Warnings.ca.gov MWS Mitchell Welding Supply 3539 HIGHWAY 271 TYLER, TX 75708 903-593-7343 nitrous oxide three",
+      "NITROUS OXIDE USP UN1070 MWS Mitchell Welding Supply 3539 HIGHWAY 271. TYLER, TX 75708 903-593-7343 CONTENTS: CU FT LITERS Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you fell unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. WARNING: This product can expose you to chemicals including Nitrous Oxide, which is know to the State of California to cause birth defects or other reproductive harm. For more information go to www.P65Warnings.ca.gov. nitrous oxide two",
+      "NITROUS OXIDE USP UN1070 CONTENTS: CU FT LBS USP RX Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency, and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. DO NOT REMOVE THIS PRODUCT LABEL. MWS Mitchell Welding Supply 3539 Highway 271 Tyler, TX 75708 903-593-7343 www.mitchellwelding.com nitrous oxide 2025",
+      "NITROUS OXIDE USP UN1070 RX Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency, and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/containers in accordance with container supplier/owner instructions. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Read and follow the Safety Data Sheet (SDS) before use. IFRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POSION CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. MWS Mitchell Welding Supply 3539 Highway 271 Tyler, TX 75708 903-593-7343 www.mitchellwelding.com CONTENTS: LTRS: CU.FT. nitrous oxide two 2025"
+    ],
+    "set_id": "70476a79-2b72-22c0-e053-2a91aa0a4c10",
+    "id": "440ce1e6-956e-4ce0-e063-6294a90a523f",
+    "effective_time": "20251120",
+    "version": "10",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "MITCHELL WELDING SUPPLY"
+      ],
+      "product_ndc": [
+        "72276-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "440ce1e6-956e-4ce0-e063-6294a90a523f"
+      ],
+      "spl_set_id": [
+        "70476a79-2b72-22c0-e053-2a91aa0a4c10"
+      ],
+      "package_ndc": [
+        "72276-002-01",
+        "72276-002-02",
+        "72276-002-03",
+        "72276-002-04",
+        "72276-002-05",
+        "72276-002-06",
+        "72276-002-07",
+        "72276-002-08",
+        "72276-002-09",
+        "72276-002-10",
+        "72276-002-11",
+        "72276-002-12",
+        "72276-002-13",
+        "72276-002-14",
+        "72276-002-15",
+        "72276-002-16"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 DO NOT REMOVE THIS LABEL OXIDIZER 5.1 37736 (12/14) Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . DANGER : HIGH PRESSURE OXIDIZING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin, and clothing. Cylinder temperatures should not exceed 52C (125F). Open valve slowly. Close valve after each use and when empty. Use back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 UNITED STATES WELDING, INC 600 S. SANTA FE DR \u2022 DENVER CO 80223 \u2022 800-777-6871 CONTENTS: _______________________________ LITERS ___ CU FT ____ DO NOT REMOVE THIS PRODUCT LABEL. Nitrous Oxide"
+    ],
+    "set_id": "8a791a86-caf1-4cdd-8c8d-235f8230a269",
+    "id": "1b6a6c96-28de-4721-8d0f-a80679772ca5",
+    "effective_time": "20241029",
+    "version": "9",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "United States Welding, Inc."
+      ],
+      "product_ndc": [
+        "54218-800"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "1b6a6c96-28de-4721-8d0f-a80679772ca5"
+      ],
+      "spl_set_id": [
+        "8a791a86-caf1-4cdd-8c8d-235f8230a269"
+      ],
+      "package_ndc": [
+        "54218-800-01",
+        "54218-800-02",
+        "54218-800-03",
+        "54218-800-04",
+        "54218-800-05"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoide breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 CONTENTS: LTRS CU. FT. DO NOT REMOVE THIS LABEL. METRO WELDING SUPPLY 12620 SOUTHFIELD DETROI, MI 48223 CALL (313) 834-1660 FOR PICKUP nitrous oxide"
+    ],
+    "set_id": "8f95cb3b-195f-41df-8f96-6c11703612ef",
+    "id": "4197bcf7-a748-43ea-e063-6294a90a1886",
+    "effective_time": "20251020",
+    "version": "17",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Metro Welding Supply Corporation"
+      ],
+      "product_ndc": [
+        "62273-005"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4197bcf7-a748-43ea-e063-6294a90a1886"
+      ],
+      "spl_set_id": [
+        "8f95cb3b-195f-41df-8f96-6c11703612ef"
+      ],
+      "package_ndc": [
+        "62273-005-01",
+        "62273-005-02",
+        "62273-005-03",
+        "62273-005-04",
+        "62273-005-05",
+        "62273-005-06",
+        "62273-005-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx Only. WARNING: Administration of Nitrous Oxide USP may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide USP and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and the hazards, contraindications and side effects and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CUASE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fitting free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventative device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52\u00b0C (125\u00b0F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. Roberts Oxygen Company, Inc PO BOX 5507 Rockville, MD 20855 301-948-8100 image of label"
+    ],
+    "set_id": "988190eb-1449-482c-8120-c1d1390e2442",
+    "id": "43cf24ff-e7f5-6b53-e063-6394a90a8008",
+    "effective_time": "20251117",
+    "version": "12",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Roberts Oxygen Company, Inc."
+      ],
+      "product_ndc": [
+        "46123-006"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "43cf24ff-e7f5-6b53-e063-6394a90a8008"
+      ],
+      "spl_set_id": [
+        "988190eb-1449-482c-8120-c1d1390e2442"
+      ],
+      "package_ndc": [
+        "46123-006-01",
+        "46123-006-02",
+        "46123-006-03",
+        "46123-006-04",
+        "46123-006-05",
+        "46123-006-06",
+        "46123-006-07",
+        "46123-006-08",
+        "46123-006-09",
+        "46123-006-10",
+        "46123-006-11"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 RX Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. Maverick Oxygen & Respiratory Equipment, LLC 2510 Allen Lane. La Grange, KY 40031 502-225-4772 CONTENTS: LTRS: CU.FT. nitrous oxide"
+    ],
+    "set_id": "9aa214de-957c-7abc-e053-2995a90acd83",
+    "id": "43e498bc-4241-9167-e063-6394a90a45e6",
+    "effective_time": "20251118",
+    "version": "7",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "MAVERICK OXYGEN & RESPIRATORY EQUIPMENT, LLC"
+      ],
+      "product_ndc": [
+        "67477-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "43e498bc-4241-9167-e063-6394a90a45e6"
+      ],
+      "spl_set_id": [
+        "9aa214de-957c-7abc-e053-2995a90acd83"
+      ],
+      "package_ndc": [
+        "67477-002-01",
+        "67477-002-02",
+        "67477-002-03"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Nitrous Oxide USP UN1070 Non-flammable gas, 2 Oxidizer, 5.1 DO NOT REMOVE THIS PRODUCT LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52\u030aC (125\u030aF). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 DuPuy Oxygen & Supply 7201 Imperial Drive Waco, TX 76712 254-772-3460 nitrous oxide"
+    ],
+    "set_id": "9eae094f-564c-4e69-aa96-d33fd375f5e8",
+    "id": "41eb98f0-439c-4c1d-e063-6294a90acf4f",
+    "effective_time": "20251024",
+    "version": "15",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "DuPuy Oxygen & Supply Company, Inc."
+      ],
+      "product_ndc": [
+        "50554-005"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "41eb98f0-439c-4c1d-e063-6294a90acf4f"
+      ],
+      "spl_set_id": [
+        "9eae094f-564c-4e69-aa96-d33fd375f5e8"
+      ],
+      "package_ndc": [
+        "50554-005-11",
+        "50554-005-12",
+        "50554-005-13",
+        "50554-005-14",
+        "50554-005-15",
+        "50554-005-16",
+        "50554-005-17"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS LABEL. ARC3 GASES 1636 Hwy 301 South Dunn, NC 28334 844-534-8021 nitrousoxide1",
+      "NITROUS OXIDE, REFRIGERATED LIQUID USP UN2201 ARC3 GASES NON-FLAMMABLE GAS 2 OXIDIZER 5.1 1636 Hwy 301 South . Dunn, NC 28334 844-534-8021 ALWAYS KEEP CONTAINER IN UPRIGHT POSITION NET CONTENTS Part # LBS C.F. Liters LQ NO-USP-L1 404 3519 99,654 WARNING: RX Only Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention CAS: 10024-97-2 DO NOT REMOVE THIS LABEL. nitrousoxide2"
+    ],
+    "set_id": "a5070767-c36a-4131-aa09-1bccfa24aa71",
+    "id": "44ff188e-3fdc-bfad-e063-6394a90a2ec6",
+    "effective_time": "20251202",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Machine & Welding Supply Company dba Arc3 Gases South"
+      ],
+      "product_ndc": [
+        "49575-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "44ff188e-3fdc-bfad-e063-6394a90a2ec6"
+      ],
+      "spl_set_id": [
+        "a5070767-c36a-4131-aa09-1bccfa24aa71"
+      ],
+      "package_ndc": [
+        "49575-003-01",
+        "49575-003-02",
+        "49575-003-03",
+        "49575-003-04",
+        "49575-003-08",
+        "49575-003-06",
+        "49575-003-09",
+        "49575-003-10",
+        "49575-003-11",
+        "49575-003-12",
+        "49575-003-13",
+        "49575-003-14"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP LABEL NITROUS OXIDE USP UN1070 MEDICAL NITROUS OXIDE, USP NON-FLAMMABLE GAS 2 OXIDIZER 5.1 (R-K14) 134527R CONTENTS CYLINDER SIZE WEIGHT LITERS CYLINDER SIZE WEIGHT LITERS \u25a1 G 56 LB. 13,796 \u25a1 E 6 LB. 1,478 \u25a1 M 28 LB. 6,898 \u25a1 ______ ______ _____ \u25a1 20 LB. 20 LB. 4,927 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52\u00b0 C (125\u00b0 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. Norco 1125 W. Amity Road Boise, ID 83705 208-336-1643 DO NOT REMOVE THIS PRODUCT LABEL res NO2 UN1070 R-K14 Cyl"
+    ],
+    "package_label_principal_display_panel_table": [
+      "<table width=\"650px\"><caption>CONTENTS</caption><tbody><tr><td><content styleCode=\"bold\">CYLINDER SIZE </content></td><td><content styleCode=\"bold\">WEIGHT </content></td><td><content styleCode=\"bold\">LITERS </content></td><td><content styleCode=\"bold\"/></td><td><content styleCode=\"bold\"> CYLINDER SIZE </content></td><td><content styleCode=\"bold\">WEIGHT </content></td><td><content styleCode=\"bold\">LITERS </content></td></tr><tr><td>&#x25A1; G</td><td>56 LB.</td><td>13,796</td><td/><td> &#x25A1; E</td><td>6 LB. </td><td>1,478</td></tr><tr><td>&#x25A1; M</td><td><paragraph>28 LB.</paragraph></td><td>6,898</td><td/><td> &#x25A1; ______</td><td>______</td><td>_____</td></tr><tr><td>&#x25A1; 20 LB.</td><td>20 LB.</td><td>4,927</td><td/><td/><td/><td/></tr><tr><td/><td/><td/><td/><td/><td/><td/></tr></tbody></table>"
+    ],
+    "set_id": "a5403bef-c22d-4246-be7a-a198aa254001",
+    "id": "4601cdf9-dcb9-56be-e063-6394a90a5a84",
+    "effective_time": "20251215",
+    "version": "10",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Norco, Inc"
+      ],
+      "product_ndc": [
+        "42602-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4601cdf9-dcb9-56be-e063-6394a90a5a84"
+      ],
+      "spl_set_id": [
+        "a5403bef-c22d-4246-be7a-a198aa254001"
+      ],
+      "package_ndc": [
+        "42602-003-01",
+        "42602-003-02",
+        "42602-003-03",
+        "42602-003-04",
+        "42602-003-05",
+        "42602-003-06",
+        "42602-003-07",
+        "42602-003-08",
+        "42602-003-09"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "UN1070 NITROUS OXIDE, USP DO NOT REMOVE THIS LABEL. DANGER! MAY CAUSE OR INTENSIFY FIRE OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep/Store away from combustible materials, clothing. Keep reduction valves/valves and fittings free from oil and grease. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves/protective clothing/eye protection/face protection. IN CASE OF FIRE: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with local/regional/national/internation regulations. Contact supplier for any special requirements. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SD)S before use. FIRST AID: IF INHALED: remove victim to fresh air and keep at rest in a position comfortable for breathing. Call a POISON CENTER/doctor if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: The administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken. Rx ONLY. IN CASE OF EMERGENCY: CALL 1-888-639-2474 CAS: 10024-97-2 nexAir Distributed by nexAir, LLC, 1350 Concourse Ave., Suite 103, Memphis, TN 38104 nitrous oxide 2025",
+      "UN2201 NITROUS OXIDE, REFRIGERAED LIQUID USP ALWAYS KEEP CONTAINER IN UPRIGHT POSITION DO NOT CHANGE OR FORCE-FIT CONNECTIONS DANGER! MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS REFRIGERATED GAS; MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. COMBUSTIBLES IN CONTACT WITH OXIDIZING REFRIGERATED LIQUIDS MAY EXPLODE ON IGNITION OR IMPACT. IN CASE OF EMERGENCY: CALL 1-888-639-2474 CAS: 10024-97-2 Do not handle until all safety precautions have been read and understood. Keep/Store away from combustible materials, clothing. Keep reduction valves/valves and fittings free from oil and grease. Avoid breathing gas. Use and store only outdoors or in a well-ventilated place. Wear cold insulating gloves/face shield/eye protection. IN CASE OF FIRE: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with local/regional/national/international regulations. Contact supplier for any special requirements. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Do NOT change or force fit connections. Do not open valve until connected to equipment prepared for use. Open valve slowly. Close valve after each use and when empty. Always keep container in upright position. Avoid spills. Do not walk on or roll equipment over spills. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a poison center/doctor if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: The administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken. Rx ONLY nexAir Distributed by nexAir, LLC, 1350 Concourse Ave., Suite 103, Memphis, TN 38104 nitrous oxide refrig 2025"
+    ],
+    "set_id": "a6f744e1-d94d-49e1-ab9f-9a88f04f5499",
+    "id": "427967df-b5f3-3a2d-e063-6294a90a4c37",
+    "effective_time": "20251031",
+    "version": "19",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "NEXAIR, LLC"
+      ],
+      "product_ndc": [
+        "12213-593"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "427967df-b5f3-3a2d-e063-6294a90a4c37"
+      ],
+      "spl_set_id": [
+        "a6f744e1-d94d-49e1-ab9f-9a88f04f5499"
+      ],
+      "package_ndc": [
+        "12213-593-13",
+        "12213-593-58",
+        "12213-593-11",
+        "12213-593-37",
+        "12213-593-12",
+        "12213-593-28",
+        "12213-593-14",
+        "12213-593-15",
+        "12213-593-16",
+        "12213-593-17",
+        "12213-593-18",
+        "12213-593-19",
+        "12213-593-20",
+        "12213-593-21",
+        "12213-593-22",
+        "12213-593-23",
+        "12213-593-24",
+        "12213-593-25"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE, REFRIGERATED LIQUID USP UN2201 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Roberts Oxygen Company, Inc P.O. BOX 5507 Rockville, MD 20855 301-948-8100 \u2191ALWAYS KEEP CONTAINER IN UPRIGHT POSITION\u2191 WARNING: Rx Only. Administration of Nitrous Oxide USP may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide USP and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and the hazards, contraindications and side effects and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS REFRIGERATED GAS; MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fitting free from grease and oil. Avoid breathing gas. Use and store only outdoors or in a well-ventilated place. Wear cold insulating gloves, face shield, and eye protection. In case of fire: Stop leak if safe to do so. Use a back flow preventative device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Avoid spills. Do not walk or roll equipment over spills. Close valve after each use and when empty. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. image of dewar label"
+    ],
+    "set_id": "aaa2ed08-c5cb-4d46-917b-ce1a9d0ce462",
+    "id": "43cf2922-0d64-62b2-e063-6394a90ad7a7",
+    "effective_time": "20251117",
+    "version": "9",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Roberts Oxygen Company, Inc."
+      ],
+      "product_ndc": [
+        "46123-007"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "43cf2922-0d64-62b2-e063-6394a90ad7a7"
+      ],
+      "spl_set_id": [
+        "aaa2ed08-c5cb-4d46-917b-ce1a9d0ce462"
+      ],
+      "package_ndc": [
+        "46123-007-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 CONTENTS: _______________________________ LITERS ___ CU FT ____ Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . WARNING : HIGH PRESSURE OXIDIZING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin, and clothing. Cylinder temperatures should not exceed 52C (125F). Open valve slowly. Close valve after each use and when empty. Use back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). FIRST AID: IF INHALED: Remove person to fresh air. If breathing is difficult, give oxygen. Call a physician. IN CASE OF FROSTBITE, obtain medical treatment immediately. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. BLUEWATER INDUSTRIAL PRODUCTS INC. 37280 GREEN ST \u2022 NEW BALTIMORE, MI 48047 (586) 725-6300 477636 (R 06/08) LIQUID LABEL",
+      "NITROUS OXIDE USP LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 DO NOT REMOVE THIS LABEL OXIDIZER 5.1 34436(12/14) Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . DANGER : HIGH PRESSURE OXIDIZING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin, and clothing. Cylinder temperatures should not exceed 52C (125F). Open valve slowly. Close valve after each use and when empty. Use back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 BLUEWATER INDUSTRIAL PRODUCTS INC. 37280 GREEN ST \u2022 NEW BALTIMORE, MI 48047 (586) 725-6300 NITROUS SHOULDER LABEL"
+    ],
+    "set_id": "b02472d8-ee0f-4218-8693-0d7970532ce9",
+    "id": "9a0fbf8f-d083-44d7-9f08-5894f12e338e",
+    "effective_time": "20241014",
+    "version": "9",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Corrigan Propane LLC dba Blue Water Industrial Products"
+      ],
+      "product_ndc": [
+        "44517-020"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "9a0fbf8f-d083-44d7-9f08-5894f12e338e"
+      ],
+      "spl_set_id": [
+        "b02472d8-ee0f-4218-8693-0d7970532ce9"
+      ],
+      "package_ndc": [
+        "44517-020-01",
+        "44517-020-02",
+        "44517-020-03",
+        "44517-020-04",
+        "44517-020-05",
+        "44517-020-06",
+        "44517-020-07",
+        "44517-020-08",
+        "44517-020-09"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE, USP UN1070 NON-FLAMMABLE 2 OXIDIZER 5.1 34436 (R04/05) Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. WARNING: HIGH PRESSURE OXIDIZING LIQUID GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Use only with equipment cleaned for oxygen and rated for cylinder pressure. Do not get liquid in eyes, on skin or clothing. Cylinder temperature should not exceed 52oC(125oF). Open valve slowly. Close valve after each use and when empty. use a back flow preventive device in the piping. Use in accordance with the Material Safety Data Sheet (MSDS). FIRST AID: IF INHALED, remove to fresh air. If not breathing, give artificial respiration. If breathing is difficult, give oxygen. Call a physician. IN CASE OF FROSTBITE, obtain medical treatment immediately. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. LESSORS, INC. 1300 N. GENESEE RD BURTON, MI 48509 810-742-2302 nitrousoxide"
+    ],
+    "set_id": "b18bf991-bc6e-4678-99c0-61d7cbdb171a",
+    "id": "410d77e3-f9bd-66e2-e063-6394a90a781d",
+    "effective_time": "20251013",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Lessors, Incorporated"
+      ],
+      "product_ndc": [
+        "55404-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "410d77e3-f9bd-66e2-e063-6394a90a781d"
+      ],
+      "spl_set_id": [
+        "b18bf991-bc6e-4678-99c0-61d7cbdb171a"
+      ],
+      "package_ndc": [
+        "55404-002-01",
+        "55404-002-02",
+        "55404-002-03",
+        "55404-002-04",
+        "55404-002-05",
+        "55404-002-06",
+        "55404-002-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE, REFREGERATED LIQUID USP product label NITROUS OXIDE, REFREGERATED LIQUID USP UN2201 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 DANGER: CONTAINS GAS UNDER PRESSURE: MAY EXPLODE IF HEATED. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFICATION. MAY CAUSE OR INTENSIFY FIRE: OXIDIZER. CONTAINS REFRIGERATED GAS: MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. Do not breathe gas. Do not get into eyes, on skin, or on clothing. Keep valves and fittings free from grease and oil. Use and store only outdoors or in a well ventilated place. Avoid spills. Do not walk or roll equipment over spills. Open valve slowly. Close valve after each use and when empty. Use a back flow preventive device in the piping. Do not handle until all safety precautions have been read and understood. Wear cold insulating gloves/face shield/eye protection. Do not drop. Use a suitable hand truck for container movement. Always keep container in upright position. DO NOT change or force fit connections. Use only with equipment cleaned for oxygen service. Keep/store away from clothing and other combustible materials. In case of fire: Stop leak if safe to do so. Store locked up. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove to fresh air and keep comfortable for breathing. Get medical advice/attention. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Call a POISON CENTER or doctor/physician if feeling unwell. RX Only WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and precautions to be taken. CAS: 10024-97-2 WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. DO NOT REMOVE THIS PRODUCT LABEL AIRGAS\u00ae Healthcare an Air Liquide Company AIRGAS USA, LLC Radnor, PA 19087-5283 Safety Data Sheets available at www.airgas.com 844066 (06/16) AG Ref N2O2",
+      "NITROUS OXIDE, USP product label NITROUS OXIDE, USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects and precautions to be taken. DANGER: CONTAINS GAS UNDER PRESSURE: MAY EXPLODE IF HEATED. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFICATION. MAY CAUSE OR INTENSIFY FIRE: OXIDIZER. MAY CAUSE FROSTBITE. MAY CAUSE DROWSINESS OR DIZZINESS. Do not breathe gas. Do not get into eyes, on skin, or on clothing. Keep valves and fittings free from grease and oil. Use and store only outdoors or in a well ventilated place. Protect from sunlight when the ambient temperature exceeds 52\u00b0C/125\u00b0F. Open valve slowly. Close valve after each use and when empty. Use a back flow preventive device in the piping. Do not handle until all safety precautions have been read and understood. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Keep/store away from clothing and other combustible materials. In case of fire: Stop leak if safe to do so. Store locked up. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if feeling unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. DO NOT REMOVE THIS PRODUCT LABEL Form 850400 (R 06/16) AIRGAS\u00ae Healthcare an Air Liquide Company AIRGAS USA, LLC Radnor, PA 19087-5283 Safety Data Sheets available at www.airgas.com AG HP N2O2 Body",
+      "NITROUS OXIDE USP product label NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS PRODUCT LABEL NON-FLAMMABLE GAS 2 OXIDIZR 5.1 834436 (07/16) DANGER: CONTAINS GAS UNDER PRESSURE: MAY EXPLODE IF HEATED. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFICATION. MAY CAUSE OR INTENSIFY FIRE: OXIDIZER. MAY CAUSE FROSTBITE. MAY CAUSE DROWSINESS OR DIZZINESS. Do not breathe gas. Do not get into eyes, on skin, or on clothing. Keep valves and fittings free from grease and oil. Use and store only outdoors or in a well ventilated place. Protect from sunlight when the ambient temperature exceeds 52\u00b0C/125\u00b0F. Open valve slowly. Close valve after each use and when empty. Use a back flow preventive device in the piping. Do not handle until all safety precautions have been read and understood. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Keep/store away from clothing and other combustible materials. In case of fire: Stop leak if safe to do so. Store locked up. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if feeling unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects and precautions to be taken. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. AIRGAS\u00ae Healthcare an Air Liquide Company AIRGAS USA, LLC Radnor, PA 19087-5283 Safety Data Sheets available at www.airgas.com AG HP N2O2 SL"
+    ],
+    "set_id": "b35267cb-314d-4c81-9d06-50b5e0d71e69",
+    "id": "ce9d2da3-8b8e-406f-8713-006490d9b8a7",
+    "effective_time": "20250903",
+    "version": "12",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "AIRGAS USA, LLC"
+      ],
+      "product_ndc": [
+        "11054-007"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347166"
+      ],
+      "spl_id": [
+        "ce9d2da3-8b8e-406f-8713-006490d9b8a7"
+      ],
+      "spl_set_id": [
+        "b35267cb-314d-4c81-9d06-50b5e0d71e69"
+      ],
+      "package_ndc": [
+        "11054-007-01",
+        "11054-007-02",
+        "11054-007-03",
+        "11054-007-04",
+        "11054-007-05",
+        "11054-007-06",
+        "11054-007-07",
+        "11054-007-08",
+        "11054-007-09",
+        "11054-007-10",
+        "11054-007-11",
+        "11054-007-12",
+        "11054-007-13",
+        "11054-007-14"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Nitrous Oxide NITROUS OXIDE, USP Rx ONLY UN1070 NON-FLAMMABLE GAS 2 SGP-26 OXIDIZER 5.1 Spectrum Gas Products 2381 E. Winston Road Anaheim, CA 92806 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE, OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been rad and understood. Keep and store away from clothing and other combustible materials. Keep valves ad fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back-flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52oC (125oF). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. Nitrous Oxide Shoulder Label Nitrous Oxide Sidewall Label"
+    ],
+    "set_id": "b550ebb2-e617-4913-8f75-1a07662e87e5",
+    "id": "450fd993-6aa5-df41-e063-6394a90aaef6",
+    "effective_time": "20251203",
+    "version": "5",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Spectrum Gas Products, Inc"
+      ],
+      "product_ndc": [
+        "67525-400"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "450fd993-6aa5-df41-e063-6394a90aaef6"
+      ],
+      "spl_set_id": [
+        "b550ebb2-e617-4913-8f75-1a07662e87e5"
+      ],
+      "package_ndc": [
+        "67525-400-01",
+        "67525-400-02",
+        "67525-400-03",
+        "67525-400-04"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE, REFRIGERATED LIQUID USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 34500DL (04/15) Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of nitrous oxide and is familiar with the indications, effective dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS CRYOGENIC GAS; MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Use and store only outdoors or in a well-ventilated place. Wear cold insulating gloves, face shield, and eye protection. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Avoid spills. Do not walk on or roll equipment over spills. Close value after each use and when empty. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL FILLED and INSPECTED BY GENERAL AIR SERVICE and SUPPLY 1105 ZUNI ST. DENVER, CO 80204. 303-892-7003 nitrous oxide"
+    ],
+    "set_id": "b76cb73a-46f4-48d5-9f8d-b0872f2cfe2b",
+    "id": "44876781-b3cd-fc28-e063-6294a90accc6",
+    "effective_time": "20251126",
+    "version": "15",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "General Air Service & Supply Co"
+      ],
+      "product_ndc": [
+        "21220-122"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347046"
+      ],
+      "spl_id": [
+        "44876781-b3cd-fc28-e063-6294a90accc6"
+      ],
+      "spl_set_id": [
+        "b76cb73a-46f4-48d5-9f8d-b0872f2cfe2b"
+      ],
+      "package_ndc": [
+        "21220-122-01",
+        "21220-122-02",
+        "21220-122-03",
+        "21220-122-04",
+        "21220-122-05",
+        "21220-122-06",
+        "21220-122-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP LABEL UN1070 NITROUS OXIDE, USP DANGER ! MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. IN CASE OF EMERGENCY: CALL 1-800-645-4633 CAS: 10024-97-2 Do not handle until all safety precautions have been read and understood. Keep/Store away from combustible materials, clothing. Keep reduction valves/valves and fittings free from oil and grease. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves/protective clothing/eye protection/face protection. IN CASE OF FIRE: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with local/regional/national/international regulations. Contact supplier for any special requirements. Use a backflow preventative device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52\u00b0C (125\u00b0F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: remove victim to fresh air and keep at rest in a position comfortable for breathing. Call a POISON CENTER/doctor is you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do you rub affected area. Get immediate medical advice/attention. WARNING ! Administration of nitrous oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of nitrous oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . Rx ONLY Medipure by Linde Linde MDB-0004 (Rev. 01) DO NOT REMOVE THIS LABEL DISTRIBUTED BY LINDE, INC. DANBURY, CT 06810-6268 nitrous oxide"
+    ],
+    "set_id": "b7e230d1-e201-4984-ba8b-5b88ec5a1bbf",
+    "id": "4254bb69-6bc6-403b-bc7c-124feb3e237d",
+    "effective_time": "20250122",
+    "version": "11",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Linde Gas & Equipment Inc."
+      ],
+      "product_ndc": [
+        "59579-004"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "4254bb69-6bc6-403b-bc7c-124feb3e237d"
+      ],
+      "spl_set_id": [
+        "b7e230d1-e201-4984-ba8b-5b88ec5a1bbf"
+      ],
+      "package_ndc": [
+        "59579-004-01",
+        "59579-004-02",
+        "59579-004-03",
+        "59579-004-04",
+        "59579-004-05",
+        "59579-004-06",
+        "59579-004-07",
+        "59579-004-08",
+        "59579-004-09",
+        "59579-004-10",
+        "59579-004-11",
+        "59579-004-12",
+        "59579-004-15",
+        "59579-004-16",
+        "59579-004-17",
+        "59579-004-18",
+        "59579-004-19",
+        "59579-004-20",
+        "59579-004-13",
+        "59579-004-14",
+        "59579-004-21",
+        "59579-004-22",
+        "59579-004-23",
+        "59579-004-24",
+        "59579-004-25",
+        "59579-004-26",
+        "59579-004-27",
+        "59579-004-28",
+        "59579-004-29",
+        "59579-004-30",
+        "59579-004-31",
+        "59579-004-32",
+        "59579-004-33",
+        "59579-004-34",
+        "59579-004-35",
+        "59579-004-36",
+        "59579-004-37"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 DO NOT REMOVE THIS LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 ILMO 7 EASTGATE DRIVE JACKSONVILLE, ILLINOIS 62650 217-245-2183 nitrous oxide 1"
+    ],
+    "set_id": "bc5b4097-9292-41a2-82bb-30671b9ecf42",
+    "id": "424c9dbb-3e1d-e00f-e063-6294a90a74b2",
+    "effective_time": "20251029",
+    "version": "16",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "ILMO Products Company"
+      ],
+      "product_ndc": [
+        "51486-007"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "424c9dbb-3e1d-e00f-e063-6294a90a74b2"
+      ],
+      "spl_set_id": [
+        "bc5b4097-9292-41a2-82bb-30671b9ecf42"
+      ],
+      "package_ndc": [
+        "51486-007-01",
+        "51486-007-02",
+        "51486-007-03",
+        "51486-007-04",
+        "51486-007-05",
+        "51486-007-06",
+        "51486-007-07",
+        "51486-007-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL CONTENTS LTRS CU. FT. ALL-GAS THE AERO ALL-GAS COMPANY 3150 MAIN ST. . HARTFORD, CT 06120 (860) 278-AERO (2376) nitrousoxide1"
+    ],
+    "set_id": "bd405eab-ac43-4590-975d-d0d1e8f78833",
+    "id": "423c874b-9b2a-21ee-e063-6294a90a5c17",
+    "effective_time": "20251028",
+    "version": "16",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Aero All Gas Company"
+      ],
+      "product_ndc": [
+        "10014-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "423c874b-9b2a-21ee-e063-6294a90a5c17"
+      ],
+      "spl_set_id": [
+        "bd405eab-ac43-4590-975d-d0d1e8f78833"
+      ],
+      "package_ndc": [
+        "10014-003-10",
+        "10014-003-11",
+        "10014-003-12",
+        "10014-003-13",
+        "10014-003-14",
+        "10014-003-15"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 CAS: 10024-97-2 DO NOT REMOVE THIS LABEL DANGER RX Only Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration and with the hazards, contraindications and side effects, and precautions to be taken. MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Caution: Do not handle until all safety precautions have been read and understood. Keep/store away from combustible materials, clothing. Keep valves and fittings free from oil and grease. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Only use equipment rated for cylinder pressure. Use a back flow prevention device in the piping. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Cylinder temperature should not exceed 52 C (125 F). Use in accordance with Safety Data Sheet for this product. First Air: IF INHALED, remove to fresh air. If not breathing give artificial respiration. If breathing is difficult, give oxygen. Call a physician. IN CASE of FROSTBITE, obtain immediate medical attention. HELGET GAS PRODUCTS 4150 S 87TH STREET, OMAHA, NE 68127 866-814-1554 nitrous oxide 1"
+    ],
+    "set_id": "c8ea7d9d-d0c3-4ce4-a6e0-3ca0286d9795",
+    "id": "436c1132-5ac7-b396-e063-6394a90adec4",
+    "effective_time": "20251112",
+    "version": "9",
+    "openfda": {
+      "application_number": [
+        "NDA206014"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Helget Gas Products"
+      ],
+      "product_ndc": [
+        "52086-015"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347046"
+      ],
+      "spl_id": [
+        "436c1132-5ac7-b396-e063-6394a90adec4"
+      ],
+      "spl_set_id": [
+        "c8ea7d9d-d0c3-4ce4-a6e0-3ca0286d9795"
+      ],
+      "package_ndc": [
+        "52086-015-01",
+        "52086-015-02",
+        "52086-015-03",
+        "52086-015-04",
+        "52086-015-05",
+        "52086-015-06"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS LABEL. CONTENTS: LTRS: CU.FT. CENTRAL WELDING SUPPLY www.centralwelding.com 1-800-697-0128 13305 38th Ave NE MARYSVILLE, WA 98271 IN CASE OF EMERGENCY CALL CHEMTREC 800-424-9300 nitrous oxide one"
+    ],
+    "set_id": "ccf22032-52df-4fa1-b514-963a3d46b62b",
+    "id": "423e34b0-fbed-aee7-e063-6394a90affee",
+    "effective_time": "20251028",
+    "version": "18",
+    "openfda": {
+      "application_number": [
+        "NDA205704"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Central Welding Supply Company"
+      ],
+      "product_ndc": [
+        "70151-004"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "423e34b0-fbed-aee7-e063-6394a90affee"
+      ],
+      "spl_set_id": [
+        "ccf22032-52df-4fa1-b514-963a3d46b62b"
+      ],
+      "package_ndc": [
+        "70151-004-01",
+        "70151-004-02",
+        "70151-004-03",
+        "70151-004-04",
+        "70151-004-05",
+        "70151-004-06",
+        "70151-004-07",
+        "70151-004-08",
+        "70151-004-09",
+        "70151-004-10",
+        "70151-004-11",
+        "70151-004-12",
+        "70151-004-13",
+        "70151-004-14",
+        "70151-004-15"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. KEEN COMPRESSED GAS CO Manufactured by: 4063 New Castle Ave. New Castle, DE 19720 (302) 594-4545 www.keengas.com 2025 Keen USP N2O HP"
+    ],
+    "set_id": "cdefd579-5acb-45e0-a743-61426a7d2615",
+    "id": "43d1a2eb-7ea2-2816-e063-6294a90a34b8",
+    "effective_time": "20251117",
+    "version": "14",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Keen Compressed Gas Co. Inc."
+      ],
+      "product_ndc": [
+        "48273-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "43d1a2eb-7ea2-2816-e063-6294a90a34b8"
+      ],
+      "spl_set_id": [
+        "cdefd579-5acb-45e0-a743-61426a7d2615"
+      ],
+      "package_ndc": [
+        "48273-002-05",
+        "48273-002-07",
+        "48273-002-04",
+        "48273-002-06",
+        "48273-002-08",
+        "48273-002-09"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "DO NOT REMOVE THIS LABEL NITROUS OXIDE COMPRESSED USP UN1070 CAS No. 10024-97-2 N2O CAUTION: FEDERAL LAW PROHIBITS DISPENSING WITHOUT PRESCRIPTION WARNING: HIGH PRESSURE OXIDIZING LIQUID AND GAS. VIGOROUSLY ACCELERATES COMBUSTION. CAN CAUSE RAPID SUFFOCATION. CAN CAUSE ANESTHETIC EFFECTS. MAY CAUSE FROSTBITE. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration and with the hazards, contraindications, and side effects and the precautions to be taken. WARNING: Inhalation of Nitrous Oxide without sufficient oxygen supply may be fatal or cause brain damage. Release of Nitrous Oxide will dilute the oxygen percentage in the atmosphere. Physiological responses due to Nitrous Oxide exposure and oxygen deficiency inhibit ability to safely respond when exposed to Nitrous Oxide concentration in excess of 10 percent. CAUTION: Avoid breathing gas. Store and use with adequate ventilation. Keep oil and grease away. Do not get liquid in eyes, on skin or clothing. Cylinder temperature should not exceed 125 F (52 C). Use only with equipment cleaned for Nitrous Oxide and rated for cylinder pressure. OPEN VALVE SLOWLY. USE IN ACCORDANCE WITH MED-TECH\u2019S MATERIALS SAFETY DATA SHEET. FIRST AID: If inhaled, remove to fresh air. If not breathing, give artificial respiration. If breathing is difficult, give oxygen. CALL A PHYSICIAN. In case of frostbite, obtain immediate medical attention. MEDTECH Since 1961 MEDICAL-TECHNICAL GASES, INC. 20 Hall Street, Medford, MA 02155 617-395-1946 FAX 617-395-9098 nitrous oxide"
+    ],
+    "set_id": "d676898d-c455-44c6-83b7-d5f19d10264b",
+    "id": "44731ea9-3851-4cb2-e063-6294a90a6d0a",
+    "effective_time": "20251125",
+    "version": "11",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "MEDICAL-TECHNICAL GASES, INC."
+      ],
+      "product_ndc": [
+        "10736-017"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347046"
+      ],
+      "spl_id": [
+        "44731ea9-3851-4cb2-e063-6294a90a6d0a"
+      ],
+      "spl_set_id": [
+        "d676898d-c455-44c6-83b7-d5f19d10264b"
+      ],
+      "package_ndc": [
+        "10736-017-01",
+        "10736-017-02",
+        "10736-017-03",
+        "10736-017-04",
+        "10736-017-05",
+        "10736-017-06"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "Principal for Nitrogen Product NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. NitrousOxideLabel LotStickerBoggs"
+    ],
+    "set_id": "d7eb457a-6cf5-c4d5-e053-2a95a90a90a3",
+    "id": "407fe0da-b50a-26bf-e063-6294a90a2df0",
+    "effective_time": "20251006",
+    "version": "6",
+    "openfda": {
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Boggs Gases div. Boggs Fire Equipment"
+      ],
+      "product_ndc": [
+        "62097-0004"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "407fe0da-b50a-26bf-e063-6294a90a2df0"
+      ],
+      "spl_set_id": [
+        "d7eb457a-6cf5-c4d5-e053-2a95a90a90a3"
+      ],
+      "package_ndc": [
+        "62097-0004-2",
+        "62097-0004-1",
+        "62097-0004-3"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE U.S.P. LABEL NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 DO NOT REMOVE THIS LABEL OXIDIZER 5.1 CONTENTS: _______________________________ LITERS ___ CU FT ____ Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . WARNING : MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATD. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fitting free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, r on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire; Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment and compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect form sunlight when ambient temperature exceeds 52 O C (125 O F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2DO NOT REMOVE THIS PRODUCT LABEL. In case of emergency involving this material call INFOTRAC at 1-800-535-5053 CRUMPTON WELDING SUPPLY & EQUIPMENT, INC. 1602 N 34 TH STREET \u2022 TAMPA, FL 33605 \u2022 800-229-6947 47736 (07/17) N20 LABEL"
+    ],
+    "set_id": "dc1626de-673a-4135-a023-203360be3b83",
+    "id": "52a996e1-7b79-4f0d-b28c-6d463fb10b70",
+    "effective_time": "20241015",
+    "version": "10",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Crumpton Welding Supply & Equipment, Inc."
+      ],
+      "product_ndc": [
+        "52568-002"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "52a996e1-7b79-4f0d-b28c-6d463fb10b70"
+      ],
+      "spl_set_id": [
+        "dc1626de-673a-4135-a023-203360be3b83"
+      ],
+      "package_ndc": [
+        "52568-002-01",
+        "52568-002-02",
+        "52568-002-03",
+        "52568-002-04",
+        "52568-002-05",
+        "52568-002-06"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "UN1070 NITROUS OXIDE, USP DO NOT REMOVE THIS LABEL. DANGER! MAY CAUSE OR INTENSIFY FIRE OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep/Store away from combustible materials, clothing. Keep reduction valves/valves and fittings free from oil and grease. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves/protective clothing/eye protection/face protection. IN CASE OF FIRE: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with local/regional/national/internation regulations. Contact supplier for any special requirements. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SD)S before use. FIRST AID: IF INHALED: remove victim to fresh air and keep at rest in a position comfortable for breathing. Call a POISON CENTER/doctor if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: The administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken. Rx ONLY. IN CASE OF EMERGENCY: CALL 1-888-639-2474 CAS: 10024-97-2 nexAir Distributed by nexAir, LLC, 1350 Concourse Ave., Suite 103, Memphis, TN 38104 nitrous oxide 2025",
+      "UN2201 NITROUS OXIDE, REFRIGERAED LIQUID USP ALWAYS KEEP CONTAINER IN UPRIGHT POSITION DO NOT CHANGE OR FORCE-FIT CONNECTIONS DANGER! MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS REFRIGERATED GAS; MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. COMBUSTIBLES IN CONTACT WITH OXIDIZING REFRIGERATED LIQUIDS MAY EXPLODE ON IGNITION OR IMPACT. IN CASE OF EMERGENCY: CALL 1-888-639-2474 CAS: 10024-97-2 Do not handle until all safety precautions have been read and understood. Keep/Store away from combustible materials, clothing. Keep reduction valves/valves and fittings free from oil and grease. Avoid breathing gas. Use and store only outdoors or in a well-ventilated place. Wear cold insulating gloves/face shield/eye protection. IN CASE OF FIRE: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with local/regional/national/international regulations. Contact supplier for any special requirements. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Do NOT change or force fit connections. Do not open valve until connected to equipment prepared for use. Open valve slowly. Close valve after each use and when empty. Always keep container in upright position. Avoid spills. Do not walk on or roll equipment over spills. Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a poison center/doctor if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: The administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken. Rx ONLY nexAir Distributed by nexAir, LLC, 1350 Concourse Ave., Suite 103, Memphis, TN 38104 nitrous oxide refrig 2025"
+    ],
+    "set_id": "e804b2a1-2b96-34a4-e053-2995a90aa9b4",
+    "id": "42799172-2a5a-8008-e063-6294a90ae7e1",
+    "effective_time": "20251031",
+    "version": "5",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "WELSCO, INC."
+      ],
+      "product_ndc": [
+        "33335-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "42799172-2a5a-8008-e063-6294a90ae7e1"
+      ],
+      "spl_set_id": [
+        "e804b2a1-2b96-34a4-e053-2995a90aa9b4"
+      ],
+      "package_ndc": [
+        "33335-003-01",
+        "33335-003-02",
+        "33335-003-03",
+        "33335-003-04"
+      ],
+      "original_packager_product_ndc": [
+        "12213-593"
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 Rx Only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frost parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 DO NOT REMOVE THIS PRODUCT LABEL. Westair (866) WestAir 2505 Congress Street, San Diego, CA 92110 www.westairgases.com nitrous oxide"
+    ],
+    "set_id": "ec885e73-b328-4bbb-90bf-728ec9517ad7",
+    "id": "4487d01b-70d3-2154-e063-6394a90ad85e",
+    "effective_time": "20251126",
+    "version": "15",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Westair Gases & Equipment, Inc."
+      ],
+      "product_ndc": [
+        "53440-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347046"
+      ],
+      "spl_id": [
+        "4487d01b-70d3-2154-e063-6394a90ad85e"
+      ],
+      "spl_set_id": [
+        "ec885e73-b328-4bbb-90bf-728ec9517ad7"
+      ],
+      "package_ndc": [
+        "53440-003-01",
+        "53440-003-02",
+        "53440-003-03",
+        "53440-003-04",
+        "53440-003-05",
+        "53440-003-06",
+        "53440-003-07",
+        "53440-003-08",
+        "53440-003-09"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE COMPRESSED, USP LABEL NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS LABEL. NON-FLAMMABLE GAS 2 34436 (05/18) OXIDIZER 5.1 Rx only. WARNING : Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications, and side effects and the precautions to be taken . DANGER : MAY CAUSE OR INTENSIFY FIRE, OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been rad and understood. Keep and store away from clothing and other combustible materials. Keep valves ad fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: Stop leak if safe to do so. Use a back-flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 o C (125 o F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 WARNING: This product contains a chemicals including Nitrous Oxide, which is known to the state of California to cause birth defects or other reproductive harm. For more information go to www.P65Warning.ca.gov AIR SOURCE INDUSTRIES INC. 3976 CHERRY AVE \u2022 LONG BEACH, CA 90807 (562) 426-4017 Nitrous Oxide Shoulder Label"
+    ],
+    "set_id": "eebd56c1-4ab3-409b-9767-e54dc42f2fce",
+    "id": "c86cf8bb-09c3-434a-8514-2353f4f43d68",
+    "effective_time": "20241006",
+    "version": "14",
+    "openfda": {
+      "application_number": [
+        "NDA206009"
+      ],
+      "brand_name": [
+        "NITROUS OXIDE"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Air Source Industries"
+      ],
+      "product_ndc": [
+        "10167-200"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "c86cf8bb-09c3-434a-8514-2353f4f43d68"
+      ],
+      "spl_set_id": [
+        "eebd56c1-4ab3-409b-9767-e54dc42f2fce"
+      ],
+      "package_ndc": [
+        "10167-200-01",
+        "10167-200-02",
+        "10167-200-03",
+        "10167-200-04",
+        "10167-200-05",
+        "10167-200-06",
+        "10167-200-07",
+        "10167-200-08",
+        "10167-200-09",
+        "10167-200-10",
+        "10167-200-11"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 NON-FLAMMABLE GAS 2 OXIDIZER 5.1 DO NOT REMOVE THIS LABEL. Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER CONTAINS GAS UNDER PESSURE; MAY EXPLODE IF HEATED. MAY CUASE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not put in eyes on skin or on clothing. Use and store only outdoors or in a well-ventilated place. In case of fire: stop leak if safe to do so. Use a back flow preventive device in the piping. Use only with equipment of compatible materials of construction and rated for cylinder pressure. Use only with equipment cleaned for oxygen service. Open valve slowly. Close valve after each use and when empty. Protect from sunlight when ambient temperature exceeds 52 degrees C (125 degrees F). Read and follow the Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. WARNING: This product contains a chemical known to the state of California to cause birth defects or other reproductive harm. CAS: 10024-97-2 GENERAL WELDING SUPPLY CORP. 600 SHAMES DRIVE . WESTBURY, NY 11590 516-334-8200 nitrous oxide"
+    ],
+    "set_id": "f39618a6-a387-44fe-b5f9-bbfedc95904b",
+    "id": "40819971-3c4d-cb6e-e063-6294a90a92f4",
+    "effective_time": "20251006",
+    "version": "11",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "General Welding Supply Corp."
+      ],
+      "product_ndc": [
+        "20703-003"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "312022"
+      ],
+      "spl_id": [
+        "40819971-3c4d-cb6e-e063-6294a90a92f4"
+      ],
+      "spl_set_id": [
+        "f39618a6-a387-44fe-b5f9-bbfedc95904b"
+      ],
+      "package_ndc": [
+        "20703-003-01",
+        "20703-003-02",
+        "20703-003-03"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Nitrous Oxide Nitrous Oxide NITROUS OXIDE NITROUS OXIDE"
+    ],
+    "package_label_principal_display_panel": [
+      "NITROUS OXIDE USP UN1070 DO NOT REMOVE THIS PRODUCT LABEL. CONTENT: LITERS: CU. FT.: Rx only. WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration, and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS GAS UNDER PRESSURE; MAY EXPLODE IF HEATED. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. MAY CAUSE FROSTBITE. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Do not get in eyes, on skin, or on clothing. Use and store only outdoors or in a well-ventilated place. Wear protective gloves, protective clothing, and either eye or face protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Close valve after each use and when empty. Use only with equipment rated for cylinder pressure. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only with equipment cleaned for oxygen service. Protect from sunlight when ambient temperature exceeds 52 C (125 F). Read and follow the Matheson Tri-Gas Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 WARNING: This product can expose you to chemicals including Nitrous Oxide, which is known to the State of California to cause birth defects or other reproductive harm. For more information go to www.P65Warnings.ca.gov. MATHESON The Gas Professionals MATHESON TRI-GAS 909 LAKE CAROLYN PKWY. SUITE 1300 IRVING, TEXAS 75039 . 1-800-416-2505 nitrous oxide one irving",
+      "REFRIGERATED LIQUID NITROUS OXIDE, REFRIGERATED LIQUID USP UN2201 Rx ONLY WARNING: Administration of Nitrous Oxide may be hazardous or contraindicated. For use only by or under the supervision of a licensed practitioner who is experienced in the use and administration of Nitrous Oxide and is familiar with the indications, effects, dosages, methods, and frequency and duration of administration and with the hazards, contraindications and side effects, and the precautions to be taken. DANGER: MAY CAUSE OR INTENSIFY FIRE; OXIDIZER. CONTAINS REFRIGERATED GAS; MAY CAUSE CRYOGENIC BURNS OR INJURY. MAY CAUSE DROWSINESS OR DIZZINESS. MAY DISPLACE OXYGEN AND CAUSE RAPID SUFFOCATION. COMBUSTIBLES IN CONTACT WITH OXIDIZING REFRIGERATED LIQUIDS MAY EXPLODE ON IGNITION OR IMPACT. Do not handle until all safety precautions have been read and understood. Keep and store away from clothing and other combustible materials. Keep valves and fittings free from grease and oil. Avoid breathing gas. Use and store only outdoors or in a well-ventilated place. Wear cold insulating gloves, face shield, and eye protection. In case of fire: Stop leak if safe to do so. Store locked up. Dispose of contents/container in accordance with container supplier/owner instructions. Use a back flow preventive device in the piping. Do not open valve until connected to equipment prepared for use. Use only equipment of compatible materials of construction. Open valve slowly. Use only equipment cleaned for oxygen service. Always keep container in upright position. DO NOT change or force fit connections. Avoid spills. Do not walk on or roll equipment over spills. Read and follow the Matheson Tri-Gas Safety Data Sheet (SDS) before use. FIRST AID: IF INHALED: Remove person to fresh air and keep comfortable for breathing. Call a POSION CENTER or doctor/physician if you feel unwell. IF ON SKIN: Thaw frosted parts with lukewarm water. Do not rub affected area. Get immediate medical advice/attention. CAS: 10024-97-2 CONTAINER CONTENTS: LTRS: CU FT: DO NOT REMOVE THIS PRODUCT LABEL. WARNING: This product can expose you to chemicals including Nitrous Oxide, which is known to the State of California to cause birth defects or other reproductive harm. For more information go to www.P65Warnings.ca.gov. MATHESON The Gas Professionals MATHESON TRI-GAS 909 LAKE CAROLYN PKWY. SUITE 1300 IRVING, TEXAS 75039 . 1-800-416-2505 nitrous oxide three irving"
+    ],
+    "set_id": "f5f0f2f7-86a2-41f0-a6cd-3b8cb916dedd",
+    "id": "44ff9818-6627-3162-e063-6294a90a1681",
+    "effective_time": "20251202",
+    "version": "24",
+    "openfda": {
+      "application_number": [
+        "NDA209989"
+      ],
+      "brand_name": [
+        "Nitrous Oxide"
+      ],
+      "generic_name": [
+        "NITROUS OXIDE"
+      ],
+      "manufacturer_name": [
+        "Matheson Tri-Gas, Inc."
+      ],
+      "product_ndc": [
+        "55037-301"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "RESPIRATORY (INHALATION)"
+      ],
+      "substance_name": [
+        "NITROUS OXIDE"
+      ],
+      "rxcui": [
+        "347166"
+      ],
+      "spl_id": [
+        "44ff9818-6627-3162-e063-6294a90a1681"
+      ],
+      "spl_set_id": [
+        "f5f0f2f7-86a2-41f0-a6cd-3b8cb916dedd"
+      ],
+      "package_ndc": [
+        "55037-301-01",
+        "55037-301-02",
+        "55037-301-03",
+        "55037-301-04",
+        "55037-301-05",
+        "55037-301-06",
+        "55037-301-07",
+        "55037-301-08",
+        "55037-301-09",
+        "55037-301-10",
+        "55037-301-11",
+        "55037-301-12",
+        "55037-301-14",
+        "55037-301-15",
+        "55037-301-16",
+        "55037-301-17",
+        "55037-301-18",
+        "55037-301-19",
+        "55037-301-20",
+        "55037-301-21",
+        "55037-301-22",
+        "55037-301-23",
+        "55037-301-24",
+        "55037-301-25",
+        "55037-301-26",
+        "55037-301-27",
+        "55037-301-28",
+        "55037-301-29"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "K50XQU1029"
+      ]
+    }
+  }
+]

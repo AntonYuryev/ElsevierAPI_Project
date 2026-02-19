@@ -86,7 +86,7 @@ class df(pd.DataFrame):
     [setattr(self, n, a.copy()) for n,a in from_df.__formats__().items()]
 
 
-  def __copy_attrs(self,from_df:'df'):
+  def __copy_attrs__(self,from_df:'df'):
     '''
     copies format and _name_ except data
     '''
@@ -114,8 +114,8 @@ class df(pd.DataFrame):
 
   def __update_entities(self):
     for colname, entities in self.Entities4df.items():
-      column_values = set(self[colname].to_list())
-      updated_entities = {x for x in entities if not column_values.isdisjoint(x[colname])}
+      column_values = set(filter(None, self[colname].to_list()))
+      updated_entities = {x for x in entities if not column_values.isdisjoint(x[colname]) if colname in x}
       self.Entities4df[colname] = updated_entities
       children = set(unpack(e.childs() for e in updated_entities))
       self.explodedEntities4df[colname] = updated_entities|children
@@ -123,13 +123,23 @@ class df(pd.DataFrame):
 
 
   def add_entities(self, entities:list[PSObject], with_values_in_column='Name'):
+    '''
+    only entities with values in self[with_values_in_column] will be added to self.Entities4df[with_values_in_column] 
+    and their children will be added to self.explodedEntities4df[with_values_in_column]
+    '''
     self.Entities4df.update({with_values_in_column:set(entities)})
     self.__update_entities()
     return
 
 
-  def entities(self, include_children=True, for_column='Name')->set[PSObject]:
-    return self.explodedEntities4df[for_column] if include_children else self.Entities4df[for_column]
+  def entities(self, include_children=True, for_column='')->set[PSObject]:
+    if for_column:
+      return self.explodedEntities4df[for_column] if include_children else self.Entities4df[for_column]
+    else:
+      all_entities = set()
+      for colname in self.Entities4df.keys():
+        all_entities.update(self.explodedEntities4df[colname] if include_children else self.Entities4df[colname])
+      return all_entities
   
 
   def uids(self,for_column='Name'):
@@ -299,7 +309,7 @@ class df(pd.DataFrame):
   def apply_and_concat(self, field, func, column_names):
     merged_pd = pd.concat((self,self[field].apply(lambda cell: pd.Series(func(field,cell),index=column_names))),axis=1)
     to_return = df.from_pd(merged_pd)
-    to_return.__copy_attrs(self)
+    to_return.__copy_attrs__(self)
     return to_return
 
 
@@ -307,7 +317,7 @@ class df(pd.DataFrame):
   def apply_and_concat2(self, concept_name, func, column_names):
     merged_pd = pd.concat((self,self['Name'].apply(lambda cell: pd.Series(func(cell,concept_name),index=column_names))),axis=1)
     to_return = df.from_pd(merged_pd)
-    to_return.__copy_attrs(self)
+    to_return.__copy_attrs__(self)
     return to_return 
 
 
@@ -386,6 +396,8 @@ class df(pd.DataFrame):
     merged_df = df.from_pd(merged_pd,dfname=self._name_)
     merged_df.copy_format(other)
     merged_df.add_format(from_df=self)
+    merged_df.Entities4df = other.Entities4df | self.Entities4df
+    merged_df.explodedEntities4df = other.explodedEntities4df | self.explodedEntities4df
     return merged_df
   
 
@@ -437,6 +449,8 @@ class df(pd.DataFrame):
       merged_df = df.from_pd(self.merge(pd.DataFrame(my_df2merge), **kwargs),dfname=df_name)
       merged_df.add_format(from_df=df2merge)
       merged_df.add_format(from_df=self)
+      merged_df.Entities4df = df2merge.Entities4df | self.Entities4df
+      merged_df.explodedEntities4df = df2merge.explodedEntities4df | self.explodedEntities4df
       return merged_df
 
 
@@ -473,7 +487,7 @@ class df(pd.DataFrame):
           how = 'outer' if add_all else 'left'
           in2pd = in2pd.merge_df(obj_df,how=how,on=map2column)
       
-      in2pd.__copy_attrs(self)
+      in2pd.__copy_attrs__(self)
       return in2pd
 
 
@@ -621,7 +635,7 @@ class df(pd.DataFrame):
     removed_rows = old_len - len(new_pd)
     print(f'Removed {removed_rows} out of {old_len} rows from {self._name_} because their "{in_column}" values were smaller than {value}')
     new_df = df.from_pd(new_pd)
-    new_df.__copy_attrs(self) 
+    new_df.__copy_attrs__(self) 
     return new_df
   
   
@@ -632,7 +646,7 @@ class df(pd.DataFrame):
     removed_rows = old_len - len(new_pd)
     print(f'{removed_rows} rows were removed from {self._name_} because "{in_column}" value was greater than {value}')
     new_df = df.from_pd(new_pd)
-    new_df.__copy_attrs(self)
+    new_df.__copy_attrs__(self)
     return new_df
 
 
@@ -782,7 +796,7 @@ class df(pd.DataFrame):
 
   def remove_rows_by(self, values:list, in_column:str):
       clean_df = df.from_pd(self[~self[in_column].isin(values)])
-      clean_df.__copy_attrs(self)
+      clean_df.__copy_attrs__(self)
       return clean_df
 
 
@@ -902,7 +916,7 @@ class df(pd.DataFrame):
     splits = list()
     for d in split_dataframes:
       part = df.from_pd(pd.DataFrame(d,columns=self.columns.to_list()))
-      part.__copy_attrs(self)
+      part.__copy_attrs__(self)
       splits.append(part)
     return splits
 
@@ -925,7 +939,7 @@ class df(pd.DataFrame):
     my_kwargs = dict(kwargs)
     my_kwargs['ignore_index '] = True
     dedupl_df = df.from_pd(self.drop_duplicates(**kwargs))
-    dedupl_df.__copy_attrs(self)
+    dedupl_df.__copy_attrs__(self)
     return dedupl_df
 
 

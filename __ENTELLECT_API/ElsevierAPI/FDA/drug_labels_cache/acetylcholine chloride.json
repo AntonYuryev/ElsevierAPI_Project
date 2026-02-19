@@ -1,0 +1,460 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride Phenolic Acetylcholine chloride, ACETYLCHOLINE CHLORIDE ACETYLCHOLINE WATER ALCOHOL"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS: (in each drop): 20% of Acetylcholine Chloride 6X, 12X, 30X, 12C, 30C."
+    ],
+    "purpose": [
+      "INDICATIONS: May temporarily relieve symptoms associated with reactions to actylcholine chloride, such as chest congestion with mild constriction. ** **Claims based on traditional homeopathic practice, not accepted medical evidence. Not FDA evaluated."
+    ],
+    "warnings": [
+      "WARNINGS: If pregnant or breast-feeding, ask a health professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away. Do not use if tamper evident seal is broken or missing. Store in a cool, dry place."
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS: Adults and children 5 to 10 drops orally, 1 time daily or as otherwise directed by a health care professional. If symptoms persist for more than 7 days, consult your health care professional. Consult a physician for use in children under 12 years of age."
+    ],
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS: Demineralized water, 20% Ethanol."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: May temporarily relieve symptoms associated with reactions to actylcholine chloride, such as chest congestion with mild constriction. ** **Claims based on traditional homeopathic practice, not accepted medical evidence. Not FDA evaluated."
+    ],
+    "questions": [
+      "QUESTIONS: Dist. by Energique, Inc. 201 Apple Blvd Woodbine, IA 51579 800.869.8078"
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL DISPLAY ENERGIQUE SINCE 1987 HOMEOPATHIC REMEDY ACETYLCHOLINE CHLORIDE PHENOLIC 1 fl. oz. (30 ml) Acetylcholine Chloride Phenolic"
+    ],
+    "set_id": "076587d3-46a0-48e5-9425-f5e1f5847ee3",
+    "id": "687f604e-6337-4927-839c-788ec5db7d5d",
+    "effective_time": "20240703",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride Phenolic"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE,"
+      ],
+      "manufacturer_name": [
+        "Energique, Inc."
+      ],
+      "product_ndc": [
+        "44911-0025"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "spl_id": [
+        "687f604e-6337-4927-839c-788ec5db7d5d"
+      ],
+      "spl_set_id": [
+        "076587d3-46a0-48e5-9425-f5e1f5847ee3"
+      ],
+      "package_ndc": [
+        "44911-0025-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0363113600223"
+      ],
+      "unii": [
+        "AF73293C2R"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride Acetylcholine Chloride ACETYLCHOLINE CHLORIDE ACETYLCHOLINE WATER ALCOHOL"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENT: Acetylcholine Chloride 6X, 12X, 30X, 200X, 12C, 30C, 60C, 200C."
+    ],
+    "purpose": [
+      "PURPOSE: For temporary relief of symptoms including dizziness, chest congestion, cough, fatigue, rash, itching, headache and poor memory.** **These statements are based upon homeopathic principles. They have not been reviewed by the Food and Drug Administration."
+    ],
+    "warnings": [
+      "WARNINGS: Keep out of reach of children. In case of overdose, contact a physician or Poison Control Center right away. If pregnant or breast-feeding, ask a health professional before use. Tamper seal: \"Sealed for Your Protection.\" Do not use if seal is broken or missing."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN: In case of overdose, contact a physician or Poison Control Center right away."
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS: 1-10 drops under the tongue, 3 times a day or as directed by a health professional. Consult a physician for use in children under 12 years of age."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For temporary relief of symptoms including dizziness, chest congestion, cough, fatigue, rash, itching, headache and poor memory.** **These statements are based upon homeopathic principles. They have not been reviewed by the Food and Drug Administration."
+    ],
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS: Demineralized Water, 25% Ethanol"
+    ],
+    "questions": [
+      "QUESTIONS: Dist. By: Deseret Biologicals, Inc. 469 W. Parkland Drive Sandy, UT 84070 www.desbio.com"
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL DISPLAY: DES BIO NDC 43742-0817-1 HOMEOPATHIC ACETYLCHOLINE CHLORIDE 1 FL OZ (30 ml) Acetylcholine Chloride"
+    ],
+    "set_id": "62fd8726-8be8-4d32-a11e-85c02ef368c8",
+    "id": "622cbf1c-9142-4f30-96d7-da05d751da11",
+    "effective_time": "20240305",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "manufacturer_name": [
+        "Deseret Biologicals, Inc."
+      ],
+      "product_ndc": [
+        "43742-0817"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "spl_id": [
+        "622cbf1c-9142-4f30-96d7-da05d751da11"
+      ],
+      "spl_set_id": [
+        "62fd8726-8be8-4d32-a11e-85c02ef368c8"
+      ],
+      "package_ndc": [
+        "43742-0817-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "AF73293C2R"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride Acetylcholine Chloride, Helicobacter Pylori DNA ACETYLCHOLINE CHLORIDE ACETYLCHOLINE HELICOBACTER PYLORI DNA HELICOBACTER PYLORI DNA WATER ALCOHOL"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENT: Acetylcholine Chloride 6X, 12X, 30X, 200X, 12C, 30C, 60C, 200C, Helico9bacter Pylori DNA 8X, 12X, 30X, 200X."
+    ],
+    "purpose": [
+      "PURPOSE: Acetylcholine Chloride - Dizziness, Chest Congestion, Cough, Fatigue, Rash, Itching, Headache, Poor Memory, Helico9bacter Pylori DNA - Dizziness, Chest Congestion, Cough, Fatigue, Rash, Itching, Headache, Poor Memory"
+    ],
+    "indications_and_usage": [
+      "USES: \u2022 For the temporary relief of symptoms including: \u2022 dizziness \u2022 chest congestion \u2022 cough \u2022 fatigue \u2022 rash \u2022 itching \u2022 headache \u2022 poor memory These statements are based upon homeopathic principles. They have not been reviewed by the Food and Drug Administration."
+    ],
+    "warnings": [
+      "WARNINGS: If pregnant or breast-feeding, ask a health professional before use. Keep out of reach of children. In case of overdose, contact a physician or Poison Control Center right away. Tamper Evident: Sealed for your protection. Do not use if seal is broken or missing."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN: In case of overdose, contact a physician or Poison Control Center right away."
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS: 1-10 drops under the tongue, 3 times a day or as directed by a health professional. Consult a physician for use in children under 12 years of age."
+    ],
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS: Demineralized water, 25% ethanol"
+    ],
+    "questions": [
+      "QUESTIONS: Dist. By: Deseret Biologicals, Inc. 469 W. Parkland Drive Sandy, UT 84070 www.desbio.com 800-827-8204"
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL DISPLAY: DesBio Acetylcholine Chloride Homeopathic NDC 43742-2121-1 1 FL OZ (30 ml) Acetylcholine Chloride"
+    ],
+    "set_id": "8586b46c-4853-4b26-ac39-88e701930081",
+    "id": "2c3f0cb0-55f0-4041-a8e0-65f554a389ba",
+    "effective_time": "20240312",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE, HELICOBACTER PYLORI DNA"
+      ],
+      "manufacturer_name": [
+        "Deseret Biologicals, Inc."
+      ],
+      "product_ndc": [
+        "43742-2121"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE",
+        "HELICOBACTER PYLORI DNA"
+      ],
+      "spl_id": [
+        "2c3f0cb0-55f0-4041-a8e0-65f554a389ba"
+      ],
+      "spl_set_id": [
+        "8586b46c-4853-4b26-ac39-88e701930081"
+      ],
+      "package_ndc": [
+        "43742-2121-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0810151880303"
+      ],
+      "unii": [
+        "AF73293C2R",
+        "14ZY3JP7M6"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride 1502 Acetylcholine Chloride ACETYLCHOLINE CHLORIDE ACETYLCHOLINE ALCOHOL WATER"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS Acetylcholine chloride 9X, 12X, 30X, 60X"
+    ],
+    "questions": [
+      "QUESTIONS Professional Formulas PO Box 2034 Lake Oswego, OR 97035"
+    ],
+    "indications_and_usage": [
+      "INDICATIONS For the temporary relief of poor concentration or forgetfulness, occasional headache, bloating, gas, heartburn, or cough due to sensitivity to phenolic compounds found in foods or other products.*"
+    ],
+    "purpose": [
+      "*Claims based on traditional homeopathic practice, not accepted medical evidence. Not FDA evaluated."
+    ],
+    "warnings": [
+      "WARNINGS In case of overdose, get medical help or contact a poison control center right away. Keep out of the reach of children. If pregnant or breastfeeding, ask a healthcare professional before use."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of the reach of children."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breastfeeding, ask a healthcare professional before use."
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS Place drops under tongue 30 minutes before/after meals. Adults and children 12 years and over: Take 10 drops up to 3 times per day. Consult a physician for use in children under 12 years of age."
+    ],
+    "other_safety_information": [
+      "OTHER INFORMATION Tamper resistant. If seal is broken, do not use. After opening, close container tightly and store at room temperature away from heat."
+    ],
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS 20% ethanol, purified water."
+    ],
+    "package_label_principal_display_panel": [
+      "LABEL Est 1985 Professional Formulas Complementary Health Acetylcholine Chloride Homeopathic Remedy 1 FL. OZ. (29.5 mL) Label image"
+    ],
+    "set_id": "9ad92614-5a6b-4205-b006-c754c4854a88",
+    "id": "9ff9194e-0448-4528-b142-9097a73875e2",
+    "effective_time": "20260108",
+    "version": "2",
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride 1502"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "manufacturer_name": [
+        "Professional Complementary Health Formulas"
+      ],
+      "product_ndc": [
+        "63083-1502"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "spl_id": [
+        "9ff9194e-0448-4528-b142-9097a73875e2"
+      ],
+      "spl_set_id": [
+        "9ad92614-5a6b-4205-b006-c754c4854a88"
+      ],
+      "package_ndc": [
+        "63083-1502-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "AF73293C2R"
+      ]
+    }
+  },
+  {
+    "effective_time": "20161110",
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS: Demineralized Water, 25% Ethanol."
+    ],
+    "purpose": [
+      "INDICATIONS: For temporary relief of chest congestion with mild constriction, indigestion, drowsiness, headache, forgetfulness, and general fatigue."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN: Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away."
+    ],
+    "warnings": [
+      "WARNINGS: If pregnant or breast-feeding, ask a health care professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away. Do not use if tamper evident seal is broken or missing. Store in cool, dry place."
+    ],
+    "questions": [
+      "QUESTIONS: Distributed by: BioActive Nutritional, Inc. 1803 N. Wickham Rd. Melbourne, FL 32935 bioactivenutritional.com"
+    ],
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride Acetylcholine Chloride ACETYLCHOLINE CHLORIDE ACETYLCHOLINE WATER ALCOHOL"
+    ],
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "manufacturer_name": [
+        "BioActive Nutritional, Inc."
+      ],
+      "product_ndc": [
+        "43857-0138"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "spl_id": [
+        "88b92968-2286-444b-a39c-c7ac8492e821"
+      ],
+      "spl_set_id": [
+        "c98abc4d-8539-42e9-954a-5a850f28c9ed"
+      ],
+      "package_ndc": [
+        "43857-0138-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "AF73293C2R"
+      ]
+    },
+    "version": "2",
+    "dosage_and_administration": [
+      "DIRECTIONS: 10 drops orally, 3 times a day. Consult a physician for use in children under 12 years of age."
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL DISPLAY: BIO Active Nutritional ACETYLCHOLINE CHLORIDE HOMEOPATHIC 1 FL OZ (30 ml) Acetylcholine Chloride"
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For temporary relief of chest congestion with mild constriction, indigestion, drowsiness, headache, forgetfulness, and general fatigue."
+    ],
+    "set_id": "c98abc4d-8539-42e9-954a-5a850f28c9ed",
+    "id": "88b92968-2286-444b-a39c-c7ac8492e821",
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS: Acetylcholine Chloride 6X, 12X, 30X, 12C, 30C."
+    ]
+  },
+  {
+    "effective_time": "20180815",
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENTS: Demineralized water, 25% Ethanol."
+    ],
+    "purpose": [
+      "INDICATIONS: For temporary relief of chest congestion with mild constriction, indigestion, drowsiness, headache, forgetfulness, and general fatigue."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN Keep out of reach of children . In case of overdose, get medical help or contact a Poison Control Center right away."
+    ],
+    "warnings": [
+      "WARNINGS: If pregnant or breast-feeding , ask a health care professional before use. Keep out of reach of children . In case of overdose, get medical help or contact a Poison Control Center right away. Do not use if tamper evident seal is broken or missing. Store in cool, dry place."
+    ],
+    "questions": [
+      "QUESTIONS: Distributed by: BioActive Nutritional, Inc. 1803 N. Wickham Rd. Melbourne, FL 32935 bioactivenutritional.com"
+    ],
+    "spl_product_data_elements": [
+      "Acetylcholine Chloride Acetylcholine Chloride ACETYLCHOLINE CHLORIDE ACETYLCHOLINE WATER ALCOHOL"
+    ],
+    "openfda": {
+      "brand_name": [
+        "Acetylcholine Chloride"
+      ],
+      "generic_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "manufacturer_name": [
+        "BioActive Nutritional, Inc."
+      ],
+      "product_ndc": [
+        "43857-0270"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETYLCHOLINE CHLORIDE"
+      ],
+      "spl_id": [
+        "43df6026-ff5d-4f83-ae90-b2d24b01d910"
+      ],
+      "spl_set_id": [
+        "ec9fdbfe-9c4d-427c-9243-df155fa4e7d3"
+      ],
+      "package_ndc": [
+        "43857-0270-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "AF73293C2R"
+      ]
+    },
+    "version": "3",
+    "dosage_and_administration": [
+      "DIRECTIONS: 10 drops orally, 3 times a day. Consult a physician for use in children under 12 years of age."
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL DISPLAY BIO Active Nutritional ACETYLCHOLINE CHLORIDE 6X HOMEOPATHIC 1 FL OZ (30 ml) Acetylcholine chloride 6X"
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For temporary relief of chest congestion with mild constriction, indigestion, drowsiness, headache, forgetfulness, and general fatigue."
+    ],
+    "set_id": "ec9fdbfe-9c4d-427c-9243-df155fa4e7d3",
+    "id": "43df6026-ff5d-4f83-ae90-b2d24b01d910",
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS: Acetylcholine Chloride 6X."
+    ]
+  }
+]

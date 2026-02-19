@@ -1,0 +1,851 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Back Pain Relief Extra Strength Doans Magnesium Salicylate Magnesium Salicylate Salicylic Acid POLYETHYLENE GLYCOL, UNSPECIFIED STEARIC ACID CELLULOSE, MICROCRYSTALLINE MAGNESIUM STEARATE POLYDEXTROSE TITANIUM DIOXIDE HYPROMELLOSE, UNSPECIFIED TRIACETIN white Caplet 44;338"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENT Active ingredient (in each caplet) Magnesium Salicylate Tetrahydrate (NSAID*) 580 mg (equivalent to 467.2 mg of anhydrous magnesium salicylate) *nonsteroidal anti-inflammatory drug"
+    ],
+    "purpose": [
+      "PURPOSE Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "INDICATIONS & USAGE Uses For the temporary relief of minor backache pain"
+    ],
+    "warnings": [
+      "WARNINGS Warnings Reye's syndrome: Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert: Magnesium salicylate may cause a severe allergic reaction, which may include: hives facial swelling asthma (wheezing) shock Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing prescription or nonprescription NSAIDs (aspirin, ibuprofen, naproxen, or others) have 3 or more alcohol drinks every day while using this product take more or for a longer time than directed DO NOT USE Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer. ASK DOCTOR Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic ASK DOCTOR/PHARMACIST Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis STOP USE Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stools have stomach pain that does not get better ringing in the ears or loss of hearing occurs new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition. PREGNANCY OR BREAST FEEDING If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. KEEP OUT OF REACH OF CHILDREN Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "do_not_use": [
+      "DO NOT USE Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "ASK DOCTOR Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "ASK DOCTOR/PHARMACIST Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis"
+    ],
+    "stop_use": [
+      "STOP USE Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stools have stomach pain that does not get better ringing in the ears or loss of hearing occurs new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "PREGNANCY OR BREAST FEEDING If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE & ADMINISTRATION Directions drink a full glass of water with each dose Adults and children: (12 years and over) Take 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours. Children under 12 years: Do not use unless directed by a doctor"
+    ],
+    "other_safety_information": [
+      "OTHER SAFETY INFORMATION Other information each caplet contains: magnesium 40 mg store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) tamper evident sealed packets do not use any opened or torn packets"
+    ],
+    "inactive_ingredient": [
+      "INACTIVE INGREDIENT Inactive ingredients hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "QUESTIONS Questions or comments? (888) 602-0288"
+    ],
+    "package_label_principal_display_panel": [
+      "Principal Display Panel \u2013 50 Caplet Box Label 2550 BACK PAIN RELIEF Magnesium Salicylate Tetrahydrate 580 mg (NSAID) Pain Reliever / Anti-Inflammatory Pull to Open 50 Caplets 2 Per Packet The Provision First Aid Line\u2122 BY WILDMAN Principal Display Panel \u2013 50 Caplet Box Label"
+    ],
+    "set_id": "2e17664f-a83f-48d1-8b2b-37f41eea65b6",
+    "id": "f69e4213-b807-4e45-9bc8-94c8f3449aae",
+    "effective_time": "20240701",
+    "version": "1",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Back Pain Relief Extra Strength Doans"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Wildman Business Group"
+      ],
+      "product_ndc": [
+        "84269-2550"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742",
+        "830388"
+      ],
+      "spl_id": [
+        "f69e4213-b807-4e45-9bc8-94c8f3449aae"
+      ],
+      "spl_set_id": [
+        "2e17664f-a83f-48d1-8b2b-37f41eea65b6"
+      ],
+      "package_ndc": [
+        "84269-2550-2"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0858704004202"
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Percogesic Magnesium Salicylate MAGNESIUM SALICYLATE SALICYLIC ACID CROSCARMELLOSE SODIUM HYPROMELLOSE, UNSPECIFIED MAGNESIUM STEARATE MICROCRYSTALLINE CELLULOSE SILICON DIOXIDE STEARIC ACID TALC TITANIUM DIOXIDE BR"
+    ],
+    "spl_unclassified_section": [
+      "PERCOGESIC- magnesium salicylate tablet, coated Medtech Products Inc. Disclaimer: Most OTC drugs are not reviewed and approved by FDA, however they may be marketed if they comply with applicable regulations and policies. FDA has not evaluated whether this product complies. Percogesic Maximum Strength Backache Relief Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each tablet) Magnesium salicylate tetrahydrate 580 mg (NSAID)* *nonsteroidal anti-inflammatory drug (equivalent to 467 mg of magnesium salicylate anhydrous)"
+    ],
+    "purpose": [
+      "Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "Uses Temporarily relieves minor aches and pains associated with backache muscular aches"
+    ],
+    "warnings": [
+      "Warnings Reye\u2019s syndrome: Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye\u2019s syndrome, a rare but serious illness. Allergy alert: Magnesium salicylate may cause a severe allergic reaction which may include hives, facial swelling, asthma (wheezing), shock. Stomach bleeding warning: This product contains a nonsteroidal anti-inflammatory drug (NSAID), which may cause severe stomach bleeding. The chance is higher if you \u25a0 are age 60 or older \u25a0 have had stomach ulcers or bleeding problems \u25a0 take a blood thinning (anticoagulant) or steroid drug \u25a0 take other drugs containing prescription or nonprescription NSAIDs (aspirin, ibuprofen, naproxen, or others) \u25a0 have 3 or more alcoholic drinks every day while using this product \u25a0 take more or for a longer time than directed. Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer right before or after heart surgery Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn, upset stomach or stomach pain you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic you are on a magnesium-restricted diet Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis anticoagulation (thinning the blood) Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: feel faint have bloody or black stools vomit blood have stomach pain that does not get better an allergic reaction occurs. Seek medical help right away. new symptoms occur ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present. These could be signs of a serious condition. If pregnant or breast-feeding ask a health professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer right before or after heart surgery"
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn, upset stomach or stomach pain you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic you are on a magnesium-restricted diet"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis anticoagulation (thinning the blood)"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: feel faint have bloody or black stools vomit blood have stomach pain that does not get better an allergic reaction occurs. Seek medical help right away. new symptoms occur ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present. These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding ask a health professional before use."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions do not take more than 4 doses in 24 hours. Drink a full glass of water with each dose. Adults and children 12 years of age and older: take 2 tablets every 6 hours while symptoms persist. Children under 12 years of age: ask a doctor"
+    ],
+    "other_safety_information": [
+      "Other information store at room temperature protect from moisture Magnesium content: 40 mg per table t"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients croscarmellose sodium, hypromellose, magnesium stearate, microcrystalline cellulose, silica, stearic acid, talc, titanium dioxide"
+    ],
+    "questions": [
+      "Questions? 1-800-443-4908"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL PERCOGIS MAXIMUM STRENGTH BACKACHE RELIEF 48 COATED CAPLETS A box of backache relief Description automatically generated"
+    ],
+    "set_id": "8af22641-4280-4123-92bc-35a0cf1716a3",
+    "id": "a477dae4-d596-4ba6-8a3c-331b816f9f7c",
+    "effective_time": "20241209",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Percogesic"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Medtech Products Inc."
+      ],
+      "product_ndc": [
+        "63029-051"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742",
+        "1233718"
+      ],
+      "spl_id": [
+        "a477dae4-d596-4ba6-8a3c-331b816f9f7c"
+      ],
+      "spl_set_id": [
+        "8af22641-4280-4123-92bc-35a0cf1716a3"
+      ],
+      "package_ndc": [
+        "63029-051-48"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Doans Maximum Strength Magnesium salicylate Magnesium salicylate SALICYLIC ACID hypromelloses magnesium stearate cellulose, microcrystalline polydextrose POLYETHYLENE GLYCOL, UNSPECIFIED stearic acid titanium dioxide triacetin DOANS Carton"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each caplet) Magnesium salicylate tetrahydrate 580 mg (NSAID) nonsteroidal anti-inflammatory drug (equivalent to 467.2 mg of anhydrous magnesium salicylate)"
+    ],
+    "purpose": [
+      "Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "Use for the temporary relief of minor backache pain"
+    ],
+    "warnings": [
+      "Warnings Reye's syndrome Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert Magnesium salicylate may cause a severe allergic reaction, which may include: hives facial swelling asthma (wheezing) shock Stomach bleeding warning This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing prescription or nonprescription NSAIDs [aspirin, ibuprofen, naproxen, or others] have 3 or more alcoholic drinks every day while using this product take more or for a longer time than directed Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer. Ask a doctor before use if you have asthma stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: vomit blood feel faint have bloody or black stools have stomach pain that does not get better ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days new symptoms occur redness or swelling is present These could be signs of a serious condition. If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if you have asthma stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: vomit blood feel faint have bloody or black stools have stomach pain that does not get better ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days new symptoms occur redness or swelling is present These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions drink a full glass of water with each dose adults and children 12 years and over: 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours children under 12 years: do not use unless directed by a doctor"
+    ],
+    "storage_and_handling": [
+      "Other information TAMPER EVIDENT: DO NOT USE IF OUTER PACKAGE IS OPENED OR BLISTER IS TORN OR BROKEN each caplet contains: magnesium 45 mg store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) see end flap for expiration date and lot number"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions or comments? 1-800-790-6417"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 24 Caplet NDC 55741-600-34 MAXIMUM STRENGTH DOAN'S \u00ae MAGNESIUM SALICYLATE TETRAHYDRATE 580 mg each (NSAID) PAIN RELIEVER BACK PAIN RELIEF 24 CAPLETS"
+    ],
+    "set_id": "c906df41-bb45-03ea-b1a8-2b9816d55c97",
+    "id": "b62966c7-bee8-f17a-3a29-777316e13693",
+    "effective_time": "20241103",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Doans Maximum Strength"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Dr. Reddy's Laboratories Inc."
+      ],
+      "product_ndc": [
+        "55741-600"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742",
+        "830388"
+      ],
+      "spl_id": [
+        "b62966c7-bee8-f17a-3a29-777316e13693"
+      ],
+      "spl_set_id": [
+        "c906df41-bb45-03ea-b1a8-2b9816d55c97"
+      ],
+      "package_ndc": [
+        "55741-600-34",
+        "55741-600-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Doans Extra Strength Magnesium salicylate Magnesium salicylate SALICYLIC ACID hypromelloses magnesium stearate cellulose, microcrystalline polydextrose POLYETHYLENE GLYCOL, UNSPECIFIED stearic acid titanium dioxide triacetin DOANS"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each caplet) Magnesium salicylate tetrahydrate 580 mg (NSAID) nonsteroidal anti-inflammatory drug (equivalent to 467.2 mg of anhydrous magnesium salicylate)"
+    ],
+    "purpose": [
+      "Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "Use for the temporary relief of minor backache pain"
+    ],
+    "warnings": [
+      "Warnings Reye's syndrome Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert Magnesium salicylate may cause a severe allergic reaction, which may include: hives facial swelling asthma (wheezing) shock Stomach bleeding warning This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing prescription or nonprescription NSAIDs [aspirin, ibuprofen, naproxen, or others] have 3 or more alcoholic drinks every day while using this product take more or for a longer time than directed Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer. Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: vomit blood feel faint have bloody or black stools have stomach pain that does not get better an allergic reaction occurs. Seek medical help right away. new symptoms occur redness or swelling is present ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days These could be signs of a serious condition. If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate during the last 3 months of pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis, or kidney disease you have asthma you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for gout diabetes arthritis"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if you experience any of the following signs of stomach bleeding: vomit blood feel faint have bloody or black stools have stomach pain that does not get better an allergic reaction occurs. Seek medical help right away. new symptoms occur redness or swelling is present ringing in the ears or loss of hearing occurs pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate during the last 3 months of pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions drink a full glass of water with each dose adults: 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours children under 12 years: do not use unless directed by a doctor"
+    ],
+    "storage_and_handling": [
+      "Other information TAMPER EVIDENT: DO NOT USE IF OUTER PACKAGE IS OPENED OR BLISTER IS TORN OR BROKEN each caplet contains: magnesium 50 mg store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) see end flap for expiration date and lot number"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions or comments? 1-800-790-6417"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 24 Caplet Bottle Box NDC 55741-224-24 EXTRA STRENGTH DOAN'S \u00ae MAGNESIUM SALICYLATE TETRAHYDRATE 580 mg each (NSAID) PAIN RELIEVER RELIEVES BACKACHE PAIN 24 CAPLETS Principal Display Panel - 24 Caplet Bottle Box"
+    ],
+    "set_id": "d98ee9c8-40e2-4abb-b5c1-45e73e7dd23b",
+    "id": "ae997d0c-8097-dc21-0cc8-7763170761cf",
+    "effective_time": "20160615",
+    "version": "3",
+    "openfda": {
+      "application_number": [
+        "part343"
+      ],
+      "brand_name": [
+        "Doans Extra Strength"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Dr. Reddy's Laboratories Inc."
+      ],
+      "product_ndc": [
+        "55741-224"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742",
+        "830388"
+      ],
+      "spl_id": [
+        "ae997d0c-8097-dc21-0cc8-7763170761cf"
+      ],
+      "spl_set_id": [
+        "d98ee9c8-40e2-4abb-b5c1-45e73e7dd23b"
+      ],
+      "package_ndc": [
+        "55741-224-24"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0849648082241"
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Diurex Water Pills Caffeine, magnesium salicylate ACACIA CALCIUM CARBONATE STARCH, CORN CROSPOVIDONE FD&C BLUE NO. 1 HYPROMELLOSES MAGNESIUM STEARATE MALTODEXTRIN CELLULOSE, MICROCRYSTALLINE LIGHT MINERAL OIL POLYETHYLENE GLYCOL 400 POLYSORBATE 80 SILICON DIOXIDE SODIUM STARCH GLYCOLATE TYPE A POTATO STEARIC ACID TALC TITANIUM DIOXIDE TRIACETIN MAGNESIUM SALICYLATE SALICYLIC ACID CAFFEINE CAFFEINE ALVA"
+    ],
+    "active_ingredient": [
+      "Active ingredients (in each pill) Caffeine, 50 mg Magnesium Salicylate (NSAID)*, 162.5 mg (Present as 202 mg of the Tetrahydrate) *Non-steroidal anti-inflammatory drug"
+    ],
+    "purpose": [
+      "Purpose Diuretic Analgesic (pain reliever)"
+    ],
+    "indications_and_usage": [
+      "Uses For temporary relief of temporary water retention bloat swelling full feeling fatigue minor aches and pains associated with the premenstrual and menstrual periods."
+    ],
+    "warnings": [
+      "Warnings Reye's Syndrome: Children and teenagers should not use this product for chicken pox or flu symptoms before a doctor is consulted about Reye's Syndrome, a rare but serious illness reported to be associated with aspirin. Allergy alert: Magnesium Salicylate may cause a severe allergic reaction which may include: hives facial swelling asthma (wheezing) shock Stomach bleeding warning: This product contains a non-steroidal anti-inflammatory drug (NSAID), which may cause severe stomach bleeding. The chance is higher if you are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing prescription or nonprescription NSAIDs [aspirin, ibuprofen, naproxen or others] have 3 or more alcoholic drinks every day while using this product take more or for a longer time than directed."
+    ],
+    "do_not_use": [
+      "Do not use if you have ever had an allergic reaction to any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have high blood pressure, heart disease, liver cirrhosis or kidney disease you are taking a diuretic."
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for diabetes, gout or arthritis taking any other drug"
+    ],
+    "when_using": [
+      "When using this product, limit the use of caffeine containing medications, foods or beverages because too much caffeine may cause: nervousness irritability sleeplessness occasional rapid heart beat The recommended dose of this product contains about as much caffeine as one cup of coffee."
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if an allergic reaction occurs. Seek medical help right away. pain gets worse or lasts more than 10 days. fever gets worse or lasts more than 3 days. redness or swelling is present. ringing in the ears or loss of hearing occurs. any new symptoms appear. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stools have stomach pain that does not get better."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breastfeeding, ask a health professional before use."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a poison control center right away."
+    ],
+    "dosage_and_administration": [
+      "Directions Read all package directions and warnings before use and use only as directed. Adults: Two (2) pills every 4 to 6 hours while symptoms persist, not to exceed eight (8) pills per day. Start taking 5 or 6 days before onset of period and continue until desired relief is obtained or end of period. Drink 6 to 8 glasses of water daily. For use by normally healthy adults only. Persons under 18 years of age should use only as directed by a doctor. Note: DIUREX Water Pills will not discolor urine."
+    ],
+    "information_for_patients": [
+      "Other information Magnesium content: 15 mg/pill, Calcium content: 10 mg/pill **Contents sealed: Each DIUREX blue colored, round shaped pill bears the identifying mark \u201cALVA\" and is sealed in a clear plastic blister with a foil backing. Do not use if seal appears broken or if product contents do not match product description. You may report serious side effects to the phone number provided under Questions? below."
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients Acacia, calcium carbonate, corn starch, crospovidone, FD&C Blue #1 Lake, hypromellose, magnesium stearate, maltodextrin, microcrystalline cellulose, mineral oil, polyethylene glycol, polysorbate 80, silica, sodium starch glycolate, stearic acid, talc, titanium dioxide, triacetin."
+    ],
+    "questions": [
+      "Questions? 1-800-792-2582"
+    ],
+    "spl_unclassified_section": [
+      "Diurex Water Pills Spanish Drug Facts"
+    ],
+    "package_label_principal_display_panel": [
+      "PDP"
+    ],
+    "set_id": "e02a39f9-1c8c-4d38-b394-3f5b7062932c",
+    "id": "32732994-0e5d-93a9-e063-6394a90a9c50",
+    "effective_time": "20250410",
+    "version": "13",
+    "openfda": {
+      "application_number": [
+        "M027"
+      ],
+      "brand_name": [
+        "Diurex Water Pills"
+      ],
+      "generic_name": [
+        "CAFFEINE, MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Kobayashi Healthcare International, Inc."
+      ],
+      "product_ndc": [
+        "52389-306"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "CAFFEINE",
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "1001437"
+      ],
+      "spl_id": [
+        "32732994-0e5d-93a9-e063-6394a90a9c50"
+      ],
+      "spl_set_id": [
+        "e02a39f9-1c8c-4d38-b394-3f5b7062932c"
+      ],
+      "package_ndc": [
+        "52389-306-01",
+        "52389-306-84",
+        "52389-306-42",
+        "52389-306-02",
+        "52389-306-22",
+        "52389-306-21",
+        "52389-306-36"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0072959065423"
+      ],
+      "nui": [
+        "N0000175739",
+        "N0000175729",
+        "N0000175790",
+        "M0023046"
+      ],
+      "pharm_class_epc": [
+        "Central Nervous System Stimulant [EPC]",
+        "Methylxanthine [EPC]"
+      ],
+      "pharm_class_pe": [
+        "Central Nervous System Stimulation [PE]"
+      ],
+      "pharm_class_cs": [
+        "Xanthines [CS]"
+      ],
+      "unii": [
+        "3G6A5W338E",
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Medique Back Pain Relief Magnesium Salicylate Tetrahydrate MAGNESIUM SALICYLATE SALICYLIC ACID POLYETHYLENE GLYCOL, UNSPECIFIED STEARIC ACID CELLULOSE, MICROCRYSTALLINE MAGNESIUM STEARATE POLYDEXTROSE TITANIUM DIOXIDE HYPROMELLOSE, UNSPECIFIED TRIACETIN 44;338 Caplet"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each caplet) Magnesium Salicylate Tetrahydrate (NSAID*) 580 mg (equivalent to 467.2 mg of anhydrous magnesium salicylate) *nonsteroidal anti-inflammatory drug"
+    ],
+    "purpose": [
+      "Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "Uses For the temporary releif of minor backache pain"
+    ],
+    "warnings": [
+      "Warnings Reye's syndrome: Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert: Magnesium salicylate may cause a severe allergic reaction, which may include: \u25a0 hives \u25a0 facial swelling \u25a0 asthma (wheezing) \u25a0 shock Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you: \u25a0 are age 60 or older \u25a0 have had stomach ulcers or bleeding problems \u25a0 take a blood thinning (anticoagulant) or steroid drug \u25a0 take other drugs containing prescription or nonprescription NSAIDs (aspirin, ibuprofen, naproxen, or others) \u25a0 have 3 or more alcohol drinks every day while using this product \u25a0 take more or for a longer time than directed"
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if \u25a0 stomach bleeding warning applies to you \u25a0 you have a history of stomach problems such as heartburn \u25a0 you have high blood pressure, heart disease, liver cirrhosis, or kidney disease \u25a0 you have asthma \u25a0 you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for \u25a0 gout \u25a0 diabetes \u25a0 arthritis"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if \u25a0 an allergic reaction occurs. Seek medical help right away. \u25a0 you experience any of the following signs of stomach bleeding: \u25a0 feel faint \u25a0 vomit blood \u25a0 have bloody or black stools \u25a0 have stomach pain that does not get better \u25a0 if ringing in the ears or loss of hearing occurs \u25a0 new symptoms occur \u25a0 pain gets worse or lasts more than 10 days \u25a0 fever gets worse or lasts more than 3 days \u25a0 redness or swelling is present These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use. I t is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless specifically directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions \u25a0 drink a full glass of water with each dose Adults and children: (12 years and over) Take 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours. Children under 12 years: Do not use unless directed by a doctor"
+    ],
+    "other_safety_information": [
+      "Other information \u25a0 each caplet contains: magnesium 40 mg \u25a0 store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) \u25a0 tamper evident sealed packets \u25a0 do not use any opened or torn packets"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions or comments? 1-800-634-7680"
+    ],
+    "package_label_principal_display_panel": [
+      "Medique\u00ae Back Pain Relief Pain Reliever/ Anti-Inflammatory Pull to Open Magnesium Salicylate Tetrahydrate (NSAID) 580 mg 80 Caplets (40 x 2) Tamper Evident Unit Dose Packets Medique Back"
+    ],
+    "set_id": "e5563a0a-776a-83d4-e053-2a95a90a9500",
+    "id": "3e4cc387-246f-c235-e063-6294a90aaa86",
+    "effective_time": "20250908",
+    "version": "5",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Medique Back Pain Relief"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE TETRAHYDRATE"
+      ],
+      "manufacturer_name": [
+        "Unifirst First Aid Corporation"
+      ],
+      "product_ndc": [
+        "47682-074"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742"
+      ],
+      "spl_id": [
+        "3e4cc387-246f-c235-e063-6294a90aaa86"
+      ],
+      "spl_set_id": [
+        "e5563a0a-776a-83d4-e053-2a95a90a9500"
+      ],
+      "package_ndc": [
+        "47682-074-99",
+        "47682-074-80",
+        "47682-074-36"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0347682074807"
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Medique at Home Back Pain Relief Magnesium Salicylate CELLULOSE, MICROCRYSTALLINE POLYDEXTROSE POLYETHYLENE GLYCOL, UNSPECIFIED TITANIUM DIOXIDE MAGNESIUM STEARATE MAGNESIUM SALICYLATE SALICYLIC ACID HYPROMELLOSE, UNSPECIFIED STEARIC ACID TRIACETIN 44;338 Caplet"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each caplet) Magnesium Salicylate Tetrahydrate (NSAID)* 580 mg (equivalent to 467.2 mg of anhydrous magnesium salicylate) *nonsteroidal anti-inflammatory drug"
+    ],
+    "purpose": [
+      "Purpose Pain reliever"
+    ],
+    "indications_and_usage": [
+      "Uses For the temporary relief of minor backache pain"
+    ],
+    "warnings": [
+      "Warnings Reye's syndrome: Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy alert: Magnesium salicylate may cause a severe allergic reaction which may include: \u25a0 hives \u25a0 facial swelling \u25a0 asthma (wheezing) \u25a0 shock Stomach bleeding warning: This product contains an NSAID, which may cause severe stomach bleeding. The chance is higher if you \u25a0 are age 60 or older \u25a0 have had stomach ulcers or bleeding problems \u25a0 take a blood thinning (anticoagulant) or steroid drug \u25a0 take other drugs containing prescription or nonprescription NSAIDs (aspirin, ibuprofen, naproxen, or others) \u25a0 have 3 or more alcohol drinks every day while using this product \u25a0 take more or for a longer time than directed"
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or to any other pain reliever/fever reducer."
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if \u25a0 stomach bleeding warning applies to you \u25a0 you have a history of stomach problems such as heartburn \u25a0 you have high blood pressure, heart disease, liver cirrhosis, or kidney disease \u25a0 you have asthma \u25a0 you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are taking a prescription drug for \u25a0 gout \u25a0 diabetes \u25a0 arthritis"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if \u25a0 an allergic reaction occurs. Seek medical help right away. \u25a0 you experience any of the following signs of stomach bleeding: \u25a0 feel faint \u25a0 vomit blood \u25a0 have bloody or black stools \u25a0 have stomach pain that does not get better \u25a0 if ringing in the ears or loss of hearing occurs \u25a0 new symptoms occur \u25a0 pain gets worse or lasts more than 10 days \u25a0 fever gets worse or lasts more than 3 days \u25a0 redness or swelling is present These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions \u25a0 drink a full glass of water with each dose Adults and children: (12 years and over) Take 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours Children under 12 years: D o not use unless directed by a doctor"
+    ],
+    "other_safety_information": [
+      "Other information \u25a0 each caplet contains: magnesium 40 mg \u25a0 store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) \u25a0 TAMPER EVIDENT child resistant packets \u25a0 do not use any opened or torn packets"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions or comments? 1-800-634-7680"
+    ],
+    "package_label_principal_display_panel": [
+      "Medique\u00ae @ Home Back Pain Relief Magnesium Salicylate Tetrahydrate (NSAID) 580 mg Pain Reliever Pull to Open Child-Resistant Packets *not actual size 50 Packets (2 Caplets Per Packet) Medique Home"
+    ],
+    "set_id": "e56c4aef-fa0b-74db-e053-2a95a90a9745",
+    "id": "3e5d5cba-a762-29a3-e063-6394a90a7172",
+    "effective_time": "20250909",
+    "version": "5",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Medique at Home Back Pain Relief"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "Unifirst First Aid Corporation"
+      ],
+      "product_ndc": [
+        "47682-747"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "rxcui": [
+        "198742"
+      ],
+      "spl_id": [
+        "3e5d5cba-a762-29a3-e063-6394a90a7172"
+      ],
+      "spl_set_id": [
+        "e56c4aef-fa0b-74db-e053-2a95a90a9745"
+      ],
+      "package_ndc": [
+        "47682-747-99",
+        "47682-747-33"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Maximum Strength Backache Relief MAGNESIUM SALICYLATE MAGNESIUM SALICYLATE SALICYLIC ACID HYPROMELLOSE, UNSPECIFIED MAGNESIUM STEARATE MICROCRYSTALLINE CELLULOSE POLYDEXTROSE POLYETHYLENE GLYCOL, UNSPECIFIED STEARIC ACID TITANIUM DIOXIDE TRIACETIN 44;338"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (In Each Caplet) Magnesium salicylate tetrahydrate 580 mg (NSAID) Nonsteroidal Anti-Inflammatory Drug (equivalent to 467.2 mg of anhydrous magnesium salicylate)"
+    ],
+    "purpose": [
+      "Purpose pain reliever/fever reducer"
+    ],
+    "indications_and_usage": [
+      "Use for the temporary relief of minor backache pain"
+    ],
+    "warnings": [
+      "Warnings Reye's syndrome Children and teenagers who have or are recovering from chicken pox or flu-like symptoms should not use this product. When using this product, if changes in behavior with nausea and vomiting occur, consult a doctor because these symptoms could be an early sign of Reye's syndrome, a rare but serious illness. Allergy Alert Magnesium salicylate may cause a severe allergic reaction which may include: hives facial swelling asthma (wheezing) shock Stomach bleeding warning This product contains a nonsteroidal anti-inflammatory drug (NSAID), which may cause severe stomach bleeding. The chance is higher if you: are age 60 or older have had stomach ulcers or bleeding problems take a blood thinning (anticoagulant) or steroid drug take other drugs containing a prescription or nonprescription NSAID (aspirin, ibuprofen, naproxen, or others) have 3 or more alcoholic drinks every day while using this product take more or for a longer time than directed Do not use if you are allergic to salicylates (including aspirin) or to any other pain reliever/fever reducer for more than 10 days for pain unless directed by a doctor Ask doctor before use if: stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have asthma, high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic Ask a doctor or pharmacist before use if you are: taking a prescription drug for gout diabetes arthritis Stop use and ask a doctor if: an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stools have stomach pain that does not get better if ringing in the ears or loss of hearing occurs new symptoms occur new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition. If pregnant or breastfeeding , ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery. Keep out of reach of children . In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "do_not_use": [
+      "Do not use if you are allergic to salicylates (including aspirin) or to any other pain reliever/fever reducer for more than 10 days for pain unless directed by a doctor"
+    ],
+    "ask_doctor": [
+      "Ask doctor before use if: stomach bleeding warning applies to you you have a history of stomach problems, such as heartburn you have asthma, high blood pressure, heart disease, liver cirrhosis, or kidney disease you are taking a diuretic"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are: taking a prescription drug for gout diabetes arthritis"
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if: an allergic reaction occurs. Seek medical help right away. you experience any of the following signs of stomach bleeding: feel faint vomit blood have bloody or black stools have stomach pain that does not get better if ringing in the ears or loss of hearing occurs new symptoms occur new symptoms occur pain gets worse or lasts more than 10 days fever gets worse or lasts more than 3 days redness or swelling is present These could be signs of a serious condition."
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breastfeeding , ask a health professional before use. It is especially important not to use magnesium salicylate at 20 weeks or later in pregnancy unless definitely directed to do so by a doctor because it may cause problems in the unborn child or complications during delivery."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children . In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away."
+    ],
+    "dosage_and_administration": [
+      "Directions drink a full glass of water with each dose adults and children 12 years and over: take 2 caplets every 6 hours, not to exceed 8 caplets in 24 hours children under 12 years: do not use unless directed by a doctor."
+    ],
+    "storage_and_handling": [
+      "Other Information Each caplet contains: magnesium 40mg store at 25\u00b0C (77\u00b0F); excursions permitted between 15\u00b0-30\u00b0C (59\u00b0-86\u00b0F) tamper evident sealed packets do not use if packet is opened or torn"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredient hypromellose, magnesium stearate, microcrystalline cellulose, polydextrose, polyethylene glycol, stearic acid, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions? 1-866-651-3660 Monday-Friday 8:00am-5:00pm EST"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 580 mg Caplet Packet Carton This product is not manufactured or distributed by Dr Reddy's Laboratories, Inc Owner of the registered trademark Doan's \u00ae . Maximum Strength Backache Relief Product #1272 Pain Reliever/Fever Reducer Active ingredient: Magnesium Salicylate Temporary relief from pain, fever, and inflammation Soothes muscle aches and minor arthritis pain These quality comfort tablets are formulated and packaged for use in the workplace and meet ANSI Z308.1-2021 standards. They are sealed in tamper-evident packets for safety and convenience. 80 Caplets \u2022 2 Caplets Per Packet Principal Display Panel - 580 mg Caplet Packet Carton"
+    ],
+    "set_id": "f8cbcd4e-cfad-4592-8774-52e681494c45",
+    "id": "f2839255-a361-4e8d-a1b4-c88ce9f1b794",
+    "effective_time": "20241007",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Maximum Strength Backache Relief"
+      ],
+      "generic_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "manufacturer_name": [
+        "JHK DBA American Safety & First Aid"
+      ],
+      "product_ndc": [
+        "73598-1272"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "MAGNESIUM SALICYLATE"
+      ],
+      "spl_id": [
+        "f2839255-a361-4e8d-a1b4-c88ce9f1b794"
+      ],
+      "spl_set_id": [
+        "f8cbcd4e-cfad-4592-8774-52e681494c45"
+      ],
+      "package_ndc": [
+        "73598-1272-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "41728CY7UX"
+      ]
+    }
+  }
+]

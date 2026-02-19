@@ -14,7 +14,7 @@ class DrugTargetConsistency(APIcache):
     '''
     drugs2targets = ResnetGraph()
     cache_name = 'drug2target'
-    cache_ent_props = ['Name','PharmaPendium ID','Molecular Weight']
+    cache_ent_props = ['Name','PharmaPendium ID']#,'Molecular Weight']
     cache_rel_props = ['URN',EFFECT,REFCOUNT,CONSISTENCY,'pX','Affinity']
     drug_target_confidence = dict()
     debug = False

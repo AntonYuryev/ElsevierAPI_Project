@@ -1,0 +1,454 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Acetaminophen , Caffeine and pyrilamine maleate Acetaminophen , Caffeine and pyrilamine maleate CROSCARMELLOSE SODIUM WATER ISOPROPYL ALCOHOL MICROCRYSTALLINE CELLULOSE D&C RED NO. 33 ALUMINUM LAKE STARCH, POTATO CAFFEINE CAFFEINE PYRILAMINE MALEATE PYRILAMINE GELATIN, UNSPECIFIED GLYCERIN ETHYLCELLULOSE, UNSPECIFIED HYPROMELLOSE, UNSPECIFIED ACETAMINOPHEN ACETAMINOPHEN TITANIUM DIOXIDE SORBITOL SORBITAN TALC TRIACETIN MAGNESIUM STEARATE POVIDONE K30 FD&C BLUE NO. 1 ALUMINUM LAKE Dark blue and light blue"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each softgelatin capsule) Acetaminophen 500mg Caffeine 60mg Pyrilamine maleate 15mg"
+    ],
+    "purpose": [
+      "purpose Pain reliever Diuretic Antihistamine"
+    ],
+    "indications_and_usage": [
+      "Uses for the temporary relief of these symptoms associated with menstural periods: \u2022 cramps \u2022 bloating \u2022 waterweight gain \u2022 headache \u2022 backache \u2022 muscle aches \u2022 fatigue"
+    ],
+    "warnings": [
+      "Warnings Liver warning : This product contains acetaminophen. Severe liver damage may occur if you take \u2022 more than 6 softgel in 24 hours, which is the maximum daily amount for this product \u2022 with other drugs containing acetaminophen \u2022 3 or more alcoholic drinks every day while using this product Allergy alert: Acetaminophen may cause severe skin or severe allergic reactions. Symptoms may include: \u2022 hives \u2022 blisters \u2022 rash \u2022 skin reddening \u2022 facial swelling \u2022 asthma (wheezing) \u2022 shock If a skin or general allergic reaction occurs, stop use and seek medical help right away."
+    ],
+    "do_not_use": [
+      "Do not use \u2022 with any other drug containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist \u2022 if you have ever had an allergic reaction to this product or any of its ingredients"
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if you have \u2022 liver disease \u2022 glaucoma \u2022 difficulty in urination due to enlargement of the prostate gland \u2022 a breathing problem such as emphysema or chronic bronchitis"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are \u2022 taking the blood thinning drug warfarin \u2022 taking sedatives or tranquilizers"
+    ],
+    "when_using": [
+      "When using this product \u2022 you may get drowsy \u2022 avoid alcoholic drinks \u2022 excitability may occur, especially in children \u2022 alcohol, sedatives, and tranquilizers may increase drowsiness \u2022 be careful when driving a motor vehicle or operating machinery \u2022 limit the use of caffeine-containing medications, foods, or beverages beacuse too much caffeine may cause nervousness, irritability, sleeplessness, and, occasionally, rapid heartbeat. The recommended dose of this product contains about as much caffeine as a cup of coffee."
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if \u2022 new symptoms occur \u2022 redness or swelling is present \u2022 pain gets worse or lasts more than 10 days \u2022 fever gets worse or lasts more than 3 days"
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use"
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. Overdose warning: In case of overdose, get medical help or contact a Poison Control Center right away. Prompt medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
+    ],
+    "dosage_and_administration": [
+      "Directions \u2022 do not take more than the recommended dose \u2022 adults and children 12 years and older: take 2 softgel with water \u2022 repeat every 6 hours as needed \u2022 do not exceed 6 softgel per day \u2022 children under 12 years: consult a doctor"
+    ],
+    "other_safety_information": [
+      "store at room temperature."
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients croscarmellose sodium, D&C red 33 aluminum lake, edible black printing ink, ethyl cellulose, FD&C blue 1 aluminum lake, gelatin, glycerin, hydroxypropyl methylcellulose, isopropyl alcohol, magnesium stearate, microcrystalline cellulose, pregelatinized potato starch, purified water, PVPK-30, sorbitol sorbitan solution, talc, titanium dioxide, triacetin."
+    ],
+    "package_label_principal_display_panel": [
+      "bulk label"
+    ],
+    "set_id": "45478958-ad86-4d87-e063-6394a90a3c45",
+    "id": "47dc39ad-82e8-6501-e063-6394a90ad52f",
+    "effective_time": "20260108",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Acetaminophen , Caffeine and pyrilamine maleate"
+      ],
+      "generic_name": [
+        "ACETAMINOPHEN , CAFFEINE AND PYRILAMINE MALEATE"
+      ],
+      "manufacturer_name": [
+        "Softgel Healthcare Pvt Ltd"
+      ],
+      "product_ndc": [
+        "35916-0710"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETAMINOPHEN",
+        "CAFFEINE",
+        "PYRILAMINE MALEATE"
+      ],
+      "rxcui": [
+        "701913"
+      ],
+      "spl_id": [
+        "47dc39ad-82e8-6501-e063-6394a90ad52f"
+      ],
+      "spl_set_id": [
+        "45478958-ad86-4d87-e063-6394a90a3c45"
+      ],
+      "package_ndc": [
+        "35916-0710-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000175739",
+        "N0000175729",
+        "N0000175790",
+        "M0023046"
+      ],
+      "pharm_class_epc": [
+        "Central Nervous System Stimulant [EPC]",
+        "Methylxanthine [EPC]"
+      ],
+      "pharm_class_pe": [
+        "Central Nervous System Stimulation [PE]"
+      ],
+      "pharm_class_cs": [
+        "Xanthines [CS]"
+      ],
+      "unii": [
+        "362O9ITL9D",
+        "3G6A5W338E",
+        "R35D29L3ZA"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Acetaminophen , Caffeine and pyrilamine maleate Acetaminophen , Caffeine and pyrilamine maleate CROSCARMELLOSE SODIUM WATER ISOPROPYL ALCOHOL MICROCRYSTALLINE CELLULOSE D&C RED NO. 33 ALUMINUM LAKE STARCH, POTATO CAFFEINE CAFFEINE PYRILAMINE MALEATE PYRILAMINE GELATIN, UNSPECIFIED GLYCERIN ETHYLCELLULOSE, UNSPECIFIED HYPROMELLOSE, UNSPECIFIED ACETAMINOPHEN ACETAMINOPHEN TITANIUM DIOXIDE SORBITOL SORBITAN TALC TRIACETIN MAGNESIUM STEARATE POVIDONE K30 FD&C BLUE NO. 1 ALUMINUM LAKE Dark blue and light blue"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each gelcap) Acetaminophen USP 500mg Caffeine USP 60mg Pyrilamine maleate USP 15mg"
+    ],
+    "purpose": [
+      "purpose Pain reliever Diuretic Antihistamine"
+    ],
+    "indications_and_usage": [
+      "Uses for the temporary relief of these symptoms associated with menstural periods: \u2022 cramps \u2022 bloating \u2022 waterweight gain \u2022 headache \u2022 backache \u2022 muscle aches \u2022 fatigue"
+    ],
+    "warnings": [
+      "Warnings Liver warning : This product contains acetaminophen. Severe liver damage may occur if you take \u2022 more than 6 gelcap in 24 hours, which is the maximum daily amount for this product \u2022 with other drugs containing acetaminophen \u2022 3 or more alcoholic drinks every day while using this product Allergy alert: Acetaminophen may cause severe skin or severe allergic reactions. Symptoms may include: \u2022 hives \u2022 blisters \u2022 rash \u2022 skin reddening \u2022 facial swelling \u2022 asthma (wheezing) \u2022 shock If a skin or general allergic reaction occurs, stop use and seek medical help right away."
+    ],
+    "do_not_use": [
+      "Do not use \u2022 with any other drug containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist \u2022 if you have ever had an allergic reaction to this product or any of its ingredients"
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if you have \u2022 liver disease \u2022 glaucoma \u2022 difficulty in urination due to enlargement of the prostate gland \u2022 a breathing problem such as emphysema or chronic bronchitis"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor or pharmacist before use if you are \u2022 taking the blood thinning drug warfarin \u2022 taking sedatives or tranquilizers"
+    ],
+    "when_using": [
+      "When using this product \u2022 you may get drowsy \u2022 avoid alcoholic drinks \u2022 excitability may occur, especially in children \u2022 alcohol, sedatives, and tranquilizers may increase drowsiness \u2022 be careful when driving a motor vehicle or operating machinery \u2022 limit the use of caffeine-containing medications, foods, or beverages beacuse too much caffeine may cause nervousness, irritability, sleeplessness, and, occasionally, rapid heartbeat. The recommended dose of this product contains about as much caffeine as a cup of coffee."
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if \u2022 new symptoms occur \u2022 redness or swelling is present \u2022 pain gets worse or lasts more than 10 days \u2022 fever gets worse or lasts more than 3 days"
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use"
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. Overdose warning: In case of overdose, get medical help or contact a Poison Control Center right away. Prompt medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
+    ],
+    "dosage_and_administration": [
+      "Directions \u2022 do not take more than the recommended dose \u2022 adults and children 12 years and older: take 2 gelcap with water \u2022 repeat every 6 hours as needed \u2022 do not exceed 6 gelcap per day \u2022 children under 12 years: consult a doctor"
+    ],
+    "other_safety_information": [
+      "store at room temperature."
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients croscarmellose sodium, D&C red 33 aluminum lake, edible black printing ink, ethyl cellulose, FD&C blue 1 aluminum lake, gelatin, glycerin, hydroxypropyl methylcellulose, isopropyl alcohol, magnesium stearate, microcrystalline cellulose, pregelatinized potato starch, purified water, PVPK-30, sorbitol sorbitan solution, talc, titanium dioxide, triacetin."
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "4a61313e-1b48-29df-e063-6394a90a27f0",
+    "id": "4a61316b-db1b-cae8-e063-6294a90adce2",
+    "effective_time": "20260209",
+    "version": "1",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Acetaminophen , Caffeine and pyrilamine maleate"
+      ],
+      "generic_name": [
+        "ACETAMINOPHEN , CAFFEINE AND PYRILAMINE MALEATE"
+      ],
+      "manufacturer_name": [
+        "Softgel Healthcare Pvt Ltd"
+      ],
+      "product_ndc": [
+        "35916-1234"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETAMINOPHEN",
+        "CAFFEINE",
+        "PYRILAMINE MALEATE"
+      ],
+      "spl_id": [
+        "4a61316b-db1b-cae8-e063-6294a90adce2"
+      ],
+      "spl_set_id": [
+        "4a61313e-1b48-29df-e063-6394a90a27f0"
+      ],
+      "package_ndc": [
+        "35916-1234-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000175739",
+        "N0000175729",
+        "N0000175790",
+        "M0023046"
+      ],
+      "pharm_class_epc": [
+        "Central Nervous System Stimulant [EPC]",
+        "Methylxanthine [EPC]"
+      ],
+      "pharm_class_pe": [
+        "Central Nervous System Stimulation [PE]"
+      ],
+      "pharm_class_cs": [
+        "Xanthines [CS]"
+      ],
+      "unii": [
+        "362O9ITL9D",
+        "3G6A5W338E",
+        "R35D29L3ZA"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Acetaminophen 500mg Caffeine 60mg Pyrilamine maleate 15mg Acetaminophen 500mg Caffeine 60mg Pyrilamine maleate 15mg ACETAMINOPHEN ACETAMINOPHEN CAFFEINE CAFFEINE PYRILAMINE MALEATE PYRILAMINE CROSCARMELLOSE SODIUM D&C RED NO. 33 ALUMINUM LAKE ETHYLCELLULOSE, UNSPECIFIED FD&C BLUE NO. 1 ALUMINUM LAKE GELATIN, UNSPECIFIED GLYCERIN HYPROMELLOSE, UNSPECIFIED ISOPROPYL ALCOHOL MAGNESIUM STEARATE MICROCRYSTALLINE CELLULOSE STARCH, POTATO WATER POVIDONE K30 SORBITOL SORBITAN TALC TITANIUM DIOXIDE TRIACETIN DARK BLUE and LIGHT BLUE S79"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts",
+      "Compare to the active ingredients in Midol \u00ae Complete \u2020\u2020 Aspirin Free \u2022 Relieves cramps, bloating, fatigue, headaches & backaches READ AND KEEP OUTER CARTON FOR COMPLETE WARNINGS AND PRODUCT INFORMATION TAMPER EVIDENT: Do not use if package is opened or if blister unit is torn, broken or shows any sign of tampering. DISTRIBUTED BY: WALGREEN CO. DEERFIELD, IL 60015 100% SATISFACTION GUARANTEED walgreens.com 1-800-925-4733 \u00a92023 Walgreen Co. PRODUCT OF UNITED ARAB EMIRATES PACKAGED AND QUALITY ASSURED IN THE U.S.A. \u2020\u2020 Our pharmacists recommend the Walgreens brand. We invite you to compare to national brands. \u2020\u2020 This product is not manufactured or distributed by Bayer HealthCare LLC, owner of the registered trademark Midol \u00ae ."
+    ],
+    "active_ingredient": [
+      "Active ingredients Acetaminophen 500mg Caffeine 60mg Pyrilamine maleate 15mg"
+    ],
+    "purpose": [
+      "Purpose Pain reliever Diuretic Antihistamine"
+    ],
+    "indications_and_usage": [
+      "Uses for the temporary relief of these symptoms associated with menstural periods: \u2022 cramps \u2022 bloating \u2022 water-weight gain \u2022 headache \u2022 backache \u2022 muscle aches \u2022 fatigue"
+    ],
+    "warnings": [
+      "Warnings Liver warning: This product contains acetaminophen. Severe liver damage may occur if you take \u2022 more than 6 gelcaps in 24 hours, which is the maximum daily amount for this product \u2022 with other drugs containing acetaminophen \u2022 3 or more alcoholic drinks every day while using this product Allergy alert: Acetaminophen may cause severe skin or severe allergic reactions. Symptoms may include: \u2022 hives \u2022 blisters \u2022 rash \u2022 skin reddening \u2022 facial swelling \u2022 asthma (wheezing) \u2022 shock If a skin or general allergic reaction occurs, stop use and seek medical help right away. Do not use \u2022 with any other drug containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist \u2022 if you have ever had an allergic reaction to this product or any of its ingredients Ask a doctor before use if you have \u2022 liver disease \u2022 glaucoma \u2022 difficulty in urination due to enlargement of the prostate gland \u2022 a breathing problem such as emphysema or chronic bronchitis Ask a doctor or pharmacist before use if you are \u2022 taking the blood thinning drug warfarin \u2022 taking sedatives or tranquilizers When using this product \u2022 you may get drowsy \u2022 avoid alcoholic drinks \u2022 excitability may occur, especially in children \u2022 alcohol, sedatives, and tranquilizers may increase drowsiness \u2022 be careful when driving a motor vehicle or operating machinery \u2022 limit the use of caffeine-containing medications, foods, or beverages beacuse too much caffeine may cause nervousness, irritability, sleeplessness, and, occasionally, rapid heartbeat. The recommended dose of this product contains about as much caffeine as a cup of coffee. Stop use and ask a doctor if \u2022 new symptoms occur \u2022 redness or swelling is present \u2022 pain gets worse or lasts more than 10 days \u2022 fever gets worse or lasts more than 3 days If pregnant or breast-feeding , ask a health professional before use Keep out of reach of children. Overdose warning: In case of overdose, get medical help or contact a Poison Control Center right away. Prompt medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. Overdose warning: In case of overdose, get medical help or contact a Poison Control Center right away. Prompt medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
+    ],
+    "dosage_and_administration": [
+      "Directions \u2022 do not take more than the recommended dose \u2022 adults and children 12 years and older: take 2 gelcaps with water \u2022 repeat every 6 hours as needed \u2022 do not exceed 6 gelcaps per day \u2022 children under 12 years: consult a doctor"
+    ],
+    "other_safety_information": [
+      "Other information \u2022 each gelcap contains: sodium 3 mg \u2022 store at room temperature."
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients croscarmellose sodium, D&C red #33 aluminum lake, edible black printing ink, ethyl cellulose, FD&C blue #1 aluminum lake, gelatin, glycerin, hydroxypropyl methylcellulose, isopropyl alcohol, magnesium stearate, microcrystalline cellulose, pregelatinized potato starch, purified water, PVPK-30, sorbitol sorbitan solution, talc, titanium dioxide, triacetin"
+    ],
+    "questions": [
+      "Questions or comments? 1-888-577-8033 Monday - Friday 8am - 4pm EST"
+    ],
+    "package_label_principal_display_panel": [
+      "Packaging Walgreens Menstrual Complete Pain Relief"
+    ],
+    "set_id": "982faa74-d498-cd1e-e053-2995a90afa1e",
+    "id": "c4826edc-d2bc-4903-9da6-cf25d064ce86",
+    "effective_time": "20241225",
+    "version": "5",
+    "openfda": {
+      "application_number": [
+        "M013"
+      ],
+      "brand_name": [
+        "Acetaminophen 500mg Caffeine 60mg Pyrilamine maleate 15mg"
+      ],
+      "generic_name": [
+        "ACETAMINOPHEN 500MG CAFFEINE 60MG PYRILAMINE MALEATE 15MG"
+      ],
+      "manufacturer_name": [
+        "WALGREENS CO."
+      ],
+      "product_ndc": [
+        "0363-2310"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ACETAMINOPHEN",
+        "CAFFEINE",
+        "PYRILAMINE MALEATE"
+      ],
+      "rxcui": [
+        "1597298"
+      ],
+      "spl_id": [
+        "c4826edc-d2bc-4903-9da6-cf25d064ce86"
+      ],
+      "spl_set_id": [
+        "982faa74-d498-cd1e-e053-2995a90afa1e"
+      ],
+      "package_ndc": [
+        "0363-2310-24"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000175739",
+        "N0000175729",
+        "N0000175790",
+        "M0023046"
+      ],
+      "pharm_class_epc": [
+        "Central Nervous System Stimulant [EPC]",
+        "Methylxanthine [EPC]"
+      ],
+      "pharm_class_pe": [
+        "Central Nervous System Stimulation [PE]"
+      ],
+      "pharm_class_cs": [
+        "Xanthines [CS]"
+      ],
+      "unii": [
+        "362O9ITL9D",
+        "3G6A5W338E",
+        "R35D29L3ZA"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Pyrilamine Maleate and Dextromethorphan Hydrobromide Pyrilamine Maleate and Dextromethorphan Hydrobromide DEXTROMETHORPHAN HYDROBROMIDE DEXTROMETHORPHAN PYRILAMINE MALEATE PYRILAMINE ANHYDROUS CITRIC ACID GLYCERIN PROPYLENE GLYCOL WATER SODIUM BENZOATE SODIUM CITRATE, UNSPECIFIED FORM SORBITOL SUCRALOSE Candy Apple"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts"
+    ],
+    "active_ingredient": [
+      "Active ingredient (in each 5 mL teaspoonful) Purpose Dextromethorphan HBr 7.5 mg Antitussive Pyrilamine Maleate 7.5 mg Antihistamine"
+    ],
+    "active_ingredient_table": [
+      "<table width=\"65%\"><col width=\"60%\" align=\"left\" valign=\"top\"/><col width=\"40%\" align=\"right\" valign=\"top\"/><thead><tr><th><content styleCode=\"italics\">Active ingredient (in each 5 mL teaspoonful)</content></th><th><content styleCode=\"italics\">Purpose</content></th></tr></thead><tbody><tr><td>Dextromethorphan HBr 7.5 mg</td><td>Antitussive</td></tr><tr><td>Pyrilamine Maleate 7.5 mg</td><td>Antihistamine</td></tr></tbody></table>"
+    ],
+    "purpose": [
+      "Active ingredient (in each 5 mL teaspoonful) Purpose Dextromethorphan HBr 7.5 mg Antitussive Pyrilamine Maleate 7.5 mg Antihistamine"
+    ],
+    "purpose_table": [
+      "<table width=\"65%\"><col width=\"60%\" align=\"left\" valign=\"top\"/><col width=\"40%\" align=\"right\" valign=\"top\"/><thead><tr><th><content styleCode=\"italics\">Active ingredient (in each 5 mL teaspoonful)</content></th><th><content styleCode=\"italics\">Purpose</content></th></tr></thead><tbody><tr><td>Dextromethorphan HBr 7.5 mg</td><td>Antitussive</td></tr><tr><td>Pyrilamine Maleate 7.5 mg</td><td>Antihistamine</td></tr></tbody></table>"
+    ],
+    "indications_and_usage": [
+      "Uses temporarily relieves these symptoms due to hay fever (allergic rhinitis) or other upper respiratory allergies: runny nose sneezing itching of the nose or throat itchy, watery eyes cough due to minor throat and bronchial irritation associated with a cold alleviates cough to help you sleep nonnarcotic cough suppressant for the relief of cough"
+    ],
+    "warnings": [
+      "Warnings Do not exceed recommended dosage. a persistent cough may be a sign of a serious condition. If cough persist for more than 1 week, tends to recur, or is accompanied by a fever, rash, or persistent headache, consult a doctor. Do not use this product if you are now taking a prescription monoamine oxidase inhibitor (MAOI) (certain drugs for depression, psychiatric, or emotional conditions, or Parkinson's disease), or for 2 weeks after stopping the MAOI drug. If you do not know if your prescription drug contains an MAOI, ask a doctor or pharmacist before taking this product for persistent or chronic cough such as occurs with smoking, asthma, or emphysema, or if cough is accompanied by excessive phlegm (mucus) unless directed by a doctor Ask a doctor before use if you have a breathing problem such as emphysema or chronic bronchitis glaucoma difficulty in urination due to enlargement of the prostate gland Ask a doctor before use if you are taking sedatives or tranquilizers. When using this product excitability may occur, especially in children may cause marked drowsiness sedatives and tranquilizers may increase drowsiness effect avoid alcoholic beverages use caution when driving a motor vehicle or operating machinery If pregnant or breast-feeding, ask a health professional before use. Keep out of reach of children. In case of accidental overdose, seek professional help or contact a Poison Control Center immediately."
+    ],
+    "do_not_use": [
+      "Do not use this product if you are now taking a prescription monoamine oxidase inhibitor (MAOI) (certain drugs for depression, psychiatric, or emotional conditions, or Parkinson's disease), or for 2 weeks after stopping the MAOI drug. If you do not know if your prescription drug contains an MAOI, ask a doctor or pharmacist before taking this product for persistent or chronic cough such as occurs with smoking, asthma, or emphysema, or if cough is accompanied by excessive phlegm (mucus) unless directed by a doctor"
+    ],
+    "ask_doctor": [
+      "Ask a doctor before use if you have a breathing problem such as emphysema or chronic bronchitis glaucoma difficulty in urination due to enlargement of the prostate gland"
+    ],
+    "ask_doctor_or_pharmacist": [
+      "Ask a doctor before use if you are taking sedatives or tranquilizers."
+    ],
+    "when_using": [
+      "When using this product excitability may occur, especially in children may cause marked drowsiness sedatives and tranquilizers may increase drowsiness effect avoid alcoholic beverages use caution when driving a motor vehicle or operating machinery"
+    ],
+    "pregnancy_or_breast_feeding": [
+      "If pregnant or breast-feeding, ask a health professional before use."
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. In case of accidental overdose, seek professional help or contact a Poison Control Center immediately."
+    ],
+    "dosage_and_administration": [
+      "Directions Do not exceed recommended dosage. Adults and children 12 years of age and over: 4 teaspoonfuls every 6-8 hours, not to exceed 16 teaspoonfuls in 24 hours, or as directed by a doctor Children 6 to under 12 years of age: 2 teaspoonfuls every 6-8 hours, not to exceed 8 teaspoonfuls in 24 hours, or as directed by a doctor Children under 6 years of age: Consult a doctor"
+    ],
+    "dosage_and_administration_table": [
+      "<table width=\"70%\"><col width=\"35%\" align=\"left\" valign=\"top\"/><col width=\"65%\" align=\"left\" valign=\"top\"/><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Rrule\">Adults and children 12 years of age and over:</td><td>4 teaspoonfuls every 6-8 hours, not to exceed 16 teaspoonfuls in 24 hours, or as directed by a doctor</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Rrule\">Children 6 to under 12 years of age:</td><td>2 teaspoonfuls every 6-8 hours, not to exceed 8 teaspoonfuls in 24 hours, or as directed by a doctor</td></tr><tr><td styleCode=\"Rrule\">Children under 6 years of age:</td><td>Consult a doctor</td></tr></tbody></table>"
+    ],
+    "storage_and_handling": [
+      "Other information Store at room temperature 15\u00b0C-30\u00b0C (59\u00b0F-86\u00b0F)"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients Anhydrous citric acid, flavor, glycerin, propylene glycol, purified water, sodium benzoate, sodium citrate, sorbitol solution, sucralose."
+    ],
+    "questions": [
+      "Questions or Comments? Call 1-844-221-7294 M-F (9 a.m. to 5 p.m. EST)"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 473 mL Bottle Label NDC: 69367-398-16 Pyrilamine Maleate and Dextromethorphan HBr Liquid Antitussive \u2022 Antihistamine Sugar Free \u2022 Alcohol Free \u2022 Dye Free \u2022 Gluten Free Each teaspoonful (5 mL) for oral administration contains: Dextromethorphan HBr 7.5 mg Pyrilamine Maleate 7.5 mg Candy Apple Flavor Tamper evident by foil seal under cap. Do not use if foil is broken or missing. Supplied in a tight container with a child-resistant cap. 16oz. (473mL) Westminster Pharmaceuticals Principal Display Panel - 473 mL Bottle Label"
+    ],
+    "set_id": "dd068449-9d24-41e6-8a6e-f69c9fe263f2",
+    "id": "c0f27c81-43c1-4e63-b3a4-ccbd15f35ab4",
+    "effective_time": "20240826",
+    "version": "2",
+    "openfda": {
+      "application_number": [
+        "M012"
+      ],
+      "brand_name": [
+        "Pyrilamine Maleate and Dextromethorphan Hydrobromide"
+      ],
+      "generic_name": [
+        "PYRILAMINE MALEATE AND DEXTROMETHORPHAN HYDROBROMIDE"
+      ],
+      "manufacturer_name": [
+        "Westminster Pharmaceuticals, LLC"
+      ],
+      "product_ndc": [
+        "69367-398"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "DEXTROMETHORPHAN HYDROBROMIDE",
+        "PYRILAMINE MALEATE"
+      ],
+      "rxcui": [
+        "1423307"
+      ],
+      "spl_id": [
+        "c0f27c81-43c1-4e63-b3a4-ccbd15f35ab4"
+      ],
+      "spl_set_id": [
+        "dd068449-9d24-41e6-8a6e-f69c9fe263f2"
+      ],
+      "package_ndc": [
+        "69367-398-16"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "9D2RTI9KYH",
+        "R35D29L3ZA"
+      ]
+    }
+  }
+]

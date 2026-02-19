@@ -16,7 +16,7 @@ from ..EmbioPSG_API.PSnx2Neo4j import nx2neo4j
 
 TO_RETRIEVE = 'to_retrieve'
 BELONGS2GROUPS = 'belongs2groups'
-ALL_CHILDS = 0
+ALL_CHILDS = -1
 # options for TO_RETRIEVE argument:
 NO_REL_PROPERTIES = -2
 CURRENT_SPECS = -1 # keep current retrieval properties
@@ -334,10 +334,9 @@ class APISession(PSNetworx):
 
     def process_oql(self,oql_query:str,request_name='',max_result=0, debug=False) -> ResnetGraph|int:
         '''
-        Return
-        ------
-        if max_result is not 0 and number of results exceeds max_result returns int = self.ResultSize\n
-        otherwise returns ResnetGraph with query results
+        output:
+          if max_result is not 0 and number of results exceeds max_result returns int = self.ResultSize\n
+          otherwise returns ResnetGraph with query results
         '''
         with threading.Lock():
           self.__replace_goql(oql_query)
@@ -907,12 +906,12 @@ class APISession(PSNetworx):
 
 
     def connect_entities(self,objs:list[PSObject],and_obj:list[PSObject],
-                         by_relation_type=[],with_effect=[],in_direction=''):
+                         by_relation_type=[],with_effect=[],in_direction='',step=500):
         dbids1 = set(ResnetGraph.dbids(objs))
         dbids2 = set(ResnetGraph.dbids(and_obj))
-        assert(dbids1)
-        assert(dbids2)
-        return self.connect_nodes(dbids1,dbids2,by_relation_type,with_effect,in_direction)
+        assert(dbids1), 'No database identifiers were found for the first input list of objects. Please check if objects have database identifiers and try again'
+        assert(dbids2), 'No database identifiers were found for the second input list of objects. Please check if objects have database identifiers and try again'
+        return self.connect_nodes(dbids1,dbids2,by_relation_type,with_effect,in_direction,step=step)
     
 
     def get_group_members(self, group_names:list):
@@ -994,7 +993,7 @@ class APISession(PSNetworx):
     def ___load_children(self,parent:PSObject,min_connectivity=0,depth=0,max_childs=ALL_CHILDS)->tuple[PSObject,list[PSObject]]:
       '''
       input:
-        if max_childs=0 finds all children for parent in database
+        if max_childs = ALL_CHILDS finds all children for parent in database
       output:
         Tuple: parent:PSObject, children:list[PSObject]
       '''
@@ -1006,6 +1005,7 @@ class APISession(PSNetworx):
               query_ontology += f' AND Connectivity >= {min_connectivity}'
 
           my_session = self._clone_session(what2retrieve=NO_REL_PROPERTIES)
+          max_childs = max_childs if max_childs > 0 else 0
           children_graph = my_session.process_oql(query_ontology,'',max_result=max_childs)
           my_session.close_connection()
           if isinstance(children_graph,int):

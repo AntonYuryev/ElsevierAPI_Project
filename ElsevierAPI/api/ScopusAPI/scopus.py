@@ -10,7 +10,7 @@ from titlecase import titlecase
 AUTHOR_SEARCH = 0
 AUTHOR_RETRIEVAL = 1
 SCOPUS_API_BASEURL = 'https://api.elsevier.com/content/'
-SCOPUS_CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/__scpcache__/')
+SCOPUS_CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/__scopuscache__/')
 # for Scopus query limits read https://dev.elsevier.com/guides/Scopus%20API%20Guide_V1_20230907.pdf
 SCOPUS_AUTHORIDS = 'scopusAuthors'
 SCOPUS_CITESCORE = 'CiteScore'

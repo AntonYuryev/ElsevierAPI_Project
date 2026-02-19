@@ -1,0 +1,344 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Vitamin B Complex thiamine hydrochloride, riboflavin 5 phosphate sodium, dexpanthenol and niacinamide THIAMINE HYDROCHLORIDE THIAMINE ION THIAMINE RIBOFLAVIN 5'-PHOSPHATE SODIUM FLAVIN MONONUCLEOTIDE DEXPANTHENOL DEXPANTHENOL NIACINAMIDE NIACINAMIDE PYRIDOXINE HYDROCHLORIDE PYRIDOXINE BENZYL ALCOHOL WATER HYDROCHLORIC ACID SODIUM HYDROXIDE"
+    ],
+    "description": [
+      "DESCRIPTION Vitamin B-Complex 100 Injection is a sterile solution for intramuscular or slow intravenous injection comprised of vitamins which may be categorized as belonging to the vitamin B complex group. Each mL contains: Thiamine Hydrochloride 100 mg, Riboflavin 5\u2019 Phosphate Sodium 2 mg, Pyridoxine Hydrochloride 2 mg, Dexpanthenol 2 mg, Niacinamide 100 mg, with Benzyl Alcohol 2% as preservative, in Water for Injection. Sodium Hydroxide and/or Hydrochloric Acid may have been used to adjust pH."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS AND USAGE In disorders requiring parenteral administration of vitamins, i.e. pre- and post-operative treatment, when requirements are increased as in fever, severe burns, increased metabolism, pregnancy, gastrointestinal disorders interfering with intake or absorption of vitamins, prolonged or wasting diseases, alcoholism and where other deficiencies exist."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS Sensitivity to the ingredients listed."
+    ],
+    "warnings": [
+      "WARNINGS Anaphylactogenesis may occur with parenteral thiamine. Use with caution. An intradermal test dose is recommended prior to administration in patients suspected of being sensitive to the drug."
+    ],
+    "precautions": [
+      "PRECAUTIONS The usual precautions for parenteral administration should be observed. Do not inject if precipitation occurs. Inject slowly by the intravenous route. High concentrations should be diluted using Normal Saline Injection when given intravenously."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS Mild transient diarrhea, polycythemia vera, peripheral vascular thrombosis, itching transitory exanthema, feeling of swelling of entire body, anaphylactic shock and death. Sensitivity to the ingredients listed may occur (see WARNINGS ). Use should be discontinued upon observance of any untoward reaction. Pain upon intramuscular injection may be noted."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Usually 0.25 to 2 mL by intramuscular or slow intravenous injection. High concentrations given intravenously may be diluted using parenteral infusion solutions. (See PRECAUTIONS .) Parenteral drug products should be inspected visually for particulate matter and discoloration prior to administration, whenever the solution and container permit (see HOW SUPPLIED )."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED Vitamin B-Complex 100 Injection is available in a 30 mL multiple-dose vial individually boxed. Phase separation due to reduced solubility can occur under certain conditions of shipping or storage (e.g. accidental freezing), which may produce visible particles. Do not use product if these do not redissolve on warming to body temperature and shaking well. Refrigeration of the product may cause darkening of the solution due to the riboflavin content. The colour does not affect the safety or efficacy of the product. PROTECT FROM LIGHT: Store in carton until contents are used. Store under refrigeration 2\u00b0 to 8\u00b0C (36\u00b0 to 46\u00b0F). Do not permit to freeze. Manufactured for: Mylan Institutional LLC Morgantown, WV 26505 U.S.A. Manufactured by: Mylan Institutional Galway, Ireland 0415L107 Revised: 9/2021 MI:VITBIJ:R4"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 30 mL NDC 67457-146-30 30 mL Vitamin B-Complex 100 Injection For Intramuscular or Slow Intravenous Use Rx only Multi-Dose Vial Sterile Each mL contains: Thiamine HCl 100 mg, Riboflavin 5' Phosphate Sodium 2 mg, Pyridoxine HCl 2 mg, Dexpanthenol 2 mg, Niacinamide 100 mg, with Benzyl Alcohol 2% as preservative, in Water for Injection. Sodium Hydroxide and/or Hydrochloric Acid may have been used to adjust pH. Warning: Anaphylactogenesis to parenteral thiamine has been reported. Use with caution. Usual Dosage: See accompanying prescribing information. STORE UNDER REFRIGERATION 2\u00b0 TO 8\u00b0C (36\u00b0 TO 46\u00b0F). DO NOT FREEZE. Protect from light. Store in carton until contents are used. Manufactured for: Mylan Institutional LLC Morgantown, WV 26505 U.S.A. Manufactured by: Mylan Institutional Galway, Ireland MI:146:1C:R4 Mylan.com Vitamin B-Complex 100 Injection Carton Label"
+    ],
+    "set_id": "282ccec8-9bcd-4571-9b91-bbb96ef2620d",
+    "id": "a7704aa3-bd3d-479e-8469-767d59636c7e",
+    "effective_time": "20210915",
+    "version": "8",
+    "openfda": {
+      "brand_name": [
+        "Vitamin B Complex"
+      ],
+      "generic_name": [
+        "THIAMINE HYDROCHLORIDE, RIBOFLAVIN 5 PHOSPHATE SODIUM, DEXPANTHENOL AND NIACINAMIDE"
+      ],
+      "manufacturer_name": [
+        "Mylan Institutional LLC"
+      ],
+      "product_ndc": [
+        "67457-146"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "INTRAVENOUS"
+      ],
+      "substance_name": [
+        "DEXPANTHENOL",
+        "NIACINAMIDE",
+        "PYRIDOXINE HYDROCHLORIDE",
+        "RIBOFLAVIN 5'-PHOSPHATE SODIUM",
+        "THIAMINE HYDROCHLORIDE"
+      ],
+      "rxcui": [
+        "801177"
+      ],
+      "spl_id": [
+        "a7704aa3-bd3d-479e-8469-767d59636c7e"
+      ],
+      "spl_set_id": [
+        "282ccec8-9bcd-4571-9b91-bbb96ef2620d"
+      ],
+      "package_ndc": [
+        "67457-146-30"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "1O6C93RI7Z",
+        "25X51I8RD4",
+        "68Y4CF58BV",
+        "20RD1DZH99",
+        "M572600E5P"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Pediatric Infuvite Multiple Vitamins Ascorbic Acid, Vitamin A Palmitate, Cholecalciferol, Thiamine Hydrochloride, Riboflavin-5 phosphate sodium, Pyridoxine Hydrochloride, Niacinamide, Dexpanthenol, Alpha-tocopherol acetate, Vitamin K1, Folic Acid, Biotin, Cyanocobalamin Pediatric Infuvite Multiple Vitamins Ascorbic Acid, Vitamin A Palmitate, Cholecalciferol, Thiamine Hydrochloride, Riboflavin 5-phosphate sodium, Pyridoxine Hydrochloride, Niacinamide, Dexpanthenol, Alpha-tocopherol acetate, Vitamin K1 ASCORBIC ACID ASCORBIC ACID VITAMIN A PALMITATE VITAMIN A CHOLECALCIFEROL CHOLECALCIFEROL THIAMINE HYDROCHLORIDE THIAMINE ION THIAMINE RIBOFLAVIN 5'-PHOSPHATE SODIUM FLAVIN MONONUCLEOTIDE PYRIDOXINE HYDROCHLORIDE PYRIDOXINE NIACINAMIDE NIACINAMIDE DEXPANTHENOL DEXPANTHENOL .ALPHA.-TOCOPHEROL ACETATE .ALPHA.-TOCOPHEROL PHYTONADIONE PHYTONADIONE POLYSORBATE 80 SODIUM HYDROXIDE HYDROCHLORIC ACID WATER Pediatric Infuvite Multiple Vitamins Folic Acid, Biotin, Cyanocobalamin FOLIC ACID FOLIC ACID BIOTIN BIOTIN CYANOCOBALAMIN CYANOCOBALAMIN MANNITOL ANHYDROUS CITRIC ACID SODIUM CITRATE, UNSPECIFIED FORM WATER Pediatric Infuvite Multiple Vitamins Ascorbic Acid, Vitamin A Palmitate, Cholecalciferol, Thiamine Hydrochloride, Riboflavin-5 phosphate sodium, Pyridoxine Hydrochloride, Niacinamide, Dexpanthenol, Alpha-tocopherol acetate, Vitamin K1, Folic Acid, Biotin, Cyanocobalamin ASCORBIC ACID ASCORBIC ACID VITAMIN A PALMITATE VITAMIN A CHOLECALCIFEROL CHOLECALCIFEROL THIAMINE HYDROCHLORIDE THIAMINE ION THIAMINE RIBOFLAVIN 5'-PHOSPHATE SODIUM FLAVIN MONONUCLEOTIDE PYRIDOXINE HYDROCHLORIDE PYRIDOXINE NIACINAMIDE NIACINAMIDE DEXPANTHENOL DEXPANTHENOL .ALPHA.-TOCOPHEROL ACETATE .ALPHA.-TOCOPHEROL PHYTONADIONE PHYTONADIONE FOLIC ACID FOLIC ACID BIOTIN BIOTIN CYANOCOBALAMIN CYANOCOBALAMIN POLYSORBATE 80 ANHYDROUS CITRIC ACID SODIUM CITRATE, UNSPECIFIED FORM SODIUM HYDROXIDE HYDROCHLORIC ACID WATER MANNITOL"
+    ],
+    "indications_and_usage": [
+      "1 INDICATIONS AND USAGE INFUVITE PEDIATRIC is a combination of vitamins indicated for the prevention of vitamin deficiency in pediatric patients up to 11 years of age receiving parenteral nutrition. The physician should not await the development of clinical signs of vitamin deficiency before initiating vitamin therapy. INFUVITE PEDIATRIC is a combination of vitamins indicated for the prevention of vitamin deficiency in pediatric patients up to 11 years of age receiving parenteral nutrition ( 1 )"
+    ],
+    "dosage_and_administration": [
+      "2 DOSAGE AND ADMINISTRATION \u2022 INFUVITE PEDIATRIC is a combination product that contains the following vitamins: ascorbic acid, vitamin A, vitamin D, thiamine, riboflavin, pyridoxine, niacinamide, dexpanthenol, vitamin E, vitamin K1, folic acid, biotin, and vitamin B12 ( 2.1 ) \u2022 INFUVITE PEDIATRIC is for administration by intravenous infusion after dilution ( 2.1 ) \u2022 Recommended daily dosage is based on patient\u2019s actual weight ( 2.2 ): \u2022 INFUVITE PEDIATRIC Single Dose: o Weight less than 1 kg: 1.2 mL of Vial 1 and 0.3 mL of Vial 2 o Weight 1 kg to less than 3 kg: 2.6 mL of Vial 1 and 0.65 mL Vial 2 o Weight 3 kg or greater: 4 mL of Vial 1 and 1 mL of Vial 2 \u2022 INFUVITE PEDIATRIC Pharmacy Bulk Package : o Weight less than 1 kg: 1.5 mL of combined content of Vials 1 and 2 o Weight 1 kg to less than 3 kg: 3.25 mL of combined content of Vials 1 and 2 o Weight 3 kg or greater: 5 mL of combined content of Vials 1 and 2. \u2022 Supplemental vitamin A may be required for low-birth weight infants ( 2.2 ) \u2022 INFUVITE PEDIATRIC is supplied as a single dose and as a pharmacy bulk package: \u2022 Single Dose consists of two vials labeled Vial 1 and Vial 2. Add one daily dose of Vial 1 and one daily dose of Vial 2 directly to at least 100 mL of intravenous dextrose or saline solution prior to intravenous use ( 2.3 ) \u2022 Pharmacy Bulk Package consists of two vials labeled Vial 1 and Vial 2. Transfer contents of Vial 2 to contents of Vial 1. Then, take 1.5 mL, 3.25 mL, or 5 mL from mixture and add to at least 100 mL of intravenous dextrose or saline solution prior to intravenous use ( 2.3 ) \u2022 After dilution in an intravenous infusion, refrigerate resulting solution unless used immediately. Use solution within 24 hours after dilution ( 2.3 ) \u2022 Monitor blood vitamin concentrations ( 2.4 ) \u2022 See Full Prescribing Information for drug incompatibilities ( 2.5 ). 2.1 Important Dosage Instructions INFUVITE PEDIATRIC is a combination product that contains the following vitamins: ascorbic acid, vitamin A, vitamin D, thiamine, riboflavin, pyridoxine, niacinamide, dexpanthenol, vitamin E, vitamin K1, folic acid, biotin, and vitamin B12 . INFUVITE PEDIATRIC is supplied as a single dose or as a pharmacy bulk package, for intravenous use intended for administration by intravenous infusion after dilution: \u2022 INFUVITE PEDIATRIC Single Dose consists of two vials. A weight-based volume from each vial must be added directly to dextrose or saline solution prior to intravenous administration [ see Dosage and Administration ( 2.2 , 2.3 ) ]. \u2022 INFUVITE PEDIATRIC Pharmacy Bulk Package consists of two pharmacy bulk vials which must be mixed prior to use. The mixed solution will provide multiple daily doses which must be diluted prior to intravenous administration. Pharmacy bulk package of INFUVITE PEDIATRIC is intended for dispensing of single doses to multiple patients in a pharmacy admixture program and is restricted to the preparation of admixtures for infusion. [ see Dosage and Administration ( 2.2 , 2.3 ) ]. 2.2 Dosage Information The recommended daily dosage volume is based on the patient's actual weight less than 1 kg, 1 kg to less than 3 kg, and 3 kg or greater. Patients with multiple vitamin deficiencies or with increased vitamin requirements may need multiple daily dosages as indicated or additional doses of individual vitamins. Supplemental vitamin A may be required for low-birth weight infants. Additional daily dosages of Vitamin E in infants are not recommended [see Warnings and Precautions ( 5.8 )]. INFUVITE PEDIATRIC Single Dose (see Table 1): One daily dose of Vial 1 (1.2 mL, 2.6 mL or 4 mL) and one daily dose of Vial 2 (0.3 mL, 0.65 mL or 1 mL) based on the patient\u2019s weight are added directly to a specified volume of an intravenous fluid [ see Dosage and Administration ( 2.3 ) ] (see Table 1). Table 1: Recommended Weight-Based Dosage of INFUVITE PEDIATRIC Single Dose Less than 1 kg 1 kg to less than 3 kg 3 kg or greater Daily Dosage Volume \u2013 Vial 1 1.2 mL 2.6 mL 4 mL Ascorbic acid (Vitamin C) 24 mg 52 mg 80 mg Vitamin A (as palmitate) 690 IU (equals 0.2 mg) 1495 IU (equals 0.5 mg) 2,300 IU (equals 0.7 mg) Vitamin D 3 (cholecalciferol) 120 IU (equals 3 mcg) 260 IU (equals 7 mc g) 400 IU (equals 10 mcg) Thiamine (Vitamin B 1 ) (as the hydrochloride) 0.4 mg 0.8 mg 1.2 mg Riboflavin (Vitamin B 2 ) (as riboflavin 5-phosphate sodium) 0.4 mg 0.9 mg 1.4 mg Pyridoxine HCl (Vitamin B 6 ) 0.3 mg 0.7 mg 1 mg Niacinamide 5.1 mg 11.1 mg 17 mg Dexpanthenol (as d -pantothenyl alcohol) 1.5 mg 3.3 mg 5 mg Vitamin E ( dl -\u03b1-tocopheryl acetate) 2.1 IU (equals 2 mg) 4.6 IU (equals 5 mg) 7 IU (equals 7 mg) Vitamin K 1 0.1 mg 0.1 mg 0.2 mg Daily Dosage Volume \u2013 Vial 2 0.3 mL 0.65 mL 1 mL Folic acid 42 mcg 91 mcg 140 mcg Biotin 6 mcg 13 mcg 20 mcg Vitamin B12 (cyanocobalamin) 0.3 mcg 0.7 mcg 1 mcg INFUVITE PEDIATRIC Pharmacy Bulk Package (see Table 2): The recommended daily dosage volume of combined content of vials 1 and 2 (1.5 mL, 3.25 mL or 5 mL) is based on the patient\u2019s weight and then added directly to the specific volume of an intravenous fluid [ see Dosage and Administration ( 2.3 ) ]. Table 2: Recommended Weight-Based Dosage of INFUVITE PEDIATRIC Pharmacy Bulk Package Less than 1 kg 1 kg to less than 3 kg 3 kg or greater Daily Dosage Volume(combined contents of Vial 1 and Vial 2) 1.5 mL 3.25 mL 5 mL Ascorbic acid (Vitamin C) 24 mg 52 mg 80 mg Vitamin A (as palmitate) 690 IU (equals 0.2 mg) 1495 IU (equals 0.5 mg) 2,300 IU (equals 0.7 mg) Vitamin D 3 (cholecalciferol) 120 IU (equals 3 mcg) 260 IU (equals 7 mc g) 400 IU (equals 10 mcg) Thiamine (Vitamin B 1 ) (as the hydrochloride) 0.4 mg 0.8 mg 1.2 mg Riboflavin (Vitamin B 2 ) (as riboflavin 5-phosphate sodium) 0.4 mg 0.9 mg 1.4 mg Pyridoxine HCl (Vitamin B 6 ) 0.3 mg 0.7 mg 1 mg Niacinamide 5.1 mg 11.1 mg 17 mg Dexpanthenol (as d -pantothenyl alcohol) 1.5 mg 3.3 mg 5 mg Vitamin E ( dl -\u03b1-tocopheryl acetate) 2.1 IU (equals 2 mg) 4.6 IU (equals 5 mg) 7 IU (equals 7 mg) Vitamin K 1 0.1 mg 0.1 mg 0.2 mg Folic acid 42 mcg 91 mcg 140 mcg Biotin 6 mcg 13 mcg 20 mcg Vitamin B12 (cyanocobalamin) 0.3 mcg 0.7 mcg 1 mcg 2.3 Preparation and Administration Instructions Do not administer INFUVITE PEDIATRIC as a direct, undiluted intravenous injection as it may cause dizziness, faintness, and possible tissue irritation. INFUVITE PEDIATRIC Single Dose: \u2022 Use only in a suitable work area such as a laminar flow hood (or an equivalent clean air compounding area). Add one weight-based dose of Vial 1 (1.2 mL, 2.6 mL or 4 mL) and one weight-based dose of Vial 2 (0.3 mL, 0.65 mL or 1 mL) directly to at least 100 mL of intravenous dextrose or saline solution. \u2022 Discard unused portion. \u2022 Visually inspect for particulate matter and discoloration prior to administration. \u2022 After INFUVITE PEDIATRIC is diluted in an intravenous infusion, refrigerate the resulting solution unless it is to be used immediately, and use the solution within 24 hours after dilution. \u2022 Minimize exposure to light because some of the vitamins in INFUVITE PEDIATRIC, particularly A, D and riboflavin, are light sensitive. INFUVITE PEDIATRIC Pharmacy Bulk Package : \u2022 Use only in a suitable work area such as a laminar flow hood (or an equivalent clean air compounding area). \u2022 Transfer the contents of Vial 2 (10 mL of solution) into the contents of Vial 1 (40 mL of solution). The mixed solution (50 mL) will provide thirty-three 1.5 mL single doses, fifteen 3.25 mL single doses or ten 5 mL single doses. \u2022 Each bulk vial closure shall be penetrated only one time with a suitable sterile transfer device or dispensing set that allows measured dispensing of the contents. \u2022 Once the closure system has been penetrated, complete dispensing from the pharmacy bulk vial should be completed within 4 hours. The mixed solution may be refrigerated and stored for up to 4 hours. \u2022 Discard unused portion. \u2022 Visually inspect for particulate matter and discoloration prior to administration. \u2022 Add one dose directly to at least 100 mL of intravenous dextrose or saline solution for each patient. \u2022 After INFUVITE PEDIATRIC is diluted in an intravenous infusion, refrigerate the resulting solution unless it is to be used immediately, and use the solution within 24 hours after dilution. \u2022 Minimize exposure to light because some of the vitamins in INFUVITE PEDIATRIC, particularly A, D and riboflavin, are light sensitive. 2.4 Monitoring Vitamin Blood Levels Blood vitamin concentrations should be monitored to ensure maintenance of adequate levels, particularly in patients receiving parenteral multivitamins as the only source of vitamins for long periods of time. 2.5 Drug Incompatibilities \u2022 INFUVITE PEDIATRIC is not physically compatible with moderately alkaline solutions such as a sodium bicarbonate solution and other alkaline drugs such as acetazolamide sodium, aminophylline, ampicillin sodium, tetracycline HCl and chlorothiazide sodium. \u2022 Folic acid is unstable in the presence of calcium salts such as calcium gluconate. \u2022 Vitamin A and thiamine in INFUVITE PEDIATRIC may react with bisulfite solutions such as sodium bisulfite or vitamin K bisulfite. \u2022 Do not add INFUVITE PEDIATRIC directly to intravenous fat emulsions. \u2022 Consult appropriate references for additional listings of physical and chemical compatibility of solutions and drugs with the vitamin infusion when needed. If incompatibilities are identified, avoid admixture or Y-site administration with vitamin solutions."
+    ],
+    "dosage_and_administration_table": [
+      "<table width=\"572.4pt\"><caption>Table 1: Recommended Weight-Based Dosage of INFUVITE PEDIATRIC Single Dose</caption><col width=\"34%\"/><col width=\"20%\"/><col width=\"21%\"/><col width=\"24%\"/><tbody><tr><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"top\"/><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">Less than 1 kg</content></paragraph></td><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">1 kg to less than 3 kg</content></paragraph></td><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">3 kg or greater</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">Daily Dosage Volume &#x2013; Vial 1</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">1.2 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">2.6 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">4 mL</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Ascorbic acid (Vitamin C)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>24 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>52 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>80 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin A (as palmitate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>690 IU (equals 0.2 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1495 IU (equals 0.5 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>2,300 IU (equals 0.7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin D<sub>3</sub> (cholecalciferol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>120 IU (equals 3 mcg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>260 IU (equals 7 mc<content styleCode=\"italics\">g)</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>400 IU (equals 10 mcg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Thiamine (Vitamin B<sub>1</sub>) (as the hydrochloride)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.4 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.8 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.2 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Riboflavin (Vitamin B<sub>2</sub>) (as riboflavin 5-phosphate sodium)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.4 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.9 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.4 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Pyridoxine HCl (Vitamin B<sub>6</sub>)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.3 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.7 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Niacinamide</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>5.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>11.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>17 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Dexpanthenol (as <content styleCode=\"italics\">d</content>-pantothenyl alcohol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.5 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>3.3 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>5 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin E (<content styleCode=\"italics\">dl</content>-&#x3B1;-tocopheryl acetate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>2.1 IU (equals 2 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>4.6 IU (equals 5 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>7 IU (equals 7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin K<sub>1</sub></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.2 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">Daily Dosage Volume &#x2013; Vial 2</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">0.3 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">0.65 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">1 mL</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Folic acid</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>42 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>91 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>140 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Biotin</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>6 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>13 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>20 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>Vitamin B12 (cyanocobalamin)</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>0.3 mcg</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>0.7 mcg</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>1 mcg</paragraph></td></tr></tbody></table>",
+      "<table width=\"572.4pt\"><caption>Table 2: Recommended Weight-Based Dosage of INFUVITE PEDIATRIC Pharmacy Bulk Package</caption><col width=\"34%\"/><col width=\"20%\"/><col width=\"21%\"/><col width=\"24%\"/><tbody><tr><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"top\"/><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">Less than 1 kg</content></paragraph></td><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">1 kg to less than 3 kg</content></paragraph></td><td align=\"center\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">3 kg or greater</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">Daily Dosage Volume(combined contents of Vial 1 and Vial 2) </content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">1.5 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">3.25 mL</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph><content styleCode=\"bold\">5 mL</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Ascorbic acid (Vitamin C)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>24 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>52 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>80 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin A (as palmitate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>690 IU (equals 0.2 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1495 IU (equals 0.5 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>2,300 IU (equals 0.7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin D<sub>3</sub> (cholecalciferol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>120 IU (equals 3 mcg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>260 IU (equals 7 mc<content styleCode=\"italics\">g)</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>400 IU (equals 10 mcg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Thiamine (Vitamin B<sub>1</sub>) (as the hydrochloride)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.4 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.8 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.2 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Riboflavin (Vitamin B<sub>2</sub>) (as riboflavin 5-phosphate sodium)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.4 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.9 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.4 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Pyridoxine HCl (Vitamin B<sub>6</sub>)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.3 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.7 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Niacinamide</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>5.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>11.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>17 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Dexpanthenol (as <content styleCode=\"italics\">d</content>-pantothenyl alcohol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>1.5 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>3.3 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>5 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin E (<content styleCode=\"italics\">dl</content>-&#x3B1;-tocopheryl acetate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>2.1 IU (equals 2 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>4.6 IU (equals 5 mg)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>7 IU (equals 7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Vitamin K<sub>1</sub></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.1 mg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>0.2 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Folic acid</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>42 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>91 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>140 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"middle\"><paragraph>Biotin</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>6 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>13 mcg</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"middle\"><paragraph>20 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>Vitamin B12 (cyanocobalamin)</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>0.3 mcg</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>0.7 mcg</paragraph></td><td styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"middle\"><paragraph>1 mcg</paragraph></td></tr></tbody></table>"
+    ],
+    "dosage_forms_and_strengths": [
+      "3 DOSAGE FORMS AND STRENGTHS INFUVITE PEDIATRIC Single Dose is an injection consisting of two single-dose vials labeled Vial 1 (4 mL) and Vial 2 (1 mL). For the vitamin strengths [ see Dosage and Administration ( 2.2 ) and Description ( 11 ) ]. INFUVITE PEDIATRIC Pharmacy Bulk Package is an injection consisting of two vials labeled Vial 1 (40 mL Fill in 50 mL Vial) and Vial 2 (10 mL). The mixed solution (50 mL) will provide thirty-three 1.5 mL single doses, fifteen 3.25 mL single doses or ten 5 mL single doses. For the vitamin strengths [ see Dosage and Administration ( 2.2 ) and Description ( 11 ) ]. \u2022 INFUVITE PEDIATRIC single dose is an injection consisting of two vials labeled Vial 1 (4 mL) and Vial 2 (1 mL) ( 3 ) \u2022 INFUVITE PEDIATRIC pharmacy bulk package is an injection consisting of two vials labeled Vial 1 (50 mL) and Vial 2 (10 mL) ( 3 ) \u2022 See Full Prescribing Information for vitamin strengths ( 11 )"
+    ],
+    "contraindications": [
+      "4 CONTRAINDICATIONS INFUVITE PEDIATRIC is contraindicated in patients who have: \u2022 An existing hypervitaminosis, or \u2022 A history of hypersensitivity to any vitamins or excipients contained in this formulation. \u2022 Hypersensitivity to any of vitamins or excipients ( 4 ) \u2022 Existing hypervitaminosis ( 4 )"
+    ],
+    "warnings_and_cautions": [
+      "5 WARNINGS AND PRECAUTIONS \u2022 Risk of Aluminum Toxicity: For at risk patients (renal failure or those with prolonged therapy), consider periodic monitoring of aluminum levels ( 5.1 ) \u2022 Allergic Reactions: To thiamine may occur ( 5.2 ) \u2022 Hypervitaminosis A : Patients with renal failure or liver disease may be at higher risk ( 5.3 ) \u2022 Decreased Anticoagulant Effect of Warfarin: Monitor INR ( 5.4 , 7.1 ) \u2022 Interferes with Megaloblastic Anemia Diagnosis: Avoid during testing for this disorder ( 5.5 ) \u2022 Risk of Vitamin Deficiencies or Excesses: Monitor blood vitamin concentrations ( 5.6 ) \u2022 False Negative Urine Glucose Tests: Due to vitamin C ( 5.7 ) \u2022 Risk of Vitamin E Toxicity: Additional oral and parenteral vitamin E may result in elevated vitamin E blood concentrations in infants ( 5.8 ) \u2022 Low Vitamin A Levels: Monitor vitamin A levels ( 5.9 ) \u2022 Risk of E-Ferol Syndrome: Due to polysorbates ( 5.10 ) 5.1 Aluminum Toxicity INFUVITE PEDIATRIC contains aluminum that may be toxic. Aluminum may reach toxic levels with prolonged parenteral administration in pediatric patients with renal impairment. Premature neonates are particularly at risk because their kidneys are immature, and they require large amounts of calcium and phosphate solution, which contain aluminum. Research indicates that patients with impaired kidney function, including premature neonates who receive parenteral levels of aluminum at greater than 4 to 5 mcg/kg/day accumulate aluminum at levels associated with central nervous system and bone toxicity. Tissue loading may occur at even lower rates of administration. To prevent aluminum toxicity periodically monitor aluminum levels with prolonged parenteral administration of INFUVITE PEDIATRIC. 5.2 Allergic Reactions to Thiamine Allergic reactions such as urticaria, shortness of breath, wheezing and angioedema have been reported following intravenous administration of thiamine, which is found in INFUVITE PEDIATRIC. There have been rare reports of anaphylaxis following intravenous doses of thiamine. No fatal anaphylaxis associated with INFUVITE PEDIATRIC has been reported. 5.3. Hypervitaminosis A Hypervitaminosis A, manifested by nausea, vomiting, headache, dizziness, blurred vision has been reported in patients with renal failure receiving 1.5 mg/day retinol and in patients with liver disease. Therefore, supplementation of renal failure patients and patients with liver disease with vitamin A, an ingredient found in INFUVITE PEDIATRIC, should be undertaken with caution [ see Use in Specific Populations ( 8.6 , 8.7 ) ]. Blood levels of Vitamin A should be monitored periodically. 5.4 Decreased Anticoagulant Effect of Warfarin INFUVITE PEDIATRIC contains Vitamin K which may decrease the anticoagulant action of warfarin. In patients who are on warfarin anticoagulant therapy receiving INFUVITE PEDIATRIC monitor blood levels of prothrombin/INR to determine if dose of warfarin needs to be adjusted. 5.5 Interference with Diagnosis of Megaloblastic Anemia INFUVITE PEDIATRIC contains folic acid and cyanocobalamin which can mask serum deficiencies of folic acid and cyanocobalamin in patients with megaloblastic anemia. Avoid the use of INFUVITE PEDIATRICS in patients with suspected or diagnosed megaloblastic anemia prior to blood sampling for the detection of the folic acid and cyanocobalamin deficiencies. 5.6 Potential to Develop Vitamin Deficiencies or Excesses In patients receiving parenteral multivitamins such as with INFUVITE PEDIATRIC, blood vitamin concentrations should be periodically monitored to determine if vitamin deficiencies or excesses are developing. INFUVITE PEDIATRIC may not correct long-standing specific vitamin deficiencies. The administration of additional doses of specific vitamins may be required [ see Dosage and Administration ( 2.2 ) ]. 5.7 Interference with Urine Glucose Testing INFUVITE PEDIATRIC contains vitamin C which is also known as ascorbic acid. Ascorbic acid in the urine may cause false negative urine glucose results. 5.8 Vitamin E Overdose in Infants Receiving Additional Vitamin E Additional vitamin E supplementations of patients receiving INFUVITE PEDIATRIC may result in elevated blood concentrations of vitamin E and potential vitamin E toxicity in infants. Avoid additional oral or parental doses of vitamin E in infants. Daily dose of INFUVITE PEDIATRIC contains adequate concentrations of vitamin E required to achieve normal blood levels of vitamin E. 5.9 Risk of Low Vitamin A Levels Lower vitamin A concentrations may occur after administration of INFUVITE PEDIATRIC due to the adherence of Vitamin A to plastic. Monitor blood vitamin A concentrations periodically. Additional administration of therapeutic doses of vitamin A may be required, especially in low-birth weight infants. 5.10 Risk of E-Ferol Syndrome in Low-Birth Weight Infants E-Ferol syndrome manifested by thrombocytopenia, renal dysfunction, hepatomegaly, cholestasis, ascites, hypotension and metabolic acidosis has been reported in low-birth weight infants following administration of polysorbates which are found in INFUVITE PEDIATRIC. No E-Ferol syndrome associated with INFUVITE PEDIATRIC has been reported."
+    ],
+    "adverse_reactions": [
+      "6 ADVERSE REACTIONS The following adverse reactions are discussed in greater detail in other sections of the labeling. \u2022 Allergic reactions to thiamine [ see Warnings and Precautions ( 5.2 ) ]. \u2022 Hypervitaminosis A [ see Warnings and Precautions ( 5.3 ) ] The following adverse reactions have been identified during postapproval use of INFUVITE PEDIATRIC. Because these reactions are reported voluntarily from a population of uncertain size, it is not always possible to reliably estimate their frequency or establish a causal relationship to drug exposure. Dermatologic: rash, erythema, pruritis CNS: headache, dizziness, agitation, anxiety Ophthalmic: diplopia Adverse reactions have included anaphylaxis, rash, erythema, pruritis, headache, dizziness, agitation, anxiety, diplopia ( 6 ) To report SUSPECTED ADVERSE REACTIONS, contact Sandoz Inc. at 1-800-525-8747 or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch."
+    ],
+    "drug_interactions": [
+      "7 DRUG INTERACTIONS A number of interactions between vitamins and drugs have been reported. The following are examples of these types of interactions. Effect of INFUVITE PEDIATRIC on other drugs : \u2022 Antibiotics: Thiamine, riboflavin, pyridoxine, niacinamide, and ascorbic acid decrease activities of erythromycin, kanamycin, streptomycin, doxycycline, and lincomycin ( 7.1 ) \u2022 Bleomycin: Ascorbic acid and riboflavin may reduce the activity of bleomycin ( 7.1 ) \u2022 Levodopa: Pyridoxine may decrease blood levels of levodopa and levodopa efficacy may decrease ( 7.1 ) \u2022 Phenytoin: Folic acid may decrease phenytoin blood levels and increase risk of seizure activity ( 7.1 ) \u2022 Methotrexate: Folic acid may decrease response to methotrexate ( 7.1 ) Effects of other drugs on INFUVITE PEDIATRIC: \u2022 Hydralazine, Isoniazid: Concomitant administration of hydralazine or isoniazid may increase pyridoxine requirements ( 7.2 ). \u2022 Phenytoin: May decrease folic acid concentrations ( 7.2 ) 7.1 Drug Interactions Affecting Co-administered Drugs Warfarin : Vitamin K, a component of INFUVITE PEDIATRIC, antagonizes the anticoagulant action of warfarin. In patients who are co-administered warfarin and INFUVITE PEDIATRIC, blood levels of prothrombin/INR should be monitored to determine if dose of warfarin needs to be adjusted [ see Warnings and Precautions ( 5.4 ) ]. Antibiotics : Thiamine, riboflavin, pyridoxine, niacinamide, and ascorbic acid decrease antibiotic activities of erythromycin, kanamycin, streptomycin, doxycycline, and lincomycin. Bleomycin : Ascorbic acid and riboflavin inactivate bleomycin in vitro , thus the activity of bleomycin may be reduced. Levodopa : Pyridoxine may increase the metabolism of levodopa (decrease blood levels of levodopa) and decrease its efficacy. Phenytoin : Folic acid may increase phenytoin metabolism and lower the serum concentration of phenytoin resulting in increased seizure activity. Methotrexate : Folic acid may decrease a patient\u2019s response to methotrexate therapy. 7.2 Drug Interactions Affecting Vitamin Levels Hydralazine, Isoniazid : Concomitant administration of hydralazine or isoniazid may increase pyridoxine requirements. Phenytoin : Phenytoin may decrease serum folic acid concentrations."
+    ],
+    "use_in_specific_populations": [
+      "8 USE IN SPECIFIC POPULATIONS \u2022 Renal Impairment: Monitor renal function, calcium, phosphorus and vitamin A levels ( 8.6 ) \u2022 Hepatic Impairment: Monitor vitamin A levels ( 8.7 ) 8.1 Pregnancy Pregnancy Category C. INFUVITE PEDIATRIC has not been studied in pregnant women. Pregnant women should follow the U.S. recommended daily allowances for pregnancy because their vitamin requirements may exceed those of non-pregnant women. Animal reproduction studies have not been conducted with INFUVITE PEDIATRIC (multiple vitamins injection). 8.3 Nursing Mothers INFUVITE PEDIATRIC has not been studied in nursing mothers. Lactating women may have vitamin requirements that exceed those of non-lactating women. Caution should be exercised when INFUVITE PEDIATRIC is administered to nursing mothers. 8.4 Pediatric Use INFUVITE PEDIATRIC is approved for the prevention of vitamin deficiency in pediatric patients up to 11 years old receiving parenteral nutrition. INFUVITE PEDIATRIC has not been studied in pediatric patients older than 11 years. INFUVITE PEDIATRIC contains aluminum that may be toxic for premature neonates. Aluminum levels should be monitored periodically during administration of INFUVITE PEDIATRIC to premature neonates [ see Warnings and Precautions ( 5.1 ) ]. Additional vitamin E supplementations of infants receiving INFUVITE PEDIATRIC may result in elevated blood concentrations of vitamin E and potential vitamin E toxicity [ see Warnings and Precautions ( 5.8 ) ]. E-Ferol syndrome has been reported in low-birth weight infants following administration of polysorbates which are found in INFUVITE PEDIATRIC. No E-Ferol syndrome associated with INFUVITE PEDIATRIC has been reported [ see Warnings and Precautions ( 5.10 ) ]. 8.6 Renal Impairment INFUVITE PEDIATRIC has not been studied in patients with renal impairment. Monitor renal function, calcium, phosphorus and vitamin A levels in patients with renal impairment [ see Warnings and Precautions ( 5.1 , 5.3 ) ] . 8.7 Hepatic Impairment INFUVITE PEDIATRIC has not been studied in patients with liver impairment. Monitor vitamin A levels in patients with liver disease [ see Warnings and Precautions ( 5.3 ) ] ."
+    ],
+    "pregnancy": [
+      "8.1 Pregnancy Pregnancy Category C. INFUVITE PEDIATRIC has not been studied in pregnant women. Pregnant women should follow the U.S. recommended daily allowances for pregnancy because their vitamin requirements may exceed those of non-pregnant women. Animal reproduction studies have not been conducted with INFUVITE PEDIATRIC (multiple vitamins injection)."
+    ],
+    "nursing_mothers": [
+      "8.3 Nursing Mothers INFUVITE PEDIATRIC has not been studied in nursing mothers. Lactating women may have vitamin requirements that exceed those of non-lactating women. Caution should be exercised when INFUVITE PEDIATRIC is administered to nursing mothers."
+    ],
+    "pediatric_use": [
+      "8.4 Pediatric Use INFUVITE PEDIATRIC is approved for the prevention of vitamin deficiency in pediatric patients up to 11 years old receiving parenteral nutrition. INFUVITE PEDIATRIC has not been studied in pediatric patients older than 11 years. INFUVITE PEDIATRIC contains aluminum that may be toxic for premature neonates. Aluminum levels should be monitored periodically during administration of INFUVITE PEDIATRIC to premature neonates [ see Warnings and Precautions ( 5.1 ) ]. Additional vitamin E supplementations of infants receiving INFUVITE PEDIATRIC may result in elevated blood concentrations of vitamin E and potential vitamin E toxicity [ see Warnings and Precautions ( 5.8 ) ]. E-Ferol syndrome has been reported in low-birth weight infants following administration of polysorbates which are found in INFUVITE PEDIATRIC. No E-Ferol syndrome associated with INFUVITE PEDIATRIC has been reported [ see Warnings and Precautions ( 5.10 ) ]."
+    ],
+    "overdosage": [
+      "10 OVERDOSAGE Signs and symptoms of acute or chronic overdosage may be those of individual INFUVITE PEDIATRIC component toxicity. There is no clinical experience with INFUVITE PEDIATRIC overdosage."
+    ],
+    "description": [
+      "11 DESCRIPTION INFUVITE PEDIATRIC (multiple vitamins injection) is a sterile product consisting of two vials provided as a single dose or as a pharmacy bulk package for intravenous use intended for administration by intravenous infusion after dilution: INFUVITE PEDIATRIC (multiple vitamins injection) supplied as single dose consists of: (a) Vial 1 (4 mL); and (b) Vial 2 (1 mL). Vial 1 will provide one daily dose of 1.2 mL, 2.6 mL or 4 mL and Vial 2 will provide one daily dose of 0.3 mL, 0.65 mL or 1 mL [ see Dosage and Administration ( 2.2 ) ] . INFUVITE PEDIATRIC (multiple vitamins injection) supplied as pharmacy bulk package consists of: (a) Vial 1 (40 mL Fill in 50 mL Vial); and (b) Vial 2 (10 mL). The mixed solution will provide many single doses [ see Dosage and Administration ( 2.2 ) ]. Each 4 mL of Vial 1 contains 10 vitamins and each 1 mL of Vial 2 contains 3 vitamins (see Table 3). Table 3: INGREDIENTS IN INFUVITE PEDIATRIC FORMULATION Vial 1 Active Ingredient Quantity per 4 mL Ascorbic acid (Vitamin C) 80 mg Vitamin A* (as palmitate) 2,300 IU (equals 0.7 mg) Vitamin D 3 * (cholecalciferol) 400 IU (equals 10 mcg) Thiamine (Vitamin B 1 ) (as the hydrochloride) 1.2 mg Riboflavin (Vitamin B 2 ) (as riboflavin 5-phosphate sodium) 1.4 mg Pyridoxine HCl (Vitamin B 6 ) 1 mg Niacinamide 17 mg Dexpanthenol (as d -pantothenyl alcohol) 5 mg Vitamin E* ( dl -\u03b1-tocopheryl acetate) 7 IU (equals 7 mg) Vitamin K 1 * 0.2 mg *Polysorbate 80 is used to water solubilize the oil-soluble vitamins A, D, E, and K. Inactive ingredients in 4 mL of Vial 1: 50 mg polysorbate 80, sodium hydroxide and/or hydrochloric acid for pH adjustment, and water for injection. Vial 2 Active Ingredient Quantity per 1 mL Folic acid 140 mcg Biotin 20 mcg Vitamin B 12 (cyanocobalamin) 1 mcg Inactive ingredients in 1 mL of Vial 2: 75 mg mannitol, citric acid and/or sodium citrate for pH adjustment and water for injection. INFUVITE PEDIATRIC (multiple vitamins injection) makes available a combination of oil-soluble and water-soluble vitamins in an aqueous solution, formulated for incorporation into intravenous solutions. The liposoluble vitamins A, D, E, and K have been solubilized in an aqueous medium with polysorbate 80, permitting intravenous administration of these vitamins. INFUVITE PEDIATRIC contains no more than 30 mcg/L of aluminum (combined Vials 1 and 2)."
+    ],
+    "description_table": [
+      "<table width=\"408.15pt\"><caption>Table 3: INGREDIENTS IN INFUVITE PEDIATRIC FORMULATION</caption><col width=\"59%\"/><col width=\"27%\"/><tbody><tr><td align=\"center\" colspan=\"2\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Vial 1</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Active Ingredient</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Quantity per 4 mL</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Ascorbic acid (Vitamin C)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>80 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Vitamin A* (as palmitate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>2,300 IU (equals 0.7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Vitamin D<sub>3</sub>* (cholecalciferol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>400 IU (equals 10 mcg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Thiamine (Vitamin B<sub>1</sub>) (as the hydrochloride)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>1.2 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Riboflavin (Vitamin B<sub>2</sub>) (as riboflavin 5-phosphate sodium)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>1.4 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Pyridoxine HCl (Vitamin B<sub>6</sub>)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>1 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Niacinamide</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>17 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Dexpanthenol (as <content styleCode=\"italics\">d</content>-pantothenyl alcohol)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>5 mg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Vitamin E* (<content styleCode=\"italics\">dl</content>-&#x3B1;-tocopheryl acetate)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>7 IU (equals 7 mg)</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Vitamin K<sub>1</sub>*</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>0.2 mg</paragraph></td></tr><tr><td colspan=\"2\" styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>*Polysorbate 80 is used to water solubilize the oil-soluble vitamins A, D, E, and K.</paragraph><paragraph>Inactive ingredients in 4 mL of Vial 1: 50 mg polysorbate 80, sodium hydroxide and/or hydrochloric acid for pH adjustment, and water for injection.</paragraph></td></tr><tr><td align=\"center\" colspan=\"2\" styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Vial 2</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Active Ingredient</content></paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph><content styleCode=\"bold\">Quantity per 1 mL</content></paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Folic acid</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>140 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Biotin</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>20 mcg</paragraph></td></tr><tr><td styleCode=\"Rrule Lrule Botrule \" valign=\"top\"><paragraph>Vitamin B<sub>12</sub> (cyanocobalamin)</paragraph></td><td styleCode=\"Rrule Lrule Toprule Botrule \" valign=\"top\"><paragraph>1 mcg</paragraph></td></tr><tr><td colspan=\"2\" styleCode=\"Rrule Botrule Lrule Toprule \" valign=\"top\"><paragraph>Inactive ingredients in 1 mL of Vial 2: 75 mg mannitol, citric acid and/or sodium citrate for pH adjustment and water for injection.</paragraph></td></tr></tbody></table>"
+    ],
+    "nonclinical_toxicology": [
+      "13 NONCLINICAL TOXICOLOGY 13.1 Carcinogenesis, Mutagenesis, Impairment of Fertility Carcinogenicity, mutagenicity, and fertility studies have not been performed with INFUVITE PEDIATRIC."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "13.1 Carcinogenesis, Mutagenesis, Impairment of Fertility Carcinogenicity, mutagenicity, and fertility studies have not been performed with INFUVITE PEDIATRIC."
+    ],
+    "how_supplied": [
+      "16 HOW SUPPLIED/STORAGE AND HANDLING How Supplied: INFUVITE PEDIATRIC (multiple vitamins injection) is supplied as follows: INFUVITE PEDIATRIC (multiple vitamins injection) Single Dose: \u2022 NDC 54643-9023-1 - Boxes containing ten single dose vials \u2013 five each of Vial 1 (4 mL) and five each of Vial 2 (1 mL), one Vial 1 plus one Vial 2 to be used for a single dose [ see Dosage and Administration ( 2.2 , 2.3 ) ] . INFUVITE PEDIATRIC (multiple vitamins injection) Pharmacy Bulk Package: \u2022 NDC 54643-9031-0 - Boxes containing two vials \u2013 Vial 1 (40 mL Fill in 50 mL Vial) and Vial 2 (10 mL). Mixed contents of Vial 2 with Vial 1 provide thirty-three 1.5 mL single doses, fifteen 3.25 mL single doses or 10 single 5 mL doses [see Dosage and Administration ( 2.2 , 2.3 )]. Storage and Handling: Minimize exposure of INFUVITE PEDIATRIC to light because vitamins A, D and riboflavin are light sensitive. Store under refrigeration 2\u00b0 to 8\u00b0C (36\u00b0 to 46\u00b0F)."
+    ],
+    "information_for_patients": [
+      "17 PATIENT COUNSELING INFORMATION Instruct caregiver(s) and patients (if age appropriate): \u2022 To watch for signs of allergic reactions such as urticaria, shortness of breath, wheezing and angioedema since hypersensitivity reactions may occur to any of the vitamins or excipients contained in INFUVITE PEDIATRIC. \u2022 To watch for and immediately report nausea, vomiting, headache, dizziness, blurred vision, especially if patients have renal impairment, as these may be signs of hypervitaminosis A. \u2022 To report other adverse reactions that patients may experience such as rash, erythema, pruritus, headache, dizziness, agitation, anxiety, and diplopia. \u2022 Patients on warfarin anticoagulant therapy will be monitored periodically with blood prothrombin/ INR levels to determine if the dose of warfarin needs to be adjusted. \u2022 About the significance of periodic monitoring of blood vitamin concentrations to determine if vitamin deficiencies or excesses are developing and the need to monitor renal function, calcium, phosphorus, aluminum and vitamin A levels in patients with renal impairment. \u2022 That INFUVITE PEDIATRIC should be avoided in patients with suspected or diagnosed megaloblastic anemia prior to blood sampling for the detection of the folic acid and cyanocobalamin deficiencies. \u2022 That vitamin C (ascorbic acid) contained in INFUVITE PEDIATRIC may cause false negative urine glucose results. Manufactured by Sandoz Canada Inc. 145 Jules-L\u00e9ger Street Boucherville, Qc, Canada, J4B 7K8 Distributed by Baxter Healthcare Corporation for NOVAPLUS \u00ae Clintec Nutrition Division Deerfield, IL 60015 USA Printed in Canada NOVAPLUS is a registered trademark of Vizient, Inc. \u00ae INFUVITE is a registered trademark of Sandoz Canada Inc. 46194735 10-2016"
+    ],
+    "package_label_principal_display_panel": [
+      "Vials Carton NDC 54643-9023-1 2A9008NP INFUVITE \u00ae PEDiatric Multiple Vitamins Injection Rx only For intravenous infusion after dilution only. STERILE Contains 5 each of Vial 1 (4 mL) and Vial 2 (1 mL). One vial of each to be used for a single dose. Vial 1 (4 mL) Vial 2 (1 mL) Store under refrigeration 2\u00b0 to 8\u00b0 C (36\u00b0 to 46\u00b0 F). NOVAPLUS \u00ae Infuvite Pediatric Single Dose",
+      "Pharmacy Bulk Package Carton NDC 54643-9031-0 2A9061NP INFUVITE \u00ae PEDiatric PHARMACY BULK PACKAGE Multiple Vitamins Injection Rx only STERILE PHARMACY BULK PACKAGE NOT FOR DIRECT INFUSION Vial 1 (40 mL fill in 50 mL) Vial 2 (10 mL) Both vials combined produce 10 single doses. For intravenous infusion after dilution only. Store under refrigeration 2\u00b0 to 8\u00b0 C (36\u00b0 to 46\u00b0 F). NOVAPLUS \u00ae Infuvite Adult Pharmacy Bulk Carton"
+    ],
+    "set_id": "4ff223f7-e076-4e81-8151-5c06724fabd9",
+    "id": "447b597f-d7fe-4489-b755-9929b40032f4",
+    "effective_time": "20250818",
+    "version": "7",
+    "openfda": {
+      "application_number": [
+        "NDA021265",
+        "NDA021646"
+      ],
+      "brand_name": [
+        "Pediatric Infuvite Multiple Vitamins"
+      ],
+      "generic_name": [
+        "ASCORBIC ACID, VITAMIN A PALMITATE, CHOLECALCIFEROL, THIAMINE HYDROCHLORIDE, RIBOFLAVIN-5 PHOSPHATE SODIUM, PYRIDOXINE HYDROCHLORIDE, NIACINAMIDE, DEXPANTHENOL, ALPHA-TOCOPHEROL ACETATE, VITAMIN K1, FOLIC ACID, BIOTIN, CYANOCOBALAMIN"
+      ],
+      "manufacturer_name": [
+        "Sandoz Inc"
+      ],
+      "product_ndc": [
+        "54643-9023",
+        "54643-9031"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "INTRAVENOUS"
+      ],
+      "substance_name": [
+        ".ALPHA.-TOCOPHEROL ACETATE",
+        "ASCORBIC ACID",
+        "BIOTIN",
+        "CHOLECALCIFEROL",
+        "CYANOCOBALAMIN",
+        "DEXPANTHENOL",
+        "FOLIC ACID",
+        "NIACINAMIDE",
+        "PHYTONADIONE",
+        "PYRIDOXINE HYDROCHLORIDE",
+        "RIBOFLAVIN 5'-PHOSPHATE SODIUM",
+        "THIAMINE HYDROCHLORIDE",
+        "VITAMIN A PALMITATE"
+      ],
+      "rxcui": [
+        "1305217",
+        "1305222"
+      ],
+      "spl_id": [
+        "447b597f-d7fe-4489-b755-9929b40032f4"
+      ],
+      "spl_set_id": [
+        "4ff223f7-e076-4e81-8151-5c06724fabd9"
+      ],
+      "package_ndc": [
+        "54643-9031-0",
+        "54643-9023-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000193618",
+        "M0001797",
+        "M0022797",
+        "N0000175952",
+        "M0022794",
+        "N0000175951",
+        "N0000175965",
+        "N0000175982",
+        "M0022806",
+        "N0000180191",
+        "N0000175966"
+      ],
+      "pharm_class_epc": [
+        "Vitamin C [EPC]",
+        "Vitamin D [EPC]",
+        "Vitamin B12 [EPC]",
+        "Vitamin K [EPC]",
+        "Warfarin Reversal Agent [EPC]"
+      ],
+      "pharm_class_cs": [
+        "Ascorbic Acid [CS]",
+        "Vitamin D [CS]",
+        "Vitamin B 12 [CS]",
+        "Vitamin K [CS]"
+      ],
+      "pharm_class_pe": [
+        "Increased Prothrombin Activity [PE]",
+        "Reversed Anticoagulation Activity [PE]"
+      ],
+      "unii": [
+        "9E8X80D2L0",
+        "PQ6CK8PD0R",
+        "6SO6U10H04",
+        "1C6V77QF41",
+        "P6YC3EG204",
+        "1O6C93RI7Z",
+        "935E97BOY8",
+        "25X51I8RD4",
+        "A034SE7857",
+        "68Y4CF58BV",
+        "20RD1DZH99",
+        "M572600E5P",
+        "1D1K0N0VVC"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "BABYSONS DEXPANTHENOL LANOLIN YELLOW WAX CETYL ALCOHOL POLYSORBATE 60 POLYSORBATE 80 STEARYL ALCOHOL WATER PETROLATUM ZINC OXIDE DEXPANTHENOL DEXPANTHENOL"
+    ],
+    "spl_unclassified_section": [
+      "Drug Facts",
+      "Other information Keep the tube tightly closed and store at no higher temperature than 86\u00b0F / 30\u00b0C."
+    ],
+    "active_ingredient": [
+      "Active ingredient Dexpanthenol 5% Purpose Skin Protectant"
+    ],
+    "purpose": [
+      "Purpose Skin Protectant"
+    ],
+    "indications_and_usage": [
+      "Uses Helps treat and prevent diaper rash Protects chafed skin due to diaper rash and helps seal out wetness"
+    ],
+    "warnings": [
+      "Warnings For external use only When using this product do not get into eyes. Stop use and ask a doctor if condition worsens symptoms last more than 7 days or clear up and occur again within a few days Keep out of reach of children. If swallowed, get medical help or contact a Poison Control Center right away."
+    ],
+    "when_using": [
+      "When using this product do not get into eyes."
+    ],
+    "stop_use": [
+      "Stop use and ask a doctor if condition worsens symptoms last more than 7 days or clear up and occur again within a few days"
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children. If swallowed, get medical help or contact a Poison Control Center right away."
+    ],
+    "dosage_and_administration": [
+      "Directions Change wet and soiled diapers promptly. Cleanse the diaper area and allow to dry Apply product liberally as often as necessary, with each diaper change, especially at bedtime or anytime when exposure to wet diapers may be prolonged."
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredients anhydrous lanolin, beeswax, cetyl alcohol, polysorbate 60, polysorbate 80, stearyl alcohol, water, white petrolatum, zinc oxide"
+    ],
+    "package_label_principal_display_panel": [
+      "Package Labeling: Outer Package Inner Package"
+    ],
+    "set_id": "8a4782fc-5917-4f63-b9bf-6597be2afc6c",
+    "id": "25cb134c-b31f-af58-e063-6394a90adbb7",
+    "effective_time": "20241031",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "BABYSONS"
+      ],
+      "generic_name": [
+        "DEXPANTHENOL"
+      ],
+      "manufacturer_name": [
+        "Laboratorios Quimica Son's, S.A. de C.V"
+      ],
+      "product_ndc": [
+        "73519-001"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "DEXPANTHENOL"
+      ],
+      "rxcui": [
+        "249792"
+      ],
+      "spl_id": [
+        "25cb134c-b31f-af58-e063-6394a90adbb7"
+      ],
+      "spl_set_id": [
+        "8a4782fc-5917-4f63-b9bf-6597be2afc6c"
+      ],
+      "package_ndc": [
+        "73519-001-30"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "1O6C93RI7Z"
+      ]
+    }
+  }
+]

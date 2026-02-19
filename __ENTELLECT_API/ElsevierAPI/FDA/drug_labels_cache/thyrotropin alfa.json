@@ -1,0 +1,470 @@
+[
+  {
+    "spl_product_data_elements": [
+      "GUNA-GERIATRICS 1,4-benzoquinone - arnica montana - oxytocin - barium carbonate - barium oxalosuccinate - corticotropin - lead - levothyroxine - lutrelin - malic acid - melatonin - neurotrophin-3 - neurotrophin-4 - phenylalanine - pork liver - pyruvic acid - rinfabate - sus scrofa adrenal gland - sus scrofa frontal lobe - sus scrofa hypothalamus - thyrotropin alfa - brain-derived neurotrophic factor human - QUINONE QUINONE BARIUM OXALOSUCCINATE BARIUM CATION ALCOHOL CORTICOTROPIN CORTICOTROPIN ARNICA MONTANA ARNICA MONTANA BARIUM CARBONATE BARIUM CATION BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN MALIC ACID MALIC ACID SUS SCROFA FRONTAL LOBE SUS SCROFA FRONTAL LOBE SUS SCROFA ADRENAL GLAND SUS SCROFA ADRENAL GLAND PORK LIVER PORK LIVER SUS SCROFA HYPOTHALAMUS SUS SCROFA HYPOTHALAMUS RINFABATE RINFABATE LUTRELIN LUTRELIN MELATONIN MELATONIN NEUROTROPHIN-3 NEUROTROPHIN-3 NEUROTROPHIN-4 NEUROTROPHIN-4 OXYTOCIN OXYTOCIN PHENYLALANINE PHENYLALANINE LEAD LEAD PYRUVIC ACID PYRUVIC ACID THYROTROPIN ALFA THYROTROPIN ALFA LEVOTHYROXINE LEVOTHYROXINE"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS/PURPOSE ACTH 6X ADRENAL SUPPORT ARNICA MONTANA 6X ANTI-INFLAMMATORY BARIUM OXALOSUCCINATE 3X FORGETFULNESS BARYTA CARBONICA 6X IMPROVES MENTAL ATTENTION BRAIN DERIVED NEUROTROPHIC FACTOR 4C HELPS MENTAL ACTIVITY DL-MALIC ACID 3X PROMOTE CELL METABOLISM FRONTAL LOBE 6X STIMULATES MENTAL ALERTNESS GLANDULA SUPRARENALIS 6X DETOXIFICATION HEPAR 6X DETOXIFICATION HYPOTHALAMUS 6X IMPROVES MENTAL ATTENTION INSULINE-LIKE GROWTH FACTOR-1 4C ENHANCES PROTEIN ANABOLISM LUTEINIZING HORMONE-RELEASING HORMONE 6X HELPS MANAGE STRESS MELATONIN 4C HELPS MANAGE STRESS NEUROTROPHIN 3 4C HELPS MENTAL ACTIVITY NEUROTROPHIN 4 4C HELPS MENTAL ACTIVITY OXYTOCIN 6X STIMULATES SOCIAL RECOGNITION PARABENZOCHINON 3X ANTIOXIDANT PHENYLALANINE 3X STIMULATES MENTAL ALERTNESS PLUMBUM METALLICUM 6X ANTIAGING PYRUVIC ACID 3X ANTIOXIDANT THYROTROPIN-RELEASING HORMONE 6X HELPS MANAGE STRESS THYROXINE T4 6X STIMULATES MENTAL ALERTNESS"
+    ],
+    "indications_and_usage": [
+      "USES TAKE 15 MINUTES BEFORE MEALS"
+    ],
+    "warnings": [
+      "WARNINGS Stop use and ask doctor if symptoms persist more than 5 days. If pregnant or breast-feeding ask a health professional before use. Keep out of reach of children. In case of overdose, get medical help or contact a Poison Control Center right away. Contains ethyl alcohol 30%"
+    ],
+    "pregnancy_or_breast_feeding": [
+      "PREGNANCY If pregnant or breast-feeding ask a doctor before use"
+    ],
+    "keep_out_of_reach_of_children": [
+      "WARNINGS Keep this and all medicines out of reach of children"
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS Take 15 minutes before meals Adults : 20 drops in a little water, 2 times per day"
+    ],
+    "questions": [
+      "QUESTIONS Questions?: info@gunainc.com, tel. (484) 223-3500"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredient: Ethyl alcohol 30%."
+    ],
+    "purpose": [
+      "For the temporary relief symptoms due to aging, scuh as: poor memory impaired concentration"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL 5USGER- REV06-24-05-18"
+    ],
+    "set_id": "03dc86d3-575f-4c65-b06d-2613efbcd943",
+    "id": "7d9af689-848b-3aea-e053-2a91aa0a70d2",
+    "effective_time": "20181222",
+    "version": "2",
+    "openfda": {
+      "brand_name": [
+        "GUNA-GERIATRICS"
+      ],
+      "generic_name": [
+        "1,4-BENZOQUINONE - ARNICA MONTANA - OXYTOCIN - BARIUM CARBONATE - BARIUM OXALOSUCCINATE - CORTICOTROPIN - LEAD - LEVOTHYROXINE - LUTRELIN - MALIC ACID - MELATONIN - NEUROTROPHIN-3 - NEUROTROPHIN-4 - PHENYLALANINE - PORK LIVER - PYRUVIC ACID - RINFABATE - SUS SCROFA ADRENAL GLAND - SUS SCROFA FRONTAL LOBE - SUS SCROFA HYPOTHALAMUS - THYROTROPIN ALFA - BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN -"
+      ],
+      "manufacturer_name": [
+        "Guna spa"
+      ],
+      "product_ndc": [
+        "17089-349"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "ARNICA MONTANA",
+        "BARIUM CARBONATE",
+        "BARIUM OXALOSUCCINATE",
+        "BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN",
+        "CORTICOTROPIN",
+        "LEAD",
+        "LEVOTHYROXINE",
+        "LUTRELIN",
+        "MALIC ACID",
+        "MELATONIN",
+        "NEUROTROPHIN-3",
+        "NEUROTROPHIN-4",
+        "OXYTOCIN",
+        "PHENYLALANINE",
+        "PORK LIVER",
+        "PYRUVIC ACID",
+        "QUINONE",
+        "RINFABATE",
+        "SUS SCROFA ADRENAL GLAND",
+        "SUS SCROFA FRONTAL LOBE",
+        "SUS SCROFA HYPOTHALAMUS",
+        "THYROTROPIN ALFA"
+      ],
+      "spl_id": [
+        "7d9af689-848b-3aea-e053-2a91aa0a70d2"
+      ],
+      "spl_set_id": [
+        "03dc86d3-575f-4c65-b06d-2613efbcd943"
+      ],
+      "package_ndc": [
+        "17089-349-18"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0317089349181"
+      ],
+      "nui": [
+        "M0000499",
+        "N0000175941",
+        "N0000175945",
+        "M0021504",
+        "N0000009705",
+        "N0000175828",
+        "M0015703",
+        "N0000175949",
+        "M0021496"
+      ],
+      "pharm_class_cs": [
+        "Adrenocorticotropic Hormone [CS]",
+        "Thyroxine [CS]",
+        "Oxytocin [CS]",
+        "Thyrotropin [CS]"
+      ],
+      "pharm_class_epc": [
+        "Adrenocorticotropic Hormone [EPC]",
+        "l-Thyroxine [EPC]",
+        "Oxytocic [EPC]",
+        "Thyroid Stimulating Hormone [EPC]"
+      ],
+      "pharm_class_pe": [
+        "Increased Uterine Smooth Muscle Contraction or Tone [PE]"
+      ],
+      "unii": [
+        "O80TY208ZW",
+        "6P669D8HQ8",
+        "L7A49804ZQ",
+        "A1ED6W905I",
+        "K0U68Q2TXA",
+        "2P299V784P",
+        "Q51BO43MG4",
+        "QH51543Y7U",
+        "817L1N4CKP",
+        "JL5DK93RCL",
+        "02R4V6T25Y",
+        "P658DCA9XD",
+        "1JQS135EYN",
+        "47E5O17Y3R",
+        "6EC706HI7F",
+        "8558G7RUTR",
+        "3T006GV98U",
+        "KU1MBT4JJB",
+        "398IYQ16YV",
+        "GV54Q19G55",
+        "N6R0856Z79",
+        "AVX3D5A4LM"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "GUNA-AWARENESS BETAINE - BUFO BUFO CUTANEOUS GLAND - CALCIUM CARBONATE - CHROMIC SULFATE - CICUTA VIROSA ROOT - COPPER - FOLIC ACID - GOLD - COBALAMIN - IRON - LACHESIS MUTA VENOM - MELATONIN - MOLYBDENUM - NEUROTROPHIN-3 - NEUROTROPHIN-4 - OXYTOCIN - SILICON DIOXIDE - SUS SCROFA FRONTAL LOBE - SUS SCROFA TEMPORAL LOBE - THYROTROPIN ALFA - UBIDECARENONE - VANADIUM - ZINC - BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN - ALCOHOL GOLD GOLD BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN BUFO BUFO CUTANEOUS GLAND BUFO BUFO CUTANEOUS GLAND CALCIUM CARBONATE CALCIUM CATION CHROMIC SULFATE CHROMIC CATION CICUTA VIROSA ROOT CICUTA VIROSA ROOT COBALAMIN COBALAMIN UBIDECARENONE UBIDECARENONE COPPER COPPER IRON IRON FOLIC ACID FOLIC ACID SUS SCROFA FRONTAL LOBE SUS SCROFA FRONTAL LOBE LACHESIS MUTA VENOM LACHESIS MUTA VENOM MELATONIN MELATONIN MOLYBDENUM MOLYBDENUM NEUROTROPHIN-3 NEUROTROPHIN-3 NEUROTROPHIN-4 NEUROTROPHIN-4 OXYTOCIN OXYTOCIN SILICON DIOXIDE SILICON DIOXIDE SUS SCROFA TEMPORAL LOBE SUS SCROFA TEMPORAL LOBE THYROTROPIN ALFA THYROTROPIN ALFA BETAINE BETAINE VANADIUM VANADIUM ZINC ZINC"
+    ],
+    "active_ingredient": [
+      "ACTIVE INGREDIENTS/PURPOSE AURUM METALLICUM 12X ANTIDEPRESSANT BRAIN DERIVED NEUROTROPHIC FACTOR 4C HELPS MENTAL ACTIVITY BUFO RANA 12X HELPS MENTAL ACTIVITY CALCAREA CARBONICA 3X IMMUNE STRENGTHENING CHROMIUM SULPHURICUM 3X DETOXIFICATION CICUTA VIROSA 12X ANTISPASTIC COBALAMIN 3X ANTIOXIDANT COENZYME Q 3X ANTIOXIDANT CUPRUM METALLICUM 12X ANTISPASTIC FERRUM METALLICUM 3X ANTIOXIDANT FOLIC ACID 3X ANTIOXIDANT FRONTAL LOBE 6X SUPPORTS COORDINATING BEHAVIOR LACHESIS MUTUS 12X ANTI-INFLAMMATORY MELATONIN 4C ANTISTRESS MOLYBDENUM METALLICUM 3X ANTIAGING NEUROTROPHIN 3 4C SUPPORTS MENTAL ACTIVITY NEUROTROPHIN 4 4C SUPPORTS MENTAL ACTIVITY OXYTOCIN 6X STIMULATES ADRENAL CORTEX SILICEA 12X IMMUNE STRENGTHENING TEMPORAL LOBE 6X SUPPORTS AUDITORY PROCESSING THYROTROPIN-RELEASING HORMONE 3X HELPS MENTAL ACTIVITY TRIMETHYLGLYCINE 3X DETOXIFICATION VANADIUM METALLICUM 6X ANTIOXIDANT ZINCUM METALLICUM 3X ANTISTRESS"
+    ],
+    "purpose": [
+      "USES Temporary relief of symptoms related to: Difficulty concentrating Difficulty falling asleep Irritability"
+    ],
+    "warnings": [
+      "WARNINGS Stop use and ask doctor if symptoms persist more than 5 days or worsen. If pregnant or breast-feeding ask a health professional before use. Keep out of reach of children . In case of overdose, get medical help or contact a Poison Control Center right away. Contains ethyl alcohol 30%"
+    ],
+    "pregnancy_or_breast_feeding": [
+      "PREGNANCY If pregnant or breast-feeding ask a doctor before use"
+    ],
+    "keep_out_of_reach_of_children": [
+      "WARNINGS Keep out of reach of children"
+    ],
+    "dosage_and_administration": [
+      "DIRECTIONS Take 15 minutes before meals Adults and children 12 years and older 20 drops in a little water, 2 times per day Children between 12 years and 6 years of age 10 drops in a little water, 2 times per day Children under 6 years 5 drops in a glass of water, 2 times per day"
+    ],
+    "questions": [
+      "QUESTIONS Questions?: info@gunainc.com, tel. (484) 223-3500"
+    ],
+    "indications_and_usage": [
+      "Take 15 minutes before meals"
+    ],
+    "inactive_ingredient": [
+      "Inactive ingredient : Ethyl alcohol 30%."
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL 5USAWA GUNA AWARENESS-Rev04-24-05-18"
+    ],
+    "set_id": "10e46b39-7903-4390-b72d-865291245b4c",
+    "id": "ed80e4f1-5ff1-5d2f-e053-2995a90afc23",
+    "effective_time": "20221115",
+    "version": "5",
+    "openfda": {
+      "brand_name": [
+        "GUNA-AWARENESS"
+      ],
+      "generic_name": [
+        "BETAINE - BUFO BUFO CUTANEOUS GLAND - CALCIUM CARBONATE - CHROMIC SULFATE - CICUTA VIROSA ROOT - COPPER - FOLIC ACID - GOLD - COBALAMIN - IRON - LACHESIS MUTA VENOM - MELATONIN - MOLYBDENUM - NEUROTROPHIN-3 - NEUROTROPHIN-4 - OXYTOCIN - SILICON DIOXIDE - SUS SCROFA FRONTAL LOBE - SUS SCROFA TEMPORAL LOBE - THYROTROPIN ALFA - UBIDECARENONE - VANADIUM - ZINC - BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN -"
+      ],
+      "manufacturer_name": [
+        "Guna spa"
+      ],
+      "product_ndc": [
+        "17089-350"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "BETAINE",
+        "BRAIN-DERIVED NEUROTROPHIC FACTOR HUMAN",
+        "BUFO BUFO CUTANEOUS GLAND",
+        "CALCIUM CARBONATE",
+        "CHROMIC SULFATE",
+        "CICUTA VIROSA ROOT",
+        "COBALAMIN",
+        "COPPER",
+        "FOLIC ACID",
+        "GOLD",
+        "IRON",
+        "LACHESIS MUTA VENOM",
+        "MELATONIN",
+        "MOLYBDENUM",
+        "NEUROTROPHIN-3",
+        "NEUROTROPHIN-4",
+        "OXYTOCIN",
+        "SILICON DIOXIDE",
+        "SUS SCROFA FRONTAL LOBE",
+        "SUS SCROFA TEMPORAL LOBE",
+        "THYROTROPIN ALFA",
+        "UBIDECARENONE",
+        "VANADIUM",
+        "ZINC"
+      ],
+      "spl_id": [
+        "ed80e4f1-5ff1-5d2f-e053-2995a90afc23"
+      ],
+      "spl_set_id": [
+        "10e46b39-7903-4390-b72d-865291245b4c"
+      ],
+      "package_ndc": [
+        "17089-350-18"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0317089350187"
+      ],
+      "nui": [
+        "N0000175804",
+        "N0000175805",
+        "M0005152",
+        "N0000175831",
+        "N0000008595",
+        "N0000008924",
+        "N0000175830",
+        "N0000185508",
+        "N0000175629",
+        "N0000184306",
+        "M0000728",
+        "N0000009705",
+        "N0000175828",
+        "M0015703",
+        "N0000175949",
+        "M0021496"
+      ],
+      "pharm_class_moa": [
+        "Methylating Activity [MoA]"
+      ],
+      "pharm_class_epc": [
+        "Methylating Agent [EPC]",
+        "Copper-containing Intrauterine Device [EPC]",
+        "Standardized Chemical Allergen [EPC]",
+        "Oxytocic [EPC]",
+        "Thyroid Stimulating Hormone [EPC]"
+      ],
+      "pharm_class_cs": [
+        "Copper [CS]",
+        "Allergens [CS]",
+        "Oxytocin [CS]",
+        "Thyrotropin [CS]"
+      ],
+      "pharm_class_pe": [
+        "Decreased Embryonic Implantation [PE]",
+        "Decreased Sperm Motility [PE]",
+        "Inhibit Ovum Fertilization [PE]",
+        "Increased Histamine Release [PE]",
+        "Cell-mediated Immunity [PE]",
+        "Increased Uterine Smooth Muscle Contraction or Tone [PE]"
+      ],
+      "unii": [
+        "3SCV180C9W",
+        "A1ED6W905I",
+        "Q59QU6N72Q",
+        "H0G9379FGK",
+        "Y0C99N5TMZ",
+        "YEA9P21S8N",
+        "8406EY2OQA",
+        "789U1901C5",
+        "935E97BOY8",
+        "79Y1949PYO",
+        "E1UOL152H7",
+        "VSW71SS07I",
+        "JL5DK93RCL",
+        "81AH48963U",
+        "02R4V6T25Y",
+        "P658DCA9XD",
+        "1JQS135EYN",
+        "ETJ7Z6XBU4",
+        "GV54Q19G55",
+        "490XI1KB4S",
+        "AVX3D5A4LM",
+        "EJ27X76M46",
+        "00J9J9XKDE",
+        "J41CSQ7QDS"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Thyrogen THYROTROPIN ALFA THYROTROPIN ALFA THYROTROPIN ALFA MANNITOL SODIUM PHOSPHATE SODIUM CHLORIDE Thyrogen THYROTROPIN ALFA Thyrogen THYROTROPIN ALFA THYROTROPIN ALFA THYROTROPIN ALFA MANNITOL SODIUM PHOSPHATE SODIUM CHLORIDE Thyrogen Water WATER"
+    ],
+    "indications_and_usage": [
+      "1 INDICATIONS AND USAGE THYROGEN \u00ae is a thyroid stimulating hormone indicated for: Adjunctive Diagnostic Tool for Well-Differentiated Thyroid Cancer: Use as an adjunctive diagnostic tool for serum thyroglobulin (Tg) testing with or without radioiodine imaging in the follow-up of patients with well-differentiated thyroid cancer who have previously undergone thyroidectomy. ( 1.1 ) Limitations of Use : THYROGEN-stimulated Tg levels are generally lower than, and do not correlate with Tg levels after thyroid hormone withdrawal. Even when THYROGEN-Tg testing is performed in combination with radioiodine imaging, there remains a risk of missing a diagnosis of thyroid cancer or underestimating the extent of the disease. Anti-Tg Antibodies may confound the Tg assay and render Tg levels uninterpretable. Adjunct for Thyroid Remnant Ablation in Well-Differentiated Thyroid Cancer: Use as an adjunctive treatment for radioiodine ablation of thyroid tissue remnants in patients who have undergone a near-total or total thyroidectomy for well-differentiated thyroid cancer and who do not have evidence of distant metastatic thyroid cancer. ( 1.2 ) Limitations of Use : The effect of THYROGEN on thyroid cancer recurrence greater than 5 years post-remnant ablation has not been evaluated. 1.1 Adjunctive Diagnostic Tool for Well-Differentiated Thyroid Cancer THYROGEN \u00ae is indicated for use as an adjunctive diagnostic tool for serum thyroglobulin (Tg) testing with or without radioiodine imaging in the follow-up of patients with well-differentiated thyroid cancer who have previously undergone thyroidectomy. Limitations of Use : THYROGEN-stimulated Tg levels are generally lower than, and do not correlate with, Tg levels after thyroid hormone withdrawal [see Clinical Studies (14.1) ] . Even when THYROGEN-stimulated Tg testing is performed in combination with radioiodine imaging, there remains a risk of missing a diagnosis of thyroid cancer or of underestimating the extent of disease. Anti-Tg antibodies may confound the Tg assay and render Tg levels uninterpretable [see Clinical Studies (14.1) ] . Therefore, in such cases, even with a negative or low-stage THYROGEN radioiodine scan, consideration should be given to further evaluating patients. 1.2 Adjunct for Thyroid Remnant Ablation in Well-Differentiated Thyroid Cancer THYROGEN is indicated for use as an adjunctive treatment for radioiodine ablation of thyroid tissue remnants in patients who have undergone a near-total or total thyroidectomy for well-differentiated thyroid cancer and who do not have evidence of distant metastatic thyroid cancer. Limitations of Use : The effect of THYROGEN on thyroid cancer recurrence greater than five years post-remnant ablation has not been evaluated [see Clinical Studies (14.2) ] ."
+    ],
+    "dosage_and_administration": [
+      "2 DOSAGE AND ADMINISTRATION THYROGEN should be used by physicians knowledgeable in the management of patients with thyroid cancer. ( 2.1 ) A two-injection regimen is recommended: THYROGEN 0.9 mg is administered intramuscularly, followed by a second 0.9 mg intramuscular injection 24 hours later. ( 2.1 ) 2.1 Recommended Dosage THYROGEN should be used by physicians knowledgeable in the management of patients with thyroid cancer. THYROGEN is indicated as a two-injection regimen. The recommended dosage of THYROGEN is a 0.9 mg intramuscular injection to the buttock followed by a second 0.9 mg intramuscular injection to the buttock 24 hours later. THYROGEN should be administered intramuscularly only. THYROGEN should not be administered intravenously. Pretreatment with glucocorticoids should be considered for patients in whom tumor expansion may compromise vital anatomic structures [see Warnings and Precautions (5.3) ] . Routine measurement of serum TSH levels is not recommended after THYROGEN use. 2.2 Reconstitution, Preparation, and Administration of THYROGEN The supplied lyophilized powder must be reconstituted with Sterile Water for Injection, USP. THYROGEN should be prepared, and administered in the following manner: Reconstitute each 0.9 mg vial of THYROGEN with 1.2 mL of Sterile Water for Injection, USP to yield a single-dose solution containing 0.9 mg/mL of thyrotropin alfa that delivers 1 mL (0.9 mg). Gently swirl the contents of the vial until all the material is dissolved. Do not shake the solution. Visually inspect the reconstituted solution for particulate matter and discoloration prior to administration. The reconstituted THYROGEN solution should be clear and colorless. Do not use if the solution has particulate matter or is cloudy or discolored. Withdraw 1 mL of the reconstituted THYROGEN solution (0.9 mg of thyrotropin alfa) and inject intramuscularly in the buttocks. Discard any unused portions. The reconstituted THYROGEN solution must be injected within 3 hours unless refrigerated. If necessary, the reconstituted solution can be stored refrigerated at a temperature between 2\u00b0C and 8\u00b0C (36\u00b0F to 46\u00b0F) for up to 24 hours, while avoiding microbial contamination. Do not mix with other substances. 2.3 Timing of Serum Thyroglobulin Testing Following THYROGEN Administration For serum thyroglobulin testing, the serum sample should be obtained 72 hours after the final injection of THYROGEN [see Clinical Studies (14.1) ] . 2.4 Timing for Remnant Ablation and Diagnostic Scanning Following THYROGEN Administration Oral radioiodine should be given 24 hours after the second injection of THYROGEN in both remnant ablation and diagnostic scanning. The activity of 131 I is carefully selected at the discretion of the nuclear medicine physician. Diagnostic scanning should be performed 48 hours after the radioiodine administration."
+    ],
+    "dosage_forms_and_strengths": [
+      "3 DOSAGE FORMS AND STRENGTHS For injection: 0.9 mg white to off-white lyophilized powder in a single-dose vial For injection: 0.9 mg of thyrotropin alfa as a lyophilized powder in a single-dose vial. ( 3 )"
+    ],
+    "contraindications": [
+      "4 CONTRAINDICATIONS If THYROGEN is administered with radioiodine, the contraindications to radioiodine also apply to this combination regimen. Refer to the radioiodine prescribing information for a list of contraindications for radioiodine. If THYROGEN is administered with radioiodine, the contraindications to radioiodine also apply to this combination regimen. ( 4 )"
+    ],
+    "warnings_and_cautions": [
+      "5 WARNINGS AND PRECAUTIONS THYROGEN-induced hyperthyroidism: Hospitalization for administration of THYROGEN and postadministrative observation should be considered for patients at risk. ( 5.1 ) Stroke: Stroke in female patients as well as other neurologic events in patients with central nervous system metastases. ( 5.2 , 5.3 ) Sudden rapid tumor enlargement: Sudden, rapid and painful enlargement in distant metastatic thyroid cancer. ( 5.3 ) Risks associated with radioiodine (RAI) combination treatment: If THYROGEN is administered with RAI, the warnings and precautions for RAI also apply to this combination regimen. ( 5.4 ) 5.1 THYROGEN-Induced Hyperthyroidism When given to patients who have substantial thyroid tissue still in situ or functional thyroid cancer metastases, THYROGEN is known to cause a transient (over 7 to 14 days) but significant rise in serum thyroid hormone concentration. There have been reports of death in non-thyroidectomized patients and in patients with distant metastatic thyroid cancer in which events leading to death occurred within 24 hours after administration of THYROGEN. Patients with residual thyroid tissue at risk for THYROGEN-induced hyperthyroidism include the elderly and those with a known history of heart disease. Hospitalization for administration of THYROGEN and postadministration observation in patients at risk should be considered. 5.2 Stroke There are postmarketing reports of radiologically-confirmed stroke and neurological findings suggestive of stroke unconfirmed radiologically (e.g., unilateral weakness) occurring within 72 hours (range 20 minutes to three days) of THYROGEN administration in patients without known central nervous system metastases. The majority of such patients were young women taking oral contraceptives at the time of their event or had other risk factors for stroke, such as smoking or a history of migraine headaches. The relationship between THYROGEN administration and stroke is unknown. Patients should be well-hydrated prior to treatment with THYROGEN. 5.3 Sudden Rapid Tumor Enlargement Sudden, rapid and painful enlargement of residual thyroid tissue or distant metastases can occur following treatment with THYROGEN. This may lead to acute symptoms, which depend on the anatomical location of the tissue. Such symptoms include acute hemiplegia, hemiparesis, and loss of vision one to three days after THYROGEN administration. Laryngeal edema, pain at the site of distant metastasis, and respiratory distress requiring tracheotomy have also been reported after THYROGEN administration. Pretreatment with glucocorticoids should be considered for patients in whom tumor expansion may compromise vital anatomic structures. 5.4 Risks Associated with Radioiodine Treatment If THYROGEN is administered with radioiodine (RAI), the warnings and precautions for RAI, apply to this combination regimen. Refer to the RAI prescribing information for a full list of the warnings and precautions for RAI."
+    ],
+    "adverse_reactions": [
+      "6 ADVERSE REACTIONS The most common adverse reactions (>5%) reported in clinical trials were nausea and headache. ( 6.1 ) To report SUSPECTED ADVERSE REACTIONS, contact Genzyme Corporation at 800-745-4447 or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch. 6.1 Clinical Trials Experience Because clinical trials are conducted under widely varying conditions, adverse reaction rates observed in the clinical trials of a drug cannot be directly compared to rates in the clinical trials of another drug and may not reflect the rates observed in practice. The data described below reflect exposure to THYROGEN in 481 thyroid cancer patients who participated in a total of 6 clinical trials of THYROGEN: 4 trials for diagnostic use and 2 trials for ablation. In clinical trials, patients had undergone near-total thyroidectomy and had a mean age of 46.1 years. Thyroid cancer diagnosis was as follows: papillary (69.2%), follicular (12.9%), Hurthle cell (2.3%) and papillary/follicular (15.6%). Most patients received 2 intramuscular injections of 0.9 mg of THYROGEN injection gin 24 hours apart [see Clinical Studies (14.1 , 14.2) ] . The safety profile of patients who have undergone thyroidectomy and received THYROGEN as adjunctive treatment for radioiodine ablation of thyroid tissue remnants for well-differentiated thyroid cancer did not differ from that of patients who received THYROGEN for diagnostic purposes. Reactions reported in \u22651% of patients in the combined trials are summarized in Table 1. In some studies, an individual patient may have participated in both THYROGEN and thyroid hormone withdrawal [see Clinical Studies (14.1 , 14.2) ] . Table 1: Summary of Adverse Reactions by THYROGEN and Thyroid Hormone Withdrawal in Pooled Clinical Trials (\u22651% of Patients in any Phase) THYROGEN Thyroid Hormone Withdrawal (N=481) (N=418) Preferred Term n (%) n (%) Nausea 53 (11) 2 (<1) Headache 29 (6) 0 Fatigue 11 (2) 2 (<1) Vomiting 11 (2) 0 Dizziness 9 (2) 0 (0.0) Asthenia 5 (1) 1 (<1) 6.2 Postmarketing Experience The following adverse reactions have been identified during postapproval use of THYROGEN. Because these reactions are reported voluntarily from a population of uncertain size, it is not always possible to reliably estimate their frequency or establish a causal relationship to drug exposure. Transient (<48 hours) influenza-like symptoms, including fever (>100\u00b0F/38\u00b0C), chills/shivering, myalgia/arthralgia, fatigue/asthenia/malaise, headache, and chills. Hypersensitivity including urticaria, rash, pruritus, flushing, and respiratory signs and symptoms. Injection site reactions, including pain, erythema, bruising, and pruritus."
+    ],
+    "adverse_reactions_table": [
+      "<table width=\"80%\"><caption>Table 1: Summary of Adverse Reactions by THYROGEN and Thyroid Hormone Withdrawal in Pooled Clinical Trials (&#x2265;1% of Patients in any Phase)</caption><col width=\"34%\" align=\"left\" valign=\"top\"/><col width=\"33%\" align=\"center\" valign=\"top\"/><col width=\"33%\" align=\"center\" valign=\"top\"/><thead><tr><th styleCode=\"Rrule Lrule\"/><th styleCode=\"Rrule\">THYROGEN</th><th styleCode=\"Rrule\">Thyroid Hormone Withdrawal</th></tr><tr><th styleCode=\"Rrule Lrule\"/><th styleCode=\"Rrule\">(N=481)</th><th styleCode=\"Rrule\">(N=418)</th></tr><tr><th styleCode=\"Rrule Lrule\" valign=\"bottom\">Preferred Term</th><th styleCode=\"Rrule\">n (%)</th><th styleCode=\"Rrule\">n (%)</th></tr></thead><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Nausea</td><td styleCode=\"Rrule\">53 (11)</td><td styleCode=\"Rrule\">2 (&lt;1)</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Headache</td><td styleCode=\"Rrule\">29 (6)</td><td styleCode=\"Rrule\">0</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Fatigue</td><td styleCode=\"Rrule\">11 (2)</td><td styleCode=\"Rrule\">2 (&lt;1)</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Vomiting</td><td styleCode=\"Rrule\">11 (2)</td><td styleCode=\"Rrule\">0</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Dizziness</td><td styleCode=\"Rrule\">9 (2)</td><td styleCode=\"Rrule\">0 (0.0)</td></tr><tr><td styleCode=\"Lrule Rrule\">Asthenia</td><td styleCode=\"Rrule\">5 (1)</td><td styleCode=\"Rrule\">1 (&lt;1)</td></tr></tbody></table>"
+    ],
+    "use_in_specific_populations": [
+      "8 USE IN SPECIFIC POPULATIONS Pregnancy: Concomitant use of THYROGEN and radioiodine (RAI) is contraindicated in pregnancy. ( 4 , 8.1 ) Lactation: Concomitant use of THYROGEN and therapeutic RAI is contraindicated in lactating women. ( 4 , 8.2 ) Renal Impairment: Elimination of THYROGEN is significantly slower in dialysis-dependent end-stage renal disease patients, resulting in prolonged elevation of TSH levels. ( 8.6 ) 8.1 Pregnancy Risk Summary THYROGEN may be used in combination with radioiodine (RAI). If THYROGEN is administered with RAI, the combination regimen is contraindicated in pregnant women because fetal exposure to RAI can lead to neonatal hypothyroidism, which in some cases is severe and irreversible. Refer to the RAI prescribing information for more information on use during pregnancy. Available data from case reports and postmarketing experience with THYROGEN use in pregnant women are insufficient to evaluate for a drug-associated risk of major birth defects, miscarriage, or adverse maternal or fetal outcomes. Animal reproduction studies have not been conducted with THYROGEN. The estimated background risk of major birth defects and miscarriage for the indicated population is unknown. In the U.S. general population, the estimated background risk of major birth defects and miscarriage in clinically recognized pregnancies is 2% to 4% and 15% to 20%, respectively. 8.2 Lactation Risk Summary The concomitant use of THYROGEN and therapeutic radioiodine (RAI) is contraindicated in lactating women because RAI concentrates in the breast tissue and increases the risk of radiation breast toxicity (refer to the therapeutic RAI Prescribing Information). If THYROGEN is administered with RAI for diagnostic use, discontinue breastfeeding after RAI administration because of the potential for serious adverse reactions from RAI in the breastfed infant (refer to the diagnostic RAI Prescribing Information). If THYROGEN is not administered with RAI, the developmental and health benefits of breastfeeding should be considered along with the mother's clinical need for THYROGEN and any potential adverse effects on the breastfed child from THYROGEN or from the underlying maternal condition. There are no available data on the presence of thyrotropin alfa in human milk, the effects on the breastfed infant, or the effects on milk production. 8.3 Females and Males of Reproductive Potential THYROGEN may be used in combination with radioiodine (RAI). If THYROGEN is administered with RAI, the information for RAI regarding pregnancy testing, contraception, and infertility also applies to the combination regimen. Refer to the RAI prescribing information for additional information. 8.4 Pediatric Use Safety and effectiveness in pediatric patients have not been established. 8.5 Geriatric Use In pooled clinical studies of THYROGEN, 60 patients (12%) were >65 years, and 421 (88%) were \u226465 years of age . Results from controlled trials do not indicate a difference in the safety and efficacy of THYROGEN between adult patients less than 65 years and those over 65 years of age [see Warnings and Precautions (5.1) ] . 8.6 Renal Impairment Elimination of THYROGEN is significantly slower in dialysis-dependent end-stage renal disease (ESRD) patients, resulting in prolonged elevation of TSH levels."
+    ],
+    "pregnancy": [
+      "8.1 Pregnancy Risk Summary THYROGEN may be used in combination with radioiodine (RAI). If THYROGEN is administered with RAI, the combination regimen is contraindicated in pregnant women because fetal exposure to RAI can lead to neonatal hypothyroidism, which in some cases is severe and irreversible. Refer to the RAI prescribing information for more information on use during pregnancy. Available data from case reports and postmarketing experience with THYROGEN use in pregnant women are insufficient to evaluate for a drug-associated risk of major birth defects, miscarriage, or adverse maternal or fetal outcomes. Animal reproduction studies have not been conducted with THYROGEN. The estimated background risk of major birth defects and miscarriage for the indicated population is unknown. In the U.S. general population, the estimated background risk of major birth defects and miscarriage in clinically recognized pregnancies is 2% to 4% and 15% to 20%, respectively."
+    ],
+    "pediatric_use": [
+      "8.4 Pediatric Use Safety and effectiveness in pediatric patients have not been established."
+    ],
+    "geriatric_use": [
+      "8.5 Geriatric Use In pooled clinical studies of THYROGEN, 60 patients (12%) were >65 years, and 421 (88%) were \u226465 years of age . Results from controlled trials do not indicate a difference in the safety and efficacy of THYROGEN between adult patients less than 65 years and those over 65 years of age [see Warnings and Precautions (5.1) ] ."
+    ],
+    "overdosage": [
+      "10 OVERDOSAGE In clinical trials of THYROGEN, three patients experienced symptoms after receiving THYROGEN doses higher than those recommended. Two patients had nausea after a 2.7 mg IM dose (3 times the recommended dose), and in one of these patients, the event was accompanied by weakness, dizziness and headache. Another patient experienced nausea, vomiting and hot flashes after a 3.6 mg IM dose (4 times the recommended dose). There is no specific therapy for THYROGEN overdose. Supportive care is recommended."
+    ],
+    "description": [
+      "11 DESCRIPTION Thyrotropin alfa, a recombinant human thyroid stimulating hormone, is a heterodimeric glycoprotein comprised of two non-covalently linked subunits, an alpha subunit of 92 amino acid residues containing two N-linked glycosylation sites and a beta subunit of 118 residues containing one N-linked glycosylation site. The amino acid sequence of thyrotropin alfa is identical to that of human pituitary TSH. Thyrotropin alfa is synthesized in a genetically modified Chinese hamster ovary cell line. Both thyrotropin alfa and naturally occurring human pituitary TSH are synthesized as a mixture of glycosylation variants. Unlike pituitary TSH, which is secreted as a mixture of sialylated and sulfated forms, thyrotropin alfa is sialylated but not sulfated. The biological activity of thyrotropin alfa is determined by a cell-based bioassay. In this assay, cells expressing a functional TSH receptor and a cAMP-responsive element coupled to a heterologous reporter gene, luciferase, enable the measurement of thyrotropin alfa activity by measuring the luciferase response. The specific activity of thyrotropin alfa is determined relative to an internal Genzyme reference standard that was calibrated against the World Health Organization (WHO) human TSH reference standard. THYROGEN (thyrotropin alfa) for injection is a sterile, white to off-white lyophilized powder in a single-dose vial for intramuscular use after reconstitution . Each single-dose vial provides 0.9 mg of thyrotropin alfa, and contains mannitol (36 mg); sodium chloride (2.4 mg);sodium phosphate dibasic, heptahydrate (3.7 mg); and sodium phosphate monobasic, monohydrate (1.4 mg). After reconstitution with 1.2 mL of Sterile Water for Injection, USP, the concentration is 0.9 mg/mL with a deliverable volume of 1 mL (0.9 mg) and a pH of approximately 6.5 to 7.5."
+    ],
+    "clinical_pharmacology": [
+      "12 CLINICAL PHARMACOLOGY 12.1 Mechanism of Action Thyrotropin (TSH) is a pituitary hormone that stimulates the thyroid gland to produce thyroid hormone. Binding of thyrotropin alfa to TSH receptors on normal thyroid epithelial cells or on well-differentiated thyroid cancer tissue stimulates iodine uptake and organification, and synthesis and secretion of thyroglobulin (Tg), triiodothyronine (T3) and thyroxine (T4). The effect of thyroid stimulating hormone activation of thyroid cells is to increase uptake of radioiodine to allow scan detection or radioiodine killing of thyroid cells. TSH activation also leads to the release of thyroglobulin by thyroid cells. Thyroglobulin functions as a tumor marker which is detected in blood specimens. 12.3 Pharmacokinetics The pharmacokinetics of THYROGEN was studied in 16 patients with well-differentiated thyroid cancer given a single 0.9 mg IM dose. Mean peak serum TSH concentrations of 116\u00b138 mU/L were reached between 3 and 24 hours after injection (median of 10 hours). The mean apparent elimination half-life was 25\u00b110 hours. The organ(s) of TSH clearance in man have not been identified, but studies of pituitary-derived TSH suggest the involvement of the liver and kidneys."
+    ],
+    "mechanism_of_action": [
+      "12.1 Mechanism of Action Thyrotropin (TSH) is a pituitary hormone that stimulates the thyroid gland to produce thyroid hormone. Binding of thyrotropin alfa to TSH receptors on normal thyroid epithelial cells or on well-differentiated thyroid cancer tissue stimulates iodine uptake and organification, and synthesis and secretion of thyroglobulin (Tg), triiodothyronine (T3) and thyroxine (T4). The effect of thyroid stimulating hormone activation of thyroid cells is to increase uptake of radioiodine to allow scan detection or radioiodine killing of thyroid cells. TSH activation also leads to the release of thyroglobulin by thyroid cells. Thyroglobulin functions as a tumor marker which is detected in blood specimens."
+    ],
+    "pharmacokinetics": [
+      "12.3 Pharmacokinetics The pharmacokinetics of THYROGEN was studied in 16 patients with well-differentiated thyroid cancer given a single 0.9 mg IM dose. Mean peak serum TSH concentrations of 116\u00b138 mU/L were reached between 3 and 24 hours after injection (median of 10 hours). The mean apparent elimination half-life was 25\u00b110 hours. The organ(s) of TSH clearance in man have not been identified, but studies of pituitary-derived TSH suggest the involvement of the liver and kidneys."
+    ],
+    "nonclinical_toxicology": [
+      "13 NONCLINICAL TOXICOLOGY 13.1 Carcinogenesis, Mutagenesis, Impairment of Fertility Long-term toxicity studies in animals have not been performed with THYROGEN to evaluate the carcinogenic potential of the drug. THYROGEN was not mutagenic in the bacterial reverse mutation assay. Studies have not been performed with THYROGEN to evaluate the effects on fertility."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "13.1 Carcinogenesis, Mutagenesis, Impairment of Fertility Long-term toxicity studies in animals have not been performed with THYROGEN to evaluate the carcinogenic potential of the drug. THYROGEN was not mutagenic in the bacterial reverse mutation assay. Studies have not been performed with THYROGEN to evaluate the effects on fertility."
+    ],
+    "clinical_studies": [
+      "14 CLINICAL STUDIES 14.1 Clinical Trials of THYROGEN as an Adjunctive Diagnostic Tool for Well-Differentiated Thyroid Cancer Two prospective, randomized phase 3 clinical trials were conducted in patients with well-differentiated thyroid cancer to compare 131 I whole body scans obtained after THYROGEN injection to 131 I whole body scans after thyroid hormone withdrawal. A cross-over, non-blinded design was used in both trials. Oral radioiodine was given 24 hours after the second injection of THYROGEN, and scanning was done 48 hours after the radioiodine administration. Each patient was scanned first following THYROGEN and then scanned after thyroid hormone withdrawal. In both studies, the primary endpoint was the rate of concordant scans (scan findings in agreement in a given patient using each preparation method). Study 1 (n=127) compared the diagnostic scanning following a THYROGEN regimen of 0.9 mg IM daily on two consecutive days to thyroid hormone withdrawal. In addition to body scans, Study 2 (n=229) also compared thyroglobulin (Tg) levels obtained after THYROGEN to those at baseline and to those after thyroid hormone withdrawal. All Tg testing was performed in a central laboratory using a radioimmunoassay (RIA) with a functional sensitivity of 2.5 ng/mL. Patients who were included in the Tg analysis were those who had undergone total or near-total thyroidectomy with or without 131 I ablation, had <1% uptake in the thyroid bed on a scan after thyroid hormone withdrawal, and did not have detectable anti-Tg antibodies. The maximum THYROGEN Tg value was obtained 72 hours after the final THYROGEN injection, and this value was used in the analysis. Diagnostic Radioiodine Whole Body Scan Results Study 1 enrolled 127 patients, 71% were female and 29% male, and mean age was 44 years. The study included the following forms of differentiated thyroid cancer: papillary cancer (88%), follicular cancer (9%), and Hurthle cell (2%). Study results are displayed in Table 2. In Study 2, patients with differentiated thyroid cancer who had been thyroidectomized (n=229) were randomized into one of two THYROGEN treatment regimens: THYROGEN 0.9 mg IM daily on two consecutive days (n=117), and THYROGEN 0.9 mg IM daily on days 1, 4 and 7 (n=112). Each patient was scanned first using THYROGEN, then scanned using thyroid hormone withdrawal. The group receiving the THYROGEN 0.9 mg IM \u00d7 2 regimen was 63% female/27% male, had a mean age of 44 years, and generally had low-stage papillary or follicular cancer (AJCC/TNM Stage I 61%, Stage II 19%, Stage III 14%, Stage IV 5%). The group receiving the THYROGEN 0.9 mg IM \u00d7 3 regimen was 66% female/34% male, had a mean age of 50 years, and generally had low-stage papillary or follicular cancer (AJCC/TNM Stage I 50%, Stage II 20%, Stage III 20%, Stage IV 9%). The amount of radioiodine used for scanning was 4 mCi \u00b1 10%, and scanning times were lengthened in some patients to capture adequate images (30 minute scans, or 140,000 counts). Scan pairs were assessed by blinded readers. Study results are presented in Table 2. Table 2: Concordance of Positive Thyroid Scans Following THYROGEN Treatment with Scans Following Thyroid Hormone Withdrawal Number of scan pairs by disease category Concordance of scan pairs between THYROGEN scan and thyroid hormone withdrawal scan Study 1 (0.9 mg IM qd \u00d7 2) Positive for remnant or cancer in thyroid bed 48 81% Positive for metastatic disease 15 73% Total positive withdrawal scans Across both studies uptake was detected on the THYROGEN scan but not observed on the scan after thyroid hormone withdrawal in 5 patients with remnant or cancer in the thyroid bed. , In the two clinical studies radioiodine scan results using thyroid hormone withdrawal were taken as the true clinical status of each patient and as the comparator for THYROGEN scans. Thyroid hormone withdrawal trace-positive scans were scored conservatively as positive with no allowance for false positives. 63 79% Study 2 (0.9 mg IM qd \u00d7 2) Positive for remnant or cancer in thyroid bed 35 86% Positive for metastatic Disease 9 67% Total positive withdrawal scans , 44 82% Across the two clinical studies, and scoring all false positives in favor of thyroid hormone withdrawal, the majority of positive scans using THYROGEN and thyroid hormone withdrawal were concordant. The THYROGEN scan failed to detect remnant and/or cancer localized to the thyroid bed in 17% (14/83) of patients in whom it was detected by a scan after thyroid hormone withdrawal. In addition, the THYROGEN scan failed to detect metastatic disease in 29% (7/24) of patients in whom it was detected by a scan after thyroid hormone withdrawal. Thyroglobulin (Tg) Results THYROGEN Tg testing alone and in combination with diagnostic whole body scanning: comparison with results after thyroid hormone withdrawal In anti-Tg antibody negative patients with a thyroid remnant or cancer (as defined by a withdrawal Tg \u22652.5 ng/mL or a positive scan [after thyroid hormone withdrawal or after radioiodine therapy]), the THYROGEN Tg was positive (\u22652.5 ng/mL) in 69% (40/58) of patients after 2 doses of THYROGEN. In these same patients, adding the whole body scan increased the detection rate of thyroid remnant or cancer to 84% (49/58) of patients after 2 doses of THYROGEN. Among patients with metastatic disease confirmed by a post-treatment scan or by lymph node biopsy (35 patients), THYROGEN Tg was positive (\u22652.5 ng/mL) in all 35 patients, while Tg on thyroid hormone suppressive therapy was positive (\u22652.5 ng/mL) in 79% of these patients. As with thyroid hormone withdrawal, the intra-patient reproducibility of THYROGEN testing with regard to both Tg stimulation and radioiodine imaging has not been studied. Hypothyroid Signs and Symptoms THYROGEN administration was not associated with the signs and symptoms of hypothyroidism that accompanied thyroid hormone withdrawal as measured by the Billewicz scale. Statistically significant worsening in all signs and symptoms were observed during the hypothyroid phase (p<0.01) (Figure 1). Figure 1: Hypothyroid Symptom Assessment Billewicz Scale Diagnostic Indication 0.9 mg THYROGEN q 24 hours \u00d7 2 doses vs Thyroid Hormone Withdrawal Phase Figure 1 14.2 Clinical Trials of THYROGEN as an Adjunct for Thyroid Remnant Ablation in Well-Differentiated Thyroid Cancer A randomized, prospective clinical trial compared the rates of thyroid remnant ablation achieved after preparation of patients with thyroid hormone withdrawal or THYROGEN. Patients (n=63) with low-risk, well-differentiated thyroid cancer who underwent near-total thyroidectomy were made euthyroid after surgery by receiving thyroid hormone replacement and were subsequently randomized to a thyroid hormone withdrawal or THYROGEN. Patients in the THYROGEN group received THYROGEN 0.9 mg IM daily on 2 consecutive days and radioiodine 24 hours after the second dose of THYROGEN. Patients in the thyroid hormone withdrawal group had the thyroid replacement withheld until they became hypothyroid. Patients in both groups received 100 mCi 131 I \u00b1 10% with the intent to ablate any thyroid remnant tissue. The primary endpoint of the study was the rate of successful ablation, and was assessed 8 months later by a THYROGEN-stimulated radioiodine scan. Patients were considered successfully ablated if there was no visible thyroid bed uptake on the scan, or if visible, uptake was less than 0.1%. Table 3 summarizes the results of this evaluation. Table 3: Remnant Ablation in Clinical Trial of Patients with Well-Differentiated Thyroid Cancer Group 60 per protocol patients with interpretable scan data. 95% CI for difference in ablation rates THYROGEN minus Thyroid Hormone Withdrawal, = 7% to 27%. Mean Age (Yr) Gender (F:M) Cancer Type (Pap:Fol) Ablation Criterion (Measure at 8 Months) Thyroid Bed Activity <0.1% No Visible Thyroid Bed Activity Interpretation by 2 of 3 reviewers. 95% CI for difference in ablation rates, THYROGEN minus Thyroid Hormone Withdrawal, = -31% to 9%. Abbreviations: fol = follicular, pap = papillary Thyroid Hormone Withdrawal (N=28) 43 24:6 29:1 28/28 (100%) 24/28 (86%) THYROGEN (N=32) 44 26:7 30:3 32/32 (100%) 24/32 (75%) The mean radiation dose to blood was 0.266 \u00b1 0.061 mGy/MBq in the THYROGEN group and 0.395 \u00b1 0.135 mGy/MBq in the thyroid hormone withdrawal group. Radioiodine residence time in remnant tissue was 0.9 \u00b1 1.3 hours in the THYROGEN group and 1.4 \u00b1 1.5 hours in the thyroid hormone withdrawal group. It is not known whether this difference in radiation exposure would convey a clinical benefit. Patients who completed were followed up for a median duration of 3.7 years (range 3.4 to 4.4 years) following radioiodine ablation. Tg testing was also performed. The main objective of the follow-up study was to evaluate the status of thyroid remnant ablation by using THYROGEN-stimulated neck imaging. Of the fifty-one patients enrolled, forty-eight patients received THYROGEN for remnant neck/whole body imaging and/or thyroglobulin testing. Only 43 patients had imaging. Patients were still considered to be successfully ablated if there was no visible thyroid bed uptake on the scan, or if visible, uptake was less than 0.1%. All patients from both original treatment groups who had scanning were found to still be ablated . Of 37 patients who were Tg-antibody negative, 16/17 (94%) of patients in the former thyroid hormone withdrawal group and 19/20 (95%) of patients in the former THYROGEN group maintained successful ablation measured as stimulated serum Tg levels of <2 ng/mL. No patient had a definitive cancer recurrence during the 3.7 years of follow-up. Overall, 48/51 patients (94%) had no evidence of cancer recurrence, 1 patient had possible cancer recurrence (although it was not clear whether this patient had a true recurrence or persistent tumor from the regional disease noted at the start of the initial study), and 2 patients could not be assessed. Two large prospective multicenter randomized studies compared THYROGEN to thyroid hormone withdrawal using two different doses of radioactive iodine in patients with differentiated thyroid cancer who had been thyroidectomized. In both studies, patients were randomized to 1 of 4 treatment groups: THYROGEN + 30 mCi 131 I, THYROGEN + 100 mCi 131 I, thyroid hormone withdrawal + 30 mCi 131 I, or thyroid hormone withdrawal + 100 mCi 131 I. Patients were assessed for efficacy (ablation success rates) at approximately 8 months. The first study (Study A) randomized 438 patients (tumor stages T1\u2013T3, Nx, N0 and N1, M0). Ablation success was defined as radioiodine uptake of <0.1% in the thyroid bed and stimulated thyroglobulin levels of <2.0 ng/mL. Results are summarized below (Table 4). Table 4: Remnant Ablation Rates in Study A THYROGEN Thyroid Hormone Withdrawal Total 95% CI of difference in ablation rate (low dose minus high dose): -10.2% to 2.6% 95% CI of difference in ablation rate (THYROGEN - Thyroid Hormone Withdrawal): -6.0% to 6.8% Low-dose radioiodine 91/108 (84.3%) 91/106 (85.8%) 182/214 (85.0%) High-dose Radioiodine 92/102 (90.2%) 92/105 (87.6%) 184/207 (88.9%) Total 183/210 (87.1%) 183/211 (86.7%) 366/421 (86.9%) For Study A, 434 (99%) of the original 438 patients were followed up for disease recurrence. The median follow-up was 6.5 years (0.03 to 10.6 years). The second study (Study B) randomized 752 patients with low-risk thyroid cancer (tumor stages pT1 <1 cm and N1 or Nx, pT1 >1\u20132 cm and any N stage, or pT2 N0, all patients M0). Ablation success was defined by neck ultrasound and stimulated thyroglobulin of \u22641.0 ng/mL. Results are summarized below (Table 5). Table 5: Remnant Ablation Rates in Study B THYROGEN Thyroid Hormone Withdrawal Total 95% CI of difference in ablation rate (low dose minus high dose): -5.8% to 0.9% 95% CI of difference in ablation rate (THYROGEN minus Thyroid Hormone Withdrawal): -4.5% to 2.2% Low-dose radioiodine 160/177 (90.4%) 156/170 (91.8%) 316/347 (91.1%) High-dose Radioiodine 159/171 (93.0%) 156/166 (94.0%) 315/337 (93.5%) Total 319/348 (91.6%) 312/336 (92.9%) 631/684 (92.3%) For Study B, 726 (97%) of the original 752 patients were followed up for disease recurrence. The median follow-up was 5.4 years (0.5 to 9.2 years). Five-year follow-up data of THYROGEN for remnant ablation with two different RAI doses in Study A and Study B observed similar rates of thyroid cancer recurrence as thyroid hormone withdrawal. 14.3 Quality of Life Quality of Life (QOL) was measured during both the diagnostic study [see Clinical Studies (14.1) ] and the ablation of thyroid remnant study [see Clinical Studies (14.2) ] using the SF-36 Health Survey, a standardized, patient-administered instrument assessing QOL across eight domains measuring both physical and mental functioning. In the diagnostic study and in the remnant ablation study, following THYROGEN administration, little change from baseline was observed in any of the eight QOL domains of the SF-36. Following thyroid hormone withdrawal in the diagnostic study, statistically significant negative changes were noted in all eight QOL domains of the SF-36. The difference between treatment groups was statistically significant (p<0.0001) for all eight QOL domains, favoring THYROGEN over thyroid hormone withdrawal (Figure 2). In the remnant ablation study, following thyroid hormone withdrawal, statistically significant negative changes were noted in five of the eight QOL domains (physical functioning, role physical, vitality, social functioning and mental health). Figure 2: SF-36 Health Survey Results Quality of Life Domains Diagnostic Indication Figure 2"
+    ],
+    "clinical_studies_table": [
+      "<table width=\"80%\"><caption>Table 2: Concordance of Positive Thyroid Scans Following THYROGEN Treatment with Scans Following Thyroid Hormone Withdrawal</caption><col width=\"38%\" align=\"left\" valign=\"top\"/><col width=\"31%\" align=\"center\" valign=\"bottom\"/><col width=\"31%\" align=\"center\" valign=\"bottom\"/><thead><tr><th styleCode=\"Lrule Rrule\"/><th styleCode=\"Rrule\" valign=\"middle\">Number of scan pairs by disease category</th><th styleCode=\"Rrule\" valign=\"middle\">Concordance of scan pairs between THYROGEN scan and thyroid hormone withdrawal scan</th></tr></thead><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\" colspan=\"3\"><content styleCode=\"bold\">Study 1 (0.9 mg IM qd &#xD7; 2)</content></td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Positive for remnant or cancer in thyroid bed</td><td styleCode=\"Rrule\">48</td><td styleCode=\"Rrule\">81%</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Positive for metastatic disease</td><td styleCode=\"Rrule\">15</td><td styleCode=\"Rrule\">73%</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Total positive withdrawal scans<footnote ID=\"tb2ft1\">Across both studies uptake was detected on the THYROGEN scan but not observed on the scan after thyroid hormone withdrawal in 5 patients with remnant or cancer in the thyroid bed.</footnote><sup>,</sup><footnote ID=\"tb2ft2\">In the two clinical studies radioiodine scan results using thyroid hormone withdrawal were taken as the true clinical status of each patient and as the comparator for THYROGEN scans. Thyroid hormone withdrawal trace-positive scans were scored conservatively as positive with no allowance for false positives.</footnote></td><td styleCode=\"Rrule\">63</td><td styleCode=\"Rrule\">79%</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule\"> </td><td> </td><td styleCode=\"Rrule\"> </td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\" colspan=\"3\"><content styleCode=\"bold\">Study 2 (0.9 mg IM qd &#xD7; 2)</content></td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Positive for remnant or cancer in thyroid bed</td><td styleCode=\"Rrule\">35</td><td styleCode=\"Rrule\">86%</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Positive for metastatic Disease</td><td styleCode=\"Rrule\">9</td><td styleCode=\"Rrule\">67%</td></tr><tr><td styleCode=\"Lrule Rrule\">Total positive withdrawal scans<footnoteRef IDREF=\"tb2ft1\"/><sup>,</sup><footnoteRef IDREF=\"tb2ft2\"/></td><td styleCode=\"Rrule\">44</td><td styleCode=\"Rrule\">82%</td></tr></tbody></table>",
+      "<table width=\"90%\"><caption>Table 3: Remnant Ablation in Clinical Trial of Patients with Well-Differentiated Thyroid Cancer</caption><col width=\"20%\" align=\"left\" valign=\"top\"/><col width=\"12%\" align=\"center\" valign=\"bottom\"/><col width=\"13%\" align=\"center\" valign=\"bottom\"/><col width=\"15%\" align=\"center\" valign=\"bottom\"/><col width=\"20%\" align=\"center\" valign=\"bottom\"/><col width=\"20%\" align=\"center\" valign=\"bottom\"/><thead><tr styleCode=\"Botrule\"><th styleCode=\"Lrule Rrule\">Group<footnote>60 per protocol patients with interpretable scan data. 95% CI for difference in ablation rates THYROGEN minus Thyroid Hormone Withdrawal, = 7% to 27%.</footnote></th><th styleCode=\"Rrule\" valign=\"middle\">Mean Age  (Yr)</th><th styleCode=\"Rrule\" valign=\"middle\">Gender  (F:M)</th><th styleCode=\"Rrule\" valign=\"middle\">Cancer Type  (Pap:Fol)</th><th styleCode=\"Rrule\" colspan=\"2\" valign=\"middle\">Ablation Criterion (Measure at 8 Months)</th></tr><tr><th styleCode=\"Lrule Rrule\"/><th styleCode=\"Rrule\"/><th styleCode=\"Rrule\"/><th styleCode=\"Rrule\"/><th styleCode=\"Rrule\">Thyroid Bed Activity &lt;0.1%</th><th styleCode=\"Rrule\">No Visible Thyroid Bed Activity<footnote>Interpretation by 2 of 3 reviewers. 95% CI for difference in ablation rates, THYROGEN minus Thyroid Hormone Withdrawal, = -31% to 9%.</footnote></th></tr></thead><tfoot><tr><td align=\"left\" colspan=\"6\">Abbreviations: fol = follicular, pap = papillary</td></tr></tfoot><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Thyroid Hormone Withdrawal (N=28)</td><td styleCode=\"Rrule\">43</td><td styleCode=\"Rrule\">24:6</td><td styleCode=\"Rrule\">29:1</td><td styleCode=\"Rrule\">28/28 (100%)</td><td styleCode=\"Rrule\">24/28 (86%)</td></tr><tr><td styleCode=\"Lrule Rrule\">THYROGEN (N=32)</td><td styleCode=\"Rrule\">44</td><td styleCode=\"Rrule\">26:7</td><td styleCode=\"Rrule\">30:3</td><td styleCode=\"Rrule\">32/32 (100%)</td><td styleCode=\"Rrule\">24/32 (75%)</td></tr></tbody></table>",
+      "<table width=\"75%\"><caption>Table 4: Remnant Ablation Rates in Study A</caption><col width=\"25%\" align=\"left\" valign=\"middle\"/><col width=\"20%\" align=\"left\" valign=\"middle\"/><col width=\"35%\" align=\"left\" valign=\"middle\"/><col width=\"20%\" align=\"left\" valign=\"middle\"/><thead><tr><th styleCode=\"Lrule Rrule\"/><th styleCode=\"Rrule\">THYROGEN</th><th styleCode=\"Rrule\">Thyroid Hormone Withdrawal</th><th styleCode=\"Rrule\">Total</th></tr></thead><tfoot><tr><td colspan=\"4\" align=\"left\" valign=\"top\">95% CI of difference in ablation rate (low dose minus high dose): -10.2% to 2.6% 95% CI of difference in ablation rate (THYROGEN - Thyroid Hormone Withdrawal): -6.0% to 6.8%</td></tr></tfoot><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\"><content styleCode=\"bold\">Low-dose radioiodine</content></td><td styleCode=\"Rrule\">91/108 (84.3%)</td><td styleCode=\"Rrule\">91/106 (85.8%)</td><td styleCode=\"Rrule\">182/214 (85.0%)</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\"><content styleCode=\"bold\">High-dose Radioiodine</content></td><td styleCode=\"Rrule\">92/102 (90.2%)</td><td styleCode=\"Rrule\">92/105 (87.6%)</td><td styleCode=\"Rrule\">184/207 (88.9%)</td></tr><tr><td valign=\"top\" styleCode=\"Lrule Rrule\"><content styleCode=\"bold\">Total</content></td><td valign=\"top\" styleCode=\"Rrule\">183/210 (87.1%)</td><td valign=\"top\" styleCode=\"Rrule\">183/211 (86.7%)</td><td valign=\"top\" styleCode=\"Rrule\">366/421 (86.9%)</td></tr></tbody></table>",
+      "<table width=\"75%\"><caption>Table 5: Remnant Ablation Rates in Study B</caption><col width=\"25%\" align=\"left\" valign=\"top\"/><col width=\"20%\" align=\"left\" valign=\"middle\"/><col width=\"35%\" align=\"left\" valign=\"middle\"/><col width=\"20%\" align=\"left\" valign=\"middle\"/><thead><tr><th styleCode=\"Lrule Rrule\"/><th styleCode=\"Rrule\">THYROGEN</th><th styleCode=\"Rrule\">Thyroid Hormone Withdrawal</th><th styleCode=\"Rrule\">Total</th></tr></thead><tfoot><tr><td align=\"left\" valign=\"top\" colspan=\"4\">95% CI of difference in ablation rate (low dose minus high dose): -5.8% to 0.9% 95% CI of difference in ablation rate (THYROGEN minus Thyroid Hormone Withdrawal): -4.5% to 2.2%</td></tr></tfoot><tbody><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\">Low-dose <content styleCode=\"bold\">radioiodine</content></td><td styleCode=\"Rrule\">160/177 (90.4%)</td><td styleCode=\"Rrule\">156/170 (91.8%)</td><td styleCode=\"Rrule\">316/347 (91.1%)</td></tr><tr styleCode=\"Botrule\"><td styleCode=\"Lrule Rrule\"><content styleCode=\"bold\">High-dose Radioiodine</content></td><td styleCode=\"Rrule\">159/171 (93.0%)</td><td styleCode=\"Rrule\">156/166 (94.0%)</td><td styleCode=\"Rrule\">315/337 (93.5%)</td></tr><tr><td valign=\"top\" styleCode=\"Lrule Rrule\"><content styleCode=\"bold\">Total</content></td><td valign=\"top\" styleCode=\"Rrule\">319/348 (91.6%)</td><td valign=\"top\" styleCode=\"Rrule\">312/336 (92.9%)</td><td valign=\"top\" styleCode=\"Rrule\">631/684 (92.3%)</td></tr></tbody></table>"
+    ],
+    "how_supplied": [
+      "16 HOW SUPPLIED/STORAGE AND HANDLING THYROGEN (thyrotropin alfa) for injection is as a sterile white to off-white lyophilized powder in a single-dose vial. Each carton (NDC 58468-0030-2) contains two 0.9 mg single-dose vials of THYROGEN (NDC 58468-0030-1). Store THYROGEN refrigerated at 2\u00b0C to 8\u00b0C (36\u00b0F to 46\u00b0F) in the original carton to protect from light."
+    ],
+    "storage_and_handling": [
+      "Store THYROGEN refrigerated at 2\u00b0C to 8\u00b0C (36\u00b0F to 46\u00b0F) in the original carton to protect from light."
+    ],
+    "information_for_patients": [
+      "17 PATIENT COUNSELING INFORMATION Adverse Reactions Inform patients that the most common adverse events from clinical experience were nausea and headache. Advise patients to seek immediate medical attention should they experience severe symptoms. Important Information Prior to THYROGEN administration, counsel patients to seek care immediately for any neurologic symptoms occurring after administration of the drug. Inform patients for whom THYROGEN induced hyperthyroidism could have serious consequences, hospitalization for administration of THYROGEN and postadministrative observation should be considered. Dosing and Administration Patients should be instructed that THYROGEN is for intramuscular administration into the buttock only. THYROGEN should not be administered intravenously. Inform patients the treatment regimen is two doses of THYROGEN administered at a 24 hour interval. Encourage patients to remain hydrated prior to treatment with THYROGEN. Schedule of Procedures Inform patients that if diagnostic scanning will be performed, radioiodine will be given 24 hours after the second injection of THYROGEN, and patients should return for the scan 48 hours after radioiodine administration. Inform patients that if serum Tg testing is performed, blood will be drawn 72 hours or later after the second injection of THYROGEN. Inform patients that if remnant ablation is performed radioiodine will be administered 24 hours after the second injection of THYROGEN. Pregnancy and Lactation Risks Associated with Radioiodine Treatment When THYROGEN is administered in combination with radioiodine (RAI), refer to the RAI prescribing information for patient counseling information. Inform patients to notify their healthcare provider immediately in the event of a pregnancy [see Warnings and Precautions (5.4) and Use in Specific Populations (8.1 , 8.3) ]."
+    ],
+    "spl_unclassified_section": [
+      "Manufactured by: Genzyme Corporation Cambridge, MA 02141 A SANOFI COMPANY THYROGEN is a registered trademark of Genzyme Corporation."
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 2 Vial Carton NDC 58468-0030-2 Rx only Thyrogen \u00ae (thyrotropin alfa) for injection 0.9 mg/vial For intramuscular injection only Dilute only with Sterile Water for Injection, USP. Two single-dose vials PRINCIPAL DISPLAY PANEL - 2 Vial Carton",
+      "Package Label - Principal Display Panel \u2013 4 vial Carton Package Label - Principal Display Panel \u2013 4 vial Carton"
+    ],
+    "set_id": "b52dfa36-f90b-4e19-9b5e-26db9d04df2b",
+    "id": "a62de867-ea60-47eb-873a-788223a1181f",
+    "effective_time": "20230224",
+    "version": "20",
+    "openfda": {
+      "application_number": [
+        "BLA020898"
+      ],
+      "brand_name": [
+        "Thyrogen"
+      ],
+      "generic_name": [
+        "THYROTROPIN ALFA"
+      ],
+      "manufacturer_name": [
+        "Genzyme Corporation"
+      ],
+      "product_ndc": [
+        "58468-0030",
+        "58468-1849"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "INTRAMUSCULAR"
+      ],
+      "substance_name": [
+        "THYROTROPIN ALFA"
+      ],
+      "rxcui": [
+        "2166572",
+        "2166573",
+        "2166578",
+        "2166579",
+        "2554801",
+        "2554802",
+        "2554804",
+        "2554805"
+      ],
+      "spl_id": [
+        "a62de867-ea60-47eb-873a-788223a1181f"
+      ],
+      "spl_set_id": [
+        "b52dfa36-f90b-4e19-9b5e-26db9d04df2b"
+      ],
+      "package_ndc": [
+        "58468-0030-1",
+        "58468-0030-2",
+        "58468-1849-4"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000175949",
+        "M0021496"
+      ],
+      "pharm_class_epc": [
+        "Thyroid Stimulating Hormone [EPC]"
+      ],
+      "pharm_class_cs": [
+        "Thyrotropin [CS]"
+      ],
+      "unii": [
+        "AVX3D5A4LM"
+      ]
+    }
+  }
+]

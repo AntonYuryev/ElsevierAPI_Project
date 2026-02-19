@@ -1,0 +1,98 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Hamamelis Aesculus Hamamelis Aesculus SUCROSE AESCULUS GLABRA NUT AESCULUS GLABRA NUT HAMAMELIS VIRGINIANA ROOT BARK/STEM BARK HAMAMELIS VIRGINIANA ROOT BARK/STEM BARK PAEONIA OFFICINALIS ROOT PAEONIA OFFICINALIS ROOT PULSATILLA VULGARIS PULSATILLA VULGARIS DESIRUDIN DESIRUDIN MERCURY MERCURY white round"
+    ],
+    "indications_and_usage": [
+      "Directions: FOR ORAL USE ONLY."
+    ],
+    "dosage_and_administration": [
+      "Dissolve pellets under the tongue 3-4 times daily. Ages 12 and older: 10 pellets. Ages 2-11: 5 pellets. Under age 2: Consult a doctor."
+    ],
+    "active_ingredient": [
+      "Active Ingredients: Aesculus (Horse chestnut) 3X, Hamamelis (Witch hazel) 3X, Paeonia (Peony) 3X, Pulsatilla (Pasqueflower) 3X, Hirudo (Leech) 6X, Mercurius vivus (Mercury) 17X"
+    ],
+    "inactive_ingredient": [
+      "Inactive Ingredient: Organic sucrose Prepared using rhythmical processes."
+    ],
+    "purpose": [
+      "Use: Temporary relief of varicose veins."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "warnings": [
+      "Warnings: Claims based on traditional homeopathic practice, not accepted medical evidence. Not FDA evaluated. Contains sugar. Diabetics and persons intolerant of sucrose (sugar): Consult a doctor before use. Do not use if allergic to any ingredient. Consult a doctor before use for serious conditions or if conditions worsen or persist. If you are pregnant or nursing, consult a doctor before use. Do not use if safety seal is broken or missing."
+    ],
+    "questions": [
+      "Questions? Call 866.642.2858 Uriel, East Troy, WI 53120 shopuriel.com Lot:"
+    ],
+    "package_label_principal_display_panel": [
+      "Hamamelis Aesculus Pellets"
+    ],
+    "set_id": "217f677a-a5b6-4df3-97ec-0eafbc9f29ce",
+    "id": "40d1da6d-1814-4972-e063-6394a90ab328",
+    "effective_time": "20251010",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "Hamamelis Aesculus"
+      ],
+      "generic_name": [
+        "HAMAMELIS AESCULUS"
+      ],
+      "manufacturer_name": [
+        "Uriel Pharmacy Inc"
+      ],
+      "product_ndc": [
+        "48951-5112"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "AESCULUS GLABRA NUT",
+        "DESIRUDIN",
+        "HAMAMELIS VIRGINIANA ROOT BARK/STEM BARK",
+        "MERCURY",
+        "PAEONIA OFFICINALIS ROOT",
+        "PULSATILLA VULGARIS"
+      ],
+      "spl_id": [
+        "40d1da6d-1814-4972-e063-6394a90ab328"
+      ],
+      "spl_set_id": [
+        "217f677a-a5b6-4df3-97ec-0eafbc9f29ce"
+      ],
+      "package_ndc": [
+        "48951-5112-2"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000175980",
+        "N0000175518",
+        "N0000009963"
+      ],
+      "pharm_class_epc": [
+        "Anti-coagulant [EPC]",
+        "Direct Thrombin Inhibitor [EPC]"
+      ],
+      "pharm_class_moa": [
+        "Thrombin Inhibitors [MoA]"
+      ],
+      "unii": [
+        "IHY79HC33C",
+        "U0JZ726775",
+        "T7S323PKJS",
+        "FXS1BY2PGL",
+        "8R564U2E1P",
+        "I76KB35JEV"
+      ]
+    }
+  }
+]

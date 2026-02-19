@@ -1,11 +1,26 @@
-import urllib.parse, requests,os,json,regex
+import urllib.parse, requests,os,json
+import regex as re
 import urllib.error as http_error
 from time import sleep
-from ...utils.utils import multithread
+from concurrent.futures import ThreadPoolExecutor
+from collections import defaultdict
+
 
 DRUGNAME_FIELDS = ['openfda.brand_name', 'openfda.generic_name','openfda.substance_name']
 DOSAGE_FIELD = 'dosage_and_administration'
-CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/FDA/drug_labels_cache')
+CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/FDA/drug_labels_cache')
+
+TYPOS = {
+    '• ': '',
+    ': ': ' ',
+    'º': '°',
+    '( ':'(',
+    ' )':')'
+}
+
+TYPOS_PATTERN = re.compile("|".join(re.escape(k) for k in TYPOS))
+
+
 
 def get_field(label:dict,keys:list):
     try:
@@ -16,7 +31,7 @@ def get_field(label:dict,keys:list):
 def replace_in(s:str,any_pattern_in:list,with_str=''):
     new_str = s
     for pattern in any_pattern_in:
-        new_str = regex.sub(pattern, lambda x: with_str, new_str)
+      new_str = re.sub(pattern, lambda x: with_str, new_str)
 
     return new_str
 
@@ -28,7 +43,7 @@ class FDA:
 
     def __init__(self):
         self.url = 'https://api.fda.gov/drug/label.json?search='
-        self.drug2labels = dict()
+        self.drug2labels = dict() #{str:drug_name:[labels]}
         
 
     def __get_results(self, field:str, query:str,limit=100):
@@ -63,7 +78,7 @@ class FDA:
             cached_drug2labels[drug_name_in_cache] = json.load(f)
 
       self.drug2labels.update(cached_drug2labels)
-      print(f'Found {len(cached_drug2labels)} drug labels in FDA cache')
+      #print(f'Found {len(cached_drug2labels)} drug labels in FDA cache')
       return cached_drug2labels
     
 
@@ -122,9 +137,18 @@ class FDA:
         return labels
 
 
-    child_dose_pattern = regex.compile(r"\b(child|pediat)\b", regex.IGNORECASE)
-    def __child_doses(self, drug:str):
-      drug2dose = dict()
+    child_dose_pattern = re.compile(r"\b(child|pediat)\b", re.IGNORECASE)
+    def __child_doses(self, drug:str)->tuple[str,dict[str,str]]:
+      '''
+      output:
+        drug, brand2dose {str:str}
+      '''
+
+      def clean_sentence(sent:str):
+        s = TYPOS_PATTERN.sub(lambda m: TYPOS[m.group(0)], sent)
+        return " ".join(s.strip(' []\'".').split())
+
+      brand2dose = dict()
       labels = self.drug_labels(drug)
       for label in labels:
         dosage = str(label.get(DOSAGE_FIELD,''))
@@ -132,28 +156,33 @@ class FDA:
         for sentence in sentences:
           if self.child_dose_pattern.search(sentence):
             brand = get_field(label,['openfda','brand_name'])
-            sentence = sentence.strip(' []\'".')
-            drug2dose[brand]= sentence
+            sentence = clean_sentence(sentence)
+            brand2dose[brand]= sentence
             break
-      return drug2dose
+      return drug, brand2dose
 
 
-    def child_doses(self,drugs:list[str])->dict[str,str]:
-      self.__load_drug_label_cache(drugs)
-      drug2childdose = dict()
-      for drug in drugs:
-        brands2dose = self.__child_doses(drug)
-        if brands2dose:
-          drug2childdose[drug] = '. '.join(brands2dose.values())
-      return drug2childdose
-    
+    def child_doses(self,drug_names:list[str],multithread=True)->dict[str,str]:
+      print(f'Finding children dosage for {len(drug_names)} drugs')
+      self.__load_drug_label_cache(drug_names)
+      drug2childdose = defaultdict(list)
 
-    def child_doses_mt(self,drugs:list[str],max_workers=5):
-      drug2childdose = dict()
-      print(f'Finding children dosage for {len(drugs)} drugs in {max_workers} threads')
-      chunk_childdoses = multithread(drugs, self.child_doses, max_workers=max_workers)
-      [drug2childdose.update(d) for d in chunk_childdoses if d]
-      print(f'Found {len(drug2childdose)} drugs with known dose in children')
+      if multithread:
+        with ThreadPoolExecutor() as e:
+          print(f'Finding children dosage for {len(drug_names)} drugs in {e._max_workers} threads')
+          futures = e.map(self.__child_doses,drug_names)
+          for drug, brands2dose in futures:
+            if brands2dose:
+              all_child_doses = set(brands2dose.values())
+              drug2childdose[drug] = ','.join(all_child_doses)
+      else:
+        for drug in drug_names:
+          _, brands2dose = self.__child_doses(drug)
+          if brands2dose:
+            all_child_doses = set(brands2dose.values())
+            drug2childdose[drug] = ','.join(all_child_doses)
+
+      print(f'Found {len(drug2childdose)} out of {len(drug_names)} drugs with known dose in children') 
       return drug2childdose
     
 

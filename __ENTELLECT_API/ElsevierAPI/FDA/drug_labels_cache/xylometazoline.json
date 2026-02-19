@@ -1,0 +1,76 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Metarivin Soln. 0.1% Xylometazoline Hydrochloride COBALT DISODIUM EDETATE EUCALYPTUS OIL XYLOMETAZOLINE HYDROCHLORIDE XYLOMETAZOLINE LEVOMENTHOL"
+    ],
+    "active_ingredient": [
+      "Xylometazoline Hydrochloride"
+    ],
+    "purpose": [
+      "\u25a0 relieve your cold symptoms cold Rhinitis"
+    ],
+    "keep_out_of_reach_of_children": [
+      "Keep out of reach of children"
+    ],
+    "indications_and_usage": [
+      "Adults and children 7 years and older: Spray into the nose 3 times a day"
+    ],
+    "warnings": [
+      "\u25a0 When using this product Stop use and ask a doctor if nervousness, diziness, or sleepness occur. Pain, nasal congestion or cough gets worse or lasts more than 7 days. fever gets worse or lasts more than 3 days New symtoms occur. keep out of reach of children. In case of overdose, get medical help or contact a poison contral center right away. If pregnant or breast-feeding, ask a health professional before use."
+    ],
+    "inactive_ingredient": [
+      "l-menthol, eucalyptus oil, etc"
+    ],
+    "dosage_and_administration": [
+      "for nasal use"
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "e9da6f39-8620-faca-e053-2995a90a8a57",
+    "id": "e9eb354f-e61d-6a3a-e053-2995a90ae200",
+    "effective_time": "20220930",
+    "version": "2",
+    "openfda": {
+      "brand_name": [
+        "Metarivin Soln. 0.1%"
+      ],
+      "generic_name": [
+        "XYLOMETAZOLINE HYDROCHLORIDE"
+      ],
+      "manufacturer_name": [
+        "Lydia Co., Ltd."
+      ],
+      "product_ndc": [
+        "72988-0030"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "NASAL"
+      ],
+      "substance_name": [
+        "XYLOMETAZOLINE HYDROCHLORIDE"
+      ],
+      "rxcui": [
+        "1363493"
+      ],
+      "spl_id": [
+        "e9eb354f-e61d-6a3a-e053-2995a90ae200"
+      ],
+      "spl_set_id": [
+        "e9da6f39-8620-faca-e053-2995a90a8a57"
+      ],
+      "package_ndc": [
+        "72988-0030-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "X5S84033NZ"
+      ]
+    }
+  }
+]

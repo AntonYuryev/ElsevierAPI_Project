@@ -818,7 +818,8 @@ class DiseaseTargets(SemanticSearch):
       else:
         partners_ids.append(tuple([0])) # adding fake id for link2concept to work
       
-    partners_df = df.from_dict({'Name':target_names,self.__temp_id_col__:partners_ids,'Target partners':partner_names})
+    partners_df = df.from_dict({'Targets':target_names,self.__temp_id_col__:partners_ids,'Name':partner_names})
+    # need partner_names to be in 'Name' column for add_entities to work:
     partners_df.add_entities(partners)
 
     how2connect = self.set_how2connect(**dict())
@@ -828,7 +829,9 @@ class DiseaseTargets(SemanticSearch):
     print(f'{len(partners_df)} targets have {linked_partners_count} partners linked to {self._disease2str()}')
 
     if linked_partners_count:
-      partners_df = df.from_pd(partners_df.drop(columns=[self.__temp_id_col__]))
+      partners_df = df.from_pd(partners_df.drop(columns=[self.__temp_id_col__]).rename(columns={'Name':'Target partners','Targets':'Name'}))
+      # now renamed 'Targets' to 'Name' to be able to merge with self.RefCountPandas on 'Name' column.  
+      # Partner names will be in 'Target partners' column in the final dataframe.
       updated_RefCountPandas = self.RefCountPandas.merge_df(partners_df,on='Name')
       self.set_rank4(concept_name,updated_RefCountPandas)
       return updated_RefCountPandas
@@ -869,8 +872,8 @@ class DiseaseTargets(SemanticSearch):
         else:
           new_session = self._clone(to_retrieve=NO_REL_PROPERTIES,init_refstat=False) # new_session.Graph does not contain regulation_graph 
           new_session.Graph = regulation_graph.compose(new_session.Graph) # to speadup connect_nodes
-          unconnected_nodes_ids = ResnetGraph.dbids(unconnected_nodes)
-          connected_nodes_ids = ResnetGraph.dbids(connected_nodes)
+          unconnected_nodes_ids = set(ResnetGraph.dbids(unconnected_nodes))
+          connected_nodes_ids = set(ResnetGraph.dbids(connected_nodes))
           graph_expansion = new_session.connect_nodes(unconnected_nodes_ids, connected_nodes_ids,
                                                 PHYSICAL_INTERACTIONS, in_direction='>')
         

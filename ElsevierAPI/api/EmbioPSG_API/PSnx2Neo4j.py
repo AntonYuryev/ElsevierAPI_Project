@@ -157,7 +157,7 @@ class nx2neo4j(GraphDatabase):
       return to_nodes
 
 
-  def load_children(self,parent:PSObject,max_childs:int=None,with_connectivity= False)->list[PSObject]:
+  def load_children(self,parent:PSObject,max_childs:int=None,with_connectivity = False)->list[PSObject]:
     '''
     output:
       if max_childs is None or zero loads all children,

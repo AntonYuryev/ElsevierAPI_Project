@@ -116,9 +116,9 @@ class SNEA(APIcache):
             'cache_name':'drug2target'
             }
     self.dt = Drugs4Targets(**kwargs)
-    dtc = self.dt.load_dt(**kwargs)
+    dtc = self.dt.dt_future.result()
     return dtc.network
-     
+
   
   def init_dt_future(self,experiment_name:str):
     def load_combined():
@@ -474,7 +474,7 @@ class SNEA(APIcache):
       sample_name = col[14:]
       drugs_inhibit_sample = self.__sample2drugs__[sample_name]
       self.dt.select_drugs(limit2drugs=drugs_inhibit_sample)
-      self.dt.init_drug_df(drugs_inhibit_sample)
+      all_drugs_df = self.dt.init_drug_df(drugs_inhibit_sample)
       
       print('Ranking %d drugs for %s sample' % (len(drugs_inhibit_sample),sample_name))
       self.dt.params['sample'] = sample_name
@@ -492,7 +492,7 @@ class SNEA(APIcache):
       self.dt.add2report(targets4antagonist_df)
       self.dt.add2report(targets4agonist_df)
       
-      drugs_df4sample = self.dt.make_raw_drug_df()  
+      drugs_df4sample = self.dt.filter_drugs_by_regulatory_score(all_drugs_df) 
       # cannot merge entire drugs_df4sample with drugs_df because of column duplication from different samples with _x,_y
       new_rank_col = DRUG2TARGET_REGULATOR_SCORE +' in '+sample_name
       rankdf2merge = df.from_dict2(drugs_df4sample.to_dict('Name',DRUG2TARGET_REGULATOR_SCORE),'Name',new_rank_col)

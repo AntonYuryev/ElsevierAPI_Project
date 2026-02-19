@@ -1,0 +1,135 @@
+[
+  {
+    "spl_product_data_elements": [
+      "Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE Gallium Nitricum Gallium Nitricum GALLIUM NITRATE ANHYDROUS GALLIUM CATION SUCROSE"
+    ],
+    "active_ingredient": [
+      "",
+      ""
+    ],
+    "dosage_forms_and_strengths": [
+      ""
+    ],
+    "purpose": [
+      ""
+    ],
+    "indications_and_usage": [
+      ""
+    ],
+    "warnings": [
+      ""
+    ],
+    "pregnancy_or_breast_feeding": [
+      ""
+    ],
+    "ask_doctor": [
+      ""
+    ],
+    "keep_out_of_reach_of_children": [
+      ""
+    ],
+    "instructions_for_use": [
+      ""
+    ],
+    "dosage_and_administration": [
+      ""
+    ],
+    "route": [
+      ""
+    ],
+    "inactive_ingredient": [
+      ""
+    ],
+    "questions": [
+      ""
+    ],
+    "package_label_principal_display_panel": [
+      "Gallium Nitricum 6C 5g Gallium Nitricum 6C 30g Gallium Nitricum 6C 100g Gallium Nitricum 12C 5g Gallium Nitricum 12C 30g Gallium Nitricum 12C 100g Gallium Nitricum 30C 1g Gallium Nitricum 30C 5g Gallium Nitricum 30C 30g Gallium Nitricum 30C 100g Gallium Nitricum 100C 1g Gallium Nitricum 100C 5g Gallium Nitricum 100C 30g Gallium Nitricum 100C 100g Gallium Nitricum 200C 1g Gallium Nitricum 200C 5g Gallium Nitricum 200C 30g Gallium Nitricum 200C 100g Gallium Nitricum 500C 1g Gallium Nitricum 500C 5g Gallium Nitricum 500C 30g Gallium Nitricum 500C 100g Gallium Nitricum 1M 1g Gallium Nitricum 1M 5g Gallium Nitricum 1M 30g Gallium Nitricum 1M 100g Gallium Nitricum LM1 30g"
+    ],
+    "set_id": "fd69cceb-aebc-ee89-e053-6294a90affa6",
+    "id": "fd69cceb-aebd-ee89-e053-6294a90affa6",
+    "effective_time": "20230605",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Gallium Nitricum"
+      ],
+      "generic_name": [
+        "GALLIUM NITRICUM"
+      ],
+      "manufacturer_name": [
+        "Hahnemann Laboratories, INC."
+      ],
+      "product_ndc": [
+        "37662-3311",
+        "37662-3317",
+        "37662-3313",
+        "37662-3316",
+        "37662-3312",
+        "37662-3314",
+        "37662-3315",
+        "37662-3318"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "ORAL"
+      ],
+      "substance_name": [
+        "GALLIUM NITRATE ANHYDROUS"
+      ],
+      "spl_id": [
+        "fd69cceb-aebd-ee89-e053-6294a90affa6"
+      ],
+      "spl_set_id": [
+        "fd69cceb-aebc-ee89-e053-6294a90affa6"
+      ],
+      "package_ndc": [
+        "37662-3317-1",
+        "37662-3317-2",
+        "37662-3317-3",
+        "37662-3317-4",
+        "37662-3313-1",
+        "37662-3313-2",
+        "37662-3313-3",
+        "37662-3313-4",
+        "37662-3316-1",
+        "37662-3316-2",
+        "37662-3316-3",
+        "37662-3316-4",
+        "37662-3312-1",
+        "37662-3312-2",
+        "37662-3312-3",
+        "37662-3311-1",
+        "37662-3311-2",
+        "37662-3311-3",
+        "37662-3314-1",
+        "37662-3314-2",
+        "37662-3314-3",
+        "37662-3314-4",
+        "37662-3315-1",
+        "37662-3315-2",
+        "37662-3315-3",
+        "37662-3315-4",
+        "37662-3318-1"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "nui": [
+        "N0000008313",
+        "N0000180856"
+      ],
+      "pharm_class_pe": [
+        "Bone Resorption Inhibition [PE]"
+      ],
+      "pharm_class_epc": [
+        "Calcium Resorption Inhibitor [EPC]"
+      ],
+      "unii": [
+        "Y2V2R4W9TQ"
+      ]
+    }
+  }
+]

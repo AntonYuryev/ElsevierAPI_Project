@@ -3,7 +3,7 @@ from .PathwayStudioGOQL import OQL
 from ..ResnetAPI.references import Reference, NODEWEIGHT, RELWEIGHT
 from ...utils.pandas.panda_tricks import np, pd, df,MAX_TAB_LENGTH
 from .ResnetGraph import ResnetGraph,PSObject,EFFECT,defaultdict
-from .ResnetAPISession import APISession,CURRENT_SPECS
+from .ResnetAPISession import APISession,CURRENT_SPECS, ALL_CHILDS
 from .ResnetAPISession import DO_NOT_CLONE,BELONGS2GROUPS,NO_REL_PROPERTIES,REFERENCE_IDENTIFIERS,DBID
 from .RefStats import SBSstats
 from ...utils.utils import execution_time,sortdict,ThreadPoolExecutor,unpack
@@ -70,7 +70,7 @@ class SemanticSearch (APISession):
       self.PageSize = 1000
       self.RefCountPandas = df() # stores result of semantic retreival
       self.RefCountPandas._name_ = COUNTS
-      self.__Ontology__ = set()
+      self.__Ontology__ = set() # {PSObject}
 
       self.__only_map2types__ = list()
       self.__connect_by_rels__= list()
@@ -307,7 +307,7 @@ class SemanticSearch (APISession):
   def add_temp_id(self,to_df:df,map2columns:list[str]=['URN','Name'],max_childs=MAX_CHILDS,max_threads=50):
     '''
     input:
-      if max_childs=0 (=ALL_CHILDS) loads __temp_id_col__ column for all rows in "to_df"
+      if max_childs > 0 or max_childs == ALL_CHILDS loads __temp_id_col__ column for all rows in "to_df"
     output:
       df where all rows have values __temp_id_col__, rows that cannot be mapped on DB identifiers are removed
     '''
@@ -319,9 +319,16 @@ class SemanticSearch (APISession):
     if self.__temp_id_col__ not in new_pd.columns:
       new_pd[tempid_col] = [np.nan] * len(new_pd)
 
+    parent_with_many_childs = set()
     for map2column in map2columns:
+      # find mapping_values for rows with empty tempid_col and not empty map2column 
+      # to avoid remapping rows that were mapped on previous iterations with other map2column:
       mapping_values = new_pd.loc[new_pd[tempid_col].isna(), map2column].tolist()
-      if not mapping_values: break
+      skip_values = [x.get_props(map2column) for x in parent_with_many_childs]
+      skip_values = set(unpack(filter(None, skip_values)))
+      mapping_values = [str(v) for v in mapping_values if not skip_values]
+      if not mapping_values:
+         break
       mapped_entities = self._props2psobj(mapping_values,[map2column],get_childs=False)
       [o.update_with_value(mapped_by,map2column) for o in mapped_entities]
     
@@ -332,11 +339,17 @@ class SemanticSearch (APISession):
         self.Graph.nodes[c.uid()][resnet_name] = [c.name()]
 
       graph_psobjects = self.Graph._get_nodes(ResnetGraph.uids(mapped_entities))
-      if max_childs:
-        parents4df = [o for o in graph_psobjects if o.number_of_children() <= max_childs] 
-        print(f'{len(graph_psobjects)-len(parents4df)} entities with > ontology children {max_childs}  were removed from further calculations')
+      parents4df = []
+      if max_childs > 0:
+        for o in graph_psobjects:
+          if o.number_of_children() > max_childs:
+            parent_with_many_childs.add(o)
+          else:
+             parents4df.append(o)
+        print(f'{len(parent_with_many_childs)} entities with > ontology children {max_childs}  were removed from further calculations')
       else:
         parents4df = graph_psobjects
+
       prop2tempids = {o.get_prop(map2column):tuple(o.child_dbids()+[o.dbid()]) for o in parents4df}
       assert(map2column in new_pd.columns)
       new_pd = new_pd.set_index(map2column)
@@ -345,17 +358,21 @@ class SemanticSearch (APISession):
 
     # sometimes dbids are not available :(
     clean_df = df.from_pd(new_pd.dropna(subset=[tempid_col],inplace=False),to_df._name_)
-    clean_df.copy_format(to_df)
+    clean_df.__copy_attrs__(to_df)
+    assert(not clean_df.empty), 'All rows were removed from DataFrame because database identifiers cannot be found for any of the mapping columns. Consider using other mapping columns or check if input identifiers are correct'
     removed_rows = len(new_pd)-len(clean_df)
     if removed_rows:
       names_with_nan = new_pd.loc[new_pd[tempid_col].isna(), 'Name'].tolist()
       print(f'{removed_rows} for {names_with_nan} entities were removed from worksheet because database identifiers cannot be found')
+      print(f'{len(parent_with_many_childs)} entities with > {max_childs} ontology children were removed from worksheet')
     clean_df.add_entities(parents4df)
     return clean_df
   
 
   def load_df_neo4j(self,from_entities:list[PSObject]|set[PSObject],max_childs=MAX_CHILDS):
     assert self.useNeo4j(), 'Neo4j database connection was not specified'
+    # unlike APISession.load_children4 that default to load no children
+    # neo4j._load_children_ defaults to load all children if max_childs is zero or negative:
     entities_with_children = self.neo4j._load_children_(from_entities,max_childs=max_childs)
 
     children = set()
@@ -393,7 +410,7 @@ class SemanticSearch (APISession):
           if max_childs > 0 refcount_df will have "self.__temp_id_col__" column
       '''
       [o.update_with_value(self.__mapped_by__,o.name()) for o in from_entities] 
-      if max_childs:
+      if max_childs > 0 or max_childs == ALL_CHILDS:
         if from_entities[0].is_from_rnef():# database ids were not loaded
           self.load_dbids4(from_entities)
 
@@ -415,13 +432,16 @@ class SemanticSearch (APISession):
         urns = [o.urn() for o in parents4df]
         objtypes = [o.objtype() for o in parents4df]
         refcount_df = df.from_dict({'Name':names,'ObjType':objtypes,'URN':urns,self.__temp_id_col__:child_dbids})
+        refcount_df.add_entities(parents4df,with_values_in_column='Name')
+        refcount_df.add_entities(parents4df)
       else:
         names = [o.name() for o in from_entities]
         urns = [o.urn() for o in from_entities]
         objtypes = [o.objtype() for o in from_entities]
         refcount_df = df.from_dict({'Name':names,'ObjType':objtypes,'URN':urns})
-          
-      refcount_df.add_entities(parents4df)
+        refcount_df.add_entities(from_entities,with_values_in_column='Name')
+        refcount_df.add_entities(from_entities)
+      
       return refcount_df
 
 
@@ -1205,7 +1225,7 @@ class SemanticSearch (APISession):
             c.set_property('Local connectivity',connectivity)
             c.set_property('rank',scored_df.max_colrank())
 
-          print(f'Linked {len(exploded_concepts)} expanded from "{concept_name} to  worksheet "{df2score._name_}" by {connectionG.size()} references')
+          print(f'Linked {len(exploded_concepts)} concepts expanded from "{concept_name} to  worksheet "{df2score._name_}" by {connectionG.size()} references')
           print(f'Linking was done in {execution_time(start)}',flush=True)
           return connectionG,scored_df,annotated_inconcepts
         else:
@@ -1333,7 +1353,8 @@ class SemanticSearch (APISession):
 
       new_df = _2df.dfcopy()
       new_df['Groups'] = new_df[for_entities_in_column].map(prop2groups)
-   #   new_df['Groups'] = new_df['Groups'].fillna('')
+      group_count = len(group_names) if group_names else len(self.__Ontology__)
+      print(f'Annotated {new_df["Groups"].count()} rows with groups from {group_count} group names')
       self.add2report(new_df)
       return new_df
   
@@ -1372,7 +1393,7 @@ class SemanticSearch (APISession):
     input:
       ontology_file = {NodeType:path2file_with_groups}
     '''
-    if not self.__Ontology__ and ontology_file:
+    if ontology_file and not self.__Ontology__ :
       assert isinstance(ontology_file,dict), 'Format for ontology file input: {{NodeType:path2file}}'
       for node_type, fpath in ontology_file.items():
         group_names = {x.strip() for x in open(fpath, 'r').readlines()}
@@ -1522,7 +1543,7 @@ class SemanticSearch (APISession):
     hyperlinked_cols = [c for c in clean_df_columns if c.startswith(REFCOUNT_COLUMN)]
     if hasattr(self,'RefStats'):
       [hyperlinked_cols.append(c) for c in self.RefStats.refcols 
-       if c in clean_df_columns and c not in new_column_order]
+       if c in clean_df_columns and c not in hyperlinked_cols]
     clean_df.set_hyperlink_color(hyperlinked_cols)
 
     centered_columns = hyperlinked_cols

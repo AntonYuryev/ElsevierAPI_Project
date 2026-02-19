@@ -1,0 +1,2786 @@
+[
+  {
+    "spl_product_data_elements": [
+      "UREA 40% UREA WATER PROPYLENE GLYCOL GLYCERYL MONOSTEARATE MINERAL OIL CETYL ALCOHOL CARBOMER HOMOPOLYMER TYPE A (ALLYL PENTAERYTHRITOL CROSSLINKED) PETROLATUM XANTHAN GUM SODIUM HYDROXIDE UREA UREA"
+    ],
+    "description": [
+      "Rx Only For external use only. Not for ophthalmic use. Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Water, Propylene Glycol, Glyceryl Stearate, Mineral Oil, Cetyl Alcohol, Carbomer, Petrolatum, Xanthan Gum and Sodium Hydroxide. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that, for which it was prescribed. If redness or irritation occurs, discontinue use, and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz. (28.35 g): NDC 82429-308-15 Urea 40% Cream 3 oz. (85 g): NDC 82429-308-24 Urea 40% Cream 7 oz. (198.4 g): NDC 82429-308-25 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Manufactured for and distributed by: Gabar Health Sciences Corp. Atlanta, GA 30354"
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "0511af16-8623-4685-a1a1-97bde8539728",
+    "id": "083abb11-fe7d-9051-e063-6394a90aaa9f",
+    "effective_time": "20231021",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "UREA 40%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Gabar Health Sciences Corp."
+      ],
+      "product_ndc": [
+        "82429-308"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "083abb11-fe7d-9051-e063-6394a90aaa9f"
+      ],
+      "spl_set_id": [
+        "0511af16-8623-4685-a1a1-97bde8539728"
+      ],
+      "package_ndc": [
+        "82429-308-15",
+        "82429-308-24",
+        "82429-308-25"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0382429308241"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA"
+    ],
+    "description": [
+      "Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed. NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product. To report SUSPECTED ADVERSE REACTIONS, contact Method Pharmaceuticals, LLC at 1-877-250-3427; or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch ."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz. (28.35 g): NDC 58657-489-01 Urea 40% Cream 3 oz. (85 g): NDC 58657-489-03 Urea 40% Cream 7 oz. (198.4 g): NDC 58657-489-07 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "spl_unclassified_section": [
+      "Manufactured for: Method Pharmaceuticals, LLC Southlake, Texas 76092 Rev. 09/23"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL UREA CREAM 40% NDC 58657-489-01 28.35g UREA CREAM 40% NDC 58657-489-03 85g UREA CREAM 40% NDC 58657-489-07 198.4g tube 1 carton1 tube 2 carton2 1 3"
+    ],
+    "set_id": "0920f780-b504-1fea-e063-6394a90ae5a9",
+    "id": "49ee2dc0-c081-673b-e063-6294a90aa6c6",
+    "effective_time": "20260115",
+    "version": "5",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Method Pharmaceuticals, LLC"
+      ],
+      "product_ndc": [
+        "58657-489"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "49ee2dc0-c081-673b-e063-6294a90aa6c6"
+      ],
+      "spl_set_id": [
+        "0920f780-b504-1fea-e063-6394a90ae5a9"
+      ],
+      "package_ndc": [
+        "58657-489-01",
+        "58657-489-03",
+        "58657-489-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0358657489014"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40% Urea UREA UREA CETYL ALCOHOL GLYCERYL MONOSTEARATE CARBOMER HOMOPOLYMER TYPE C (ALLYL PENTAERYTHRITOL CROSSLINKED) MINERAL OIL PROPYLENE GLYCOL WATER TROLAMINE WHITE PETROLATUM XANTHAN GUM"
+    ],
+    "spl_unclassified_section": [
+      "Urea 40% Rx Only For topical use only. Not for ophthalmic use.",
+      "Description Each gram contains 400 mg of urea in a vehicle consisting of: cetyl alcohol, glycerin monostearate, phosphomer X-polymer, mineral oil, propylene glycol, purified water, trolamine 99%, white petrolatum, xanthan gum. str"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes. KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "Precautions FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "pregnancy": [
+      "PREGNANACY Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication. To report a serious adverse event or obtain product information, call 1-877-255-6999."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician. All prescription substitutions and/or recommendations using this product shall be made subject to state and federal statutes as applicable. Please note: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Each person recommending a prescription substitution using this product shall make such recommendations based on each person's professional opinion and knowledge, upon evaluation of the active ingredients, excipients, inactive ingredients and chemical information provided herein."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz.(28.35 g): NDC 71399-8456-1; Urea 40% Cream 3 oz.(85 g): NDC NDC 71399-8456-3; Urea 40% Cream 7 oz.(198.45 g): NDC NDC 71399-8456-7 Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C and 30\u00b0C (between 59\u00b0F and 86\u00b0F). Protect from freezing and excessive heat. Keep bottle tightly closed. Manufactured for: Akron Pharma Inc., Fairfield, NJ-07004 www.akronpharma.com Manufactured In USA"
+    ],
+    "package_label_principal_display_panel": [
+      "28g 85g 198g"
+    ],
+    "set_id": "0ce643e9-cf13-4b51-8ffd-8d5636d73e51",
+    "id": "6153c0bc-1246-4396-a26d-cd066b909ef5",
+    "effective_time": "20240925",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Akron Pharma Inc."
+      ],
+      "product_ndc": [
+        "71399-8456"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "6153c0bc-1246-4396-a26d-cd066b909ef5"
+      ],
+      "spl_set_id": [
+        "0ce643e9-cf13-4b51-8ffd-8d5636d73e51"
+      ],
+      "package_ndc": [
+        "71399-8456-1",
+        "71399-8456-3",
+        "71399-8456-7"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0371399845672",
+        "0371399845634",
+        "0371399845610"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA"
+    ],
+    "description": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. DESCRIPTION: This product is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 390 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, purified water, sodium hydroxide and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: This product is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, xerosis, ichthyosis, skin cracks and fissures, dermatitis, eczema, psoriasis, keratoses and calluses."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings_and_cautions": [
+      "WARNINGS: KEEP OUT OF REACH OF CHILDREN. PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. Keep container tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: 8 oz. (227 g) bottles, NDC 24470-938-08 To report a serious adverse event or obtain product information, call 1-855-899-4237. Manufactured for: Cintex Services, LLC 9330 LBJ Freeway, Suite 900 Dallas, TX 75243 2300393 [00] Rev. 12/2023"
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "0fa3f9de-9183-b6b9-e063-6394a90aadb4",
+    "id": "463d3bdd-dc6d-8dfc-e063-6294a90acddc",
+    "effective_time": "20251218",
+    "version": "2",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Cintex Services, LLC"
+      ],
+      "product_ndc": [
+        "24470-938"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1093289"
+      ],
+      "spl_id": [
+        "463d3bdd-dc6d-8dfc-e063-6294a90acddc"
+      ],
+      "spl_set_id": [
+        "0fa3f9de-9183-b6b9-e063-6394a90aadb4"
+      ],
+      "package_ndc": [
+        "24470-938-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA"
+    ],
+    "description": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. DESCRIPTION: This product is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 400 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, purified water, sodium hydroxide and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings_and_cautions": [
+      "WARNINGS: KEEP OUT OF REACH OF CHILDREN. PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. Keep container tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: 1 oz. (28.35 g) bottles, NDC 24470-939-01 3 oz. (85 g) bottles, NDC 24470-939-03 7 oz. (198.4 g) bottles, NDC 24470-939-07 To report a serious adverse event or obtain product information, call 1-855-899-4237. Manufactured for: Cintex Services, LLC 9330 LBJ Freeway, Suite 900 Dallas, TX 75243 2300402 [00] Rev. 12/2023"
+    ],
+    "package_label_principal_display_panel": [
+      "carton label3 label7"
+    ],
+    "set_id": "0fa4445e-554c-c791-e063-6294a90a9713",
+    "id": "0fa43016-708e-c2e2-e063-6394a90ab5de",
+    "effective_time": "20240123",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Cintex Services, LLC"
+      ],
+      "product_ndc": [
+        "24470-939"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "0fa43016-708e-c2e2-e063-6394a90ab5de"
+      ],
+      "spl_set_id": [
+        "0fa4445e-554c-c791-e063-6294a90a9713"
+      ],
+      "package_ndc": [
+        "24470-939-01",
+        "24470-939-03",
+        "24470-939-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA CARBOMER INTERPOLYMER TYPE A (55000 CPS) CETYL ALCOHOL GLYCERYL MONOSTEARATE PROPYLENE GLYCOL PETROLATUM WATER SODIUM HYDROXIDE MINERAL OIL XANTHAN GUM UREA UREA DIMETHYL ISOSORBIDE"
+    ],
+    "spl_unclassified_section": [
+      "Urea 20% Cream Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE."
+    ],
+    "description": [
+      "DESCRIPTION: Each gram contains 200 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, purified water, sodium hydroxide and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: Figure 1"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNING: KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucousmembranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: 3 oz. (85 g) bottles, NDC 44523-618-03 To report a serious adverse event or obtain product information, call (866) 762-2365. Manufactured for: BIOCOMP PHARMA, INC. San Antonio, TX 78230 1355 I6180R0224 logo"
+    ],
+    "package_label_principal_display_panel": [
+      "Label"
+    ],
+    "set_id": "0fb373f8-5328-2f10-e063-6294a90a2484",
+    "id": "4846c3d5-f1ff-20dc-e063-6394a90a2a3d",
+    "effective_time": "20260113",
+    "version": "2",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "BioComp Pharma, Inc."
+      ],
+      "product_ndc": [
+        "44523-618"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198886"
+      ],
+      "spl_id": [
+        "4846c3d5-f1ff-20dc-e063-6394a90a2a3d"
+      ],
+      "spl_set_id": [
+        "0fb373f8-5328-2f10-e063-6294a90a2484"
+      ],
+      "package_ndc": [
+        "44523-618-03"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0344523618039"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA WATER PROPYLENE GLYCOL GLYCERYL MONOSTEARATE MINERAL OIL CETYL ALCOHOL CARBOMER HOMOPOLYMER TYPE A (ALLYL PENTAERYTHRITOL CROSSLINKED) PETROLATUM XANTHAN GUM SODIUM HYDROXIDE structure"
+    ],
+    "description": [
+      "Rx Only For external use only. Not for ophthalmic use. Description Urea Cream 39% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea Cream 39% contains 39% urea as an active ingredient, and the following inactive ingredients: Water, Propylene Glycol, Glyceryl Stearate, Mineral Oil, Cetyl Alcohol, Carbomer, Petrolatum, Xanthan Gum and Sodium Hydroxide. Urea is a diamide of carbonic acid with the following chemical structure:"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea Cream 39% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea Cream 39% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea Cream 39% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 39% Cream 8 oz. (226.8g): NDC 63629-2036-1 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea 39% Cream, #8oz Label"
+    ],
+    "set_id": "11cb2ff3-464a-4554-a39c-bae9f0ee456b",
+    "id": "d9802356-9353-48bf-94c3-27dbc8eda1c3",
+    "effective_time": "20240109",
+    "version": "102",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "63629-2036"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1093289"
+      ],
+      "spl_id": [
+        "d9802356-9353-48bf-94c3-27dbc8eda1c3"
+      ],
+      "spl_set_id": [
+        "11cb2ff3-464a-4554-a39c-bae9f0ee456b"
+      ],
+      "package_ndc": [
+        "63629-2036-1"
+      ],
+      "original_packager_product_ndc": [
+        "54295-311"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA WATER PROPYLENE GLYCOL GLYCERYL MONOSTEARATE MINERAL OIL CETYL ALCOHOL CARBOMER HOMOPOLYMER TYPE A (ALLYL PENTAERYTHRITOL CROSSLINKED) PETROLATUM XANTHAN GUM SODIUM HYDROXIDE UREA UREA structure"
+    ],
+    "description": [
+      "Rx Only For external use only. Not for ophthalmic use. Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Water, Propylene Glycol, Glyceryl Stearate, Mineral Oil, Cetyl Alcohol, Carbomer, Petrolatum, Xanthan Gum and Sodium Hydroxide. Urea is a diamide of carbonic acid with the following chemical structure:"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea Lotion 40% Cream 8 oz. (226.8g): NDC 63629-2040-1 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Lotion 40% Cream Label"
+    ],
+    "set_id": "1a6722de-c80a-40b5-b86b-953ef6e5e569",
+    "id": "8346b38d-4599-4fb7-b304-33375e32148d",
+    "effective_time": "20240521",
+    "version": "101",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "63629-2040"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "351155"
+      ],
+      "spl_id": [
+        "8346b38d-4599-4fb7-b304-33375e32148d"
+      ],
+      "spl_set_id": [
+        "1a6722de-c80a-40b5-b86b-953ef6e5e569"
+      ],
+      "package_ndc": [
+        "63629-2040-1"
+      ],
+      "original_packager_product_ndc": [
+        "54295-312"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 41% Urea CETEARETH-20 CETYL ALCOHOL PARAFFIN PROPYLENE GLYCOL WATER C13-14 ISOPARAFFIN XANTHAN GUM UREA UREA POLYACRYLAMIDE (10000 MW) PHENOXYETHANOL LAURETH-7 ETHYLHEXYLGLYCERIN"
+    ],
+    "indications_and_usage": [
+      "INDICATIONS & USAGE For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, \ufb01brinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Discontinue use and consult a physician if redness or irritation occurs."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Apply Urea 41% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED Urea 41% Cream 8 oz. (227 g): NDC 85477-905-30"
+    ],
+    "safe_handling_warning": [
+      "STORAGE Store at 20\u00b0 to 25\u00b0C (68\u00b0 to 77\u00b0F) [see USP Controlled Room Temperature]. Protect from freezing and excessive heat. Keep container tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "package_label_principal_display_panel": [
+      "Urea 41% Cream\u2122 Distributed by Oncora Pharma Dallas, TX 75161 label"
+    ],
+    "set_id": "37576876-738c-ac79-e063-6394a90a84fe",
+    "id": "37576876-738d-ac79-e063-6394a90a84fe",
+    "effective_time": "20250611",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Urea 41%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Oncora Pharma, LLC"
+      ],
+      "product_ndc": [
+        "85477-905"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1436933"
+      ],
+      "spl_id": [
+        "37576876-738d-ac79-e063-6394a90a84fe"
+      ],
+      "spl_set_id": [
+        "37576876-738c-ac79-e063-6394a90a84fe"
+      ],
+      "package_ndc": [
+        "85477-905-30"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA WATER PROPYLENE GLYCOL GLYCERYL MONOSTEARATE MINERAL OIL CETYL ALCOHOL 2-METHACRYLOYLOXYETHYL PHOSPHORYLCHOLINE TROLAMINE WHITE PETROLATUM XANTHAN GUM"
+    ],
+    "description": [
+      "Rx Only For external use only. Not for ophthalmic use. Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Purified Water, Propylene Glycol, Glyceryl Monostearate, Mineral Oil, Cetyl Alcohol, Phosphomer X-Polymer, Trolamine 99% , White Petrolatum, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: struct"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea Lotion 40% 8 oz. (226.8g): NDC 71399-8455-8 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. All prescription substitutions using this product shall be made subject to state and federal statutes as applicable. NOTE: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Each person recommending a prescription substitution using this product shall make such recommendations based on each such person\u2019s professional opinion and knowledge, upon evaluating the active ingredients, excipients, inactive ingredients and chemical formulation information provided herein. QUESTIONS : Please Call 1(877) 225-6999 Manufactured for: Akron Pharma, Inc, Fairfield, NJ 07004 Manufactured in U.S.A"
+    ],
+    "package_label_principal_display_panel": [
+      "40"
+    ],
+    "set_id": "3c0d612a-2247-448d-ae65-f9abfd894158",
+    "id": "ce61c92f-c0eb-4f9b-9b7f-98cb72499e1f",
+    "effective_time": "20240925",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "AKRON PHARMA INC"
+      ],
+      "product_ndc": [
+        "71399-8455"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "351155"
+      ],
+      "spl_id": [
+        "ce61c92f-c0eb-4f9b-9b7f-98cb72499e1f"
+      ],
+      "spl_set_id": [
+        "3c0d612a-2247-448d-ae65-f9abfd894158"
+      ],
+      "package_ndc": [
+        "71399-8455-8"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0371399845580"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA"
+    ],
+    "description": [
+      "DESCRIPTION: INGREDIENTS: Each gram of Urea Cream 40% contains Urea 40% and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum. desc"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: This product is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, xerosis, ichthyosis, skin cracks and fissures, dermatitis, eczema, psoriasis, keratoses and calluses."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Use as directed by your physician. See label booklet for full Prescribing Information."
+    ],
+    "safe_handling_warning": [
+      "STORAGE: Store at room temperature 15\u00b0C-30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: This product is supplied in the following size: NDC: 71335-2890-1: 7 oz - 198.4 g in a Bottle. To report a serious adverse event or obtain product information, call 877-250-3427 To report a serious adverse event, please contact Method Pharmaceuticals at (877) 250-3427; email at contact@methodpharm.com; or call FDA at (800) FDA-1088. Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Cream 40% #198.4 Label"
+    ],
+    "set_id": "3d9bf300-cb72-463b-be9a-70c8d9a55b63",
+    "id": "4253879c-b155-dadb-e063-6394a90ad4fb",
+    "effective_time": "20251029",
+    "version": "100",
+    "openfda": {
+      "brand_name": [
+        "Urea 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "71335-2890"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "4253879c-b155-dadb-e063-6394a90ad4fb"
+      ],
+      "spl_set_id": [
+        "3d9bf300-cb72-463b-be9a-70c8d9a55b63"
+      ],
+      "package_ndc": [
+        "71335-2890-1"
+      ],
+      "original_packager_product_ndc": [
+        "58657-487"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA White to off white"
+    ],
+    "description": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. DESCRIPTION: This product is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 400 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, glyceryl stearate, mineral oil, petrolatum, propylene glycol, sodium hydroxide, water and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings_and_cautions": [
+      "WARNINGS: KEEP OUT OF REACH OF CHILDREN. PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected skin twice per day, or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. The product may tend to darken in color on storage. The discoloration does not impair the efficacy or safety of the product. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: 8 oz. (226.8 g) bottles, NDC 24470-962-08 To report a serious adverse event or obtain product information, call 1-855-899-4237. Manufactured for: Cintex Services, LLC Dallas, TX 75243 2500198 [00] Rev. 07/2025"
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "4137c430-bd2b-07a1-e063-6394a90afed9",
+    "id": "4137c435-b71e-0057-e063-6294a90a205c",
+    "effective_time": "20251015",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Cintex Services, LLC"
+      ],
+      "product_ndc": [
+        "24470-962"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "351155"
+      ],
+      "spl_id": [
+        "4137c435-b71e-0057-e063-6294a90a205c"
+      ],
+      "spl_set_id": [
+        "4137c430-bd2b-07a1-e063-6394a90afed9"
+      ],
+      "package_ndc": [
+        "24470-962-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0324470962089"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 40% Urea Urea Urea CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE Cetyl alcohol Dimethyl isosorbide Glyceryl monostearate Mineral oil Petrolatum Propylene glycol Water Sodium Hydroxide Xanthan gum"
+    ],
+    "spl_unclassified_section": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE.",
+      "To report SUSPECTED ADVERSE REACTIONS, contact Patrin Pharma at 1-800-936-3088 or FDA at 1-800-FDA-1088 or www. fda.gov/medwatch for voluntary reporting of suspected adverse reactions. Made in the USA Manufactured for: Patrin Pharma Skokie, IL 60076 Questions (800) 936 3088 Rev 01.0525"
+    ],
+    "description": [
+      "DESCRIPTION Each gram contains 400 mg of urea in a vehicle of carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, purified water, sodium hydroxide, and xanthan gum. Urea is a diamide of carbonic acid with the chemical structure: Chemical Structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS This product is contraindicated in people with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNING KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "PRECAUTIONS FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility Long-term animal studies for carcinogenic potential have not been performed on this product. Studies on reproduction and fertility also have not been performed. Pregnancy Category C Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility Long-term animal studies for carcinogenic potential have not been performed on this product. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy Category C Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS Transient stinging, burning, itching or irritation may occur and will normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE Store at 20\u201325\u00b0C (68\u201377\u00baF), excursions permitted to 15\u201330\u00baC (59\u201386\u00baF). Protect from freezing and excessive heat. Keep bottle tightly closed"
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED 28.35 g (1 oz.) bottles, NDC 39328-019-01 85 g (3 oz.) bottles, NDC 39328-019-03 198.4 g (7 oz.) bottles, NDC 39328-019-07"
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL - 28.35 g Bottle Carton NDC 39328-019-01 Urea 40% Topical Cream For External Use Only Not for Ophthalmic Use Rx Only Net Wt. 28.35 g (1 oz.) PATRIN PHARMA Chemical Structure"
+    ],
+    "set_id": "53ccf801-c1c6-42c8-a511-da33c308076f",
+    "id": "2a3a53e2-6a1d-4422-b058-c9799cb3fa79",
+    "effective_time": "20250821",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Urea 40%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Patrin Pharma, Inc"
+      ],
+      "product_ndc": [
+        "39328-019"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "2a3a53e2-6a1d-4422-b058-c9799cb3fa79"
+      ],
+      "spl_set_id": [
+        "53ccf801-c1c6-42c8-a511-da33c308076f"
+      ],
+      "package_ndc": [
+        "39328-019-01",
+        "39328-019-03",
+        "39328-019-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA structure"
+    ],
+    "description": [
+      "Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum. Urea is a diamide of carbonic acid with the following chemical structure:"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed. NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product. To report SUSPECTED ADVERSE REACTIONS, contact Method Pharmaceuticals, LLC at 1-877-250-3427; or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch ."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz. (28.35 g): NDC: 71335-2868-1 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "spl_unclassified_section": [
+      "Manufactured for: Method Pharmaceuticals, LLC Southlake, Texas 76092 Rev. 09/23"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Cream 40% #28.35 Label"
+    ],
+    "set_id": "59afcfbe-fe04-49c9-b1c5-28f2c4311c01",
+    "id": "8e9975a5-a55e-4037-89b8-8aa5c691fead",
+    "effective_time": "20251112",
+    "version": "100",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "71335-2868"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "8e9975a5-a55e-4037-89b8-8aa5c691fead"
+      ],
+      "spl_set_id": [
+        "59afcfbe-fe04-49c9-b1c5-28f2c4311c01"
+      ],
+      "package_ndc": [
+        "71335-2868-1"
+      ],
+      "original_packager_product_ndc": [
+        "58657-489"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA structure"
+    ],
+    "description": [
+      "DESCRIPTION: INGREDIENTS: Each gram of Urea Cream 40% contains Urea 40% and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum."
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: This product is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, xerosis, ichthyosis, skin cracks and fissures, dermatitis, eczema, psoriasis, keratoses and calluses."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Use as directed by your physician. See label booklet for full Prescribing Information."
+    ],
+    "safe_handling_warning": [
+      "STORAGE: Store at room temperature 15\u00b0C-30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: Urea Cream 40% This product is supplied in the following size: 7oz NDC 63629-9267-1 Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Cream 40% Label"
+    ],
+    "set_id": "6701225c-2c2e-41e8-8d43-ef77c00a9946",
+    "id": "6701225c-2c2e-41e8-8d43-ef77c00a9946",
+    "effective_time": "20240404",
+    "version": "102",
+    "openfda": {
+      "brand_name": [
+        "Urea 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "63629-9267"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "6701225c-2c2e-41e8-8d43-ef77c00a9946"
+      ],
+      "spl_set_id": [
+        "6701225c-2c2e-41e8-8d43-ef77c00a9946"
+      ],
+      "package_ndc": [
+        "63629-9267-1"
+      ],
+      "original_packager_product_ndc": [
+        "58657-487"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA CARBOMER INTERPOLYMER TYPE A (55000 CPS) PROPYLENE GLYCOL CETYL ALCOHOL GLYCERYL MONOSTEARATE DIMETHYL ISOSORBIDE PETROLATUM SODIUM HYDROXIDE WATER XANTHAN GUM MINERAL OIL UREA UREA"
+    ],
+    "spl_unclassified_section": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE."
+    ],
+    "description": [
+      "DESCRIPTION: Each gram contains 400 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, purified water, sodium hydroxide and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: structure.jpg"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNING: KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: 1 oz. (28.35 g) bottles, NDC 44523-617-01 3 oz. (85 g) bottles, NDC 44523-617-03 7 oz. (198.4 g) bottles, NDC 44523-617-07 To report a serious adverse event or obtain product information, call 1-866-762-2365. Image"
+    ],
+    "package_label_principal_display_panel": [
+      "Label Label Label Carton"
+    ],
+    "set_id": "6774a5ef-9bb0-4e7a-e053-2a91aa0af47f",
+    "id": "4629c716-aa54-7dc4-e063-6294a90a3dec",
+    "effective_time": "20251217",
+    "version": "6",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "BioComp Pharma, Inc."
+      ],
+      "product_ndc": [
+        "44523-617"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "4629c716-aa54-7dc4-e063-6294a90a3dec"
+      ],
+      "spl_set_id": [
+        "6774a5ef-9bb0-4e7a-e053-2a91aa0af47f"
+      ],
+      "package_ndc": [
+        "44523-617-01",
+        "44523-617-03",
+        "44523-617-07"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0344523617070",
+        "0344523617032"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 41% Urea CETEARETH-25 CETYL ALCOHOL STEARYL ALCOHOL WATER SODIUM HYDROXIDE XANTHAN GUM CETEARETH-6 MINERAL OIL PROPYLENE GLYCOL UREA UREA"
+    ],
+    "warnings_and_cautions": [
+      "Urea Cream 41% Rx Only For external use only. Not for ophthalmic use."
+    ],
+    "description": [
+      "Description Urea 41% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 41% contains 41% urea as an active ingredient, and the following inactive ingredients: Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Mineral Oil, Propylene Glycol, Purified Water, Sodium Hydroxide, Stearyl Alcohol, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: image description"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANACY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 41% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 41% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 41% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician. All prescription substitutions and/or recommendations using this product shall be made subject to state and federal statutes as applicable. Please note: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Each person recommending a prescription substitution using this product shall make such recommendations based on each person's professional opinion and knowledge, upon evaluating the active ingredients, excipients, inactive ingredients and chemical information provided herein."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 41% Cream 8 oz.(227 g): NDC 16477-341-08 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F - 86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "spl_unclassified_section": [
+      "Marketed by: Laser Pharmaceuticals, LLC 1015 Nine North Drive, Suite 400 Alpharetta, GA 30004 1-844-302-5227"
+    ],
+    "package_label_principal_display_panel": [
+      "NDC 16477-341 Rx Only For topical use only Not for ophthalmic use Urea Cream 41% LASER PHARMACEUTICALS, LLC label"
+    ],
+    "set_id": "ada4d313-1050-4501-9c93-68dfb3a2c9e4",
+    "id": "42f7100f-e9e2-69fd-e063-6294a90a0f68",
+    "effective_time": "20251106",
+    "version": "11",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 41%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Laser Pharmaceuticals, LLC"
+      ],
+      "product_ndc": [
+        "16477-341"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1436933"
+      ],
+      "spl_id": [
+        "42f7100f-e9e2-69fd-e063-6294a90a0f68"
+      ],
+      "spl_set_id": [
+        "ada4d313-1050-4501-9c93-68dfb3a2c9e4"
+      ],
+      "package_ndc": [
+        "16477-341-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0316477341080"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Urea CAMPHOR (SYNTHETIC) CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE EUCALYPTUS OIL GLYCERIN MENTHOL SODIUM HYDROXIDE WATER UREA UREA TRIACETIN"
+    ],
+    "spl_unclassified_section": [
+      "For external use only. Not for ophthalmic use. Keep away from eyes, lips and mucous membranes."
+    ],
+    "description": [
+      "DESCRIPTION: UREA Nail Gel 45% is a keratolytic emollient, which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of UREA Nail Gel 45% contains 45% Urea, camphor, edetate disodium, eucalyptus oil, hydroxyethyl cellulose, menthol, propylene glycol and purified water. UREA is a diamide of carbonic acid with the following chemical structure:"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intracellular matrix, which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas. Urea also hydrates and gently dissolves the intercellular matrix of the nail plate, which can result in the softening and eventual debridement of the nail plate."
+    ],
+    "pharmacokinetics": [
+      "PHARMACOKINETICS: The mechanism of action of topically applied Urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS AND USES: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis, keratoderma, corns and calluses, as well as damaged and ingrown nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "WARNINGS: For external use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "PRECAUTIONS: This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use. KEEP THIS AND ALL MEDICATIONS OUT OF REACH OF CHILDREN. PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea Nail Gel 45% should be given to a pregnant woman only if clearly needed. NURSING MOTHERS: It is not known whether or not this drug is secreted in human milk. Because many drugs are secreted in human milk, caution should be exercised when Urea Nail Gel 45% is administered to a nursing woman."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea Nail Gel 45% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is secreted in human milk. Because many drugs are secreted in human milk, caution should be exercised when Urea Nail Gel 45% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear on discontinuing the medication. Call your doctor for medical advice about side effects."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply Urea Nail Gel 45% to diseased or damaged nail tissue twice per day, or as directed by a physician."
+    ],
+    "instructions_for_use": [
+      "DIRECTIONS FOR SKIN: Apply Urea Nail Gel 45% to affected area(s) twice per day, or as directed by a physician. Rub in until gel is absorbed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: Urea Nail Gel 45% is supplied in a 28 mL glass bottle NDC 42808-0204-28. Store at controlled room temperature 15 to 30\u00b0C (59 to 86\u00b0F). Protect from freezing. Manufactured in the U.S.A. for Exact-Rx, Inc., Melville, NY 11747 00-0204-28-205-00 Iss:7/11"
+    ],
+    "storage_and_handling": [
+      "Store at controlled room temperature 15 to 30\u00b0C (59 to 86\u00b0F). Protect from freezing. Manufactured in the U.S.A. for Exact-Rx, Inc., Melville, NY 11747 00-0204-28-205-00 Iss:7/11"
+    ],
+    "package_label_principal_display_panel": [
+      "1"
+    ],
+    "set_id": "b58e175d-60e8-4206-ac7a-c67b68ac80f0",
+    "id": "45c69d86-b79a-dd73-e063-6294a90a07ed",
+    "effective_time": "20251212",
+    "version": "11",
+    "openfda": {
+      "brand_name": [
+        "Urea"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Exact-Rx, Inc."
+      ],
+      "product_ndc": [
+        "42808-204"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "827406"
+      ],
+      "spl_id": [
+        "45c69d86-b79a-dd73-e063-6294a90a07ed"
+      ],
+      "spl_set_id": [
+        "b58e175d-60e8-4206-ac7a-c67b68ac80f0"
+      ],
+      "package_ndc": [
+        "42808-204-28"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40% Urea WATER SODIUM HYDROXIDE XANTHAN GUM UREA UREA STEARYL ALCOHOL CETEARETH-6 CETEARETH-25 MINERAL OIL CETYL ALCOHOL PROPYLENE GLYCOL"
+    ],
+    "spl_unclassified_section": [
+      "Urea 40% Rx Only For topical use only. Not for ophthalmic use.",
+      "MAJOR \u00ae NDC 0904-7167 Urea Cream 40% For topical use only Not for ophthalmic use Rx Only DOSAGE AND ADMINISTRATION: Use as directed by your physician. See insert for full prescribing information. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. For lot number and expiration date, see bottom of bottle. Distributed by: MAJOR \u00ae PHARMACEUTICALS Livonia, MI 48152 Rev. 01/23"
+    ],
+    "description": [
+      "Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Mineral Oil, Propylene Glycol, Purified Water, Sodium Hydroxide, Stearyl Alcohol, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: image description"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANACY Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician. All prescription substitutions and/or recommendations using this product shall be made subject to state and federal statutes as applicable. Please note: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Each person recommending a prescription substitution using this product shall make such recommendations based on each person's professional opinion and knowledge, upon evaluation of the active ingredients, excipients, inactive ingredients and chemical information provided herein."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz.(28.35 g): NDC 0904-7167-23; Urea 40% Cream 3 oz.(85 g): NDC 0904-7167-83; Urea 40% Cream 7 oz.(198.4 g): NDC 0904-7167-99. Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F - 86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "inactive_ingredient": [
+      "Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Mineral Oil, Propylene Glycol, Purified Water, Sodium Hydroxide, Stearyl Alcohol, Xanthan Gum"
+    ],
+    "package_label_principal_display_panel": [
+      "All prescription substitutions and / or recommendations using this product shall be made subject to state and federal statutes as applicable. Pleaes note: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Please see package insert for more details. 1 oz label 3 oz label"
+    ],
+    "set_id": "c6a097be-a461-6476-e053-2995a90a1788",
+    "id": "3a7bdc7a-268e-550c-e063-6294a90a4165",
+    "effective_time": "20250721",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Major Pharmaceuticals"
+      ],
+      "product_ndc": [
+        "0904-7167"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "3a7bdc7a-268e-550c-e063-6294a90a4165"
+      ],
+      "spl_set_id": [
+        "c6a097be-a461-6476-e053-2995a90a1788"
+      ],
+      "package_ndc": [
+        "0904-7167-83",
+        "0904-7167-23",
+        "0904-7167-99"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA UREA UREA White to off white"
+    ],
+    "description": [
+      "Rx Only FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. DESCRIPTION: This product is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 400 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, glyceryl stearate, mineral oil, petrolatum, propylene glycol, sodium hydroxide, water and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS: KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "PRECAUTIONS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Apply to affected skin twice per day, or as directed by a physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "storage_and_handling": [
+      "STORAGE: Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized. NOTICE: Protect from freezing and excessive heat. The product may tend to darken in color on storage. The discoloration does not impair the efficacy or safety of the product. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: This product is supplied in the following size(s): 8 oz. (226.8 g) bottles, NDC 81542-201-08 To report a serious adverse event or obtain product information, call 1-855-899-4237. Manufactured for: Bantry Pharma, LLC 1000 N. West Street, Suite 1200 Wilmington, DE 19801 2100565 [00] Rev. 09/2021"
+    ],
+    "package_label_principal_display_panel": [
+      "label"
+    ],
+    "set_id": "cb6ddbfc-ea6a-0ddc-e053-2995a90aedc4",
+    "id": "36c18d8c-6e56-ad83-e063-6294a90a25fc",
+    "effective_time": "20250604",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bantry Pharma, LLC"
+      ],
+      "product_ndc": [
+        "81542-201"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "351155"
+      ],
+      "spl_id": [
+        "36c18d8c-6e56-ad83-e063-6294a90a25fc"
+      ],
+      "spl_set_id": [
+        "cb6ddbfc-ea6a-0ddc-e053-2995a90aedc4"
+      ],
+      "package_ndc": [
+        "81542-201-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 41% Urea CETEARETH-25 CETEARETH-6 CETYL ALCOHOL METHYLPARABEN PARAFFIN PROPYLENE GLYCOL WATER STEARYL ALCOHOL XANTHAN GUM UREA UREA"
+    ],
+    "description": [
+      "DESCRIPTION Urea 41% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 410 mg of urea in a vehicle consisting of: Aqua (Purified Water), Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Methylparaben, Paraffin, Propylene Glycol, Stearyl Alcohol, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: Chemical Structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS & USAGE For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, \ufb01brinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes. General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Apply Urea 41% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED Urea 41% Cream 8 oz. (227 g): NDC 59088-489-16"
+    ],
+    "safe_handling_warning": [
+      "STORAGE Store at 20\u00b0 to 25\u00b0C (68\u00b0 to 77\u00b0F) [see USP Controlled Room Temperature]. Protect from freezing and excessive heat. Keep container tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "package_label_principal_display_panel": [
+      "Urea 41% Cream\u2122 Manufactured in the USA by: PureTek Corporation Panorama City, CA 91402 For questions or information call toll-free: 877-921-7873 Label"
+    ],
+    "set_id": "da5d8eae-8d64-d354-e053-2995a90a7999",
+    "id": "da5d8eae-8d63-d354-e053-2995a90a7999",
+    "effective_time": "20220607",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Urea 41%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "PureTek Corporation"
+      ],
+      "product_ndc": [
+        "59088-489"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1436933"
+      ],
+      "spl_id": [
+        "da5d8eae-8d63-d354-e053-2995a90a7999"
+      ],
+      "spl_set_id": [
+        "da5d8eae-8d64-d354-e053-2995a90a7999"
+      ],
+      "package_ndc": [
+        "59088-489-16"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA structure"
+    ],
+    "description": [
+      "Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum. Urea is a diamide of carbonic acid with the following chemical structure:"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed. NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product. To report SUSPECTED ADVERSE REACTIONS, contact Method Pharmaceuticals, LLC at 1-877-250-3427; or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch ."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz. (28.35 g): NDC 72162-2203-7 3 oz. (85 g): NDC 72162-2203-4 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "spl_unclassified_section": [
+      "Manufactured for: Method Pharmaceuticals, LLC Southlake, Texas 76092 Rev. 09/23"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Cream 40% Label"
+    ],
+    "set_id": "e28969bc-c3a0-49e5-9947-aee0c6b8b0b5",
+    "id": "cf40f616-a8ed-4a77-98d2-959d864b373b",
+    "effective_time": "20231219",
+    "version": "100",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "72162-2203"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "cf40f616-a8ed-4a77-98d2-959d864b373b"
+      ],
+      "spl_set_id": [
+        "e28969bc-c3a0-49e5-9947-aee0c6b8b0b5"
+      ],
+      "package_ndc": [
+        "72162-2203-7",
+        "72162-2203-4"
+      ],
+      "original_packager_product_ndc": [
+        "58657-489"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA CETYL ALCOHOL GLYCERYL STEARATE SE MINERAL OIL UREA UREA WATER GLYCERIN CARBOMER 940 PETROLATUM"
+    ],
+    "description": [
+      "Rx Only For external use only. Not for ophthalmic use. Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40%contains 40% urea as an active ingredient, and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication. To report SUSPECTED ADVERSE REACTIONS contact AvKARE at 1-855-361-3993; email drugsafety@avkare.com ; or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch ."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz. tube (28.35 g) NDC 50268-872-28 3 oz. tube (85 g) NDC 50268-872-85 7 oz. bottle (198.4 g) NDC 50268-872-19 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed. Tamper evident by foil seal under cap. Do not use if foil seal is broken or missing. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN. Manufactured for: AvKARE Pulaski, TN 38478 www.avkare.com AV Rev. 6/22 Rev. 6/22"
+    ],
+    "package_label_principal_display_panel": [
+      "Tube Label 28"
+    ],
+    "set_id": "e3b31a1c-8be2-29f6-e053-2a95a90af526",
+    "id": "34145ca3-6034-8c33-e063-6394a90acb55",
+    "effective_time": "20250501",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "AvPAK"
+      ],
+      "product_ndc": [
+        "50268-872"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "34145ca3-6034-8c33-e063-6394a90acb55"
+      ],
+      "spl_set_id": [
+        "e3b31a1c-8be2-29f6-e053-2a95a90af526"
+      ],
+      "package_ndc": [
+        "50268-872-28",
+        "50268-872-19",
+        "50268-872-85"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "UREA UREA WATER WHITE PETROLATUM CAMPHOR (SYNTHETIC) EDETATE DISODIUM ALCOHOL EUCALYPTUS OIL GLYCERIN MENTHOL GLYCERYL STEARATE SE PEG-100 STEARATE MINERAL OIL UREA UREA STEARYL ALCOHOL CETYL ALCOHOL"
+    ],
+    "spl_unclassified_section": [
+      "(in a cream base) Rx only For external use only. Not for ophthalmic use. Keep away from eyes, lips and mucous membranes."
+    ],
+    "description": [
+      "DESCRIPTION: UREA CREAM 45% is a keratolytic emollient, which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 45% Urea in a cream base of: camphor, edetate disodium, alcohol, eucalyptus oil, hydroxyethyl cellulose, menthol, purified water, titanium dioxide, sodium hydroxide. CHEMISTRY: Urea is a diamide of carbonic acid with the following chemical structure: structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix, which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas. Urea also hydrates and gently dissolves the intercellular matrix of the nail plate, which can result in the softening and eventual removal of devitalized nail plate tissue."
+    ],
+    "pharmacokinetics": [
+      "PHARMACOKINETICS: The mechanism of action of topically applied Urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS AND USES: Urea 45% Cream is indicated for use in the topical treatment for debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eschar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis, keratoderma, corns and calluses, as well as damaged devitalized and ingrown nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "WARNINGS: For external use only. Avoid contact with eyes, lips or mucous membranes. If swallowed seek medical attention or contact a Poison Control Centter immediately."
+    ],
+    "precautions": [
+      "PRECAUTIONS: Use this medication only as directed by a physician. It should not be used to treat and condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use. After applying this medication, wash hands and unaffected areas thoroughly. KEEP THIS AND ALL MEDICATION OUT OF REACH OF CHILDREN ."
+    ],
+    "pregnancy": [
+      "PREGNANCY: Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea Cream 45% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS: It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea Cream 45% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning itching or irritation may occur and normally disappear on discontinuing medication. Call your doctor for medical advice about side effects."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINSTRATION: Apply Urea Cream 45% to damaged nail tissue or affected skin area(s) twice a day or as directed by a physician."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: Urea Cream 45% is supplied in 9 oz. (255 g) tubes, NDC 42808-0202-09."
+    ],
+    "storage_and_handling": [
+      "Store at 25\u00b0C (77\u00b0F); excursions permitted to 15 to 30\u00b0C (59 to 86\u00b0F). See USP Controlled Room Temperature. Protect from freezing."
+    ],
+    "package_label_principal_display_panel": [
+      "PRINCIPAL DISPLAY PANEL Urea cream Urea Insert"
+    ],
+    "set_id": "e4516083-fb4d-4550-a6d7-31fb5bb93a24",
+    "id": "45c3fa35-96a6-e9ac-e063-6294a90ab5d6",
+    "effective_time": "20251212",
+    "version": "12",
+    "openfda": {
+      "brand_name": [
+        "UREA"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Exact-Rx, Inc."
+      ],
+      "product_ndc": [
+        "42808-202"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "835837"
+      ],
+      "spl_id": [
+        "45c3fa35-96a6-e9ac-e063-6294a90ab5d6"
+      ],
+      "spl_set_id": [
+        "e4516083-fb4d-4550-a6d7-31fb5bb93a24"
+      ],
+      "package_ndc": [
+        "42808-202-09"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 39% Cream Urea 39% Cream MINERAL OIL PETROLATUM PROPYLENE GLYCOL WATER GLYCERYL MONOSTEARATE XANTHAN GUM DIMETHYL ISOSORBIDE CARBOMER INTERPOLYMER TYPE A (55000 CPS) CETYL ALCOHOL SODIUM HYDROXIDE UREA UREA"
+    ],
+    "spl_unclassified_section": [
+      "GENERAL: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician.",
+      "INDICATIONS: This product is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, xerosis, ichthyosis, skin cracks and fissures, dermatitis, eczema, psoriasis, keratoses and calluses.",
+      "NOTICE: Protect from freezing and excessive heat. Keep bottle tightly closed.",
+      "To report a serious adverse event or obtain product information, call (866) 762-2365. Manufactured for: BIOCOMP PHARMA, INC. San Antonio, TX 78230 1355 2100669 [00] R1021"
+    ],
+    "description": [
+      "This product is a keratolytic emollient which is a gentle, yet potent, tissue softener for skin. Each gram contains 390 mg of urea in a vehicle consisting of: carbomer, cetyl alcohol, dimethyl isosorbide, glyceryl stearate, mineral oil, petrolatum, propylene glycol, sodium hydroxide, water, and xanthan gum. Urea is a diamide of carbonic acid with the following chemical structure: Structure"
+    ],
+    "clinical_pharmacology": [
+      "Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "The mechanism of action of topically applied urea is not yet known."
+    ],
+    "contraindications": [
+      "This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "KEEP OUT OF REACH OF CHILDREN."
+    ],
+    "precautions": [
+      "FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE."
+    ],
+    "information_for_patients": [
+      "Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Category C. Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "Apply to affected area(s) twice per day or as directed by a physician. Rub in until completely absorbed."
+    ],
+    "storage_and_handling": [
+      "Store at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), excursions permitted between 15\u00b0C to 30\u00b0C (between 59\u00b0F to 86\u00b0F). Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F); however, such exposure should be minimized."
+    ],
+    "how_supplied": [
+      "8 oz. (227 g) bottles, NDC 44523-801-08"
+    ],
+    "package_label_principal_display_panel": [
+      "BCP UREA 39% Cream"
+    ],
+    "set_id": "e79004b9-ffbc-3d06-e053-2995a90a8cd7",
+    "id": "4846ec49-3653-db3d-e063-6294a90aa815",
+    "effective_time": "20260113",
+    "version": "3",
+    "openfda": {
+      "brand_name": [
+        "Urea 39% Cream"
+      ],
+      "generic_name": [
+        "UREA 39% CREAM"
+      ],
+      "manufacturer_name": [
+        "BioComp Pharma, Inc."
+      ],
+      "product_ndc": [
+        "44523-801"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "1093289"
+      ],
+      "spl_id": [
+        "4846ec49-3653-db3d-e063-6294a90aa815"
+      ],
+      "spl_set_id": [
+        "e79004b9-ffbc-3d06-e053-2995a90a8cd7"
+      ],
+      "package_ndc": [
+        "44523-801-08"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 20 Urea CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL GLYCERIN GLYCERYL STEARATE SE MINERAL OIL WATER STEARYL ALCOHOL TRIACETIN WHITE PETROLATUM UREA UREA Opaque White"
+    ],
+    "active_ingredient": [
+      "Active Ingredient: UREA 20%"
+    ],
+    "purpose": [
+      "Purpose : Moisturizer"
+    ],
+    "indications_and_usage": [
+      "Usage: Soothes, Softens and Moisturizes Dry Rough Skin."
+    ],
+    "warnings": [
+      "WARNINGS SECTION Caution: Do not apply to broken skin. If redness occurs, discontinue use. Avoid contact with eyes."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP OUT OF REACH OF CHILDREN. For External Use Only."
+    ],
+    "do_not_use": [
+      "Do not use: Do not use if safety seal on the tube is broken or missing. For lot number and exp. date, see crimp of tube or carton."
+    ],
+    "when_using": [
+      "Directions: Apply to desired areas of the hands, feet, knees, or elbows twice daily, or as directed by a physician. Rub into the skin until fully absorbed. Do not use on tender skin areas such as the face, neck, or scalp."
+    ],
+    "stop_use": [
+      "Stop use: Do not apply to broken skin. If redness occurs, discontinue use. Avoid contact with eyes."
+    ],
+    "dosage_and_administration": [
+      ""
+    ],
+    "inactive_ingredient": [
+      "Inactive Ingredients : Cetyl Alcohol, Carbomer, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, Stearyl Alcohol, Triacetin, White Petrolatum."
+    ],
+    "storage_and_handling": [
+      "Storage: Store at 20\u00b0C (68\u00b0F - 77\u00b0F), excursions permitted between 15\u00b0C and 30\u00b0C (59\u00b0F - 86\u00b0F). Protect from Freezing. Store in a cool dry place. [See USP Controlled Room Temperature]"
+    ],
+    "questions": [
+      "Questions or comments? 1-855-361-3993"
+    ],
+    "package_label_principal_display_panel": [
+      "PACKAGE LABEL.PRINCIPAL DISPLAY PANEL UREA 20% Cream FOR EXTERNAL USE ONLY. Soothes, Softens and Moisturizes Dry Rough Skin AvKARE NET WT. 3 OZ. (85 g) Manufactured for: AvKARE, Pulaski, TN 38478 www.avkare.com Questions or comments? 1-855-361-3993 AV 04/22 UREA 20% Cream Product No. 50268-820-85 FOR EXTERNAL USE ONLY. Soothes, Softens and Moisturizes Dry Rough Skin AvKARE NET WT. 3 OZ. (85 g) Carton tube"
+    ],
+    "set_id": "e994fa05-a457-2555-e053-2a95a90ae83b",
+    "id": "48379414-bcb9-1797-e063-6394a90aa8fd",
+    "effective_time": "20260112",
+    "version": "4",
+    "openfda": {
+      "brand_name": [
+        "Urea 20"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "AvPAK"
+      ],
+      "product_ndc": [
+        "50268-820"
+      ],
+      "product_type": [
+        "HUMAN OTC DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "spl_id": [
+        "48379414-bcb9-1797-e063-6394a90aa8fd"
+      ],
+      "spl_set_id": [
+        "e994fa05-a457-2555-e053-2a95a90ae83b"
+      ],
+      "package_ndc": [
+        "50268-820-85"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 39.5% Urea CETEARETH-25 CETEARETH-6 CETYL ALCOHOL METHYLPARABEN PARAFFIN PROPYLENE GLYCOL WATER STEARYL ALCOHOL XANTHAN GUM UREA UREA"
+    ],
+    "description": [
+      "DESCRIPTION Urea 39.5% Cream is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram contains 395 mg of urea in a vehicle consisting of: Aqua (Purified Water), Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Methylparaben, Paraffin, Propylene Glycol, Stearyl Alcohol, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: Chemical Structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS & USAGE For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, \ufb01brinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes. General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Apply Urea 39.5% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED Urea 39.5% Cream 8 oz. (227 g): NDC 59088-698-16"
+    ],
+    "safe_handling_warning": [
+      "STORAGE Store at 20\u00b0 to 25\u00b0C (68\u00b0 to 77\u00b0F) [see USP Controlled Room Temperature]. Protect from freezing and excessive heat. Keep container tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "package_label_principal_display_panel": [
+      "Urea 39.5% Cream\u2122 Manufactured in the USA by: PureTek Corporation Panorama City, CA 91402 For questions or information call toll-free: 877-921-7873 label"
+    ],
+    "set_id": "ea2adf3e-cea6-43b2-e053-2995a90a89a6",
+    "id": "ea2adf3e-cea5-43b2-e053-2995a90a89a6",
+    "effective_time": "20230120",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Urea 39.5%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "PureTek Corporation"
+      ],
+      "product_ndc": [
+        "59088-698"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "2627282"
+      ],
+      "spl_id": [
+        "ea2adf3e-cea5-43b2-e053-2995a90a89a6"
+      ],
+      "spl_set_id": [
+        "ea2adf3e-cea6-43b2-e053-2995a90a89a6"
+      ],
+      "package_ndc": [
+        "59088-698-16"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0359088698167"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 40 Percent Urea GLYCERIN CARBOMER HOMOPOLYMER, UNSPECIFIED TYPE CETYL ALCOHOL WHITE PETROLATUM MINERAL OIL WATER GLYCERYL STEARATE SE UREA UREA desc"
+    ],
+    "description": [
+      "DESCRIPTION: INGREDIENTS: Each gram of Urea Cream 40% contains Urea 40% and the following inactive ingredients: Carbomer, Cetearyl Alcohol, Glycerin, Glyceryl Stearate SE, Mineral Oil, Purified Water, White Petrolatum."
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY: Urea gently dissolves the intercellular matrix which results in loosening the horny layer of skin and shedding scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics: The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS: This product is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, xerosis, ichthyosis, skin cracks and fissures, dermatitis, eczema, psoriasis, keratoses and calluses."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS: This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS: FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes. General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General: This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients: Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the use of this product."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION: Use as directed by your physician. See label booklet for full Prescribing Information."
+    ],
+    "safe_handling_warning": [
+      "STORAGE: Store at room temperature 15\u00b0C-30\u00b0C (59\u00b0F-86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED: This product is supplied in the following size: NDC 72162-1668-2: 7 oz (198.4 g) Repackaged/Relabeled by: Bryant Ranch Prepack, Inc. Burbank, CA 91504"
+    ],
+    "package_label_principal_display_panel": [
+      "Urea Cream 40% Label"
+    ],
+    "set_id": "ee06a590-a104-4e97-b66c-cd37869038a5",
+    "id": "8729e6fd-ac7a-480e-9218-24f821fc29e1",
+    "effective_time": "20241224",
+    "version": "100",
+    "openfda": {
+      "brand_name": [
+        "Urea 40 Percent"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Bryant Ranch Prepack"
+      ],
+      "product_ndc": [
+        "72162-1668"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "8729e6fd-ac7a-480e-9218-24f821fc29e1"
+      ],
+      "spl_set_id": [
+        "ee06a590-a104-4e97-b66c-cd37869038a5"
+      ],
+      "package_ndc": [
+        "72162-1668-2"
+      ],
+      "original_packager_product_ndc": [
+        "58657-487"
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea Cream 40% Urea WATER SODIUM HYDROXIDE XANTHAN GUM UREA UREA STEARYL ALCOHOL CETEARETH-6 CETEARETH-25 MINERAL OIL PROPYLENE GLYCOL CETYL ALCOHOL"
+    ],
+    "warnings_and_cautions": [
+      "Urea Cream 40% Rx Only For external use only. Not for ophthalmic use."
+    ],
+    "description": [
+      "Description Urea 40% is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin. Each gram of Urea 40% contains 40% urea as an active ingredient, and the following inactive ingredients: Ceteareth-6, Ceteareth-25, Cetyl Alcohol, Mineral Oil, Propylene Glycol, Purified Water, Sodium Hydroxide, Stearyl Alcohol, Xanthan Gum. Urea is a diamide of carbonic acid with the following chemical structure: image description"
+    ],
+    "clinical_pharmacology": [
+      "Clinical Pharmacology Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "Indications and Usage For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dry, rough skin, dermatitis, psoriasis, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "Contraindications Known hypersensitivity to any of the listed ingredients."
+    ],
+    "warnings": [
+      "Warnings For topical use only. Avoid contact with eyes, lips or mucous membranes."
+    ],
+    "precautions": [
+      "Precautions This medication is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "pregnancy": [
+      "PREGNANACY Pregnancy Category B. Animal reproduction studies have revealed no evidence of harm to the fetus, however, there are no adequate and well-controlled studies in pregnant women. Because animal reproductive studies are not always predictive of human response, Urea 40% should be given to a pregnant woman only if clearly needed."
+    ],
+    "nursing_mothers": [
+      "NURSING MOTHERS It is not known whether or not this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when Urea 40% is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "Adverse Reactions Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "Dosage and Administration Apply Urea 40% to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician. All prescription substitutions and/or recommendations using this product shall be made subject to state and federal statutes as applicable. Please note: this is not an Orange Book product and has not been subjected to FDA therapeutic equivalency or other equivalency testing. No representation is made as to generic status or bioequivalency. Each person recommending a prescription substitution using this product shall make such recommendations based on each person's professional opinion and knowledge, upon evaluation of the active ingredients, excipients, inactive ingredients and chemical information provided herein."
+    ],
+    "how_supplied": [
+      "How Supplied Urea 40% Cream 1 oz.(28.35 g): NDC 16477-340-01; Urea 40% Cream 3 oz.(85 g): NDC 16477-340-03; Urea 40% Cream 7 oz.(198.4 g): NDC 16477-340-07 Store at room temperature 15\u00b0C - 30\u00b0C (59\u00b0F - 86\u00b0F). Protect from freezing. Keep bottle tightly closed."
+    ],
+    "keep_out_of_reach_of_children": [
+      "KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "spl_unclassified_section": [
+      "Marketed by: Laser Pharmaceuticals, LLC Alpharetta, GA 30004 Rev. 06/25 For lot number and expiration date, see bottom of bottle"
+    ],
+    "package_label_principal_display_panel": [
+      "NDC 16477-340 Rx Only For topical use only Not for ophthalmic use Urea Cream 40% LASER PHARMACEUTICALS, LLC 1 oz label 3 oz label 7 oz label"
+    ],
+    "set_id": "ef2db58d-e760-417d-8574-45a411c49b47",
+    "id": "42f70c2c-33ab-99df-e063-6394a90a5f86",
+    "effective_time": "20251106",
+    "version": "13",
+    "openfda": {
+      "brand_name": [
+        "Urea Cream 40%"
+      ],
+      "generic_name": [
+        "UREA"
+      ],
+      "manufacturer_name": [
+        "Laser Pharmaceuticals, LLC"
+      ],
+      "product_ndc": [
+        "16477-340"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "UREA"
+      ],
+      "rxcui": [
+        "198342"
+      ],
+      "spl_id": [
+        "42f70c2c-33ab-99df-e063-6394a90a5f86"
+      ],
+      "spl_set_id": [
+        "ef2db58d-e760-417d-8574-45a411c49b47"
+      ],
+      "package_ndc": [
+        "16477-340-03",
+        "16477-340-07",
+        "16477-340-01"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "unii": [
+        "8W8T17847W"
+      ]
+    }
+  },
+  {
+    "spl_product_data_elements": [
+      "Urea 39.5% with 2% Salicylic Acid Urea, Salicylic Acid BUTYLENE GLYCOL SHEA BUTTER MEDIUM-CHAIN TRIGLYCERIDES CETOSTEARYL ALCOHOL SODIUM HYDROXIDE STEARIC ACID UREA UREA EDETATE DISODIUM ANHYDROUS METHYLPARABEN WATER SALICYLIC ACID SALICYLIC ACID HYDROXYETHYL ACRYLATE/SODIUM ACRYLOYLDIMETHYL TAURATE COPOLYMER (45000 MPA.S AT 1%) MINERAL OIL PETROLATUM PROPYLPARABEN DIMETHICONE SILICON DIOXIDE SQUALANE POLYSORBATE 60"
+    ],
+    "description": [
+      "DESCRIPTION Urea 39.5% Cream with 2% Salicylic Acid is a keratolytic emollient which is a gentle, yet potent, tissue softener for nails and/or skin space. Each gram contains 395 mg of urea, 20 mg of Salicylic Acid in vehicle consisting of: Aqua (Purified Water), Butylene Glycol, Butyrospermum Parkii (Shea) Butter, Caprylic/Capric Triglyceride, Cetearyl Alcohol, Dimethicone, Disodium EDTA, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Methylparaben, Mineral Oil, Petrolatum, Polysorbate 60, Propylparaben, Simethicone, Sodium Hydroxide, Squalane, Stearic Acid. Urea is a diamide of carbonic acid with the following chemical structure: Chemical Structure"
+    ],
+    "clinical_pharmacology": [
+      "CLINICAL PHARMACOLOGY Urea gently dissolves the intracellular matrix which results in loosening of the horny layer of the skin and shedding of scaly skin at regular intervals, thereby softening hyperkeratotic areas of the skin. Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "pharmacokinetics": [
+      "Pharmacokinetics The mechanism of action of topically applied urea is not yet known."
+    ],
+    "indications_and_usage": [
+      "INDICATIONS & USAGE For debridement and promotion of normal healing of hyperkeratotic surface lesions, particularly where healing is retarded by local infection, necrotic tissue, fibrinous or purulent debris or eshar. Urea is useful for the treatment of hyperkeratotic conditions such as dermatitis, psoriasis, soothes rough and dry skin, xerosis, ichthyosis, eczema, keratosis pilaris, keratosis palmaris, keratoderma, corns and calluses, as well as damaged, ingrown and devitalized nails."
+    ],
+    "contraindications": [
+      "CONTRAINDICATIONS This product is contraindicated in persons with known or suspected hypersensitivity to any of the ingredients of the product."
+    ],
+    "warnings": [
+      "WARNINGS FOR EXTERNAL USE ONLY. NOT FOR OPHTHALMIC USE. KEEP OUT OF REACH OF CHILDREN. Avoid contact with eyes, lips and mucous membranes.When using this product skin irritation and dryness is more likely to occur. General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician. Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes. Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed. Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus. Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "general_precautions": [
+      "General This product is to be used as directed by a physician and should not be used to treat any condition other than that for which it was prescribed. If redness or irritation occurs, discontinue use and consult a physician."
+    ],
+    "information_for_patients": [
+      "Information for Patients Patients should discontinue the use of this product if the condition becomes worse or if a rash develops in the area being treated or elsewhere. Avoid contact with eyes, lips and mucous membranes."
+    ],
+    "carcinogenesis_and_mutagenesis_and_impairment_of_fertility": [
+      "Carcinogenesis, Mutagenesis and Impairment of Fertility: Long-term animal studies for carcinogenic potential have not been performed on this product to date. Studies on reproduction and fertility also have not been performed."
+    ],
+    "pregnancy": [
+      "Pregnancy: Category C . Animal reproduction studies have not been conducted with this product. It is also not known whether this product can affect reproduction capacity or cause fetal harm when administered to a pregnant woman. This product should be used by a pregnant woman only if clearly needed or when potential benefits outweigh potential hazards to the fetus."
+    ],
+    "nursing_mothers": [
+      "Nursing Mothers: It is not known whether this drug is excreted in human milk. Because many drugs are excreted in human milk, caution should be exercised when this product is administered to a nursing woman."
+    ],
+    "adverse_reactions": [
+      "ADVERSE REACTIONS: Transient stinging, burning, itching or irritation may occur and normally disappear upon discontinuing the medication."
+    ],
+    "dosage_and_administration": [
+      "DOSAGE AND ADMINISTRATION Apply Urea 39.5% Cream with 2% Salicylic Acid to affected skin twice per day, or as directed by your physician. Rub in until completely absorbed. Apply to diseased or damaged nail(s) twice per day, or as directed by a physician."
+    ],
+    "how_supplied": [
+      "HOW SUPPLIED Urea 39.5% Cream with 2% Salicylic Acid 8 oz. (227 g): NDC 59088-210-16"
+    ],
+    "safe_handling_warning": [
+      "STORAGE Store at 20\u00b0 to 25\u00b0C (68\u00b0 to 77\u00b0F) [see USP Controlled Room Temperature]. Protect from freezing and excessive heat. Keep container tightly closed. KEEP THIS AND ALL MEDICATIONS OUT OF THE REACH OF CHILDREN."
+    ],
+    "package_label_principal_display_panel": [
+      "Urea 39.5% Cream\u2122 with 2% Salicylic Acid Manufactured in the USA by: PureTek Corporation Panorama City, CA 91402 For questions or information call toll-free: 877-921-7873 Label"
+    ],
+    "set_id": "f7aa7b4f-3cb4-6113-e053-6394a90a4188",
+    "id": "f7aa7b4f-3cb5-6113-e053-6394a90a4188",
+    "effective_time": "20230324",
+    "version": "1",
+    "openfda": {
+      "brand_name": [
+        "Urea 39.5% with 2% Salicylic Acid"
+      ],
+      "generic_name": [
+        "UREA, SALICYLIC ACID"
+      ],
+      "manufacturer_name": [
+        "PureTek Corporation"
+      ],
+      "product_ndc": [
+        "59088-210"
+      ],
+      "product_type": [
+        "HUMAN PRESCRIPTION DRUG"
+      ],
+      "route": [
+        "TOPICAL"
+      ],
+      "substance_name": [
+        "SALICYLIC ACID",
+        "UREA"
+      ],
+      "rxcui": [
+        "2632843"
+      ],
+      "spl_id": [
+        "f7aa7b4f-3cb5-6113-e053-6394a90a4188"
+      ],
+      "spl_set_id": [
+        "f7aa7b4f-3cb4-6113-e053-6394a90a4188"
+      ],
+      "package_ndc": [
+        "59088-210-16"
+      ],
+      "is_original_packager": [
+        true
+      ],
+      "upc": [
+        "0359088210161"
+      ],
+      "unii": [
+        "O414PZ4LPZ",
+        "8W8T17847W"
+      ]
+    }
+  }
+]

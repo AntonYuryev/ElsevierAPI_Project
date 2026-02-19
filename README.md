@@ -38,7 +38,7 @@ To use these APIs, you must obtain credentials for the respective Elsevier servi
 * **Pathway Studio (Resnet):** [Professional Services](https://www.elsevier.com/solutions/professional-services)
 * **Reaxys:** [Contact Sales](https://www.elsevier.com/solutions/reaxys/contact-sales)
 * **Embase & Pharmapendium:** Visit the [Elsevier Developer Portal](https://dev.elsevier.com). Swagger documentation is available [here](https://dev.elsevier.com/interactive.html).
-* **Text-Mining API:** [Elsevier Text Mining Demo](https://demo.elseviertextmining.com)
+* **Text-Mining API:** [Elsevier Text Mining](https://scibite.com/solutions/semantic-search/scibite-search/)
 
 ### Configuration
 

@@ -7,7 +7,7 @@ from ...utils.utils import execution_time,Tee
 from .ResnetGraph import EFFECT,ResnetGraph
 from .NetworkxObjects import PSObject,PSObjectDecoder,PSObjectEncoder
 
-CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/ResnetAPI/__pscache__/')
+CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/__resnetcache__/')
 DEFAULT_CACHE_NAME = 'Resnet subset'
 
 class APIcache(APISession):
@@ -115,10 +115,9 @@ class APIcache(APISession):
       refprop2rel = dict(kwargs.pop('refprop2rel',dict()))
       refprop_minmax = kwargs.pop('refprop_minmax',0)
 
-      simple_graph = database_g.copy()
-      simple_graph = simple_graph.simplify(rank4simplifying)
-
-      #converting sentence properties to relation properties before making a dump.  Used for pX dump
+      simple_graph = database_g.simplify(rank4simplifying)
+      #converting sentence properties to relation properties before making a dump.  
+      # Used for dumping graph with pX annotations in relprops2rnef instead of refprops
       for refprop, relprop in refprop2rel.items():
         simple_graph.refprop2rel(refprop,relprop,refprop_minmax)
         self.relprops2rnef.remove(refprop)

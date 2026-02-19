@@ -19,16 +19,16 @@
 # A.1. Added optional arguments dbname and context, that are required to formulate group by statements
 #Change Log 1.2.0-beta.1, January 29th, 2021
 
-import http.cookiejar, xml.dom.minidom, re, os, json, http.client
+import http.cookiejar, xml.dom.minidom, re, os, json
 from lxml import etree as et 
 from urllib.request import Request, urlopen
-from urllib.error import URLError
 from time import sleep
-from ...utils.utils import load_api_config, most_frequent, multithread
+from ...utils.utils import load_api_config, most_frequent, multithread,NETWORK_EXCEPTIONS
 from ..ResnetAPI.references import Reference,PUBYEAR,AUTHORS,PATENT_APP_NUM,JOURNAL,SENTENCE,MEASUREMENT
 from ..ResnetAPI.NetworkxObjects import EFFECT,PSObject
 from collections import defaultdict
 
+REAXYS_SESSION_FILE = 'ElsevierAPI/api/ReaxysAPI/RxAPIsession.json'
 
 class Reaxys_API:
   def __init__(self, proxy=None, port=None):
@@ -43,11 +43,9 @@ class Reaxys_API:
       self.proxy = proxy
       self.port = port
       #specify here the location of your API session file:
-      self.ReaxysAPIjson = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/ReaxysAPI/RxAPIsession.json')
+      self.ReaxysAPIjson = os.path.join(os.getcwd(),REAXYS_SESSION_FILE)
       self.APIconfig = dict()
-
-      # Set True for verbose output:
-      self.debug = False
+      self.debug = False # Set True for verbose output
 
   def _get_resultname(self, response_xml):
       
@@ -60,6 +58,7 @@ class Reaxys_API:
       except IndexError:
           resultname = None
       return resultname
+
 
   def _get_resultsize(self, response_xml):
       
@@ -74,6 +73,7 @@ class Reaxys_API:
 
       return resultsize
 
+
   def _get_citationset(self, response_xml):
       
       response_dom = xml.dom.minidom.parseString(response_xml)
@@ -81,6 +81,7 @@ class Reaxys_API:
       # Length of response_dom.getElementsByTagName("citationset") should always be 1.
       # Node citationset should not conatin subnodes.          
       return response_dom.getElementsByTagName("citationset")[0].childNodes[0].nodeValue
+
 
   def _get_citationcount(self, response_xml):
       
@@ -90,10 +91,9 @@ class Reaxys_API:
       # Node citationcount should not conatin subnodes.          
       return response_dom.getElementsByTagName("citationcount")[0].childNodes[0].nodeValue
 
-  def get_facts_availability(self, response_xml, field):
 
+  def get_facts_availability(self, response_xml, field):
       facts_availability = "0"
-      
       response_dom = xml.dom.minidom.parseString(response_xml)
 
       facts = response_dom.getElementsByTagName("facts")[0]
@@ -125,6 +125,22 @@ class Reaxys_API:
     return field_content
 
 
+  def __print_query(self, payload):
+    if self.debug:
+      print('-----------------------\nQuery headers:')
+      print(self.headers)
+      print('-----------------------\nQuery:')
+      print(payload)
+
+
+  def __print_response(self, response):
+    if self.debug:
+      print('-----------------------\nResponse headers:')
+      print(response.info())
+      print('-----------------------\nResponse:')
+      print(response.read())
+      
+
   def connect(self, url, username, password, callername):       
       self.url = url
       self.callername = callername
@@ -146,27 +162,21 @@ class Reaxys_API:
       self.headers['X-ELS-APIKey'] = callername
       self.headers['Accept'] = "*/*"
       request = Request(self.url, data=data, headers=self.headers)
-      
+  
       if self.debug:
-          print('-----------------------\nQuery headers from connect:')
-          print(self.headers)
-          print('-----------------------\nQuery from connect:')
-          print(payload)
+        self.__print_query(payload)
 
       response = urlopen(request)
       response_xml = response.read()
 
       if self.debug:
-          print('-----------------------\nResponse headers from connect:')
-          print(response.info())
-          print('-----------------------\nResponse from connect:')
-          print(response_xml)
+        self.__print_response(response)
 
       # Get sessionid.
       response_dom = xml.dom.minidom.parseString(response_xml)
       element = response_dom.getElementsByTagName("sessionid")
       if len(element) > 0:
-          self.sessionid = element[0].childNodes[0].nodeValue
+        self.sessionid = element[0].childNodes[0].nodeValue
       
       # Cookies are read from the response and stored in self.header
       #     which is used as a request header for subsequent requests.
@@ -175,35 +185,27 @@ class Reaxys_API:
       # Cookie handling 3.0: Simply store and resend ALL cookies received from server
       self.headers['Cookie'] = "; ".join(re.findall(r"(?<=Cookie ).*?=\S*", str(cookies)))
 
+
   def disconnect(self):
-      disconnect_template = """<?xml version="1.0"?>
-        <xf>
-          <request caller="%s">
-            <statement command="disconnect" sessionid="%s"/>
-          </request>
-        </xf>\n"""
-      payload = disconnect_template%(self.callername, self.sessionid)
-      data = payload.encode()
+    disconnect_template = """<?xml version="1.0"?>
+      <xf>
+        <request caller="%s">
+          <statement command="disconnect" sessionid="%s"/>
+        </request>
+      </xf>\n"""
+    payload = disconnect_template%(self.callername, self.sessionid)
+    data = payload.encode()
+    if self.debug:
+      self.__print_query(payload)
 
-      request = Request(self.url, data=data, headers=self.headers)
+    request = Request(self.url, data=data, headers=self.headers)
+    response = urlopen(request)      
+    if self.debug:
+      self.__print_response(response)
+    return
 
-      if self.debug:
-          print('-----------------------\nQuery headers from disconnect:')
-          print(self.headers)
-          print('-----------------------\nQuery from disconnect:')
-          print(payload)
-
-      response = urlopen(request)
-      response_xml = response.read()
-      
-      if self.debug:
-          print('-----------------------\nResponse headers from disconnect:')
-          print(response.info())
-          print('-----------------------\nResponse from disconnect:')
-          print(response_xml)
 
   def select(self, dbname, context, where_clause, order_by, options):
-      
       select_template = """<?xml version="1.0" encoding="UTF-8"?>
         <xf>
           <request caller="%s" sessionid="">
@@ -220,45 +222,45 @@ class Reaxys_API:
         </xf>\n"""
       payload = select_template%(self.callername, dbname, context, where_clause, order_by, options)
       data = payload.encode()
+      if self.debug:
+        self.__print_query(payload)
+
       request = Request(self.url, data=data, headers=self.headers)
-
-      if self.debug:
-          print('-----------------------\nQuery headers from select:')
-          print(self.headers)
-          print('-----------------------\nQuery from select:')
-          print(payload)
-
-      try:
+      max_retries = 5
+      attempt = 0
+      while attempt < max_retries:
+        try:
           response = urlopen(request)
           response_xml = response.read()
-      except URLError:
-          sleep(60)
-          self.OpenSession()
-          response = urlopen(request)
-          response_xml = response.read()
-      except http.client.RemoteDisconnected:
-          sleep(60)
-          self.OpenSession()
-          response = urlopen(request)
-          response_xml = response.read()
-      
-      if self.debug:
-          print('-----------------------\nResponse headers from select:')
-          print(response.info())
-          print('-----------------------\nResponse from select:')
-          print(response_xml)
+          if attempt > 0:
+            print(f"--- Attempt {attempt + 1} to fetch data from Reaxys was successful ---")
+          break
+        except NETWORK_EXCEPTIONS as e:
+          attempt += 1
+          print(f"Network error encountered: {e}")
+          #self.__print_query(payload)
+          if attempt < max_retries:
+            sleep_time = 2 ** attempt
+            print(f"Retrying in {sleep_time} seconds...")
+            sleep(sleep_time)
+            print("Re-authenticating...")
+            self.OpenSession()
+            payload = select_template%(self.callername, dbname, context, where_clause, order_by, options)
+            data = payload.encode()
+          else:
+            print("Max retries reached. Failing.")
+            raise e
 
       self.resultname = self._get_resultname(response_xml)
       self.resultsize = self._get_resultsize(response_xml)
-      
       if ("NO_CORESULT" not in options) and ("C" not in context):
           self.citationset = self._get_citationset(response_xml)
           self.citationcount = self._get_citationcount(response_xml)
 
       return response_xml
 
+
   def expand(self, dbname, first_item, last_item, where_clause):
-      
       select_template = """<?xml version="1.0" encoding="UTF-8"?>
         <xf>
           <request caller="%s" sessionid="%s">
@@ -270,44 +272,29 @@ class Reaxys_API:
         </xf>\n"""
       payload = select_template%(self.callername, self.sessionid, dbname, first_item, last_item, where_clause)
       data = payload.encode()
-      request = Request(self.url, data=data, headers=self.headers)
-
       if self.debug:
-          print('-----------------------\nQuery headers from expand:')
-          print(self.headers)
-          print('-----------------------\nQuery from expand:')
-          print(payload)
-      
+        self.__print_query(payload)
+
+      request = Request(self.url, data=data, headers=self.headers)
       response = urlopen(request)
       response_xml = response.read()
-      
       if self.debug:
-          print('-----------------------\nResponse headers from expand:')
-          print(response.info())
-          print('-----------------------\nResponse from expand:')
-          print(response_xml)
+        self.__print_response(response) 
 
       return response_xml
 
+
   def post(self, payload):
+    data = payload.encode()
+    if self.debug:
+      self.__print_query(payload)
 
-      data = payload.encode()
-      request = Request(self.url, data=data, headers=self.headers)
+    request = Request(self.url, data=data, headers=self.headers)
+    response = urlopen(request)     
+    if self.debug:
+      self.__print_response(response)
+    return
 
-      if self.debug:
-          print('-----------------------\nQuery headers from post:')
-          print(self.headers)
-          print('-----------------------\nQuery from post:')
-          print(payload)
-      
-      response = urlopen(request)
-      response_xml = response.read()
-      
-      if self.debug:
-          print('-----------------------\nResponse headers from post:')
-          print(response.info())
-          print('-----------------------\nResponse from post:')
-          print(response_xml)
 
   def retrieve(self, resultname, select_items, first_item, last_item, order_by, group_by, group_item, options,
                 dbname=None, context=None):
@@ -348,24 +335,33 @@ class Reaxys_API:
           first_item, last_item, order_by, group_by, options)
       data = payload.encode()
       
-      request = Request(self.url, data=data, headers=self.headers)
+      attempt = 0
+      max_retries = 5
+      while attempt < max_retries:
+        try:
+          response = urlopen(Request(self.url, data=data, headers=self.headers))
+          response_xml = response.read().decode()
+          if attempt > 0:
+            print(f"--- Attempt {attempt + 1} to fetch data from Reaxys was successful ---")
+            #self.__print_response(response)
+          return response_xml
+        except NETWORK_EXCEPTIONS as e:
+          attempt += 1
+          print(f"Network error encountered: {e}")
+          #self.__print_query(payload)
+          if attempt < max_retries:
+            sleep_time = 2 ** attempt
+            print(f"Retrying in {sleep_time} seconds...")
+            sleep(sleep_time)
+            print("Re-authenticating...")
+            self.OpenSession()
+            payload = select_template % (self.callername,self.sessionid, db_template,context_template,
+                        resultname, grouplist,first_item, last_item, order_by, group_by, options)
+            data = payload.encode()
+          else:
+            print("Max retries reached. Failing.")
+            raise e
 
-      if self.debug:
-          print('-----------------------\nQuery headers from retrieve:')
-          print(self.headers)
-          print('-----------------------\nQuery from retrieve:')
-          print(payload)
-      
-      response = urlopen(request)
-      response_xml = response.read().decode()
-      
-      if self.debug:
-          print('-----------------------\nResponse headers from retrieve:')
-          print(response.info())
-          print('-----------------------\nResponse from retrieve:')
-          print(response_xml)
-
-      return response_xml
 
   def __session_exists(self):
       hydrogenRXN = 3587189
@@ -469,7 +465,7 @@ class Reaxys_API:
    # if drug.name() in ['vactosertib','breviscapine']:
    #     print()
     f2props = defaultdict(list)
-    for rxid in drug.get_props(['Reaxys ID']):
+    for rxid in drug.get_props('Reaxys ID'):
       f2prop = self.chemid2props(rxid,fields.keys())
       [f2props[f].extend(v) for f,v in f2prop.items()]
     
@@ -507,7 +503,6 @@ class Reaxys_API:
       #self.disconnect() #move this line to the function that calls this one for speed
       return FieldToValues
   
-
 
   def getpX(self,drug_name:str,target_name:str):
       '''
@@ -644,18 +639,19 @@ class Reaxys_API:
       return rel_target
 
 
-def drugs2props(drugs:list[PSObject],fields:dict[str,str])->dict[str,dict]:
+def drugs2props(drugs:list[PSObject], fields:dict[str,str])->dict[str,dict]:
   '''
   input:
     drugs: list of PSObject with Reaxys ID
     fields: {Reaxys field name : human readable field name}
   output:
-    {field:drug_name:value}
+    {field:{drug_name:value}}
   '''
   rxapi = Reaxys_API()
   rxapi.OpenSession()
   f2d2props = {f:dict() for f in fields.values()}
-  drug_props = multithread(drugs,rxapi.drug2props,fields=fields,max_workers=2)
+  drug_props = multithread(drugs,rxapi.drug2props,fields=fields,max_workers=3) 
+  # do not use more than 3 workers to avoid Reaxys server blocking your session for too many requests
   assert(len(drug_props) == len(drugs)), f'Error: {len(drug_props)} != {len(drugs)}'
   for i, drug in enumerate(drugs):
     for f,v in drug_props[i].items():

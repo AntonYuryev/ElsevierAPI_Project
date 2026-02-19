@@ -309,8 +309,14 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   def refprop2rel(self,ref_prop:str, relprop:str,min_max=0):
-      for r,t,urn in self.edges(keys=True):
-          self[r][t][urn]['relation']._refprop2rel(ref_prop, relprop,min_max)
+    '''
+      input:
+        if min_max < 0 assigns single value to relprop that is the minimum of all ref_prop values
+        if min_max > 0 assigns single value to relprop that is the maximum of all ref_prop values
+        min_max works only if ref_prop values are numerical
+    '''
+    for r,t,urn in self.edges(keys=True):
+      self[r][t][urn]['relation']._refprop2rel(ref_prop, relprop,min_max)
 
 
   def set_rel_annotation(self,for_rel:PSRelation,prop_name,prop_values:list):
@@ -2364,6 +2370,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   def remove_undirected_duplicates(self)->"ResnetGraph":
+    before_number_of_edges = self.number_of_edges()
     print(f'Removing undirected duplicate relations from graph "{self.name}" with {self.number_of_edges()} edges')
     relset = set()
     to_return = self.copy()
@@ -2373,7 +2380,9 @@ class ResnetGraph (nx.MultiDiGraph):
       else:
         relset.add(rel)
 
-    print(f'Total number of relations after removing duplicates: {to_return.number_of_edges()}')
+    number_of_edges = to_return.number_of_edges()
+    print(f"Removed {before_number_of_edges - number_of_edges} undirected duplicate relations")
+    print(f'Total number of relations after removing duplicates: {number_of_edges}')
     return to_return
   
 
@@ -2392,8 +2401,9 @@ class ResnetGraph (nx.MultiDiGraph):
     if fname[-5:] != '.rnef':
         rnef_fname += '.rnef'
 
-    message = f'Writing graph "{self.name}" with {self.number_of_nodes()} nodes, {self.number_of_edges()} edges to {rnef_fname} file'
+    #message = f'Writing graph "{self.name}" with {graph_copy.number_of_nodes()} nodes, {self.number_of_edges()} edges to {rnef_fname} file'
     graph_copy = self.remove_undirected_duplicates() 
+    message = f'Writing graph "{self.name}" with {graph_copy.number_of_nodes()} nodes, {graph_copy.number_of_edges()} edges to {rnef_fname} file'
     # copying graph to enable using the function in multithreaded file writing
     
     if with_section_size:

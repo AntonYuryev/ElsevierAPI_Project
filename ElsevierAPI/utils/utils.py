@@ -1,9 +1,12 @@
 
-import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi
+import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi,http.client,socket,ssl
+from scipy import stats
+import numpy as np
 from urllib.parse import quote as urlencode
 from collections import Counter
 from itertools import chain as iterchain
 from math import ceil
+from statistics import mean, median
 from typing import Generator
 from datetime import timedelta,datetime
 from xml.dom import minidom
@@ -11,9 +14,19 @@ from requests.auth import HTTPBasicAuth
 from lxml import etree as et
 from concurrent.futures import ThreadPoolExecutor,as_completed
 import matplotlib.pyplot as plt
-from scipy import stats
-import numpy as np
-from statistics import mean, median
+from functools import partial
+from urllib.error import URLError
+
+
+# The "Safety Net" for almost all urllib-related failures:
+NETWORK_EXCEPTIONS = (
+    ConnectionError,               # Reset, Aborted, Refused, Broken Pipe
+    URLError,                      # DNS issues, No network
+    http.client.HTTPException,     # RemoteDisconnected, IncompleteRead, etc.
+    socket.timeout,                # Request took too long
+    TimeoutError,                  # Built-in timeout (Python 3.11+)
+    ssl.SSLError                   # HTTPS/Certificate issues
+)
 
 DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ElsevierAPI/')
 DEFAULT_APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'APIconfig.json')
@@ -162,7 +175,7 @@ def remove_duplicates(items:list):
   return [i for i in items if i not in seen and not seen.add(i)]
 
 
-def unpack(list_of_lists:list[list]|list[tuple],make_unique=True):
+def unpack(list_of_lists:list[list|tuple],make_unique=True):
   if make_unique:
     return list(dict.fromkeys(iterchain.from_iterable(list_of_lists)))
   else:
@@ -208,9 +221,10 @@ def urn_encode(string:str,prefix:str):
   return f"urn:{prefix}:{encoded_string}"
 
 
-def sortdict(indic:dict,by_key=True,reverse=False):
+def sortdict(indic:dict,by_key=True,reverse=False,return_top=0):
   i = 0 if by_key else 1
-  return dict(sorted(indic.items(), key=lambda item: item[i],reverse=reverse))
+  sorted_items= sorted(indic.items(), key=lambda item: item[i],reverse=reverse)
+  return dict(sorted_items[:return_top]) if return_top else dict(sorted_items)
 
 
 def list2str(dic:dict):
@@ -373,16 +387,17 @@ def run_tasks(tasks:list)->dict:
         print_error_info(e,func_name)
     return result_dic
   
-
-def multithread(big_list:list, func, **kwargs):
-  '''
+'''
+def multithreadOLD(big_list:list, func, **kwargs):
+  """"
   input:
     big_list: list of items to be processed
     func: function to be applied to each item in big_list
-    max_workers: number of threads to use for processing
+    **kwargs: additional keyword arguments to be passed to func:
+      max_workers: number of threads to use for processing
   output:
     list of results from applying func to each item in big_list
-  '''
+  """
   max_workers = kwargs.pop('max_workers', 10)
   def chunk_func(chunk:list):
     return [func(item,**kwargs) for item in chunk]
@@ -392,6 +407,24 @@ def multithread(big_list:list, func, **kwargs):
     futures = [ex.submit(chunk_func, chunk) for i,chunk in list2chunks_generator(big_list,max_workers)]   
     [results.extend(f.result()) for f in as_completed(futures)]
   return results
+'''
+
+def multithread(big_list: list, func, **kwargs):
+    """
+    input:
+      big_list: list of items to be processed
+      func: function to be applied to each item in big_list
+      **kwargs: additional keyword arguments to be passed to func:
+        max_workers: number of threads to use for processing
+    output:
+      list of results from applying func to each item in big_list in the same order as big_list
+    """
+    max_workers = kwargs.pop('max_workers', None)
+    iterable_func = partial(func, **kwargs)
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+      results = list(executor.map(iterable_func, big_list))
+
+    return results
 
 
 def list2chunks_generator(input_list:list, num_chunks:int=0, chunk_size:int=0)->Generator[tuple[int,list],None,None]:

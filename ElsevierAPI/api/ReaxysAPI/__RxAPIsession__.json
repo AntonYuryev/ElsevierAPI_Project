@@ -1,0 +1,20 @@
+{
+ "APIconfig": {},
+ "ReaxysAPIjson": "D:\\Python\\ENTELLECT_API_SCRIPTS\\ElsevierAPI_Project\\ElsevierAPI/api/ReaxysAPI/RxAPIsession.json",
+ "callername": "apitest_yuryev",
+ "citationcount": "",
+ "citationset": "",
+ "debug": false,
+ "headers": {
+  "Accept": "*/*",
+  "Content-type": "text/xml; charset=\"UTF-8\"",
+  "Cookie": "AWSALB=uqu6iTzySgUEKH17Yw6qQUTHn/lXi2n1pzQHUMwNdTQ/Vy2fDaODMrC3CYmmR9LQcXAwdbfcMpiG6WUTnIS9NKQYvEvwKA4QGL5Cxbr/IjoENzJ94wBm3sk+hsmz; AWSALBCORS=uqu6iTzySgUEKH17Yw6qQUTHn/lXi2n1pzQHUMwNdTQ/Vy2fDaODMrC3CYmmR9LQcXAwdbfcMpiG6WUTnIS9NKQYvEvwKA4QGL5Cxbr/IjoENzJ94wBm3sk+hsmz; JSESSIONID=MTJhOTgzNGUtMWZmMS00ZDJiLThmY2EtOTY5YThhZTk3MWI2; __cf_bm=UJcFoUPqEFSggUgXvdQit3FrpEA3bxx7kzLtx.H027o-1771519358.6160939-1.0.1.1-iGskLHzkRlqNzUw5TVIVj.wwMYTdL0NLSguQixJTEwM2KzBXmi.eoqIRLJ3doxz0QGKyvPAAILaplKoZfD26FSrn7Qmxc_UidRs5GbCHCdvHgCWFG4VvNCfb_5EovvXP",
+  "X-ELS-APIKey": "apitest_yuryev"
+ },
+ "port": null,
+ "proxy": null,
+ "resultname": "H001_7248964532179802036",
+ "resultsize": "1",
+ "sessionid": "7248964532179802036",
+ "url": "https://www.reaxys.com/reaxys/api"
+}
