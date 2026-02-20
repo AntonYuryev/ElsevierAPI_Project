@@ -29,7 +29,7 @@ NETWORK_EXCEPTIONS = (
 )
 
 DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ElsevierAPI/')
-DEFAULT_APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'APIconfig.json')
+PATH2APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'.path2APIconfig.json')
 PCT = '%'
 
 CHROME_HEADERS = {
@@ -68,25 +68,16 @@ def execution_time2(execution_start:float,current_iteration:int,number_of_iterat
 
 
 def load_api_config(api_config_file='')->dict[str,str]:# file with your API keys and API URLs
-    if not api_config_file:
-        print('No API config file was specified\nWill use default %s instead'% DEFAULT_APICONFIG)
-        api_config_file = DEFAULT_APICONFIG
-    else:
-        if not os.path.isabs(api_config_file):
-            print(f'APIconfig is specified only by file name {api_config_file}')
-            print(f'Will look for {api_config_file} in default "{DEFAULT_CONFIG_DIR}" directory')
-            api_config_file = os.path.join(DEFAULT_CONFIG_DIR,api_config_file)
+  if not api_config_file:
+    print('No API config file was specified\nWill use API config file specified in %s instead'% PATH2APICONFIG)
+    api_config_file = json.loads(open(PATH2APICONFIG,'r').read())
 
-    try:
-        return dict(json.load(open(api_config_file,'r')))
-    except FileNotFoundError:
-        print("Cannot find API config file: %s" % api_config_file)
-        if api_config_file != DEFAULT_APICONFIG:
-            print('Cannot open %s config file\nWill use default %s instead'% (api_config_file, DEFAULT_APICONFIG))
-            return dict(json.load(open(DEFAULT_APICONFIG,'r')))
-        else:
-            print('No working API server was specified!!! Goodbye')
-            return dict()
+  try:
+    return dict(json.load(open(api_config_file,'r')))
+  except FileNotFoundError:
+    print("Cannot find API config file: %s" % api_config_file)
+    print('No working API server was specified!!! Goodbye')
+    return dict()
 
 
 def fname(path2file:str):
