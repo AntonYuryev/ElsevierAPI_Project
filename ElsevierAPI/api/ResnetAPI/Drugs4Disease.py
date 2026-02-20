@@ -552,7 +552,7 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
 
 
   def colname4tmrefcount(self):
-    return self.tm_refcount_colname('Name',self._disease2str())
+    return self.tm_refcount_colname('Name',self.names4tmsearch())
 
 
   def make_raw_drug_df(self,input_drug_df:df):

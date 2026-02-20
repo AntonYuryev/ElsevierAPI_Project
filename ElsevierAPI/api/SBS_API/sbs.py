@@ -185,20 +185,25 @@ class SBSRef(DocMine):
 
 
   def is_index(self):
-    title_words = self.title().lower().split(' ')
-    try:
-      index_pos = title_words.index('index')
-      if index_pos == 0: return True
-      elif title_words[index_pos-1] in ['subject','cumulative','author','word','organism','compound']:
-        return True
-      else: return False
-    except ValueError:
-      if 'bibliography' in title_words: return True
-      elif title_words[0] in ['contents','references']:
-        return True
-      else:
-        return False
+    """
+    Checks if the title indicates an index, bibliography, or contents page
+    by looking for specific keywords and their positions.
+    """
+    first_word_triggers = ('contents', 'references')
+    anywhere_triggers = {'bibliography','abstracts'}
+    qualifier_terms = {'subject', 'cumulative', 'author', 'word', 'keyword', 'organism', 'compound'}
 
+    title_words = self.title().lower().split()
+    if title_words[0].startswith(first_word_triggers) or any(w in anywhere_triggers for w in title_words):
+      return True
+
+    for i, word in enumerate(title_words):
+      if word.startswith('index'):
+        if i == 0 or title_words[i - 1] in qualifier_terms:
+          return True
+
+    return False
+        
 
   def is_valid(self):
     '''
