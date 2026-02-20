@@ -69,13 +69,13 @@ def execution_time2(execution_start:float,current_iteration:int,number_of_iterat
 
 def load_api_config(api_config_file='')->dict[str,str]:# file with your API keys and API URLs
   if not api_config_file:
-    print('No API config file was specified\nWill use API config file specified in %s instead'% PATH2APICONFIG)
+    print(f'No API config file was specified\nWill use API config file specified in {PATH2APICONFIG} instead')
     api_config_file = json.loads(open(PATH2APICONFIG,'r').read())
 
   try:
     return dict(json.load(open(api_config_file,'r')))
   except FileNotFoundError:
-    print("Cannot find API config file: %s" % api_config_file)
+    print(f"Cannot find API config file: {api_config_file}")
     print('No working API server was specified!!! Goodbye')
     return dict()
 
