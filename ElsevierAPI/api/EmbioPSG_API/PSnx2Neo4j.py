@@ -51,7 +51,7 @@ class nx2neo4j(GraphDatabase):
     return psobj
 
 
-  def _record2psrel(self, triple:neo4j.Record)->PSRelation:
+  def __triple2psrel(self, triple:neo4j.Record)->PSRelation:
       '''
         triple: regulator-relation-target
       '''
@@ -80,11 +80,12 @@ class nx2neo4j(GraphDatabase):
       psrels = []
       try:
         neo4j_result = list(session.run(cypher,parameters))
-        psrels = [self._record2psrel(record) for record in neo4j_result]
-        if fetch_refs:
-          relation_ids = [n[RELATIONID][0] for n in psrels]
-          self.postgres.submit_refs(relation_ids)
+        psrels = [self.__triple2psrel(record) for record in neo4j_result]
         if psrels:
+          if fetch_refs:
+            relation_ids = [n[RELATIONID][0] for n in psrels]
+            self.postgres.submit_refs(relation_ids)
+
           to_return = ResnetGraph.from_rels(psrels)
           if request_name:
             print(f'Cypher query "{request_name}" found data:')
@@ -248,6 +249,8 @@ class nx2neo4j(GraphDatabase):
     [rel.refs(relid2refs=rel2refs) for _, _, rel in my_graph.edges.data('relation')]
     return my_graph
          
+#################################################################################################
+
     
 ################ LOAD INTO NEO4J ####################### LOAD INTO NEO4J ########################
 
@@ -500,3 +503,84 @@ class nx2neo4j(GraphDatabase):
 
       print("Graph with %d nodes and %d edges was imported into Neo4j in %s ---" % 
           (resnet.number_of_nodes(), resnet_size, execution_time(import_start)))
+      
+
+  def __quintuple2psrel(self, quintuple:neo4j.Record)->PSRelation:
+    '''
+    input:
+      quintuple: (n1)-[r1]-(common)-[r2]-(n2)
+    '''
+    assert(len(quintuple) == 5), 'Only quintuples (n1)-[r1]-(common)-[r2]-(n2) are considered'
+    n1 = quintuple['n1']
+    node1 = PSObject({k:[v] for k,v in n1._properties.items() if v not in ['_','']})
+    node1[OBJECT_TYPE] =  list(n1.labels)
+    node1['URN'] =  node1.pop('urn',node1['URN'])
+
+    n2 = quintuple['n2']
+    node2 = PSObject({k:[v] for k,v in n2._properties.items() if v not in ['_','']})
+    node2[OBJECT_TYPE] =  list(n2.labels)
+    node2['URN'] =  node2.pop('urn',node2['URN'])
+
+    common = quintuple['common']
+    common_node = PSObject({k:[v] for k,v in common._properties.items() if v not in ['_','']})
+    common_node[OBJECT_TYPE] =  list(common.labels)
+    common_node['URN'] =  common_node.pop('urn',common_node['URN'])
+
+    r1 = quintuple['r1']
+    reldict = {k:[v] for k,v in r1._properties.items() if v not in ['_','']}
+    reldict[OBJECT_TYPE] = [r1.type]
+    is_directional = reldict[OBJECT_TYPE][0] not in nondirectional_reltype
+
+    if n1 == r1.start_node:
+      r1obj = PSRelation.make_rel(node1,common_node,reldict,[],is_directional)
+    else:
+      r1obj = PSRelation.make_rel(common_node,node1,reldict,[],is_directional)
+
+    r2 = quintuple['r2']
+    reldict = {k:[v] for k,v in r2._properties.items() if v not in ['_','']}
+    reldict[OBJECT_TYPE] = [r2.type]
+    is_directional = reldict[OBJECT_TYPE][0] not in nondirectional_reltype
+    if n2 == r2.start_node:
+      r2obj = PSRelation.make_rel(node2,common_node,reldict,[],is_directional)  
+    else:
+      r2obj = PSRelation.make_rel(common_node,node2,reldict,[],is_directional)
+      
+    return [r1obj,r2obj]
+
+
+  def fetch_common_neighbors(self,cypher:str,parameters=dict(),request_name='')->ResnetGraph:
+    '''
+    input:
+      cypher must MATCH (n1)-[r1]-(common)-[r2]-(n2) WHERE .....
+      parameters["with_references"] is optional and is True by default, if True, references for all relations between common neighbor and nodes1 and nodes2 are fetched from Postgres and added to relation objects as refs attribute
+    '''
+    if request_name:
+      print(f'Fetching common neighbors with query "{request_name}"')
+    else:
+      print(f'Fetching common neighbors with between {len(parameters['urnList1'])} and {len(parameters['urnList2'])} nodes')
+
+    fetch_refs = parameters.pop('with_references',True)
+    with self.session() as session:
+      psrels = []
+      try:
+        neo4j_result = list(session.run(cypher,parameters))
+        psrels = set()
+        [psrels.update(self.__quintuple2psrel(record)) for record in neo4j_result]
+        if psrels:
+          if fetch_refs:
+            relation_ids = [n[RELATIONID][0] for n in psrels]
+            self.postgres.submit_refs(relation_ids)
+
+          to_return = ResnetGraph.from_rels(psrels)
+          if request_name:
+            print(f'Cypher query "{request_name}" found data:')
+          print(f"Loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
+          return to_return
+        else:
+          if request_name:
+            print(f'Cypher query "{request_name}" did not fetch any data')
+          return ResnetGraph()
+      except Exception as e:
+        print(f"Error during network retrival: {e}")
+        raise
+

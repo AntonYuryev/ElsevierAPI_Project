@@ -721,13 +721,13 @@ class DiseaseTargets(SemanticSearch):
     self.RefCountPandas['State in Disease'] = UNKNOWN_STATE
     id_type = self.idtype()
     for i in self.RefCountPandas.index:
-        target_dbids = list(self.RefCountPandas.at[i,self.__temp_id_col__])
-        row_targets = self.Graph.psobj_with_ids(set(target_dbids),id_type)
-        state = self.__vote4effect(row_targets)
-        self.RefCountPandas.at[i,'State in Disease'] = int(state)
-        if state != UNKNOWN_STATE:
-          [t.set_state(state) for t in row_targets]
-          targets.update(row_targets)
+      target_dbids = list(self.RefCountPandas.at[i,self.__temp_id_col__])
+      row_targets = self.Graph.psobj_with_ids(set(target_dbids),id_type)
+      state = self.__vote4effect(row_targets)
+      self.RefCountPandas.at[i,'State in Disease'] = int(state)
+      if state != UNKNOWN_STATE:
+        [t.set_state(state) for t in row_targets]
+        targets.update(row_targets)
 
     self.disease_model = ResnetGraph()
     for graph in (p.graph for p in self.disease_pathways.values()):
@@ -794,6 +794,9 @@ class DiseaseTargets(SemanticSearch):
             self.Graph = my_subgraph.compose(self.Graph)
             state = self.__vote4effect(row_targets)
             self.RefCountPandas.at[idx,'State in Disease'] = int(state)
+
+    targets_with_state_count = (self.RefCountPandas['State in Disease'] != 0).sum()
+    print(f'{targets_with_state_count} targets have a determined state in disease')
     return
 
 

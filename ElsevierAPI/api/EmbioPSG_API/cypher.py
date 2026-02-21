@@ -200,7 +200,7 @@ class Cypher:
 
 
   @staticmethod
-  def add_relProps(cypher: str, relProps: dict[str, list[str | int | float]]) -> str:
+  def add_relProps(cypher:str, relProps:dict[str,list[str|int|float]], letter='r',add_where=True) -> str:
     """
       Appends WHERE clauses to a Cypher query based on properties.
     """
@@ -212,27 +212,30 @@ class Cypher:
       if not values:
         continue
       if prop == OBJECT_TYPE:
-          conditions.append(f"type(r) IN [{Cypher.__list2str(values)}]")
+          conditions.append(f"type({letter}) IN [{Cypher.__list2str(values)}]")
       elif prop == REFCOUNT:
           val = values[0] if isinstance(values, list) else values
-          conditions.append(f"r.{prop} {val}")
+          conditions.append(f"{letter}.{prop} {val}")
       elif prop == EFFECT:
         unknown_effect_requested = 'unknown' in values
         standard_effects = [v for v in values if v not in ('unknown')]
 
         effect_logic_parts = []
         if standard_effects:
-          effect_logic_parts.append(f"r.Effect IN [{Cypher.__list2str(standard_effects)}]")
+          effect_logic_parts.append(f"{letter}.Effect IN [{Cypher.__list2str(standard_effects)}]")
         if unknown_effect_requested:
-          effect_logic_parts.append("coalesce(r.Effect, '_') IN ['unknown', '_']")
+          effect_logic_parts.append(f"coalesce({letter}.Effect, '_') IN ['unknown', '_']")
         
         if effect_logic_parts:
           conditions.append(f"({' OR '.join(effect_logic_parts)})")
       else:
-        conditions.append(f"r.{prop} IN [{Cypher.__list2str(values)}]")
+        conditions.append(f"{letter}.{prop} IN [{Cypher.__list2str(values)}]")
 
     if conditions:
-        return f"{cypher}\nWHERE {' AND '.join(conditions)}"
+        if add_where:
+          return f"{cypher}\nWHERE {' AND '.join(conditions)}"
+        else:
+          return f"{cypher}\nAND {' AND '.join(conditions)}"
     
     return cypher
 
@@ -378,3 +381,52 @@ class Cypher:
     '''
     parameter = {'urnList':[obj.urn() for obj in interactors]}
     return cypher, parameter
+
+
+  @staticmethod
+  def common_neighbors(with_entity_types:list[str],nodes1:list[PSObject], nodes2:list[PSObject],
+                      relProps2node1:dict[str,list],dir1common:str, 
+                      relProps2node2:dict[str,list], dir2common):
+    '''
+    input:
+      dir1common,dir2common in ['<','>','']\n
+      relProps2node1,relProps2node2 are dicts {propName:[propValue1,propValue2,...]} for filtering relations between common neighbor and nodes1 and nodes2 respectively
+    '''
+    common_objtype_str = '|'.join(with_entity_types)
+    common = f'common:{common_objtype_str}'
+
+    objtypes1 = {p.objtype() for p in nodes1}
+    objtypes2 = {p.objtype() for p in nodes2}
+    objtypes_str1 = '|'.join(objtypes1)
+    objtypes_str2 = '|'.join(objtypes2)
+    r1_objtypes = '|'.join(relProps2node1.pop(OBJECT_TYPE, []))
+    r1 = f'r1:{r1_objtypes}' if r1_objtypes else 'r1'
+    r2_objtypes = '|'.join(relProps2node2.pop(OBJECT_TYPE, []))
+    r2 = f'r2:{r2_objtypes}' if r2_objtypes else 'r2'
+
+    n1 = f'n1:{objtypes_str1}'
+    n2 = f'n2:{objtypes_str2}'
+
+    cypher = f'MATCH ({n1})'
+    if dir1common == '<':
+      cypher += f'<-[{r1}]-({common})'
+    elif dir1common == '>':
+      cypher += f'-[{r1}]->({common})'
+    else:
+      cypher += f'-[{r1}]-({common})'
+
+    if dir2common == '<':
+      cypher += f'-[{r2}]->({n2})'
+    elif dir2common == '>':
+      cypher += f'<-[{r2}]-({n2})'
+    else:
+      cypher += f'-[{r2}]-({n2})'
+    
+    cypher += '\nWHERE n1.URN IN $urnList1 AND n2.URN IN $urnList2\n'
+
+    cypher = Cypher.add_relProps(cypher, relProps2node1, letter='r1', add_where=False)
+    cypher = Cypher.add_relProps(cypher, relProps2node2, letter='r2', add_where=False)  
+    cypher += '\nRETURN n1, r1, common, r2, n2'
+
+    parameters = {'urnList1':[obj.urn() for obj in nodes1], 'urnList2':[obj.urn() for obj in nodes2]}
+    return cypher, parameters

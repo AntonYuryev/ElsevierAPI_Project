@@ -320,6 +320,7 @@ class SemanticSearch (APISession):
       new_pd[tempid_col] = [np.nan] * len(new_pd)
 
     parent_with_many_childs = set()
+    parents4df = []
     for map2column in map2columns:
       # find mapping_values for rows with empty tempid_col and not empty map2column 
       # to avoid remapping rows that were mapped on previous iterations with other map2column:
@@ -338,17 +339,16 @@ class SemanticSearch (APISession):
         #child can me tagged with parent mapped_by but it will not have values in tempid_col 
         self.Graph.nodes[c.uid()][resnet_name] = [c.name()]
 
-      graph_psobjects = self.Graph._get_nodes(ResnetGraph.uids(mapped_entities))
-      parents4df = []
+      parents_with_children = self.Graph._get_nodes(ResnetGraph.uids(mapped_entities))
       if max_childs > 0:
-        for o in graph_psobjects:
+        for o in parents_with_children:
           if o.number_of_children() > max_childs:
             parent_with_many_childs.add(o)
           else:
              parents4df.append(o)
         print(f'{len(parent_with_many_childs)} entities with > ontology children {max_childs}  were removed from further calculations')
       else:
-        parents4df = graph_psobjects
+        parents4df = parents_with_children
 
       prop2tempids = {o.get_prop(map2column):tuple(o.child_dbids()+[o.dbid()]) for o in parents4df}
       assert(map2column in new_pd.columns)
