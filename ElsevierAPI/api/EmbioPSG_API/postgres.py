@@ -8,6 +8,8 @@ from collections import defaultdict
 SNIPPET_ID = 'unique_id'
 RELATION_ID = 'id'
 REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID'}
+#DB_SCHEMA = 'resnet18'
+DB_SCHEMA = 'resnetcustomnov'
 
 SENTENCE_PROPS = {'msrc':SENTENCE,'organism':'Organism','source':'Source','textmods':'TextMods','organ':'Organ','tissue':'Tissue',
   'biomarkertype':'BiomarkerType', 'celllinename':'CellLineName','celltype':'CellType', 'px':'pX','quantitativetype':'QuantitativeType',
@@ -26,14 +28,14 @@ SCOPUS_DATA = {'citation_type':'Article type', 'citation_count':'Citations', 'fw
 'document_score':'Document score', 'relation_score':'Relation score'}
 
 class PostgreSQL:
-  def __init__(self, APIconfig:dict={}, resnetV='resnet18'):
-    self.resnet_version = resnetV
+  def __init__(self, APIconfig:dict={}):
+    if not APIconfig:
+      APIconfig = load_api_config()
+    self.resnet_version = APIconfig.get('postgreSQschema', DB_SCHEMA)
     self.rel2refDict = dict() # {int(relid):[Reference]}
     self.executor = ThreadPoolExecutor(thread_name_prefix='postgres')
     self.futures = [] # futures of reference retrieval
-    if not APIconfig:
-      APIconfig = load_api_config()
-
+    
     try:
         self.db = psycopg2.connect(
             database = APIconfig['postgreSQLdb'],
