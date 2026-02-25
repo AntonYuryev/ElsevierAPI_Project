@@ -624,7 +624,7 @@ class SBSapi():
         sentence_count = 0
       e2refs[entity] = (search_url,sentence_count,clean_refs)
 
-    print(f'Found sentences in SBS for {rows_counter} rows in {execution_time(start)}')
+    print(f'Found sentences in SBS with co-occurrence of {rows_counter} out of {len(entities)} entities with {len(link2concepts)} concepts in {execution_time(start)}')
     return e2refs
 
 ################# DOCUMENT SEARCH ####################### DOCUMENT SEARCH ###############
