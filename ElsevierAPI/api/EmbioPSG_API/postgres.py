@@ -1,7 +1,6 @@
 import psycopg2
-from ...utils.utils import load_api_config, plot_distribution,print_error_info
+from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
 from ...utils.pandas.panda_tricks import df,pd
-from concurrent.futures import ThreadPoolExecutor,as_completed
 from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
 from collections import defaultdict
 
@@ -164,9 +163,15 @@ class PostgreSQL:
     refid_str = ','.join(map(str, refids))
     sql = f"SELECT * FROM {self.resnet_version}.scopus_data WHERE {self.resnet_version}.scopus_data.reference_id IN ({refid_str})"
     with self.db.cursor() as cur:
-      cur.execute(sql)
-      rows = cur.fetchall()
-      colnames = [desc[0] for desc in cur.description]
+      try:
+        cur.execute(sql)
+        rows = cur.fetchall()
+        colnames = [desc[0] for desc in cur.description]
+      except Exception as e:
+        print_error_info(e,f'Fetching Scopus data from Postgres with SQL {sql[:255]}')
+        self.db.rollback()
+        return pd.DataFrame()
+      
     rows = [list(r) for r in rows]
     scopus_pd = pd.DataFrame(rows,columns=colnames).set_index('reference_id')
     return scopus_pd
@@ -213,7 +218,7 @@ class PostgreSQL:
           ref.update({SCOPUS_DATA[k]:[v] for k,v in ref_scopus_data.items() if k in SCOPUS_DATA})
         else:
           refid = ref.doi_or_id()
-          if not refid.startswith('NCT'):
+          if not refid.startswith('NCT') and not scopus_pd.empty:
             print(f'Reference {refid} has no Scopus data')
       
         ref.toAuthors()
@@ -233,16 +238,14 @@ class PostgreSQL:
       for get_refs_future in as_completed(self.futures):
         try:
           ref_pd = get_refs_future.result()
+          processed_futures.append(get_refs_future)
           scopus_pd = self.scopus_data(set(ref_pd[SNIPPET_ID].to_list()))
           self.rel2refDict.update(self.__rows2refs(ref_pd,scopus_pd))
-          processed_futures.append(get_refs_future)
         except Exception as e:
-          print_error_info(e,f'Error loading references from Postgres with SQL {e.cursor.query.decode()}')
+          print_error_info(e,f'Loading references from Postgres with SQL {e.cursor.query.decode()}')
           self.db.rollback()
       self.futures = [f for f in  self.futures if f not in processed_futures]
-      #print(f'Processed {len(processed_futures)} out of {self.futures} postgres futures')
       print(f'Cached references for {len(self.rel2refDict)} relations from Postgres')
-      #print(f'{len(self.futures)} futures remains in cue')
     return self.rel2refDict
   
   
@@ -258,7 +261,7 @@ class PostgreSQL:
     sql = f'''SELECT * FROM {vrsn}.reference
           WHERE {vrsn}.reference.msrc ILIKE ANY (ARRAY[{','.join([f"\'%{kw}%\'" for kw in keywords])}]);
       '''
-    ref_pd = self.__get_refs(sql)
+    ref_pd = self.get_refs(sql)
     rel2refs = self.__rows2refs(ref_pd)
     print(f'Snippet search for keywords {keywords} found {len(rel2refs)} relations and {len(ref_pd)} snippets in {execution_time(start)}')
     return rel2refs
