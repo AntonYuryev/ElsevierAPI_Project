@@ -8,7 +8,7 @@ from collections import defaultdict
 
 DRUGNAME_FIELDS = ['openfda.brand_name', 'openfda.generic_name','openfda.substance_name']
 DOSAGE_FIELD = 'dosage_and_administration'
-CACHE_DIR = os.path.join(os.getcwd(),'ENTELLECT_API/ElsevierAPI/FDA/drug_labels_cache')
+CACHE_DIR = os.path.join(os.getcwd(),'ElsevierAPI/.cache/FDA/__drug_labels__')
 
 TYPOS = {
     '• ': '',

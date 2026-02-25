@@ -578,8 +578,8 @@ class SBSapi():
     for entity in entities:
       query,search_url = self.join2query(entity,and_concepts,add2query)
       if entity == entities[0]:
-        print(f'Will find sentence co-occurence for {len(entities)} entities')
-        print(f'Sample query for sentence co-occurence: {query}\n')
+        print(f'Will find sentence co-occurrence for {len(entities)} entities')
+        print(f'Sample query for sentence co-occurrence: {query}\n')
       sentence_count,refs = self.search_sents(query)
       results[entity] = (search_url,sentence_count,refs)
     return results
@@ -742,7 +742,7 @@ class SBSapi():
               if json_response and 'data' in json_response :
                 abstract_relevance += sum([a['_score'] for a in json_response['data']])
         else:
-          print(f'No abstract co-occurence for query {query}')
+          print(f'No abstract co-occurrence for query {query}')
           continue
 
       entity2abscount[entity]=(abstract_count,abstract_relevance)
@@ -771,7 +771,7 @@ class SBSapi():
     else:
       entity2stat = self.__abscooc4list(entities,link2concepts)
 
-    print(f'Abstract co-occurence for {len(entities)} entities finished in {execution_time(start)}')
+    print(f'Abstract co-occurrence for {len(entities)} entities finished in {execution_time(start)}')
     return entity2stat
 
 

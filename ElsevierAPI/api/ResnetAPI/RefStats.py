@@ -346,7 +346,8 @@ class SBSstats(RefStats):
     for name, (search_url,count, refs) in name2refs.items():
       names2hyperlinks[name] = self._2hyperlink(refs,count,search_url)
       [self._add2counter(ref) for ref in refs]
-    print(f'Added SBS references to {len(name2refs)} out of {len(to_df)} rows in worksheet "{to_df._name_}" in {execution_time(start_time)}')
+    # true count of rows with non-zero references are printed by sentcooc4list, so here we print only the count of rows with hyperlinks added
+    print(f'Added SBS references to worksheet "{to_df._name_}" with {len(to_df)} rows in {execution_time(start_time)}')
     return names2hyperlinks
   
 
