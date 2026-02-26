@@ -631,7 +631,7 @@ class DiseaseTargets(SemanticSearch):
       else:
         self.RefCountPandas = self.load_df(targets4ranking,max_childs=self.params['max_childs'],max_threads=10)
         self.entProps = ['Name'] # Class is no longer needed
-      self.RefCountPandas.add_entities(targets4ranking)
+      #self.RefCountPandas.add_entities(targets4ranking)
       self.RefCountPandas._name_ = 'DiseaseTargets'
       print(f'Will score {len(self.RefCountPandas)} targets linked to {self._disease2str()}')       
       return True

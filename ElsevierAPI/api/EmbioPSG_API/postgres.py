@@ -168,7 +168,8 @@ class PostgreSQL:
         rows = cur.fetchall()
         colnames = [desc[0] for desc in cur.description]
       except Exception as e:
-        print_error_info(e,f'Fetching Scopus data from Postgres with SQL {sql[:255]}')
+        print(f'Fetching Scopus data from Postgres with SQL {sql[:255]} has finished with error:')
+        print(e)
         self.db.rollback()
         return pd.DataFrame()
       

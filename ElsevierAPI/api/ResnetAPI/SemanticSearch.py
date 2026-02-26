@@ -370,6 +370,16 @@ class SemanticSearch (APISession):
   
 
   def load_df_neo4j(self,from_entities:list[PSObject]|set[PSObject],max_childs=MAX_CHILDS):
+    '''
+    output:
+      refcount_df with columns '
+      Name',
+      'ObjType',
+      'URN',
+      self.__temp_id_col__
+      where self.__temp_id_col__ has tuples of URNs of entity and its children if number of children <= max_childs
+    '''
+
     assert self.useNeo4j(), 'Neo4j database connection was not specified'
     # unlike APISession.load_children4 that default to load no children
     # neo4j._load_children_ defaults to load all children if max_childs is zero or negative:
@@ -441,7 +451,7 @@ class SemanticSearch (APISession):
         refcount_df = df.from_dict({'Name':names,'ObjType':objtypes,'URN':urns})
         refcount_df.add_entities(from_entities,with_values_in_column='Name')
         refcount_df.add_entities(from_entities)
-      
+
       return refcount_df
 
 
@@ -1523,10 +1533,6 @@ class SemanticSearch (APISession):
     param_df._name_ = INPUT_WOKSHEET
     param_df.tab_format['tab_color'] = 'yellow'
     self.add2report(param_df)
-
-
-  def add_infodf(self):
-     self.add2report(df.info_df())
 
 
   def cleand_df(self,report_df:df):

@@ -300,7 +300,7 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
     return
 
 
-  def init_drug_df(self, drugs:list[PSObject]):
+  def make_drug_df(self, drugs:list[PSObject]):
       '''
       input:
         "drugs" used to load drugs from SNEA samples
@@ -345,21 +345,17 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
 
       # keep self.RefCountPandas to cache all drugs in memory for later use
       if self.useNeo4j():
-        mapped_drugs = clean_drugs
         self.RefCountPandas = self.load_df_neo4j(clean_drugs,max_childs=0)
       else:
         # drugs with "'" in URN are not searchable in Pathway Studio:
         clean_drugs = [d for d in clean_drugs if "'" not in d.urn()]
-
         mapped_drugs,_ = self.load_dbids4(clean_drugs,with_props=['Reaxys ID'])
         self.RefCountPandas = self.load_df(mapped_drugs,max_childs=0,max_threads=30)
-        # because max_childs is set to 0 self.RefCountPandas will not have self.__temp_id_col__ column at this point
+        
       if drug2pharmapendium_id:
         self.RefCountPandas[PHARMAPENDIUM_ID] = self.RefCountPandas['Name'].map(drug2pharmapendium_id)
-
-      print('Initialized self.RefCountPandas with %d drugs for ranking' % len(self.RefCountPandas))
-      self.RefCountPandas.add_entities(mapped_drugs) # must add mapped_drugs here to have drugs annotated with Reaxys ID
-      return self.RefCountPandas
+      print('Initialized self.RefCountPandas with %d drugs for ranking' % len(self.RefCountPandas))   
+      return self.RefCountPandas # because max_childs is set to 0 self.RefCountPandas will not have self.__temp_id_col__ column at this point
   
 
   def filter_drugdf_by_regulatory_score(self,all_drugs_df:df):
@@ -813,50 +809,56 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
       print(f'Annotated {_2df[f].count()} drugs with Reaxys property "{f}"')
     
 
-  def __drugdf_init(self,drugs:list[PSObject]):
-    all_drugs_df = self.init_drug_df(drugs)
+  def make_ranked_drugdf(self,drugs:list[PSObject]):
+    all_drugs_df = self.make_drug_df(drugs)
     all_drugs_count = len(all_drugs_df)
-    disease_drugs_df = self.filter_drugdf_by_regulatory_score(all_drugs_df)
-    disease_drug_count = len(disease_drugs_df)
+    drugs4disease_df = self.filter_drugdf_by_regulatory_score(all_drugs_df)
+    disease_drug_count = len(drugs4disease_df)
     print(f'{all_drugs_count - disease_drug_count} out of {all_drugs_count} drugs were filtered out by regulatory score')
-    drug_df = self.add_temp_id(disease_drugs_df,max_threads=25)
+    if self.useNeo4j():
+      return drugs4disease_df
+    else:
+      return self.add_temp_id(drugs4disease_df,max_threads=25)
     #print(f'Additional {disease_drug_count - len(drug_df)} rows were deleted because database identifier cannot be found for drug names or drugs had too many children in the database')
-    return drug_df
 
 
   def init_load_score(self):
+    '''
+     makes and scores self.report_pandas['Drugs'] worksheet.  
+     If self.params['debug'] is True, all steps are done sequentially in the main thread, otherwise some steps are done in parallel using run_tasks() function.
+    '''
     my_drugs = self.select_drugs()
     if self.params['debug']:
-      disease_drugs_df = self.__drugdf_init(my_drugs)
-      f2d2prop = self.get_reaxys_props(disease_drugs_df)
+      drug_df = self.make_ranked_drugdf(my_drugs)
+      f2d2prop = self.get_reaxys_props(drug_df)
   
       if self.params.get('consistency_correction4target_rank',True):
         load_fromdb = self.params.get('recalculate_dtconsistency',False)
         self.dt_consist.load_confidence_dict(self._targets(),{},load_fromdb)
         self.dt_consist.save_network()
 
-      self.score_drugs(disease_drugs_df)
+      self.score_drugs(drug_df)
       self.add_reaxys_props(self.report_pandas['Drugs'],f2d2prop)
 
     elif self.params.get('consistency_correction4target_rank',True):
       load_fromdb = self.params.get('recalculate_dtconsistency',False)
-      tasks = [(self.__drugdf_init,(my_drugs,))] # need comma after my_drugs to make it a tuple
+      tasks = [(self.make_ranked_drugdf,(my_drugs,))] # need comma after my_drugs to make it a tuple
       tasks.append((self.dt_consist.load_confidence_dict,(self._targets(),{},load_fromdb)))
-      disease_drugs_df = run_tasks(tasks)['__drugdf_init']
+      drug_df = run_tasks(tasks)['make_ranked_drugdf']
 
-      tasks = [(self.score_drugs,(disease_drugs_df,)),(self.dt_consist.save_network,())]
+      tasks = [(self.score_drugs,(drug_df,)),(self.dt_consist.save_network,())]
       if self.params.get('BBBP',False):
-        tasks.append((self.get_reaxys_props,(disease_drugs_df,REAXYS_FIELDS)))
+        tasks.append((self.get_reaxys_props,(drug_df,REAXYS_FIELDS)))
         results = run_tasks(tasks)
         f2d2prop = results['get_reaxys_props']
         self.add_reaxys_props(self.report_pandas['Drugs'],f2d2prop)
       else:
         run_tasks(tasks)
     else:
-      disease_drugs_df = self.__drugdf_init(my_drugs)
-      tasks = [(self.score_drugs,(disease_drugs_df,))]
+      drug_df = self.make_ranked_drugdf(my_drugs)
+      tasks = [(self.score_drugs,(drug_df,))]
       if self.params.get('BBBP',False):
-        tasks.append((self.get_reaxys_props,(disease_drugs_df,REAXYS_FIELDS)))
+        tasks.append((self.get_reaxys_props,(drug_df,REAXYS_FIELDS)))
         results = run_tasks(tasks)
         f2d2prop = results['get_reaxys_props']
         self.add_reaxys_props(self.report_pandas['Drugs'],f2d2prop)
