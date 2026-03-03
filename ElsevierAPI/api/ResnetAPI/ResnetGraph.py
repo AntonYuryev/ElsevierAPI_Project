@@ -2213,7 +2213,7 @@ class ResnetGraph (nx.MultiDiGraph):
     output:
       resnet xml element with printed nodes and relations with properties from ent_props, rel_props, add_rel_props, add_pathway_props
       if delete_nodes is True, nodes will be marked for deletion
-      if add_rel_props is empty, all properties of relations will be printed
+      if rel_props is empty, all properties of relations will be printed
     '''
     def _2b_printed(prop_name:str,prop_list:list):
         return prop_name in prop_list if prop_list else True
@@ -2390,6 +2390,7 @@ class ResnetGraph (nx.MultiDiGraph):
     '''
     input:
       if fname is empty will create file with graph self.name
+      if rel_prop2print is empty, all properties of relations will be printed
 
     Dumps:
       graph into RNEF file with <resnet> sections of size "with_section_size".
@@ -3763,12 +3764,12 @@ class ResnetGraph (nx.MultiDiGraph):
   
 
   def remap_graph(self,props2newobjs:dict[str,list[PSObject]],map_by_props:list[str],
-                  case_insensitive=True, stricrlen=4)->tuple['ResnetGraph',set[PSObject]]:
+                  case_insensitive=True, strictlen=4)->tuple['ResnetGraph',set[PSObject]]:
       '''
       Input
       -----
-      props2objs - {propvalue:[PSObject]}, propvalue are tokenized if its lentgh > stricrlen\n
-      if case_insensitive props2obj keys must be in lowercase\n
+      props2newobjs - {propvalue:[PSObject]}, propvalue are tokenized if its lentgh > strictlen\n
+      if case_insensitive props2newobjs keys must be in lowercase\n
 
       Tokenized match
       ------------
@@ -3776,14 +3777,14 @@ class ResnetGraph (nx.MultiDiGraph):
 
       Return
       ------
-      ResnetGraph with nodes from "props2objs" and edges from self, set of unmapped_nodes
+      ResnetGraph with nodes from "props2newobjs" and edges from self, set of unmapped_nodes
       '''
       def tokenize(s:str):
           stop_tokens = '-/\\():.[]'  
-          return s.translate(str.maketrans(stop_tokens, ' ' * len(stop_tokens))) if len(s) > stricrlen else s
+          return s.translate(str.maketrans(stop_tokens, ' ' * len(stop_tokens))) if len(s) > strictlen else s
 
       def make_lower(s:str):
-          return s.lower() if len(s) > stricrlen else s
+          return s.lower() if len(s) > strictlen else s
 
       my_props2newobjs = {tokenize(k).replace(' ',''):v for k,v in props2newobjs.items()}
       if case_insensitive:
