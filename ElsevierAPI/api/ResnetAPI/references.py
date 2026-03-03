@@ -1,5 +1,4 @@
 from builtins import len
-from .medscan import MedScan
 import xlsxwriter,re,time,json,unicodedata
 from datetime import timedelta
 from urllib.parse import urlencode,quote
@@ -222,6 +221,14 @@ class Reference(dict):
         return 'TextRef', textref
     else:
       return 'TextRef', textref
+    
+  @staticmethod
+  def _textref_suffix(section_name:str):
+      name2suffix = {TITLE:'title', ABSTRACT:'abs',CLAIMS:'claims'}
+      try:
+          return name2suffix[section_name]
+      except KeyError:
+          return 'cont'
 
 
   @classmethod
@@ -992,16 +999,6 @@ class DocMine (Reference):
         #self.authors = list() # [Author]
         self.addresses = list() # {orgname:adress}
 
-
-    @staticmethod
-    def __textref_suffix(section_name:str):
-        name2suffix = {TITLE:'title', ABSTRACT:'abs',CLAIMS:'claims'}
-        try:
-            return name2suffix[section_name]
-        except KeyError:
-            return 'cont'
-
-
     @staticmethod
     def normalize_journal(journal_title:str):
         return removeThe(titlecase(journal_title)).replace(('. '),' ')
@@ -1029,23 +1026,6 @@ class DocMine (Reference):
     def _set_title(self, title:str):
         self[TITLE] = [title]
         self.add2section(TITLE,title)
-
-    def medscan_annotate(self,medscan:MedScan):
-        base_text_ref = self._make_textref()
-        for secname, paragraphs in self.sections.items():
-            textref_suf = self.__textref_suffix(secname)
-            sentence_idx = 1
-            for paragraph in paragraphs:
-                paragraph_annotation = medscan.find_concepts(paragraph) # paragraph_annotation = {snippet:{id_range:{id:obj_name}}}
-                for sentence_markup, range2dict in paragraph_annotation.items():
-                    if range2dict:
-                        text_ref = base_text_ref+'#'+textref_suf+':'+str(sentence_idx)
-                        self.add_sentence_prop(text_ref,SENTENCE,sentence_markup)
-                        for msid_range, concept_dict in range2dict.items():
-                            prop_name = medscan.get_concept_type(msid_range)
-                            self.add_sentence_props(text_ref,prop_name,list(concept_dict.values()))
-
-                    sentence_idx +=1
 
 
     def get_annotations(self, prop_name:str):
