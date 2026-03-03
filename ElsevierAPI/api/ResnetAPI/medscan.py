@@ -239,7 +239,7 @@ class MedScan:
     return mapped_terms
     
 
-  def mapPSobjs(self, objs:list['PSObject'], work_dir='')->dict[str,tuple[str,str]]:
+  def map(self, objs:list['PSObject'], work_dir='')->dict[str,tuple[str,str]]:
     '''
     output:
       [PSObject with added attributes: 'MedScan ID', 'MedScan name', 'MedScan URN']
