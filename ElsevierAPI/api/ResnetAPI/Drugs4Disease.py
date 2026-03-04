@@ -885,11 +885,12 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
       bp = n.get_prop('Average blood-plasma ratios')
       if bp:
         urn2bp[n.urn()] = float(bp)
-        
-    drug_df = _2df.dfcopy()
-    drug_df['Brain-Plasma ratio (%)'] = drug_df['URN'].map(urn2bp)
-    not_nan_count = drug_df['Brain-Plasma ratio (%)'].count()
-    print(f"{not_nan_count} drugs were annotated with 'Brain-Plasma ratio (%)'")
+    
+    if urn2bp:
+      drug_df = _2df.dfcopy()
+      drug_df['Brain-Plasma ratio (%)'] = drug_df['URN'].map(urn2bp)
+      not_nan_count = drug_df['Brain-Plasma ratio (%)'].count()
+      print(f"{not_nan_count} drugs were annotated with 'Brain-Plasma ratio (%)'")
     return drug_df
 
 
