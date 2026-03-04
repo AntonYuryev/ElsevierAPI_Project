@@ -1525,6 +1525,8 @@ class SemanticSearch (APISession):
         if type not in internal_params:
           if isinstance(name2weights, dict):
             [rows.append([type,name,value]) for name,value in name2weights.items()]
+          elif isinstance(name2weights, list):
+            [rows.append([type,name,'']) for name in name2weights]
           else:
             rows.append([type,type,name2weights])
         
