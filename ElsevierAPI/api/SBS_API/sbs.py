@@ -421,16 +421,38 @@ class SBSapi():
     '''
     my_concepts = [c for c in concepts if c != entity]
     return self.conjunct2lists([entity],my_concepts,add2query)
+  
+  
 
 
 ################# SENTENCE SEARCH ############### SENTENCE SEARCH ##########################
+
+  def document_by_id2(self,docid:str,markup=False)->dict:
+    options = {"markup": markup}
+    req = requests.get(self.SBSsearch.url + "/api/search/v1/documents/" + docid, params=options, 
+                       headers=self.SBSsearch.headers,verify=self.SBSsearch.verify_request)
+    try:
+      return req.json()
+    except json.JSONDecodeError as e:
+      if req:
+        if req.status_code in [401,403]:
+          print(f'Response status: {req.status_code}')
+          self.token_refresh()
+          return self.document_by_id2(docid,markup)
+        else:
+          print(f'Search for {docid} produced invalid response: {e}')
+          return dict()
+      else:
+        return dict()
+      
+
   def __sent2doc(self,sent_ref:SBSRef):
     '''
     loads bibliography for sent_ref
     '''
     assert (not sent_ref.has_bibliography())
     senref_sbsid = sent_ref.sbsid()
-    doc = self.SBSsearch.get_document(senref_sbsid,markup=False)
+    doc = self.document_by_id2(senref_sbsid)
     if 'data' in doc:
       ref = SBSRef.from_doc(doc['data'])
       sent_ref._merge(ref)

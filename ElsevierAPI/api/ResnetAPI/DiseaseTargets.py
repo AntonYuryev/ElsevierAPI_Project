@@ -125,6 +125,7 @@ class DiseaseTargets(SemanticSearch):
         if target not in search_names:
           search_names.append(target)
           
+    search_names = [x+'+' for x in search_names] # to include child concepts in search
     return search_names
 
 
