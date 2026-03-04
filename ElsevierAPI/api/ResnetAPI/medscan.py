@@ -201,20 +201,23 @@ class MedScan:
         return NotImplemented
     
 
-  def map_names(self, terms:list[str], work_dir='')->dict[str,tuple[str,str]]:
+  def map_names(self, terms:list[str], fout='terms2map.txt',work_dir='')->dict[str,tuple[str,str]]:
     '''
     output:
       {term:(msid, urn)}
     '''
-    temp_file = os.path.join(work_dir, 'terms2map.txt') if work_dir else 'terms2map.txt'
+    temp_file = os.path.join(work_dir, fout) if work_dir else fout
     with open(temp_file, 'w', encoding='utf-8') as f:
       [f.write(t+'\n') for t in terms]
+
     cmd = self.__cmd1() +['-O0m', '-k0', 'dict:'+temp_file]
     complete_markup = MedScan.__run(cmd)
     output_lines = complete_markup.splitlines()
     markups = [l[4:].strip() for l in output_lines]
-    fout = os.path.join(work_dir, 'mapped_terms.txt') if work_dir else 'mapped_terms.txt'
-    with open(fout, 'w', encoding='utf-8') as f:
+
+    mapped_fout = "mapped_"+fout
+    mapped_fout = os.path.join(work_dir, mapped_fout) if work_dir else mapped_fout
+    with open(mapped_fout, 'w', encoding='utf-8') as f:
       [f.write(l+'\n') for l in markups]
 
     def iscomplete(markup:str):
@@ -246,6 +249,7 @@ class MedScan:
     '''
     obj_names = [o.name() for o in objs]
     mapped_tuples = self.map_names(obj_names, work_dir=work_dir)
+    unmapped_objs = []
     for i, o in enumerate(objs):
       msid = mapped_tuples[i][1]
       if msid: # if msid is not empty
@@ -253,6 +257,35 @@ class MedScan:
         o['MedScan name'] = [mapped_tuples[i][2]]
         o['MedScan URN'] = [mapped_tuples[i][3]]
         o['MedScan objtype'] = [MedScan.id2objtype(int(msid))]
+      else:
+        unmapped_objs.append(o)
+
+    # attempting to map remaining unmapped objects by their names are inverted
+    def normalize_term(term:str)->str:
+      """
+        Converts an inverted index term (e.g., "Gain, Weight") into a natural language term (e.g., "Weight Gain").
+      """
+      if ',' in term:
+        parts = [p.strip() for p in term.split(',', 1)]
+        return " ".join(parts[::-1]) # Reverse the list and join with a space
+      return ''
+    
+    norm2obj = dict()
+    for o in unmapped_objs:
+      normalized_name = normalize_term(o.name())
+      if normalized_name:
+        norm2obj[normalized_name] = o
+
+    mapped_tuples = self.map_names(list(norm2obj.keys()),fout='inverted_terms.txt', work_dir=work_dir)
+    for i, normalized_name in enumerate(norm2obj.keys()):
+      msid = mapped_tuples[i][1]
+      if msid: # if msid is not empty
+        mapped_obj = norm2obj[normalized_name]
+        mapped_obj[MEDSCAN_ID] = [msid]
+        mapped_obj['MedScan name'] = [mapped_tuples[i][2]]
+        mapped_obj['MedScan URN'] = [mapped_tuples[i][3]]
+        mapped_obj['MedScan objtype'] = [MedScan.id2objtype(int(msid))]
+
     return objs
   
 
