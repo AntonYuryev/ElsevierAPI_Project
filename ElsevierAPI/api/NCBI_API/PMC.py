@@ -70,10 +70,11 @@ class PMC(NCBIeutils):
     print(f'IDs for downloaded articles are in {id_fname}\nMissed IDs are in {missedids_fname}')
 
 
-  def download_by_idfile(self,idfile:str,query_name:str):
-    with open(idfile,'r',encoding='utf-8') as f:
-      docids = [line.strip() for line in f if line.strip()]
-    self.download_by_ids(docids,query_name)
+def download_by_idfile(idfile:str,query_name:str):
+  pmc = PMC('')
+  with open(idfile,'r',encoding='utf-8') as f:
+    docids = [line.strip() for line in f if line.strip()]
+  pmc.download_by_ids(docids,query_name)
 
 
 def docid2pmid(docids:list[str])->dict[str,str]:

@@ -480,12 +480,13 @@ class PSRelation(PSObject):
 
 
   def effect(self,unknown='unknown')->str:
-      '''
-      output:
-          'positive','negative',unknown
-      '''
-      return str(self.get_prop(EFFECT,if_missing_return=unknown))
-  
+    '''
+    output:
+        'positive','negative',unknown
+    '''
+    effect_value = str(self.get_prop(EFFECT,if_missing_return=unknown))
+    return unknown if effect_value not in ['positive','negative'] else effect_value
+
 
   def flip_effect(self):
     '''
@@ -711,7 +712,6 @@ class PSRelation(PSObject):
       cr = self.cr()
       return b*cr/math.sqrt(b*b*cr*cr +1)
 
-  
 
   def merge_rel(self, other:'PSRelation'):
     '''
@@ -893,17 +893,17 @@ class PSRelation(PSObject):
                 refdict4self[propset_title_key] = propSet_ref
           else: # no propSet_ids => propSet is not valid reference 
             # therefore will try to create valid one using Title or TextRef:
-            if propset_title_key:
+            if propset_textref:
+              propSetidtuple = Reference._textref2id(propset_textref)
+              if propSetidtuple in refdict4self:
+                propSet_ref = refdict4self[propSetidtuple]
+              else:
+                propSet_ref = create_newref([propSetidtuple])
+            elif propset_title_key:
               if propset_title_key in refdict4self:
                 propSet_ref = refdict4self[propset_title_key]
               else:
                 propSet_ref = create_newref([propset_title_key])
-            elif propset_textref: # propSet has no title, no propSet_ids, but has textref:
-                propSetidtuple = Reference._textref2id(propset_textref)
-                if propSetidtuple in refdict4self:
-                  propSet_ref = refdict4self[propSetidtuple]
-                else:
-                  propSet_ref = create_newref([propSetidtuple])
             else:
               # PropSet is not valid: no Ids, no title, no textref
               continue # ignore and move to the next propSet 
@@ -925,9 +925,9 @@ class PSRelation(PSObject):
           if AUTHORS not in propSet_ref:
             if _AUTHORS_ in propSet_ref: # converting _AUTHORS_ to AUTHORS
               propSet_ref[AUTHORS] = [x.tostr() for x in propSet_ref[_AUTHORS_]]
-          else:
-            [x.toAuthors() for x in self.references] #converting AUTHORS to _AUTHORS_
-    
+
+
+    [x.toAuthors() for x in self.references] #converting AUTHORS to _AUTHORS_
     self.references.sort(key=lambda r: r.pubyear(), reverse=True)
     return self.references[:ref_limit] if ref_limit else self.references
   
@@ -1320,3 +1320,21 @@ class PSRelation(PSObject):
       return pmc_hyperlink(rel_pmcids,str(refcount)),refcount
     else:
       return '',refcount
+    
+
+  def compare(self,other:"PSRelation"):
+    if self.objtype() == other.objtype():
+      if set(self.regulators()) == set(other.regulators()) and set(self.targets()) == set(other.targets()):
+        return True
+    return False
+  
+
+  def sentences(self):
+    '''
+    output:
+      generator of (textref,sentence) pairs for all sentences in all snippets in all references for self
+    '''
+    for ref in self.refs():
+      for textref,sentence in ref.sentences():
+          yield textref,sentence
+

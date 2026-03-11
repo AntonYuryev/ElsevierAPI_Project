@@ -61,7 +61,7 @@ BIBLIO_PROPS = PS_BIBLIO_PROPS | {INSTITUTIONS,RELEVANCE}
 REF_ID_TYPES = PS_REFIID_TYPES+ETM_ID_TYPES+PATENT_ID_TYPES
 
 PS_SENTENCE_PROPS = [SENTENCE,'Organism','CellType','CellLineName','Organ','Tissue','Source','Percent',THRESHOLD,
-                     'pX','Phase','Start','TrialStatus','URL','Experimental System',CLINVAR_ID,'TextRef',
+                     'pX','Phase','Start','TrialStatus','URL','Experimental System',CLINVAR_ID,
                      CLINVAR_ACC,'Clinvar ID','TextMods','BiomarkerType','ChangeType','QuantitativeType']
 SENTENCE_PROPS = PS_SENTENCE_PROPS + ['Evidence','msrc','mref','Similarity']
 # SENTENCE_PROPS needs to be a list for ordered printing
@@ -69,8 +69,7 @@ SENTENCE_PROPS = PS_SENTENCE_PROPS + ['Evidence','msrc','mref','Similarity']
 
 PS_REFERENCE_PROPS = list(CLINTRIAL_PROPS)+PS_REFIID_TYPES+list(PS_BIBLIO_PROPS_ALL)+PS_SENTENCE_PROPS
 
-REFERENCE_PROPS = list(PS_BIBLIO_PROPS_ALL)+list(CLINTRIAL_PROPS)+REF_ID_TYPES+SENTENCE_PROPS
-
+REFERENCE_PROPS = list(PS_BIBLIO_PROPS_ALL)+list(CLINTRIAL_PROPS)+REF_ID_TYPES+SENTENCE_PROPS+['TextRef']
 NOT_ALLOWED_IN_SENTENCE='[\t\r\n\v\f]' # regex to clean up special characters in sentences, titles, abstracts
 
 IDENTIFIER_PREFIXES = [
@@ -581,7 +580,8 @@ class Reference(dict):
     """
     if _AUTHORS_ not in self:
       author_strs = list(filter(None,self.author_list()))
-      self[_AUTHORS_] = list(map(Author.fromStr,author_strs))
+      if author_strs:
+        self[_AUTHORS_] = list(map(Author.fromStr,author_strs))
     return
     
 
@@ -642,6 +642,13 @@ class Reference(dict):
     else:
       return ''
 
+
+  def pii(self):
+    if 'PII' in self.Identifiers:
+      return self.Identifiers['PII']
+    else:
+      return ''
+    
 
   def number_of_snippets(self):
       return len(self.snippets)
@@ -809,6 +816,10 @@ class Reference(dict):
 
 
   def sentences(self)->Generator[tuple[str,str], None, None]:
+    '''
+    yields:
+      textref,sentence
+    '''
     for textref, snippet in self.snippets.items():
       sentences = snippet.get(SENTENCE,{''})
       for sentence in sentences:
@@ -816,6 +827,10 @@ class Reference(dict):
 
 
   def _snippets(self):
+    '''
+    yields:
+      textref,snippet
+    '''
     for textref, snippet in self.snippets.items():
       sentences = snippet.get(SENTENCE,set())
       if len(sentences) > 1:
