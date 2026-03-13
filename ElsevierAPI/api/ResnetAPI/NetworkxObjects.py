@@ -926,9 +926,9 @@ class PSRelation(PSObject):
             if _AUTHORS_ in propSet_ref: # converting _AUTHORS_ to AUTHORS
               propSet_ref[AUTHORS] = [x.tostr() for x in propSet_ref[_AUTHORS_]]
 
-
     [x.toAuthors() for x in self.references] #converting AUTHORS to _AUTHORS_
     self.references.sort(key=lambda r: r.pubyear(), reverse=True)
+    [r.deduplicate_sentences() for r in self.references]
     return self.references[:ref_limit] if ref_limit else self.references
   
   

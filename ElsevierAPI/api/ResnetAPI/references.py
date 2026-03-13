@@ -8,7 +8,6 @@ from collections import defaultdict
 from typing import Generator
 
 
-
 AUTHORS = 'Authors'
 _AUTHORS_ = 'AuthorsObject'
 INSTITUTIONS = 'Institutions'
@@ -178,6 +177,7 @@ class Reference(dict):
     self.Identifiers = {idType:ID} #from REF_ID_TYPES
     self.snippets = defaultdict(lambda: defaultdict(set)) # {TextRef:{PropID:{Values}}} PropID is from SENTENCE_PROPS contains sentences marked up by NLP
     # PropID:{Values} = defaultdict(set)
+
 
   def copy_ref(self):
       '''
@@ -360,25 +360,29 @@ class Reference(dict):
     return ''
 
 
-  def __is_new(self,sentence:str):
-    clean_sent = sentence.strip(' .')
-    sent_no_white = clean_sent.replace(" ", "")
-    for prop2vals in self.snippets.values():
-      try:
-        my_sentences = prop2vals[SENTENCE]
-        for sentence in my_sentences:
-          if sent_no_white == sentence.replace(" ", ""): ## sometime whitespaces are screwedup
-            return ''
-      except KeyError: continue
-    return clean_sent
-
-
   def add_sentence_props(self, TextRef:str, propID:str, prop_values:list):
     if propID == SENTENCE:
-      prop_values = list(filter(None,[self.__is_new(x) for x in prop_values if x]))
-               
-    if prop_values:
+      for prop in prop_values:
+        clean_sent = prop.strip(' .')
+        self.snippets[TextRef][propID].add(clean_sent)
+    else:
       self.snippets[TextRef][propID].update(prop_values)
+
+
+  def deduplicate_sentences(self):
+    textref_maps = dict() #{Sentence:TextRef}
+    textrefs2remove = set()
+    for textref, sent in self.sentences():
+      _sent_ = sent.replace(" ", "")
+      if _sent_ in textref_maps:
+        my_textref = textref_maps[_sent_]
+        textrefs2remove.add(textref)
+      else:
+        textref_maps[_sent_] = textref
+
+    for textref in textrefs2remove:
+      self.snippets.pop(textref,'')
+    return len(textrefs2remove) > 0
 
 
   def has_property(self, prop_name:str):

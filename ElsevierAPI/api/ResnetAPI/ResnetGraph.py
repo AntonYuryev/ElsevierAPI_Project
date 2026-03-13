@@ -864,7 +864,8 @@ class ResnetGraph (nx.MultiDiGraph):
                   add_rel_props:list=['Name','RelType',EFFECT,REFCOUNT],
                   ref_identifiers:list = ['PMID','DOI'],
                   ref_biblio_props:list = [PUBYEAR,TITLE],
-                  ref_sentence_props:list=[SENTENCE])->df:
+                  ref_sentence_props:list=[SENTENCE],
+                  remove_duplicate_sentences=True)->df:
     '''
     input:
       add_rel_props - *must* be either empty or ['Name','RelType',EFFECT,REFCOUNT]
@@ -915,17 +916,18 @@ class ResnetGraph (nx.MultiDiGraph):
     snippet_df = snippet_df.remove_rows_by(clinvar_hyperlinks,'PMID')
     
     # removing duplicate sentences:
-    def sentences_key(row):
-      return row['Concept']+'_'+row['Entity']+'_'+row[SENTENCE][0:30]+row['RelType']+' '+row[EFFECT]
+    if remove_duplicate_sentences:
+      def sentences_key(row):
+        return row['Concept']+'_'+row['Entity']+'_'+row[SENTENCE][0:30]+row['RelType']+' '+row[EFFECT]
 
-    before_count = len(snippet_df)
-    snippet_df['sentence_key'] = snippet_df.apply(sentences_key, axis=1)
-    snippet_df = snippet_df.sortrows(by=SENTENCE, key=lambda x: x.str.len(), ascending=False)
-    snippet_df = snippet_df.deduplicate_rows(subset='sentence_key')
-    cols = snippet_df.columns.to_list()
-    cols.remove('sentence_key')
-    snippet_df = snippet_df.dfcopy(cols)
-    print(f'{before_count - len(snippet_df)} duplicate snippets were removed from {df_name} worksheet')
+      before_count = len(snippet_df)
+      snippet_df['sentence_key'] = snippet_df.apply(sentences_key, axis=1)
+      snippet_df = snippet_df.sortrows(by=SENTENCE, key=lambda x: x.str.len(), ascending=False)
+      snippet_df = snippet_df.deduplicate_rows(subset='sentence_key')
+      cols = snippet_df.columns.to_list()
+      cols.remove('sentence_key')
+      snippet_df = snippet_df.dfcopy(cols)
+      print(f'{before_count - len(snippet_df)} duplicate snippets were removed from {df_name} worksheet')
 
     snippet_df._name_ = df_name
     snippet_df.set_hyperlink_color(ref_identifiers)
