@@ -4,8 +4,8 @@ from collections import defaultdict
 
 from ...utils.utils import normalize
 from .references import Reference, len, reflist2dict,pubmed_hyperlink,make_hyperlink,pmc_hyperlink
-from .references import JOURNAL,PS_REFIID_TYPES,NOT_ALLOWED_IN_SENTENCE,PS_BIBLIO_PROPS_ALL,PS_SENTENCE_PROPS,CLINTRIAL_PROPS
-from .references import MEDLINETA,PUBYEAR,SENTENCE,TITLE,AUTHORS,_AUTHORS_,PS_REFERENCE_PROPS
+from .references import JOURNAL,PS_REFIID_TYPES,NOT_ALLOWED_IN_SENTENCE,PS_BIBLIO_PROPS_ALL,SENTENCE_PROPS,CLINTRIAL_PROPS
+from .references import MEDLINETA,SENTENCE,TITLE,AUTHORS,_AUTHORS_,PS_REFERENCE_PROPS,REFERENCE_PROPS
 
 OBJECT_TYPE = 'ObjTypeName'
 PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
@@ -19,6 +19,7 @@ MECHANISM = 'Mechanism'
 CONNECTIVITY = 'Connectivity'
 RELATION_PROPS = [EFFECT,MECHANISM]
 ALL_PSREL_PROPS = RELATION_PROPS+PS_REFERENCE_PROPS
+ALL_REL_PROPS = RELATION_PROPS+REFERENCE_PROPS
 #enums for objectypes to avoid misspeling
 GENETICVARIANT = 'GeneticVariant'
 FUNC_ASSOC = 'FunctionalAssociation'
@@ -33,7 +34,7 @@ CHEMICAL_PROPS = ["CAS ID","HMDB ID","IUPAC Name","InChIKey","LMSD ID","Alias",
 DIRECT_RELTYPES = {'DirectRegulation','Binding','ChemicalReaction','ProtModification','PromoterBinding'}
 NONDIRECTIONAL_RELTYPES = {'Binding','CellExpression',FUNC_ASSOC,'Metabolization','Paralog'}
 
-SENTENCE_PROPSET = set(PS_SENTENCE_PROPS + ['Evidence','msrc','Similarity'])
+SENTENCE_PROPSET = set(SENTENCE_PROPS)
 IGNORE_TEXTREFS = {'Admin imported', 'Customer imported', ''}
 
 STATE = "state"
@@ -78,7 +79,7 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
         return if_missing_return
 
 
-  def urn(self):
+  def urn(self)->str:
     '''
       returns empty string if URN property does not exist
     '''
@@ -538,12 +539,12 @@ class PSRelation(PSObject):
       return name
     
 
-  def urn(self,refresh=False):
+  def urn(self,refresh=False,no_attrs=False)->str:
     '''
     Creates URN for rel if it does not exist
     '''
     if refresh:
-      return self.__make_urn()
+      return self.__make_urn(no_attrs)
     else:
       # Try to return the existing URN.
       # Case 1: super().urn() returns a "truthy" value (e.g., a non-empty string). 
@@ -551,7 +552,7 @@ class PSRelation(PSObject):
       # Case 2: super().urn() returns a "falsy" value (e.g., None or ""). 
       #   The or operator sees the False value and moves on to evaluate the expression on its right-hand side. 
       #   It then executes self.__make_urn(...) and returns its result.
-      return super().urn() or self.__make_urn()
+      return super().urn() or self.__make_urn(no_attrs)
           
 
   def has_properties(self,prop_names:set):
@@ -575,7 +576,7 @@ class PSRelation(PSObject):
       return has_values
 
 
-  def __make_urn(self):
+  def __make_urn(self,no_attrs=False):
       '''
       sets:
         URN property to self
@@ -590,11 +591,12 @@ class PSRelation(PSObject):
       if tar_urns:
         urn_parts.append('out:'+'out:'.join(tar_urns)) # out:urn:out:
         urn_parts.append('in-out:'+'in-out:'.join(reg_urns))
-        effect = self.effect()
-        if effect in ['positive','negative']:
-          urn_parts.append( effect)
-        if MECHANISM in self:
-          urn_parts.append(self[MECHANISM][0])
+        if not no_attrs:
+          effect = self.effect()
+          if effect in ['positive','negative']:
+            urn_parts.append( effect)
+          if MECHANISM in self:
+            urn_parts.append(self[MECHANISM][0])
       else:
         urn_parts.append('in-out:'+':in-out:'.join([u for u in reg_urns]))
 

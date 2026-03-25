@@ -2398,27 +2398,29 @@ class ResnetGraph (nx.MultiDiGraph):
       if "with_section_size" is zero dumps graph into RNEF file with single <resnet>. Large graphs must be dumped with resnet sections
       single <resnet> section reduces size of RNEF file, but may slow down import of large RNEF files into Pathway Studio
     '''
-    rnef_fname = fname if fname else self.name
-    assert(rnef_fname), 'RNEF file fname must be specified of self.name must be set'
-    if fname[-5:] != '.rnef':
-        rnef_fname += '.rnef'
+    graph_fname = fname if fname else self.name
+    assert(graph_fname), 'RNEF file fname must be specified of self.name must be set'
+    if graph_fname[-5:] == '.rnef': #normalizing fname to avoid double .rnef extension
+      rnef_fname = graph_fname
+      graph_fname = graph_fname[:-5]
+    else:
+      rnef_fname = graph_fname + '.rnef'
 
-    #message = f'Writing graph "{self.name}" with {graph_copy.number_of_nodes()} nodes, {self.number_of_edges()} edges to {rnef_fname} file'
     graph_copy = self.remove_undirected_duplicates() 
-    message = f'Writing graph "{self.name}" with {graph_copy.number_of_nodes()} nodes, {graph_copy.number_of_edges()} edges to {rnef_fname} file'
+    message = f'Writing graph "{graph_fname}" with {graph_copy.number_of_nodes()} nodes, {graph_copy.number_of_edges()} edges to {rnef_fname} file'
     # copying graph to enable using the function in multithreaded file writing
     
     if with_section_size:
-        with et.xmlfile(rnef_fname,encoding='utf-8',buffered=False) as xf:
-            print(message + f' in resnet section of size {with_section_size}')
-            xf.write(et.Comment(RNEF_DISCLAIMER),pretty_print=True)
-            with xf.element('batch'):
-                graph_copy.__2rnef_secs(xf,ent_prop2print,rel_prop2print,add_rel_props,with_section_size,delete_nodes)
+      with et.xmlfile(rnef_fname,encoding='utf-8',buffered=False) as xf:
+        print(message + f' in resnet section of size {with_section_size}')
+        xf.write(et.Comment(RNEF_DISCLAIMER),pretty_print=True)
+        with xf.element('batch'):
+          graph_copy.__2rnef_secs(xf,ent_prop2print,rel_prop2print,add_rel_props,with_section_size,delete_nodes)
     else:
-        print(message + f' in one resnet section')
-        graph_copy.__2rnef(rnef_fname,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
+      print(message + f' in one resnet section')
+      graph_copy.__2rnef(rnef_fname,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
 
-    print(f'Graph "{self.name}" with {graph_copy.number_of_nodes()} nodes and {graph_copy.number_of_edges()} edges dumped to {rnef_fname} file')
+    print(f'Graph "{graph_fname}" with {graph_copy.number_of_nodes()} nodes and {graph_copy.number_of_edges()} edges dumped to {rnef_fname} file')
     return
 
 
@@ -2544,10 +2546,10 @@ class ResnetGraph (nx.MultiDiGraph):
 
             index = attr.get('index')
             if index is not None: # Property has an index and therefore must be in SENTENCE_PROPS_SET
-              #propid = SENTENCE if prop_id == 'msrc' else prop_id
-              ps_rel.PropSetToProps[index][prop_id].append(attr.get('value'))
+              value = attr.get('value')
+              ps_rel.PropSetToProps[index][prop_id].append(value)
             elif prop_id in SENTENCE_PROPS_SET:# MedScan single reference case
-              #propid = SENTENCE if prop_id == 'msrc' else prop_id
+                 # TextRef is used as a reference identifier in single reference case, so it should be added to references, not relation properties
               ps_rel.PropSetToProps['1'][prop_id].append(attr.get('value'))
             else: # No index, not a sentence prop
               ps_rel.update_with_value(prop_id, attr.get('value'))
@@ -2686,7 +2688,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
   @classmethod
   def fromRNEFdir(cls,path2dir:str,prop2values:dict=dict(),
-                  only_relprops:set=set(),merge=True,include_subdirs=False):
+                  only_relprops:set=set(),merge=True,include_subdirs=False,edge_duplication=True)->"ResnetGraph":
       '''
       Input
       -----
@@ -2699,7 +2701,7 @@ class ResnetGraph (nx.MultiDiGraph):
       listing = glob.glob(os.path.join(path2dir, '*.rnef'))+glob.glob(os.path.join(path2dir, '**/*.rnef'),recursive=include_subdirs)
       combo_g = ResnetGraph()
       if listing:
-          combo_g = ResnetGraph.fromRNEFflist(listing,prop2values,only_relprops,merge)
+          combo_g = ResnetGraph.fromRNEFflist(listing,prop2values,only_relprops,merge,edge_duplication)
           print('Graph (%d edges, %d nodes) was loaded from "%s" with %d files in %s' 
           % (combo_g.number_of_edges(),combo_g.number_of_nodes(),path2dir,len(listing),execution_time(start)))
           combo_g.name = f'{os.path.basename(os.path.normpath(path2dir))}'
