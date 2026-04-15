@@ -32,6 +32,7 @@ refcolumns = [
     "CellObject",
     "CellType",
     "ChangeType",
+    "Clinvar RCV ID",
     "Collaborator",
     "Company",
     "Condition",
