@@ -1,12 +1,16 @@
 from .ResnetAPISession import time, math, NO_REL_PROPERTIES
 from .ResnetAPIcache import APIcache,os,CACHE_DIR
-from .ResnetGraph import REFCOUNT, ResnetGraph, nx, EFFECT,NUMBER_OF_TARGETS,PROTEIN_TYPES,PSObject
+from .ResnetGraph import REFCOUNT, EFFECT,NUMBER_OF_TARGETS,PROTEIN_TYPES,OBJECT_TYPE
+from .ResnetGraph import ResnetGraph, nx, PSObject
+from .PSPathway import PSPathway
 from ...utils.pandas.panda_tricks import df, ExcelWriter
 from .Drugs4Disease import Drugs4Targets
 from .Drugs4Disease import ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS,RANK,DRUG2TARGET_REGULATOR_SCORE,PHARMAPENDIUM_ID
-from .Zeep2Experiment import Experiment, Sample, ENSEMBL_ID,HAS_PVALUE
+from .Zeep2Experiment import Experiment, Sample, ENSEMBL_ID
+from ..EmbioPSG_API.cypher import Cypher
 from ...utils.utils import Tee,execution_time
 from scipy.stats._mannwhitneyu import mannwhitneyu
+from scipy.stats import fisher_exact
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 
@@ -16,9 +20,181 @@ DPERNET = 'drug-protein expression regulatory network'
 ACTIVATION_IN = 'activation in '
 EXPRESSION = ['Expression','PromoterBinding']
 
+class SNEA4list(APIcache):
+  def __init__(self,*args,**kwargs):
+    '''
+    kwargs:
+      seed_types - set of object types for seeds, e.g. {'Disease'}
+      neighbor_types - set of object types for neighbors, e.g. {'GeneticVariant'}
+      rel_types - set of relation types, e.g. {'FunctionalAssociation'}
+      dir - direction of the relationship, 'upstream' or 'downstream',''
+    '''
+    my_kwargs = dict(kwargs)
+    super().__init__(*args,**my_kwargs)
+    self.__entities__ = set() # set of PSObjects for which must be in seed_networks
+    if self.useNeo4j():
+      seed_types = kwargs['seed_types']
+      min_neighbors = kwargs.get('min_overlap',3)
+      neighbor_types = kwargs['neighbor_types']
+      rel_types = kwargs['rel_types']
 
-class SNEA(APIcache):
+      identifiers = kwargs['identifiers']
+      id_types = kwargs.get('id_types',['Name','Alias'])
+      input_identifiers = dict()
+      neigbor_types = '|'.join(neighbor_types)
+      for idtype in id_types:
+        input_identifiers[idtype] = identifiers
+        self.__entities__.update(self.neo4j.get_nodes(neigbor_types,idtype,identifiers))
+
+      cypher,params = Cypher.expand_with_cutoff(
+                                    seed_types,
+                                    neighbor_types,
+                                    rel_types,
+                                    kwargs['dir'], # direction of expand: 'upstream' or 'downstream','' for both
+                                    min_neighbors,
+                                    input_identifiers
+                                    )
+      request_name = f"Load {neighbor_types} neighbors for {seed_types} using {rel_types} relations"
+      seed2neigborsG = self.neo4j.fetch_graph(cypher,params,request_name)
+      
+      self.seeds = [n for n in seed2neigborsG._get_nodes() if n.objtype() in seed_types]
+      seed_urns = set(n.urn() for n in self.seeds)
+      cypher,params = Cypher.expand(list(seed_urns),
+                                    in_prop='URN',
+                                    _2neighbor_types=neighbor_types,
+                                    by_relProps={OBJECT_TYPE:rel_types},
+                                    dir=kwargs['dir']
+                                    )
+      params['with_references'] = False 
+      # we need only references loaded by the previous cypher
+      request_name = f"Load {neighbor_types} neighbors for {len(seed_urns)} {seed_types} seeds using {rel_types} relations"
+      self.Graph = self.neo4j.fetch_graph(cypher,params,request_name)
+      print(f'Loaded graph for statistical analysis with {len(self.Graph)} nodes and {self.Graph.number_of_edges()} edges')
+
+      self.database_neighbor_type_count = self.neo4j.count_nodes(neigbor_types)
+      print(f'Found {self.database_neighbor_type_count} neighbors of type {neighbor_types} in the database')
+    else:
+      self.Graph = self.__load_network__(PPERNET,**kwargs)
+
+    return
+
+
+  def __load_network__(self,network_name:str, **kwargs)->'ResnetGraph':
+    get_regulators = f'SELECT Entity WHERE objectType = ({PROTEIN_TYPES})'
+    get_targets = f'SELECT Entity WHERE objectType = ({PROTEIN_TYPES})'
+    oql_query = f'SELECT Relation WHERE objectType = ({EXPRESSION}) \
+        AND NeighborOf upstream ({get_targets}) AND NeighborOf downstream ({get_regulators})'
     
+    my_kwargs = dict(kwargs)
+    self.my_oql_queries = [(oql_query,f'downloading {network_name}')]
+    self.entProps = ['Name',ENSEMBL_ID] # Ensembl ID to support DESeq2 output
+    self.relProps = ['URN',EFFECT,REFCOUNT]
+    my_kwargs['cache_name'] = network_name
+    my_kwargs['reload'] = not my_kwargs.pop('use_cache4pe',True)
+    my_kwargs['data_dir'] = CACHE_DIR
+    my_kwargs['remove_version'] = True # remove version from Ensembl ID
+    expression_network = self._load_cache(**my_kwargs)
+    return expression_network
+  
+
+  def analyze(self,**kwargs):
+    '''
+    identifiers - list of gene names or Ensembl IDs
+    id_type - 'Name' or 'Ensembl_ID'
+    '''
+    start = time.time()
+    entities_uids = set(ResnetGraph.uids(self.__entities__))
+    input_entities_count = len(self.__entities__)
+    #nolist_neighbor_count = self.database_neighbor_type_count - input_entities_count
+    nolist_neighbor_count = len([x for x in self.Graph._get_nodes() if x.objtype() in 
+                                 kwargs['neighbor_types'] and x.uid() not in entities_uids])
+
+    rel_types = list(kwargs['rel_types'])
+    dir = kwargs.get('dir','')
+    dir = '>' if dir == 'downstream' else '<' if dir == 'upstream' else ''
+    pvalCutoff = kwargs.get('pval_cutoff',0.05)
+    minOverlap = kwargs.get('min_overlap',3)
+
+    seed_types = list(kwargs['seed_types'])
+    seeds = [o for o in self.Graph._get_nodes() if o.objtype() in seed_types]
+    seed_networks = []
+    total_seed_count = len(seeds)
+    for i,seed in enumerate(seeds):
+      seed_neighborsG = self.Graph.neighborhood([seed],[],rel_types,[],dir)
+      seed_entitiesG = nx.MultiDiGraph.subgraph(seed_neighborsG, entities_uids) 
+      # MultiDiGraph.subgraph() is faster here but it does not produce ResnetGraph
+      seed_subnetwork_size = seed_entitiesG.number_of_nodes()
+      if seed_subnetwork_size > minOverlap:
+        # now we need real ResnetGraph in subgraph and
+        # need to add seed.uid() to entities_uids to be sure that seed is in the subgraph
+        seed_entitiesG = seed_neighborsG.subgraph(entities_uids | {seed.uid()}) 
+        seed_neighbors_count = seed_neighborsG.number_of_nodes() - 1 # excluding the seed itself
+        
+        linked_listed_count = seed_subnetwork_size - 1 # excluding the seed itself
+        linked_nolist_count = seed_neighbors_count - linked_listed_count
+        unlinked_listed_count = input_entities_count - linked_listed_count
+        unlinked_nolist_count = nolist_neighbor_count - linked_nolist_count
+        
+        oddsratio, ft_pvalue = fisher_exact([
+          [linked_listed_count, linked_nolist_count], 
+          [unlinked_listed_count, unlinked_nolist_count]],alternative='greater')
+        
+        if ft_pvalue <= pvalCutoff:
+          seed_name = seed.name()
+          props = {'Name':[seed_name+'_neighbors'],
+                  'seed_name':[seed_name],
+                  'OR':[oddsratio],
+                  'pvalue':[ft_pvalue],
+                  'Overlap':[linked_listed_count],
+                  'Total neighbors':[seed_neighbors_count]
+          }
+          seed_network = PSPathway(props,seed_entitiesG)
+          seed_networks.append(seed_network)
+          
+      if i % 25 == 0:
+        print(f'Processed {i} out of {total_seed_count} seeds in {execution_time(start)}')
+        print(f'Found {len(seed_networks)} significant seed networks so far')
+    seed_networks.sort(key=lambda x: x['OR'][0],reverse=True)
+    print(f'Finished analyzing {total_seed_count} seeds in {execution_time(start)}')
+    print(f'Found {len(seed_networks)} significant seed networks')
+    return seed_networks
+    
+
+  def report(self,seed_networks:list[PSPathway],report_path:str):
+    report_df = df()
+    for seed_network in seed_networks:
+      #counting references at the last minute to allow postgres future to finish
+      refcount = len(seed_network.load_references(postgres=self.postgres())) 
+      snippets_df = seed_network.graph.snippets2df()
+      snippets_df['Seed' ] = seed_network['seed_name'][0]
+      snippets_df['literature PRS'] = seed_network['OR'][0]
+      snippets_df['PRS RefCount'] = refcount
+      snippets_df['Overlap'] = seed_network['Overlap'][0]
+      snippets_df['Total neighbors'] = seed_network['Total neighbors'][0]
+      snippets_df['pValue'] = seed_network['pvalue'][0]
+
+      report_df = report_df.append_df(snippets_df)
+   
+    score_ws_header = ['Seed','literature PRS', 'PRS RefCount','Overlap','Total neighbors','pValue']
+    col_order = score_ws_header + [col for col in report_df.columns if col not in score_ws_header]
+    report_df = report_df.dfcopy(only_columns=col_order,rename2={'Graph Citation index':'Subnetwork Citation Index'})
+    report_df['pValue'] = report_df['pValue'].apply(lambda x: '{:.3e}'.format(x))
+    print(f'Saving report with {len(report_df)} references for {len(seed_networks)} seeds to {report_path}')
+    
+    score_df = df(columns=score_ws_header,name='Scores')
+    for col in score_ws_header:
+      score_df[col] = report_df[col]
+    score_df = score_df.deduplicate_rows(subset='Seed')
+   
+    with ExcelWriter(report_path,engine='xlsxwriter') as writer:
+      score_df.df2excel(writer,'Scores')
+      report_df.df2excel(writer,'References')
+      #writer.close()
+
+    return report_df
+  
+
+class SNEA(SNEA4list):
   @staticmethod
   def connect2server(**kwargs):
     if kwargs.get('experiment',''):
@@ -58,8 +234,9 @@ class SNEA(APIcache):
     snea_init_log = os.path.join(self.data_dir,f'{self.exp_name()}_SNEAinit.log')
     with Tee(snea_init_log):
       kwargs['connect2server'] = self.connect2server(**kwargs)
-      super().__init__(**my_kwargs)
+      super().__init__(*args,**my_kwargs)
       self.__load_data__(**my_kwargs)
+
 
   @staticmethod
   def exp_name_fromkwargs(**kwargs)->str: 
@@ -146,7 +323,7 @@ class SNEA(APIcache):
     if kwargs.get('experiment',''):
       with ThreadPoolExecutor(max_workers=4, thread_name_prefix='Initializing SNEA') as e:
         future1 = e.submit(Experiment.download,experiment_name,self.APIconfig)
-        future2 = e.submit(self.__load_network,PPERNET,**kwargs)
+        future2 = e.submit(self.__load_network__,PPERNET,**kwargs)
         self.experiment = future1.result()
         expression_network = future2.result()
         e.shutdown()
@@ -162,7 +339,7 @@ class SNEA(APIcache):
         my_samples = self.experiment.get_samples(kwargs["sample_names"],kwargs['sample_ids'])
         self.__my_sample_names__ = [s.name() for s in my_samples]
 
-      expression_network = self.__load_network(PPERNET,**kwargs)
+      expression_network = self.__load_network__(PPERNET,**kwargs)
       mapping_id_name = str(self.experiment.identifier_name())
       self.experiment = self.experiment.map2(expression_network,mapping_id_name)
 
@@ -208,24 +385,6 @@ class SNEA(APIcache):
   @staticmethod
   def __sample_annotation(sample:Sample):
       return ACTIVATION_IN+sample.name()
-
-
-  def __load_network(self,network_name:str, **kwargs)->'ResnetGraph':
-    get_regulators = f'SELECT Entity WHERE objectType = ({PROTEIN_TYPES})'
-    get_targets = f'SELECT Entity WHERE objectType = ({PROTEIN_TYPES})'
-    oql_query = f'SELECT Relation WHERE objectType = ({EXPRESSION}) \
-        AND NeighborOf upstream ({get_targets}) AND NeighborOf downstream ({get_regulators})'
-    
-    my_kwargs = dict(kwargs)
-    self.my_oql_queries = [(oql_query,f'downloading {network_name}')]
-    self.entProps = ['Name',ENSEMBL_ID] # Ensembl ID to support DESeq2 output
-    self.relProps = ['URN',EFFECT,REFCOUNT]
-    my_kwargs['cache_name'] = network_name
-    my_kwargs['reload'] = not my_kwargs.pop('use_cache4pe',True)
-    my_kwargs['data_dir'] = CACHE_DIR
-    my_kwargs['remove_version'] = True # remove version from Ensembl ID
-    expression_network = self._load_cache(**my_kwargs)
-    return expression_network
 
 
   def activity(self,_in:Sample,_4reg_uid:int,with_targets:list,according2:ResnetGraph):
@@ -586,3 +745,4 @@ def test_run(APIconfig:dict,fast=True, find_drugs=True):
     if find_drugs:
         snea.make_drugs_df()
     snea.report(experiment_name+'test')
+

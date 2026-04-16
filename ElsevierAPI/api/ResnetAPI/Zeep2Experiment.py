@@ -56,15 +56,16 @@ class Sample(PSObject):
         de_input_count = len([x for x in urn2psobj.values() if x[sample_annotation][0][1] <= difexp_pval_cutoff])
         nonde_input_count = len(urn2psobj) - de_input_count
 
-        try:
-            de_sample_count = self['DEcount']
-        except KeyError:
-            de_sample_count = len(self.data.loc[(self.data['pvalue'] <= difexp_pval_cutoff)])
-            self['DEcount'] = de_sample_count
+        if 'DEcount' in self.keys():
+          de_sample_count = self['DEcount']
+        else:
+          de_sample_count = len(self.data.loc[(self.data['pvalue'] <= difexp_pval_cutoff)])
+          self['DEcount'] = de_sample_count
 
         nonde_sample_count = len(self.data) - de_sample_count
 
-        oddsratio, ft_pvalue = stats.fisher_exact([[de_input_count, nonde_input_count], [de_sample_count, nonde_sample_count]])
+        oddsratio, ft_pvalue = stats.fisher_exact([[de_input_count, nonde_input_count], 
+                                                   [de_sample_count, nonde_sample_count]])
         return (oddsratio, ft_pvalue)
 
 

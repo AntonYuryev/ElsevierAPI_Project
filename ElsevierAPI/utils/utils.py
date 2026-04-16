@@ -1,5 +1,5 @@
 
-import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi,http.client,socket,ssl
+import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi,http.client,socket,ssl,hashlib
 from scipy import stats
 import numpy as np
 from urllib.parse import quote as urlencode
@@ -665,6 +665,29 @@ def scatter_plot(Xvalues:list,Yvalues:dict[str,list], **kwargs):
   fout = os.path.join(data_dir,title+'.scatter.png')
   plt.savefig(fout)
   print(f'Finished building {len(Yvalues)} scatter plots')
+
+
+def deterministic_hash64(text):
+  """Return a deterministic signed 64-bit hash for text or bytes."""
+
+  if isinstance(text, str):
+    text = text.encode("utf8")
+
+    # use md5 to create a hash
+    digest = hashlib.md5(text).hexdigest()
+    dint = int(digest, 16)  # create 128 bit integer
+
+    # xor high and low halves
+    result = ((dint >> 64) ^ dint) & 0xFFFFFFFFFFFFFFFF
+    # if greater than max 64bit signed int, make negative. python doesn't wrap on overflow
+    # because it never overflows
+    if result > 0x7FFFFFFFFFFFFFFF:
+        result = -(result & 0x7FFFFFFFFFFFFFFF)
+
+    return result
+
+  # Backward-compatible alias for older imports/usages.
+  myhash = deterministic_hash64
 
 
 class Tee(object):

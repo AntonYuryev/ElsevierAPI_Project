@@ -63,14 +63,15 @@ def read_vcf(vcf_path: str) -> tuple[str, pd.DataFrame]:
   return vcf_header_str, df.from_pd(vcf_pd,dfname=vcfname)
 
 
-def HGVS2vcf(vcf_header:str,vcf_df:df,sample_col:str):
+def HGVS2vcf(vcf_header:str,vcf_df:df,sample_id:str):
   '''
   output:
     modified VCF header
-    vcf_df - dataframe with VCF data
-    genotype_df -  dataframe with columns: HGVS, two alleles genotype infered from VCF data
+    vcf_df - dataframe with VCF data, with added HGVS, GB (genotype as bases) fields in FORMAT column and corresponding values in sample column
+    genotype_df -  dataframe with columns: HGVS, two alleles genotype infered from VCF data in format 'AG','CC' etc.
   '''
   genotype_df_rows = []
+  sample_col  = [c for c in vcf_df.columns if sample_id in c][0]
   for i in vcf_df.index:
     sample_fields = vcf_df.at[i,sample_col].split(':')
     gt_str = '1/1' if sample_fields[0] =='1' else sample_fields[0].replace('|','/')
@@ -94,10 +95,34 @@ def HGVS2vcf(vcf_header:str,vcf_df:df,sample_col:str):
 
   vcf_header += '##FORMAT=<ID=HGVS,Number=A,Type=String,Description="HGVS nomenclature for the alternate allele (ALT)">\n'
   vcf_header += '##FORMAT=<ID=GB,Number=1,Type=String,Description="Genotype expressed as nucleotide bases (e.g., A/T or C|C)">\n'
-  genotype_df = df.from_rows(genotype_df_rows,header=['HGVS',f'{sample_col}'],dfname=sample_col)
+  genotype_df = df.from_rows(genotype_df_rows,header=['HGVS',sample_col],dfname=sample_col)
   return vcf_header, vcf_df, genotype_df
 
 
+def selectHZ(vcf_path:str,sample_id:str):
+  '''
+  output:
+    vcf_header - modified VCF header with added HGVS and GB fields in FORMAT column
+    vcf_df - dataframe with VCF data, with added HGVS, GB (genotype as bases) fields in FORMAT column and corresponding values in sample column
+    genotype_df - dataframe with columns: HGVS, two alleles genotype infered from VCF data in format 'AG','CC' etc.
+    hz_df - genotype_df subset with only homozygous genotypes
+    dumps inferred genotypes and homoxygous genotypes into Excel file in the same directory as input VCF file
+  '''
+  vcf_header, vcf_df = read_vcf(vcf_path)
+  vcf_header,vcf_df,genotype_df = HGVS2vcf(vcf_header,vcf_df,sample_id)
+  sample_col  = [c for c in genotype_df.columns if sample_id in c][0]
+
+  is_homozygous = genotype_df[sample_col].apply(
+      lambda v: isinstance(v, str) and len(v) == 2 and v.isalpha() and v[0] == v[1]
+  )
+  hz_df = genotype_df[is_homozygous].copy()
+  hz_df._name_ = f'{sample_col}HZonly'
+  worksheets = [genotype_df, hz_df]
+  out_path = os.path.dirname(vcf_path)
+  df.dfs2excel(worksheets, fpath=os.path.join(out_path, f'{sample_col}_genotypes.xlsx'))
+  return vcf_header, vcf_df, genotype_df, hz_df
+  
+ 
 def mergegenotypedfs(df1:df,df2:df):
   df2cols = df2.columns.to_list()
   keys = df2['HGVS'].values
@@ -110,14 +135,17 @@ def mergegenotypedfs(df1:df,df2:df):
 
 def trio_analysis(data_dir:str,out_dir:str,patient_id='WRFZO3066'):
   '''
+  input:
+    data_dir - directory with trio VCF files. VCF files should contain patient id as a substring\n(e.g., Patient_WRFZO3066, WRFZO3067_Father, WRFZO3068_Mother).\nOne of vcf files must contain input "patient_id"
   output:
-    path to .tsv file containing genotypes found only in patient genome
+    path to "Only in {patient_id}.tsv" file containing genotypes found only in patient genome
+    annotateted vcf files with added HGVS and genotype as bases in FORMAT column
   '''
   trio_genotype_dfs = []
   for i,vcf_path in dirList(data_dir,file_ext='vcf',include_subdirs=False):
     vcf_fname = fname(vcf_path)
     sample_name = vcf_fname[vcf_fname.find('_')+1: vcf_fname.find('.')]
-
+    # adding HGVS and genotype as bases to VCF dataframes and headers:
     vcf_header, vcf_df = read_vcf(vcf_path)
     print(f'Processing file {vcf_fname} in {data_dir} with sample {sample_name}')
     vcf_header,vcf_df,genotype_df = HGVS2vcf(vcf_header,vcf_df,sample_name)
@@ -133,7 +161,7 @@ def trio_analysis(data_dir:str,out_dir:str,patient_id='WRFZO3066'):
   parent_dfs = []
   patient_df = None
   for i in range(0,len(trio_genotype_dfs)):
-    if trio_genotype_dfs[i]._name_ == patient_id:
+    if patient_id in trio_genotype_dfs[i]._name_:
       patient_df = trio_genotype_dfs[i]
     else:
       parent_dfs.append(trio_genotype_dfs[i])
@@ -148,27 +176,10 @@ def trio_analysis(data_dir:str,out_dir:str,patient_id='WRFZO3066'):
   assert(len(parent_columns) == 2), f'Only two parents are possible, but you have: {parent_columns}'
   transmitted_genotypes = (trio_df[patient_id] == trio_df[parent_columns[0]]) | (trio_df[patient_id] == trio_df[parent_columns[1]])
   patient_uniqueGTs = trio_df[~transmitted_genotypes]
-  path2unique_patient_genotypes = os.path.join(out_dir,'Only in patient.tsv')
+  path2unique_patient_genotypes = os.path.join(out_dir,f'Only in {patient_id}.tsv')
   print(f'Found {len(patient_uniqueGTs)} genotypes usinque in patient')
   patient_uniqueGTs.to_csv(open(path2unique_patient_genotypes,mode='w',encoding='utf-8'),sep='\t',index=False,lineterminator='\n')
   return path2unique_patient_genotypes
-
-
-def add_population_freq(df_path:str,patientid_column='WRFZO3066'):
-  to_df = df.read(df_path,header=0)
-  for i in to_df.index:
-    genotype = to_df.at[i,patientid_column]
-    if genotype[0] == genotype[1]: # is homozygous:
-      allele_freqs = to_df.at[i,'dbsnp.alleles']
-      if not pd.isna(allele_freqs):
-        for d in ast.literal_eval(allele_freqs):
-          if d['allele'] == genotype[0]:
-            allele_freq = mean(d['freq'].values())
-            to_df.loc[i,'Allele population frequence'] = allele_freq
-            to_df.loc[i,'Genotype population frequence'] = allele_freq * allele_freq
-  newdf_path = df_path[:df_path.rfind('.')] + 'freqs.tsv'
-  to_df.to_csv(newdf_path,header=True,index=False,sep='\t')
-  return to_df
   
 
 MYVARIANT_FIELDS = (
@@ -181,11 +192,11 @@ MYVARIANT_FIELDS = (
 dbsnp_columns = ['dbsnp.chrom','dbsnp.alleles','dbsnp.ref','dbsnp.alt','dbsnp.gene.geneid','dbsnp.gene.is_pseudo']
 annotated_dfcols = ['HGVS','rsID','ClinVar ID','Gene','dbsnp.gene.symbol','dbsnp.gene.name','Predicted_Effect']+dbsnp_columns
 
-def myvariant_annotate(genotype_df_path:str, output_dir:str):
+
+def myvariant_annotate(genotype_df:df, output_dir:str):
   mv = myvariant.MyVariantInfo()
-  print(f"Parsing {genotype_df_path}...")
-  genotype_name = fname(genotype_df_path)
-  genotype_df = df.read(genotype_df_path, header=0,name=genotype_name)
+  print(f"Parsing {genotype_df._name_}...")
+  genotype_name = genotype_df._name_
   hgvs_ids = genotype_df['HGVS'].to_list()
   print(f"Found {len(hgvs_ids)} variants. Querying MyVariant.info (hg38)...")
   start = time.time()
@@ -207,3 +218,32 @@ def myvariant_annotate(genotype_df_path:str, output_dir:str):
   output_csv_path = os.path.join(output_dir,genotype_name+'.myvariant.tsv')
   annotated_df.to_csv(output_csv_path, index=False,sep='\t',lineterminator='\n')
   print(f"Success! Annotated {len(annotated_df)} variants.\nData saved to {output_csv_path}")
+  return output_csv_path, annotated_df
+
+
+def add_population_freq(df_path:str,GTcolumn='WRFZO3066'):
+  '''
+  input:
+    df in df_path must be annotated by vcf.myvariant_annotate(), and contain 'dbsnp.alleles' column with allele frequencies for each variant and a column with GTcolumn, containing genotype for the patient in format 'AG','CC' etc.
+  output:
+    df with added columns: 'Allele population frequence' and 'Genotype population frequence' with calculated frequencies for the patient *homozygous* genotypes
+  '''
+  to_df = df.read(df_path,header=0)
+  matching_cols = [c for c in to_df.columns.to_list() if GTcolumn in str(c)]
+  if not matching_cols:
+    raise KeyError(f'No column contains "{GTcolumn}". Available columns: {to_df.columns.to_list()}')
+  gt_column_name = matching_cols[0]
+
+  for i in to_df.index:
+    genotype = to_df.at[i,gt_column_name]
+    if genotype[0] == genotype[1]: # is homozygous:
+      allele_freqs = to_df.at[i,'dbsnp.alleles']
+      if not pd.isna(allele_freqs):
+        for d in ast.literal_eval(allele_freqs):
+          if d['allele'] == genotype[0]:
+            allele_freq = mean(d['freq'].values())
+            to_df.loc[i,'Allele population frequency'] = allele_freq
+            to_df.loc[i,'Genotype population frequency'] = allele_freq * allele_freq
+  newdf_path = df_path[:df_path.rfind('.')] + 'freqs.tsv'
+  to_df.to_csv(newdf_path,header=True,index=False,sep='\t')
+  return to_df

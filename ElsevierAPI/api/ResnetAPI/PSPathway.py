@@ -139,11 +139,18 @@ class PSPathway(PSObject):
 
 
     def _2rnef(self,fname, ent_props:list,rel_props:list,add_props2rel=dict(),add_props2pathway=dict()):
-        self.update(add_props2pathway)
-        with open(fname,'w',encoding='utf-8') as f:
-            f.write('<batch>\n') 
-            props_str = self.props2rnef()
-            f.write(props_str+'\n')
-            f.write(self.graph.to_rnefstr(ent_props,rel_props,add_props2rel))
-            f.write('\n</batch>') 
+      self.update(add_props2pathway)
+      with open(fname,'w',encoding='utf-8') as f:
+        f.write('<batch>\n') 
+        props_str = self.props2rnef()
+        f.write(props_str+'\n')
+        f.write(self.graph.to_rnefstr(ent_props,rel_props,add_props2rel))
+        f.write('\n</batch>') 
+
+
+    def load_references(self,postgres=None):
+      return self.graph.load_references(postgres=postgres)
+    
+    def rels(self):
+      return self.graph._psrels()
 

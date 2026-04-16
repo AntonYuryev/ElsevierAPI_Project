@@ -1,5 +1,13 @@
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,REFCOUNT,PSObject,CONNECTIVITY,EFFECT
-from ..ResnetAPI.ResnetGraph import PHYSICAL_INTERACTIONS, PROTEIN_TYPES
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,PSObject,CONNECTIVITY,EFFECT, PSRelation
+from ..ResnetAPI.ResnetGraph import PHYSICAL_INTERACTIONS, PROTEIN_TYPES,RELATIONID
+from ..ResnetAPI.references import ANATOMICAL_PROPS
+from collections import defaultdict
+
+
+ENTPROP_NEO4J = ['URN', 'Name', 'Description','Alias', 'CAS_ID','Localization',
+                 'NodeID','Reaxys_ID','Pharmapendium_ID','Notes']
+RELPROP_NEO4J = ['Name', 'Effect', 'Mechanism', 'Source', 'TextRef', RELATIONID,'BiomarkerType',
+                  'ChangeType','NCT_ID','QuantitativeType','Phase']+ANATOMICAL_PROPS
 
 class Cypher:
   @staticmethod
@@ -126,14 +134,8 @@ class Cypher:
       if with_connectivity = True, cypher query returns list of (node,connectivity) tuples
       otherwise returns list of nodes
     """
-    cypher = f"""
-      WITH $values AS valueList
-      UNWIND valueList AS value"""
-    if objtype:
-      cypher += f' MATCH (c:{objtype} {{{propName}:value}})'
-    else:
-      cypher += f' MATCH (c {{{propName}:value}})'
-
+    cypher = f' MATCH (c:{objtype})' if objtype else ' MATCH (c)'
+    cypher += f'\nWHERE c.{propName} IN $values\n'
     cypher +=  ' RETURN c AS node'
     if with_connectivity:
       cypher += f', COUNT{{(c)-[]-()}} AS {CONNECTIVITY}'
@@ -278,16 +280,25 @@ class Cypher:
       by_relProps = {reltype:[propValue1,propValue2,...]},
       use OBJECT_TYPE string to specify filtering by relation type
     '''
-    cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (c{{{in_prop}:prop}})'
-    if _2neighbor_types:
-      neigbors = '|'.join(_2neighbor_types)
-      cypher += f'MATCH (n:{neigbors})-[r]->(c)\n'
+    if in_prop == OBJECT_TYPE:
+      parameters = dict()
+      seeds = '|'.join(seeds_with_values)
+      if _2neighbor_types:
+        neigbors = '|'.join(_2neighbor_types)
+        cypher = f'MATCH (n:{neigbors})-[r]-(s:{seeds})\n'
+      else:
+        cypher = f'MATCH (n)-[r]-(s:{seeds})\n'
     else:
-      cypher += 'MATCH (n)-[r]->(c)'
+      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{in_prop}:prop}})'
+      parameters = {'propList':seeds_with_values}
+      if _2neighbor_types:
+        neigbors = '|'.join(_2neighbor_types)
+        cypher += f'MATCH (n:{neigbors})-[r]->(s)\n'
+      else:
+        cypher += 'MATCH (n)-[r]->(s)'
 
-    parameters = {'propList':seeds_with_values}
     cypher = Cypher.add_relProps(cypher, by_relProps)
-    cypher += '\nRETURN n,r,c'
+    cypher += '\nRETURN n,r,s'
     return cypher,parameters
   
 
@@ -298,44 +309,89 @@ class Cypher:
       by_relProps = {reltype:[propValue1,propValue2,...]},
       use OBJECT_TYPE string to specify filtering by relation type
     '''
-    cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (c{{{in_prop}:prop}})'
-    if _2neighbor_types:
-      neigbors = '|'.join(_2neighbor_types)
-      cypher += f'MATCH (c)-[r]->(n:{neigbors})\n'
+    if in_prop == OBJECT_TYPE:
+      parameters = dict()
+      seeds = '|'.join(seeds_with_values)
+      if _2neighbor_types:
+        neigbors = '|'.join(_2neighbor_types)
+        cypher = f'MATCH (s:{seeds})-[r]->(n:{neigbors})\n'
+      else:
+        cypher = f'MATCH (s:{seeds})-[r]->(n)\n'
     else:
-      cypher += 'MATCH (c)-[r]->(n)'
+      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{in_prop}:prop}})'
+      parameters = {'propList':seeds_with_values}
+      if _2neighbor_types:
+        neigbors = '|'.join(_2neighbor_types)
+        cypher += f'MATCH (s)-[r]->(n:{neigbors})\n'
+      else:
+        cypher += 'MATCH (s)-[r]->(n)'
 
-    parameters = {'propList':seeds_with_values}
     cypher = Cypher.add_relProps(cypher, by_relProps)
-    cypher += '\nRETURN c,r,n'
+    cypher += '\nRETURN s,r,n'
     return cypher,parameters
   
 
   @staticmethod
   def expand(seeds_with_values:list[str],in_prop='Name', 
-                    _2neighbor_types:list[str]=[],by_relProps:dict[str,list[str|int|float]]={},dir=''):
+            _2neighbor_types:list[str]=[],by_relProps:dict[str,list[str|int|float]]={},dir=''):
     '''
       by_relProps = {reltype:[propValue1,propValue2,...]},
-      use OBJECT_TYPE string to specify filtering by relation type
+      use OBJECT_TYPE as key in by_relProps to specify filtering by relation type
       dir: '', 'upstream', 'downstream'
     '''
-    if dir == 'upstream':
-      return Cypher.expand_upstream(seeds_with_values,in_prop,_2neighbor_types,by_relProps)
-    elif dir == 'downstream':
-      return Cypher.expand_downstream(seeds_with_values,in_prop,_2neighbor_types,by_relProps)
-    else:
-      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (c{{{in_prop}:prop}})\n'
-      if _2neighbor_types:
-        neigbors = '|'.join(_2neighbor_types)
-        cypher += f'MATCH (n:{neigbors})-[r]-(c)\n'
-      else:
-        cypher += 'MATCH (n)-[r]-(c)'
-        
-      parameters = {'propList':seeds_with_values}
-      cypher = Cypher.add_relProps(cypher, by_relProps)
-      cypher += '\nRETURN c,r,n'
-      return cypher,parameters
+    seeds = f's:{'|'.join(seeds_with_values)}' if in_prop == OBJECT_TYPE else 's'
+    neigbors = f'n:{'|'.join(_2neighbor_types)}' if _2neighbor_types else 'n'
+    parameters = dict()
 
+    if dir == 'upstream':
+      cypher = f'MATCH ({neigbors})-[r]->({seeds})\n'
+    elif dir == 'downstream':
+      cypher = f'MATCH ({seeds})-[r]->({neigbors})\n'
+    else:
+      cypher = f'MATCH ({neigbors})-[r]-({seeds})\n'
+
+    if in_prop != OBJECT_TYPE:
+      cypher += f'WHERE s.{in_prop} IN $propList\n'   
+      parameters = {'propList':seeds_with_values}
+
+    cypher = Cypher.add_relProps(cypher, by_relProps,add_where=False)
+    cypher += '\nRETURN s,r,n'
+    return cypher,parameters
+
+
+  @staticmethod
+  def expand_with_cutoff(seed_types:list[str], neighbor_types:list[str]=[],
+                         rel_types:list[str]=[],dir='',min_neighbors=1,only_with_neighbors:dict={}):
+    '''
+      input:
+        only_with_neighbors is dict {propName:[value1,value2,...]} to specify that seeds must have at least min_neighbors of specified neighbor_objtype connected by specified reltypes regardless of the neighbor_types filter. This allows to keep seeds with important neighbors that would be filtered out by neighbor_types criteria
+      expands neighbors of seeds and filters seeds by number of neighbors of specified types and relations
+    '''
+    seeds = f's:{'|'.join(seed_types)}'
+    neighbors = f'n:{'|'.join(neighbor_types)}' if neighbor_types else 'n'
+    rels = f'r:{'|'.join(rel_types)}' if rel_types else 'r'
+    parameters = dict()
+
+    if dir == 'upstream':
+      cypher =  f'MATCH ({neighbors})-[{rels}]->({seeds})\n'
+    elif dir == 'downstream':
+      cypher = f'MATCH ({seeds})-[{rels}]->({neighbors})\n'
+    else:
+      cypher = f'MATCH ({seeds})-[{rels}]-({neighbors})\n'
+    
+    if only_with_neighbors:
+      cypher += f'WHERE '
+      cypher += ' OR '.join([f'n.{prop} IN ${prop}List' for prop in only_with_neighbors.keys()])
+      cypher += '\n'
+      parameters = {f'{prop}List': list(only_with_neighbors[prop]) for prop in only_with_neighbors.keys()}
+
+    cypher += 'WITH s, count(DISTINCT n) AS neighborCount, collect({rel:r, neighbor:n}) AS connections\n'
+    cypher += f'WHERE neighborCount >= {min_neighbors}\n'
+    cypher += 'UNWIND connections AS conn\n'
+
+    cypher += 'RETURN s,conn.rel AS r,conn.neighbor AS n'
+    return cypher,parameters
+    
 
   @staticmethod
   def connect(regulator_objtypes:list[str], regulator_props:list[str],regulator_propName:str,
@@ -430,3 +486,98 @@ class Cypher:
 
     parameters = {'urnList1':[obj.urn() for obj in nodes1], 'urnList2':[obj.urn() for obj in nodes2]}
     return cypher, parameters
+  
+
+  @staticmethod
+  def __get_rel_labels(rel:PSRelation):
+    labls = ','.join([k.replace(':', ' ') + ':\"' + v[0] + '\"' for k, v in rel.items() if k in RELPROP_NEO4J])
+    labls = labls + f',{REFCOUNT}:' + str(rel.count_refs()) 
+    labls = labls + f',{SNIPPET_COUNT}:' + str(rel.count_snippets())
+    return labls
+
+
+  @staticmethod
+  def create_rel(node1:PSObject, node2:PSObject, relation:PSRelation)->str:
+    relType = relation.objtype()
+    labels = Cypher.__get_rel_labels(relation)
+    return ('MATCH'
+          '(a:' + node1.objtype() + '),'
+          '(b:' + node2.objtype() + ')'
+          'WHERE a.URN = \"' + node1.urn() + '\" AND b.URN = \"' + node2.urn() + '\"'
+          'CREATE (a)-[r:' + relType + ' {' + labels + '}]->(b)'
+          'RETURN a.Name as rName, b.Name as tName, type(r) as rel_type'
+          )
+
+
+  @staticmethod
+  def create_rels(relation:PSRelation)->tuple[str,dict]:
+    relType = relation.objtype()
+    rel_props = {k.replace(':', ' '): v[0] for k, v in relation.items() if k in RELPROP_NEO4J}
+    rel_props[REFCOUNT] = relation.count_refs()
+    rel_props[SNIPPET_COUNT] = relation.count_snippets()
+
+    pairs = [{'aUrn': n1.urn(), 'bUrn': n2.urn()} for n1, n2 in relation.node_pairs()]
+
+    cypher = (
+        f'UNWIND $pairs AS pair\n'
+        f'MATCH (a {{URN: pair.aUrn}}), (b {{URN: pair.bUrn}})\n'
+        f'CREATE (a)-[r:`{relType}` $relProps]->(b)\n'
+        f'RETURN a.Name AS rName, b.Name AS tName, type(r) AS rel_type'
+    )
+    return cypher, {'pairs': pairs, 'relProps': rel_props}
+  
+
+  @staticmethod
+  def create_rels2(rels:list[PSRelation])->list[tuple[str,dict]]:
+    """
+    input:
+      rels - list of PSRelation objects, all nodes must exist in the database
+    output:
+      list of (cypher_query, parameters) tuples, one per relation type.
+      Each query is compact and handles all pairs for that type.
+    """
+    by_type = defaultdict(list)
+    
+    for rel in rels:
+      relType = rel.objtype()
+      rel_props = {k.replace(':', ' '): v[0] for k, v in rel.items() if k in RELPROP_NEO4J}
+      rel_props[REFCOUNT] = rel.count_refs()
+      rel_props[SNIPPET_COUNT] = rel.count_snippets()
+      
+      pairs = [{'aUrn': n1.urn(), 'bUrn': n2.urn(), 'relProps': rel_props} for n1, n2 in rel.node_pairs()]
+      by_type[relType].extend(pairs)
+    
+    queries = []
+    for relType, pair_list in by_type.items():
+      cypher = (
+          'UNWIND $pairs AS pair\n'
+          'MATCH (a {URN: pair.aUrn}), (b {URN: pair.bUrn})\n'
+          f'CREATE (a)-[r:`{relType}`]->(b)\n'
+          'SET r = pair.relProps\n'
+          'RETURN count(r) AS relcount'
+      )
+      queries.append((cypher, {'pairs': pair_list}))
+    
+    return queries
+  
+  
+  @staticmethod
+  def create_nodes(nodes:list[PSObject])->list[tuple[str,dict]]:
+    by_type = defaultdict(list)
+    for node in nodes:
+      objtype = node.objtype()
+      props = {k.replace(':', ' '): v[0] for k, v in node.items() if k in ENTPROP_NEO4J}
+      props['URN'] = node.urn()
+      by_type[objtype].append(props)
+
+    queries = []
+    for objtype, prop_list in by_type.items():
+      cypher = (
+          'UNWIND $nodes AS nodeProps\n'
+          f'CREATE (n:`{objtype}`)\n'
+          'SET n = nodeProps\n'
+          'RETURN count(n) AS nodecount'
+      )
+      queries.append((cypher, {'nodes': prop_list}))
+    
+    return queries

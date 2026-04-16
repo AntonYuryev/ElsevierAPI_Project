@@ -19,7 +19,7 @@ from .RefStats import RefStats,IDENTIFIER_COLUMN
 from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize
 from ..EmbioPSG_API.postgres import PostgreSQL
 
-
+RELATIONID = 'RelationID' # id in Neo4j
 RESNET = 'resnet'
 PHYSICAL_INTERACTIONS = ['Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction']
 NONDIRECTIONAL_RELATIONS = ['Binding','FunctionalAssociation','Paralog','Metabolization','CellExpression']
@@ -624,6 +624,12 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
 ################## SET-GET SET-GET SET-GET ###############################
+  def init_ref_loading(self,postgres: PostgreSQL):
+    relation_ids = unpack([n[RELATIONID] for n in self._psrels()])
+    postgres.submit_refs(list(relation_ids))
+    return
+  
+
   def load_references(self, 
                     relpval2weight: dict[str, dict[str, float]] = None, 
                     weight_name: str = 'relweight',
@@ -651,7 +657,7 @@ class ResnetGraph (nx.MultiDiGraph):
                               )
     return graph_references
 
-
+  '''
   def load_referencesOLD(self,relpval2weight:dict[str,dict[str,float]]=dict(),weight_name='relweight',
                       postgres:PostgreSQL=None)->set[Reference]:
     """
@@ -677,7 +683,7 @@ class ResnetGraph (nx.MultiDiGraph):
         rel.set_weight2ref(weight_by_property,using_value2weight,weight_name)
 
     return graph_references
-
+  '''
 
   def add_node_weight2ref(self,regurn2weight:dict,tarurn2weight:dict,weight_name='nodeweight'):
       '''
@@ -875,11 +881,13 @@ class ResnetGraph (nx.MultiDiGraph):
       where "Concept" contains graph regulators, "Entity" contains graph targets
     '''
     my_graph = self.remove_undirected_duplicates()
-    my_graph.load_references()
     
     header = ['Concept','Concept Type','Entity','Entity Type'] if add_nodetype else ['Concept','Entity']
     header += add_rel_props
     header += [PS_CITATION_INDEX]+ref_sentence_props+ref_identifiers+ref_biblio_props #+['Snippets']
+    refcount = len(my_graph.load_references())
+    if refcount == 0:
+      return df(**{'name':df_name,'columns':header}) # to support empty graph case
     
     annotated_refs = my_graph.citation_index()
     rows = list()
@@ -1920,17 +1928,17 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def uids(nodes:list[PSObject])->list[int]:
+  def uids(nodes:list[PSObject]|set[PSObject])->list[int]:
       return [n.uid() for n in nodes]
   
 
   @staticmethod
-  def urns(nodes:list[PSObject])->list[str]:
+  def urns(nodes:list[PSObject]|set[PSObject])->list[str]:
     return [n.urn() for n in nodes]
   
 
   @staticmethod
-  def dbids(nodes:list[PSObject])->list[int]:
+  def dbids(nodes:list[PSObject]|set[PSObject])->list[int]:
     return [n.dbid() for n in nodes]
 
 
@@ -2934,19 +2942,14 @@ class ResnetGraph (nx.MultiDiGraph):
       return dict2return
 
 ########################  SUBGRAPH SUBGRAPH SUBGRAPH #####################################
-  def subgraph(self,node_uids:list):
+  def subgraph(self,node_uids:set[int])-> "ResnetGraph":
     '''
-    Returns subgraph made by nx.subgraph containg all edges between node_ids
+    Returns subgraph containing nodes with uids from "node_uids" and all relations between them\n 
     '''
-    sub_g = ResnetGraph(super().subgraph(node_uids))
-    subg_rels = sub_g._psrels()
-    all_uids = set()
-    [all_uids.update(r.entities_uids()) for r in subg_rels] 
-    all_nodes = set(self._get_nodes(all_uids))
-    # need to collect nodes from ChemicalReaction
-    sub_g.add_psobjs(all_nodes)
-    sub_g.load_urn_dicts()
-    return sub_g
+    my_rels = {rel for r,t,rel in self.edges.data('relation') if r in node_uids and t in node_uids}
+    if my_rels:
+      return ResnetGraph.from_rels(my_rels)
+    return ResnetGraph()
 
 
   def neighborhood(self,_4psobs:set[PSObject],only_neighbors:list[PSObject]=[],
@@ -3143,9 +3146,15 @@ class ResnetGraph (nx.MultiDiGraph):
         ranks - [[str,..]], where str - PSRelation obtypes sorted by rank.
       '''
       best_rel = ResnetGraph.__bestrel(from_rels,ranks)
-      refs2add = [ref for rel in from_rels for ref in rel.refs()]
+      #refs2add = [ref for rel in from_rels for ref in rel.refs()]
       # refs2add must be list because some refs may come from the same article and have the same __hash__
-      best_rel._add_refs(refs2add)
+      #best_rel._add_refs(refs2add)
+      for rel in from_rels:
+        if rel != best_rel:
+          best_rel = best_rel.merge_rel(rel)
+
+      if EFFECT in best_rel and len(best_rel[EFFECT]) > 1:
+        best_rel[EFFECT] = [best_rel[EFFECT][0]]
 
       [self.remove_relation(rel) for rel in from_rels]
       self.__add_rel(best_rel,refresh_urn=True,edge_duplication=edge_duplication)

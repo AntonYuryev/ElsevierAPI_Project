@@ -12,7 +12,7 @@ from .Zeep2Experiment import Experiment
 from ..ResnetAPI.references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
 from ..ScopusAPI.scopus import loadCI
 from ...utils.utils import ThreadPoolExecutor,as_completed,urlencode,unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
-from ..EmbioPSG_API.PSnx2Neo4j import nx2neo4j
+from ..EmbioPSG_API.PSnx2Neo4j import neo4j_nx
 
 TO_RETRIEVE = 'to_retrieve'
 BELONGS2GROUPS = 'belongs2groups'
@@ -108,7 +108,7 @@ class APISession(PSNetworx):
         self.ResultSize = int()
         self.ontology_cache = dict() # {urn:[urns]}
         if my_kwargs.pop('useNeo4j',False):
-          self.neo4j = nx2neo4j()
+          self.neo4j = neo4j_nx()
 
     @staticmethod
     def _what2retrieve(what2retrieve:int):

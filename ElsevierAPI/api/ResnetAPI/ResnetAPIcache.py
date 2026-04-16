@@ -257,8 +257,9 @@ class APIcache(APISession):
         my_cache_file = self.__path2cache(**kwargs)
         try:
           cached_graph = ResnetGraph.fromRNEF(my_cache_file,prop2values=prop2values)
-          print(f'Loaded "{cache_name}" cache with {len(cached_graph)} nodes and {cached_graph.number_of_edges()} edges')
-          cached_graph.name = cache_name
+          if cached_graph:
+            print(f'Loaded "{cache_name}" cache with {len(cached_graph)} nodes and {cached_graph.number_of_edges()} edges from {my_cache_file}')
+            cached_graph.name = cache_name
           return cached_graph
         except FileNotFoundError:
           print(f'Cannot find {my_cache_file} cache file')

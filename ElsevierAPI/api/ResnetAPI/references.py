@@ -59,9 +59,10 @@ PS_BIBLIO_PROPS = {TITLE, PUBYEAR, AUTHORS, JOURNAL, MEDLINETA,'Start','ISSN'} #
 BIBLIO_PROPS = PS_BIBLIO_PROPS | {INSTITUTIONS,RELEVANCE}
 REF_ID_TYPES = PS_REFIID_TYPES+ETM_ID_TYPES+PATENT_ID_TYPES
 
-PS_SENTENCE_PROPS = [SENTENCE,'Organism','CellType','CellLineName','Organ','Tissue','Source','Percent',THRESHOLD,
-                     'pX','Phase','Start','TrialStatus','URL','Experimental System',CLINVAR_ID,
-                     CLINVAR_ACC,'Clinvar ID','TextMods','BiomarkerType','ChangeType','QuantitativeType']
+ANATOMICAL_PROPS = ['Organ','Tissue','CellType','CellLineName','Organism']
+
+PS_SENTENCE_PROPS = [SENTENCE,'Source','Percent',THRESHOLD,'pX','Phase','Start','TrialStatus','URL','Experimental System',CLINVAR_ID,
+    CLINVAR_ACC,'Clinvar ID','TextMods','BiomarkerType','ChangeType','QuantitativeType']+ANATOMICAL_PROPS
 BCE_SENTENCE_PROPS = ['Confidence']
 SENTENCE_PROPS = PS_SENTENCE_PROPS + BCE_SENTENCE_PROPS + ['Evidence','msrc','mref','Similarity']
 

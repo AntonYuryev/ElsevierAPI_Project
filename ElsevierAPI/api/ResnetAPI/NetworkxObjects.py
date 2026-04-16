@@ -2,7 +2,7 @@ import re,json,itertools,pickle,hashlib,math,copy
 from datetime import datetime
 from collections import defaultdict
 
-from ...utils.utils import normalize
+from ...utils.utils import normalize,deterministic_hash64
 from .references import Reference, len, reflist2dict,pubmed_hyperlink,make_hyperlink,pmc_hyperlink
 from .references import JOURNAL,PS_REFIID_TYPES,NOT_ALLOWED_IN_SENTENCE,PS_BIBLIO_PROPS_ALL,SENTENCE_PROPS,CLINTRIAL_PROPS
 from .references import MEDLINETA,SENTENCE,TITLE,AUTHORS,_AUTHORS_,PS_REFERENCE_PROPS,REFERENCE_PROPS
@@ -116,6 +116,10 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
   def __hash__(self):
       #__hash__ needs __eq__ to work properly
       return self.urn2uid(self.urn())
+  
+
+  def neo4j_hash(self):
+    return self.deterministic_hash64(self.urn())
 
 
   def __eq__(self, other:"PSRelation"):
@@ -1162,6 +1166,37 @@ class PSRelation(PSObject):
             return []
 
 
+  def node_pairs(self,duplicate4undirected=False)->list[tuple[PSObject,PSObject]]:
+      """
+      output:
+        [(regulator_object,target_object)] pairs for directional self
+        all possible pairwise combinations for non-directional self
+      """
+      if self.is_directional():
+        return [(r,t) for r in self.Nodes[REGULATORS] for t in self.Nodes[TARGETS]]
+      else:
+        # for non-directional relations
+        assert(len(self.Nodes) == 1), "Non-directional relation must have only one REGULATORS in Nodes"
+        if REGULATORS in self.Nodes:
+          nodes = self.Nodes[REGULATORS]
+        else:
+          nodes = self.Nodes[TARGETS]
+
+        pairs = list(itertools.combinations(nodes, 2))
+        if pairs:
+          if duplicate4undirected:
+            # non-directional relations are added in both directions into MultiDiGraph to allow proper traversal
+            reverse_pairs = [(p[1],p[0]) for p in pairs]
+            return pairs + reverse_pairs
+          else:
+            return pairs
+        else:
+          if len(nodes) > 1:
+            return [(nodes[0],nodes[1])] # relation is self-loop,
+          else:
+            print(f'Warning: relation {self.urn()} has only 1 entity in Nodes!')
+            return []
+
 
   def to_json(self):
       str1 = '{"Relation Properties": ' + json.dumps(self) + '}'
@@ -1339,4 +1374,25 @@ class PSRelation(PSObject):
     for ref in self.refs():
       for textref,sentence in ref.sentences():
           yield textref,sentence
+
+  
+  def count_snippets(self):
+    return sum([ref.number_of_snippets() for ref in self.refs()])
+
+
+  def neo4j_hash(self):
+    return deterministic_hash64(
+        str(
+            (
+                [], #inref does not exist in Resnet
+                [n.self.neo4j_hash() for n in self.regulators()], # inoutref
+                [n.self.neo4j_hash() for n in self.targets()], # outref
+                self.objtype(), # controlType
+                self.get_prop('Ontology'), # ontology
+                self.get_prop('Relationship'), # relationship
+                self.effect(), # effect
+                self.mechanism(), # mechanism
+            )
+        )
+    )
 

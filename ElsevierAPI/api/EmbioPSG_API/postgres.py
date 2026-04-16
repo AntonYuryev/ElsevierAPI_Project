@@ -1,12 +1,13 @@
 import psycopg2
 from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
+from time import sleep
 from ...utils.pandas.panda_tricks import df,pd
 from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
 from collections import defaultdict
 
 SNIPPET_ID = 'unique_id'
 RELATION_ID = 'id'
-REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID'}
+REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID'}#,'clinvar_rcv_id':'Clinvar RCV ID'}
 #DB_SCHEMA = 'resnet18'
 DB_SCHEMA = 'resnetcustomnov'
 
@@ -36,17 +37,17 @@ class PostgreSQL:
     self.futures = [] # futures of reference retrieval
     
     try:
-        self.db = psycopg2.connect(
-            database = APIconfig['postgreSQLdb'],
-            host = APIconfig['postgreSQLhost'],
-            user = APIconfig['postgreSQLuser'],
-            password = APIconfig['postgreSQLpswd'],
-            port = APIconfig['postgreSQLport']
-          )
-        print('Connected to Postgres')
+      self.db = psycopg2.connect(
+          database = APIconfig['postgreSQLdb'],
+          host = APIconfig['postgreSQLhost'],
+          user = APIconfig['postgreSQLuser'],
+          password = APIconfig['postgreSQLpswd'],
+          port = APIconfig['postgreSQLport']
+        )
+      print('Connected to Postgres')
     except Exception as e:
-        self.db = None
-        print("Error connecting to PostgreSQL:", e)
+      self.db = None
+      print("Error connecting to PostgreSQL:", e)
 
   def close(self):
     """
@@ -140,12 +141,22 @@ class PostgreSQL:
     newrelid_str = ','.join(map(str, new_relids))
     sql = f"SELECT * FROM {self.resnet_version}.reference WHERE {self.resnet_version}.reference.id IN ({newrelid_str})"
     with self.db.cursor() as cur:
-      cur.execute(sql)
-      rows = cur.fetchall()
-      colnames = [desc[0] for desc in cur.description]
-    rows = [list(r) for r in rows]
-    ref_pd = pd.DataFrame(rows,columns=colnames)
-    return ref_pd
+      for attempt in range(3):
+        try:
+          cur.execute(sql)
+          rows = cur.fetchall()
+          colnames = [desc[0] for desc in cur.description]
+          rows = [list(r) for r in rows]
+          ref_pd = pd.DataFrame(rows,columns=colnames)
+          return ref_pd
+        except Exception as e:
+          print(f'Fetching references from Postgres with SQL {sql[:255]} has finished with error:')
+          print_error_info(e)
+          self.db.rollback()
+          sleep(2**attempt)
+      print(f'Failed to fetch references from Postgres after 3 attempts with SQL {sql[:255]}')
+      return pd.DataFrame()
+    
     
 
   def submit_refs(self, relations_ids:list[str]):
@@ -153,6 +164,8 @@ class PostgreSQL:
       submits reference fetching job to ThreadPoolExecutor future that is added to self.futures
     """
     if relations_ids:
+      if len(relations_ids) > 10000:
+        print(f'Submitting reference retrieval for {len(relations_ids)} relations to Postgres executor')
       self.futures.append(self.executor.submit(self.get_refs,relations_ids))
 
 
@@ -168,8 +181,11 @@ class PostgreSQL:
         rows = cur.fetchall()
         colnames = [desc[0] for desc in cur.description]
       except Exception as e:
-        print(f'Fetching Scopus data from Postgres with SQL {sql[:255]} has finished with error:')
-        print(e)
+        if e.pgcode == '42P01':
+          print('Postgres does not have Scopus data') #
+        else:
+          print(f'Fetching Scopus data from Postgres with SQL {sql[:255]} has finished with error:')
+          print(e)
         self.db.rollback()
         return pd.DataFrame()
       
@@ -185,11 +201,11 @@ class PostgreSQL:
       scopus_data.reference_id is joined with reference.unique_id
     '''
     relid2refs = defaultdict(list)
+    ref_idtypes = list(REFID2ATTR.keys())
     for refpd_idx in ref_pd.index:
       relid = ref_pd.at[refpd_idx,RELATION_ID]
       textref = ref_pd.at[refpd_idx,'textref']
-      ref = dict()
-      ref_idtypes = list(REFID2ATTR.keys())
+      ref = dict()     
       for idtype_idx, idtype in enumerate(ref_idtypes):
         refid = ref_pd.at[refpd_idx,idtype]
         if not pd.isna(refid):
@@ -237,14 +253,11 @@ class PostgreSQL:
       processed_futures = []
       print(f'Got {len(self.futures)} Postgres futures to process')
       for get_refs_future in as_completed(self.futures):
-        try:
-          ref_pd = get_refs_future.result()
-          processed_futures.append(get_refs_future)
-          scopus_pd = self.scopus_data(set(ref_pd[SNIPPET_ID].to_list()))
-          self.rel2refDict.update(self.__rows2refs(ref_pd,scopus_pd))
-        except Exception as e:
-          print_error_info(e,f'Loading references from Postgres with SQL {e.cursor.query.decode()}')
-          self.db.rollback()
+        ref_pd = get_refs_future.result()
+        processed_futures.append(get_refs_future)
+        scopus_pd = self.scopus_data(set(ref_pd[SNIPPET_ID].to_list()))
+        self.rel2refDict.update(self.__rows2refs(ref_pd,scopus_pd))
+
       self.futures = [f for f in  self.futures if f not in processed_futures]
       print(f'Cached references for {len(self.rel2refDict)} relations from Postgres')
     return self.rel2refDict

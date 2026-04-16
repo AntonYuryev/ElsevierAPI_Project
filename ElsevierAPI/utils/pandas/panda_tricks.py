@@ -146,7 +146,7 @@ class df(pd.DataFrame):
     return [o.uid() for o in self.Entities4df[for_column]]
 
 
-  def dfcopy(self, only_columns:list = None, rename2:dict = None, deep:bool = True) -> 'df':
+  def dfcopy(self, only_columns:list = None, rename2:dict = None, deep:bool = True):
     """
     Creates a filtered and/or renamed copy of the DataFrame and its formats.
     Args:
@@ -597,20 +597,29 @@ class df(pd.DataFrame):
 
 
   def df2excel(self,writer:ExcelWriter,sheet_name:str,**kwargs):
-      if len(self) > 1000000:
-          chunks = [df.from_pd(self[i:i+1000000]) for i in range(0, len(self), 1000000)]
-          [d.__df2excel(writer,sheet_name+str(i+1),**kwargs) for i,d in enumerate(chunks)]
-      else:
-          self.__df2excel(writer,sheet_name,**kwargs)
+    if len(self) > 1000000:
+      chunks = [df.from_pd(self[i:i+1000000]) for i in range(0, len(self), 1000000)]
+      [d.__df2excel(writer,sheet_name+str(i+1),**kwargs) for i,d in enumerate(chunks)]
+    else:
+      self.__df2excel(writer,sheet_name,**kwargs)
 
 
   def _2excel(self, fpath:str,ws_name='',mode='w'):
-      if not ws_name:
-          ws_name = self._name_ if self._name_ else 'Sheet1'
+    if not ws_name:
+      ws_name = self._name_ if self._name_ else 'Sheet1'
 
-      f = ExcelWriter(fpath, engine='xlsxwriter',mode=mode)
-      self.df2excel(f,ws_name)
-      f.close()
+    f = ExcelWriter(fpath, engine='xlsxwriter',mode=mode)
+    self.df2excel(f,ws_name)
+    f.close()
+
+
+  @staticmethod
+  def dfs2excel(dfs:list["df"], fpath:str, mode='w'):
+    f = ExcelWriter(fpath, engine='xlsxwriter',mode=mode)
+    for i,d in enumerate(dfs):
+      ws_name = d._name_ if d._name_ else f'Sheet{i+1}'
+      d.df2excel(f,ws_name)
+    f.close()
 
 
   def clean(self):
@@ -937,8 +946,10 @@ class df(pd.DataFrame):
       keep : {'first', 'last', False}, default 'first'
     '''
     my_kwargs = dict(kwargs)
-    my_kwargs['ignore_index '] = True
-    dedupl_df = df.from_pd(self.drop_duplicates(**kwargs))
+    my_kwargs['ignore_index'] = True
+    my_kwargs['inplace'] = False
+    dedupl_pd = self.drop_duplicates(**my_kwargs)
+    dedupl_df = df.from_pd(dedupl_pd)
     dedupl_df.__copy_attrs__(self)
     return dedupl_df
 
