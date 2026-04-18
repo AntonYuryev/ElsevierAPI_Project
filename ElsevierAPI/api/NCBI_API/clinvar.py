@@ -1,8 +1,8 @@
 import urllib.parse, os, time
 from time import sleep
 from ...utils.utils import et,dir2flist, execution_time,pretty_xml,next_tag,dir2flist,replace_non_unicode,urn_encode,attempt_request4
-from ..ResnetAPI.NetworkxObjects import PSObject,PSRelation,AUTHORS,JOURNAL,PUBYEAR
-from ..ResnetAPI.ResnetGraph import ResnetGraph,Reference,TITLE,SENTENCE,OBJECT_TYPE
+from ..ResnetAPI.NetworkxObjects import PSObject,PSRelation
+from ..ResnetAPI.ResnetGraph import ResnetGraph,Reference,TITLE,SENTENCE,OBJECT_TYPE,AUTHORS,JOURNAL,PUBYEAR
 from ..ResnetAPI.references import CLINVAR_ID,CLINVAR_ACC
 from collections import defaultdict
 
@@ -54,7 +54,8 @@ def rs2rcv(rsids:list):
     response_l = attempt_request4(req_l)
     link2cv = et.fromstring(response_l.data)
     cvids = [e.text for e in link2cv.findall('LinkSet/LinkSetDb/Link/Id')]
-    
+  print(f'Found {len(cvids)} ClinVar records for {len(rsids)} input rsIDs')
+  
   for i in range(0, len(cvids), stepSize):
     cvids_chunk = ','.join(s for s in cvids[i:i+stepSize])
     efecth_params = {'db':'clinvar','id':cvids_chunk}
@@ -417,6 +418,7 @@ def downloadCV(_4rsids:list,mapdic:dict[str, dict[str, dict[str, PSObject]]],inc
     gvs = gene2gv2dis._psobjs_with('GeneticVariant',OBJECT_TYPE)
     rsids2download = list(set(_4rsids).difference(ResnetGraph.names(gvs)))
     print(f'{len(_4rsids)-len(rsids2download)} records were found in clinvar cache')
+    print(f'{len(rsids2download)} records will be downloaded from ClinVar')
     rsids_len = len(rsids2download)
     if rsids_len:
       rcv_ids = list(rs2rcv(rsids2download))

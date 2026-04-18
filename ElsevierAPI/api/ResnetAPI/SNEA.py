@@ -38,13 +38,20 @@ class SNEA4list(APIcache):
       neighbor_types = kwargs['neighbor_types']
       rel_types = kwargs['rel_types']
 
-      identifiers = kwargs['identifiers']
-      id_types = kwargs.get('id_types',['Name','Alias'])
-      input_identifiers = dict()
+      identifiers_dict = kwargs['identifiers']
+      if isinstance(identifiers_dict, list):
+        idtypes = kwargs.get('idtypes',['Name','Alias'])
+        identifiers_dict = {idtype:identifiers_dict for idtype in idtypes}
+
       neigbor_types = '|'.join(neighbor_types)
-      for idtype in id_types:
-        input_identifiers[idtype] = identifiers
+      print(f'will map input identifiers to {neigbor_types} nodes in the database:')
+      for idtype, idlist in identifiers_dict.items():
+        print(f'Input identifiers of type {idtype} count: {len(idlist)}')
+      
+      for idtype, identifiers in identifiers_dict.items():
         self.__entities__.update(self.neo4j.get_nodes(neigbor_types,idtype,identifiers))
+      mapped_entity_count = len(self.__entities__)
+      print(f'Found {mapped_entity_count} input entities of type {neigbor_types} in the database for provided identifiers')
 
       cypher,params = Cypher.expand_with_cutoff(
                                     seed_types,
@@ -52,12 +59,14 @@ class SNEA4list(APIcache):
                                     rel_types,
                                     kwargs['dir'], # direction of expand: 'upstream' or 'downstream','' for both
                                     min_neighbors,
-                                    input_identifiers
+                                    identifiers_dict
                                     )
       request_name = f"Load {neighbor_types} neighbors for {seed_types} using {rel_types} relations"
-      seed2neigborsG = self.neo4j.fetch_graph(cypher,params,request_name)
-      
-      self.seeds = [n for n in seed2neigborsG._get_nodes() if n.objtype() in seed_types]
+      self.seed2neigborsG = self.neo4j.fetch_graph(cypher,params,request_name)
+      self.seeds = [n for n in self.seed2neigborsG._get_nodes() if n.objtype() in seed_types]
+      seeds_count = len(self.seeds)
+      print(f'Found {seeds_count} {seed_types} seeds with at least {min_neighbors} neighbors of type {neighbor_types} in database')
+      print(f'Seeds are linked to {self.seed2neigborsG.number_of_nodes()-seeds_count} out of {mapped_entity_count} neighbors found in database')
       seed_urns = set(n.urn() for n in self.seeds)
       cypher,params = Cypher.expand(list(seed_urns),
                                     in_prop='URN',
@@ -72,7 +81,7 @@ class SNEA4list(APIcache):
       print(f'Loaded graph for statistical analysis with {len(self.Graph)} nodes and {self.Graph.number_of_edges()} edges')
 
       self.database_neighbor_type_count = self.neo4j.count_nodes(neigbor_types)
-      print(f'Found {self.database_neighbor_type_count} neighbors of type {neighbor_types} in the database')
+      print(f'Found {self.database_neighbor_type_count} nodes of type {neighbor_types} total in the database')
     else:
       self.Graph = self.__load_network__(PPERNET,**kwargs)
 
@@ -185,11 +194,24 @@ class SNEA4list(APIcache):
     for col in score_ws_header:
       score_df[col] = report_df[col]
     score_df = score_df.deduplicate_rows(subset='Seed')
+
+    refcount_cutoff = 10
+    self.seed2neigborsG.load_references(postgres=self.postgres())
+    highref_rels = [r for r in self.seed2neigborsG._psrels() if r.count_refs() >= refcount_cutoff]
+    highrefG = ResnetGraph.from_rels(highref_rels,self.seed2neigborsG._get_nodes())
+    highref_snippet_df = highrefG.snippets2df()
    
+    highref_seeds = df(columns=['Seed','Neighbor',REFCOUNT])
+    highref_seeds['Seed'] = highref_snippet_df['Concept']
+    highref_seeds['Neighbor'] = highref_snippet_df['Entity']
+    highref_seeds[REFCOUNT] = highref_snippet_df[REFCOUNT]
+    highref_seeds = highref_seeds.deduplicate_rows(subset=['Seed','Neighbor'])
+
     with ExcelWriter(report_path,engine='xlsxwriter') as writer:
       score_df.df2excel(writer,'Scores')
       report_df.df2excel(writer,'References')
-      #writer.close()
+      highref_seeds.df2excel(writer,'HighRefAssociations')
+      highref_snippet_df.df2excel(writer,'HighRefs')
 
     return report_df
   

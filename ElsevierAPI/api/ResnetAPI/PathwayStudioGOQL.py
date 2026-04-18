@@ -139,6 +139,9 @@ class OQL:
 
     @staticmethod
     def relProps2oql(relProps:dict[str,list[str|int|float]]):
+      '''
+      Output string starts with AND
+      '''
       expand_by_rel_props_str = ''
       for prop, values in relProps.items():
         if isinstance(values[0], str):
@@ -153,7 +156,7 @@ class OQL:
     @staticmethod
     def expand_entity_by_id(IDlist: list, by_relProps:dict[str,list[str|int|float]]={}, expand2neighbors=None, direction=''):
         expand2neighbors = [] if expand2neighbors is None else expand2neighbors
-        expand_by_relprops_str = OQL.relProps2oql(by_relProps)
+        expand_by_relprops_str = OQL.relProps2oql(by_relProps) 
         expand2neighbors_str = OQL.join_with_quotes( expand2neighbors)
 
         values = ','.join([str(i) for i in IDlist])
@@ -167,7 +170,7 @@ class OQL:
 
         if expand_by_relprops_str:
           if expand2neighbors:
-            expand += f" AND {expand_by_relprops_str} AND NeighborOf '{opposite_direction}"
+            expand += f" {expand_by_relprops_str} AND NeighborOf {opposite_direction}"
             expand += ' (SELECT Entity WHERE objectType = (' + expand2neighbors_str + "))"
           else:
             expand += f" AND {expand_by_relprops_str}"

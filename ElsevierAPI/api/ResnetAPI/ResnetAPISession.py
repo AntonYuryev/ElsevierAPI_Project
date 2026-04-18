@@ -1735,33 +1735,34 @@ class APISession(PSNetworx):
         print ('Finding genes for %d genetic variants' % len(gv_dbids))
         number_of_iterations = int(len(gv_dbids)/1000)+1
         for i in range(0, len(gv_dbids),1000):
-            chunk = gv_dbids[i: i+1000]
-            oql_query = OQL.expand_entity(PropertyValues=chunk, SearchByProperties=['id'], 
-                                expand_by_rel_types=['GeneticChange'],expand2neighbors=['Protein'])
-            request_name = f'{str(int(i/1000)+1)} iteration in {str(number_of_iterations)} to find genes linked to GVs'
-            gvs = self.process_oql(oql_query,request_name)
-            if isinstance(gvs,ResnetGraph):
-                prot2gvs_graph.add_graph(gvs)
+          chunk = gv_dbids[i: i+1000]
+          oql_query = OQL.expand_entity(PropertyValues=chunk, SearchByProperties=['id'], 
+                          by_relProps={OBJECT_TYPE:['GeneticChange']},expand2neighbors=['Protein'])
+          request_name = f'{str(int(i/1000)+1)} iteration in {str(number_of_iterations)} to find genes linked to GVs'
+          gvs = self.process_oql(oql_query,request_name)
+          if isinstance(gvs,ResnetGraph):
+            prot2gvs_graph.add_graph(gvs)
 
         # making gvid2genes for subsequent annotation
         gvuid2genes = defaultdict(list)
         for gv_node,protein_node,_ in prot2gvs_graph.iterate():
             gvuid2genes[gv_node.uid()].append(protein_node)
 
+        print(f'Found {len(gvuid2genes)} GVs with linked genes')
         return dict(gvuid2genes)
     
 
-    def annotate_gv_with_genes(self,graph_with_gvs=ResnetGraph()):
+    def annotate_gv_with_genes(self,graph_with_gvs=None):
       '''
       output:
-        disease2gvs where GeneticVariant nodes are annotated with property "Gene" containg [PSObject]
+        graph where GeneticVariant nodes are annotated with property "Gene" containg [PSObject]
+        will use self.Graph if graph_with_gvs is not provided
+        DOES NOT MODIFY input graph, creates new graph instead
       '''
-      my_graph = graph_with_gvs if graph_with_gvs else self.Graph
+      my_graph = graph_with_gvs if graph_with_gvs is not None else self.Graph
       GVs = my_graph._psobjs_with('GeneticVariant',OBJECT_TYPE)
-      gvuid2genes = self.gv2gene(GVs)
-      #gvuid2genes = {uid:{'Gene':genes} for uid,genes in gvuid2genes}
+      gvuid2genes = self.gv2gene(GVs) #gvuid2genes = {uid:{'Gene':genes} for uid,genes in gvuid2genes}
       my_graph.set_node_attributes(gvuid2genes,name='Gene')
-      #[nx.set_node_attributes(my_graph, {gvuid:{'Gene':genes}}) for gvuid, genes in gvuid2genes.items()]
       return my_graph
 
 

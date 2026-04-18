@@ -39,43 +39,43 @@ def gv2SNP(gv:PSObject,rsid2SNP:dict[str,SNP]):
       if rsid.startswith('rs'):
         if rsid in rsid2SNP:
           return rsid2SNP[rsid]
-    return SNP()
+    return None
 
 
 def downloadSNP(rsids:list,mapdic:dict[str, dict[str, dict[str, PSObject]]])->tuple[dict[str,SNP],ResnetGraph]:
-    """
-    input:
-        list of rs identifiers
-    output:
-        {snp_id:{allele:(allele_count, pop_size)}}, some {allele:(allele_count, pop_size)} may be empty
-    """
-    stepSize = 200
-    params = {'db':'snp'}
-    start = time.time()
-    id2snp,gvs2genes = xmldir2SNP(CACHE_DIR,mapdic,rsids)
-    rsids2download = list(set(rsids).difference(id2snp.keys()))
-    print(f'{len(rsids)-len(rsids2download)} SNPs were found in cache.')
-    rsids_len = len(rsids2download)
-    if rsids_len:
-        print(f'{len(rsids2download)} SNPs will be downloaded from dbSNP')
-        with open(cache_path(),'w',encoding='utf-8') as f:
-            f.write('<batch>\n')
-            for i in range(0, rsids_len, stepSize):
-                ids = ','.join(s[2:] for s in rsids2download[i:i+stepSize])
-                
-                params.update({'id':ids})
-                url=BASE_URL+'efetch.fcgi?'+urllib.parse.urlencode(params)
-                response = attempt_request4(url)
-                snps = et.fromstring('<documents>'+response.data.decode().strip()+'</documents>')
-                f.write(pretty_xml(et.tostring(snps),True))
-                id2snps, gvs2genes_rels = xml2SNP(snps,mapdic)
-                id2snp.update(id2snps)
-                gvs2genes += gvs2genes_rels
-                print(f'Downloaded {i+stepSize} SNPs out of {rsids_len}')
-                time.sleep(1)
-            f.write('</batch>')
-    print(f'Download was done in {execution_time(start)}')
-    return id2snp, ResnetGraph.from_rels(gvs2genes)
+  """
+  input:
+      list of rs identifiers
+  output:
+      {snp_id:{allele:(allele_count, pop_size)}}, some {allele:(allele_count, pop_size)} may be empty
+  """
+  stepSize = 200
+  params = {'db':'snp'}
+  start = time.time()
+  id2snp,gvs2genes = xmldir2SNP(CACHE_DIR,mapdic,rsids)
+  rsids2download = list(set(rsids).difference(id2snp.keys()))
+  print(f'{len(rsids)-len(rsids2download)} SNPs were found in cache.')
+  rsids_len = len(rsids2download)
+  if rsids_len:
+      print(f'{len(rsids2download)} SNPs will be downloaded from dbSNP')
+      with open(cache_path(),'w',encoding='utf-8') as f:
+          f.write('<batch>\n')
+          for i in range(0, rsids_len, stepSize):
+              ids = ','.join(s[2:] for s in rsids2download[i:i+stepSize])
+              
+              params.update({'id':ids})
+              url=BASE_URL+'efetch.fcgi?'+urllib.parse.urlencode(params)
+              response = attempt_request4(url)
+              snps = et.fromstring('<documents>'+response.data.decode().strip()+'</documents>')
+              f.write(pretty_xml(et.tostring(snps),True))
+              id2snps, gvs2genes_rels = xml2SNP(snps,mapdic)
+              id2snp.update(id2snps)
+              gvs2genes += gvs2genes_rels
+              print(f'Downloaded {i+stepSize} SNPs out of {rsids_len}')
+              time.sleep(1)
+          f.write('</batch>')
+  print(f'Download was done in {execution_time(start)}')
+  return id2snp, ResnetGraph.from_rels(gvs2genes)
     
 
 def dbsnp_hyperlink(rs_ids:list, as_count=True):

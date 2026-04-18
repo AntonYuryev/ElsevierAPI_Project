@@ -61,7 +61,7 @@ class ResnetGraph (nx.MultiDiGraph):
       return "{}".format(str(timedelta(seconds=time.time() - execution_start)))
 
 ###############    ADD ADD ADD    #############################
-  def set_node_attributes(self,values,name):
+  def set_node_attributes(self,values:list,name:str):
     nx.function.set_node_attributes(self,values,name)
     for ruid,tuid,rel in self.edges.data('relation'):
       if REGULATORS in rel.Nodes:
@@ -69,7 +69,8 @@ class ResnetGraph (nx.MultiDiGraph):
           rel.Nodes[REGULATORS][i] = self._get_node(reg.uid())
       if TARGETS in rel.Nodes:
         for i,tar in enumerate(rel.Nodes[TARGETS]):
-          rel.Nodes[REGULATORS][i] = self._get_node(tar.uid())
+          rel.Nodes[TARGETS][i] = self._get_node(tar.uid())
+    return
 
 
   def property2node(self, node_uid,prop_name:str,prop_values:list):
@@ -896,8 +897,6 @@ class ResnetGraph (nx.MultiDiGraph):
       target_name = my_graph.nodes[targetID]['Name'][0]
       assert(isinstance(rel,PSRelation))
       reltype = rel.objtype()
-   #   if reltype == 'FunctionalAssociation':
-   #     pass
       relname = rel.name()
       releffect = rel.effect()
       refcount = rel.count_refs()
@@ -923,7 +922,6 @@ class ResnetGraph (nx.MultiDiGraph):
     clinvar_hyperlinks = list(map(pubmed_hyperlink,CLINVAR_PMIDS))
     snippet_df = snippet_df.remove_rows_by(clinvar_hyperlinks,'PMID')
     
-    # removing duplicate sentences:
     if remove_duplicate_sentences:
       def sentences_key(row):
         return row['Concept']+'_'+row['Entity']+'_'+row[SENTENCE][0:30]+row['RelType']+' '+row[EFFECT]
@@ -934,16 +932,16 @@ class ResnetGraph (nx.MultiDiGraph):
       snippet_df = snippet_df.deduplicate_rows(subset='sentence_key')
       cols = snippet_df.columns.to_list()
       cols.remove('sentence_key')
-      snippet_df = snippet_df.dfcopy(cols)
       print(f'{before_count - len(snippet_df)} duplicate snippets were removed from {df_name} worksheet')
-
+      
+    snippet_df = snippet_df.dfcopy(cols,rename2={'msrc':'Snippet'})
     snippet_df._name_ = df_name
     snippet_df.set_hyperlink_color(ref_identifiers)
     if REFCOUNT in snippet_df.columns:
       snippet_df = snippet_df.sortrows(by=[REFCOUNT,'Concept','Entity'],ascending=[False,True,True])
-    snippet_df.add_column_format(SENTENCE,'width',75)
-    snippet_df.add_column_format(SENTENCE,'wrap_text',True)
-    snippet_df.add_column_format(SENTENCE,'font_size',9)
+    snippet_df.add_column_format('Snippet','width',75)
+    snippet_df.add_column_format('Snippet','wrap_text',True)
+    snippet_df.add_column_format('Snippet','font_size',9)
     snippet_df.add_column_format(TITLE,'width',50)
     snippet_df.add_column_format(TITLE,'wrap_text',True)
     snippet_df.add_column_format(TITLE,'font_size',10)

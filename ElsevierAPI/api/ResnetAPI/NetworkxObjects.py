@@ -982,8 +982,8 @@ class PSRelation(PSObject):
 
   def count_refs(self, count_abstracts=False)->int:
     '''
-      This function does nto load self.references. 
-      It only counts them. If no refreencezs were loaded it returns value of REFCOUNT property 
+      This function does not load self.references. 
+      It only counts them. If no references were loaded it returns value of REFCOUNT property 
     '''
     if self.references:
       self[REFCOUNT] = [len(self.references)]
