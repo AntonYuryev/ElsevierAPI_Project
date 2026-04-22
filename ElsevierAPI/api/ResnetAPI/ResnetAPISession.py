@@ -9,7 +9,7 @@ from .ResnetGraph import ResnetGraph,df,REFCOUNT,CHILDS,DBID,PSObject,OBJECT_TYP
 from .NetworkxObjects import RELATION_PROPS,ALL_PSREL_PROPS,EFFECT
 from .PathwayStudioGOQL import OQL
 from .Zeep2Experiment import Experiment
-from ..ResnetAPI.references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
+from .references import PS_BIBLIO_PROPS,PS_SENTENCE_PROPS,PS_REFIID_TYPES
 from ..ScopusAPI.scopus import loadCI
 from ...utils.utils import ThreadPoolExecutor,as_completed,urlencode,unpack,execution_time,execution_time2,load_api_config,pretty_xml,list2chunks_generator,multithread
 from ..EmbioPSG_API.PSnx2Neo4j import neo4j_nx

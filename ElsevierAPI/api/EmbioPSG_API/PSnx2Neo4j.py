@@ -108,6 +108,7 @@ class neo4j_nx(GraphDatabase):
       '''
       cypher1, params1 = Cypher.connect(regulator_objtypes, regulator_props,regulator_propName,
                                         target_objtypes, target_props,target_propName,by_relProps,dir)
+      params1['with_references'] = with_references
       return self.fetch_graph(cypher1, params1)
 
 
@@ -120,7 +121,7 @@ class neo4j_nx(GraphDatabase):
     targurns = [n.urn() for n in targets]
     return self._connect_(list(regtypes),regurns,'URN',
                           list(targtypes),targurns,'URN',
-                          by_relProps,dir)
+                          by_relProps,dir,with_references=True)
   
   
   def get_ppi(self,interactors:set[PSObject], minref=2,with_references=True)->ResnetGraph:
@@ -130,14 +131,16 @@ class neo4j_nx(GraphDatabase):
   
 
   def _neighborhood_(self,seedProps:list[str],propType='Name',_2neighbor_types:list[str]=[],
-                    by_relProps:dict[str,list[str|int|float]]={},dir=''):
+                    by_relProps:dict[str,list[str|int|float]]={},dir='',with_references=True)->ResnetGraph:
     '''
     input:
       by_relProps = {reltype:[propValue1,propValue2,...]},
       use OBJECT_TYPE string to specify filtering by relation type
       dir: '', 'upstream', 'downstream'
+      with_references: whether to fetch references for the relations
     '''
     cypher,param = Cypher.expand(seedProps,propType,_2neighbor_types,by_relProps,dir)        
+    param['with_references'] = with_references
     return self.fetch_graph(cypher,param)
   
 
@@ -623,22 +626,37 @@ class neo4j_nx(GraphDatabase):
       print(f"Deleted {len(values)} relations with {in_propName}: {values}")
 
 
-  def clean(self):
-    cypher = '''MATCH (a)-[r]->(b)
-              WITH a, b, type(r) AS relType, collect(r) AS relations
-              WHERE size(relations) > 1
-              UNWIND relations AS rel
-              RETURN a, rel, b
-              LIMIT 1000'''
+  def node_citation_count(self,source:='Medscan') -> dict[str, PSObject]:
+    cypher = f"MATCH (n)-[r]-() WHERE r.Source = '{source}' RETURN count(DISTINCT n) AS ConnectedNodeCount"
+    result = self.session().run(cypher)
+    nodeCount = result.single()['ConnectedNodeCount']
+    print(f'Total connected nodes in the database: {nodeCount}')
     
-    g2curate = self.fetch_graph(cypher,request_name='Finding duplicates for curation')
-    while g2curate.number_of_edges() > 0:
-      curatedG = g2curate.clean()
-      curated_rels = curatedG._psrels()
-      relids2delete = [rel[RELATIONID][0] for _,_,rel in g2curate.edges.data('relation')]
-      relids2delete = set(relids2delete[0:4])
-      curated_rels = [rel for _,_,rel in curated_rels if not relids2delete.isdisjoint(rel[RELATIONID])]
-      self.delete_rels_with(list(relids2delete), RELATIONID)
-      self.import_relations(curated_rels)
-      g2curate = self.fetch_graph(cypher,request_name='Finding duplicates for curation')
-    return
+    cypher = f"""
+      MATCH (n)
+      WHERE EXISTS {{(n)-[]-() }}
+      MATCH (n)-[r]-()
+      WHERE r.Source = '{source}'
+      RETURN n, sum(
+        CASE 
+          WHEN r.RelationNumberOfReferences IS :: LIST<ANY> 
+          THEN reduce(s=0, x IN r.RelationNumberOfReferences | s+toInteger(x)) 
+          ELSE 
+          toInteger(coalesce(r.RelationNumberOfReferences, 0)) 
+        END
+        ) AS citationCount
+    """
+    start = time.time()
+    with self.session() as session:
+      result = session.run(cypher)
+      nodes = []
+      for record in result:
+        node = self.__record2psobj(record[0])
+        citation_count = record['citationCount']
+        if citation_count > 0 :
+          node.update_with_value('CitationCount',record['citationCount'])
+          nodes.append(node)
+          if len(nodes) % 100000 == 0:
+            print(f'Collected {len(nodes)} out of {nodeCount} nodes with citation counts so far in {execution_time(start)}')
+    print(f'Total collected {len(nodes)} nodes with citation counts in {execution_time(start)}')
+    return {n.urn():n for n in nodes}
