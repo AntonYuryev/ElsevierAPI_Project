@@ -622,7 +622,10 @@ def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
 
 def plot_dependecies(Xvalues:list,Yvalues:dict[str,list], **kwargs):
   '''
-  Yvalues = {label:[values]}
+  kwargs:
+    Xvalues: list of x-axis values
+    Yvalues: dict of label to list of y-axis values: {label:[values]}
+    outdir: directory to save the plot
   '''
   title = kwargs.get('title',"Dependency Graph")
   for label, y_values in Yvalues.items():   

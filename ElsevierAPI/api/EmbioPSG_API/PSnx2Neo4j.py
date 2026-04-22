@@ -1,13 +1,11 @@
+import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, REFCOUNT,SNIPPET_COUNT,NONDIRECTIONAL_RELTYPES
-import logging,neo4j, time
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL_RELTYPES
 from neo4j import GraphDatabase
 from neo4j import ManagedTransaction as tx
-from neo4j.exceptions import ServiceUnavailable
 from .cypher import Cypher, ENTPROP_NEO4J, RELPROP_NEO4J
 from .postgres import PostgreSQL
-from ..ResnetAPI.references import ANATOMICAL_PROPS
 
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
@@ -36,7 +34,7 @@ class neo4j_nx(GraphDatabase):
 
   def close(self):
       # Don't forget to close the driver connection when you are finished with it
-      self.driver.close()
+      self.__driver__.close()
 
 
   @staticmethod
@@ -82,7 +80,7 @@ class neo4j_nx(GraphDatabase):
       try:
         start = time.time()
         neo4j_result = list(session.run(cypher,parameters))
-        print(f'Cypher query "{request_name}" executed in {execution_time(start)} and fetched {len(neo4j_result)} triples')
+        print(f'Cypher query "{request_name}" fetched {len(neo4j_result)} triples in {execution_time(start)}')
         psrels = [self.__triple2psrel(record) for record in neo4j_result]
         if psrels:
           if parameters.pop('with_references',True):
@@ -92,8 +90,8 @@ class neo4j_nx(GraphDatabase):
 
           to_return = ResnetGraph.from_rels(psrels)
           if request_name:
-            print(f'Cypher query for "{request_name}" ')
-          print(f"loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
+            #print(f'Cypher query for "{request_name}" ')
+            print(f"loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
           return to_return
         else:
           if request_name:
@@ -116,8 +114,8 @@ class neo4j_nx(GraphDatabase):
       cypher1, params1 = Cypher.connect(regulator_objtypes, regulator_props,regulator_propName,
                                         target_objtypes, target_props,target_propName,by_relProps,dir)
       params1['with_references'] = with_references
-      connectionG = self.fetch_graph(cypher1, params1)
-      print(f'Connection graph generated in {execution_time(start)} with {len(connectionG)} nodes and {connectionG.number_of_edges()} edges')
+      connectionG = self.fetch_graph(cypher1, params1, request_name='Connect nodes')
+      #print(f'Connection graph generated in {execution_time(start)} with {len(connectionG)} nodes and {connectionG.number_of_edges()} edges')
       return connectionG
 
 
