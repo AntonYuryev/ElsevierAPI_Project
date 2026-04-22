@@ -626,7 +626,7 @@ class neo4j_nx(GraphDatabase):
       print(f"Deleted {len(values)} relations with {in_propName}: {values}")
 
 
-  def node_citation_count(self,source:='Medscan') -> dict[str, PSObject]:
+  def node_citation_count(self,source='Medscan') -> dict[str, PSObject]:
     cypher = f"MATCH (n)-[r]-() WHERE r.Source = '{source}' RETURN count(DISTINCT n) AS ConnectedNodeCount"
     result = self.session().run(cypher)
     nodeCount = result.single()['ConnectedNodeCount']
