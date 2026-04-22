@@ -106,22 +106,25 @@ class neo4j_nx(GraphDatabase):
         if not dir connects regulators, targets in BOTH directions, otherwise connects regulator->target
         by_relProps = {reltype:[propValue1,propValue2,...]},
       '''
+      start = time.time()
       cypher1, params1 = Cypher.connect(regulator_objtypes, regulator_props,regulator_propName,
                                         target_objtypes, target_props,target_propName,by_relProps,dir)
       params1['with_references'] = with_references
-      return self.fetch_graph(cypher1, params1)
+      connectionG = self.fetch_graph(cypher1, params1)
+      print(f'Connection graph generated in {execution_time(start)} with {len(connectionG)} nodes and {connectionG.number_of_edges()} edges')
+      return connectionG
 
 
 
   def connect_objs(self,regulators:set[PSObject],targets:set[PSObject],
-                   by_relProps:dict[str,list[str|int|float]]={}, dir=False)->ResnetGraph:
+                   by_relProps:dict[str,list[str|int|float]]={}, dir=False,with_references=True)->ResnetGraph:
     regtypes = {n.objtype() for n in regulators}
     targtypes = {n.objtype() for n in targets}
     regurns = [n.urn() for n in regulators]
     targurns = [n.urn() for n in targets]
     return self._connect_(list(regtypes),regurns,'URN',
                           list(targtypes),targurns,'URN',
-                          by_relProps,dir,with_references=True)
+                          by_relProps,dir,with_references=with_references)
   
   
   def get_ppi(self,interactors:set[PSObject], minref=2,with_references=True)->ResnetGraph:
