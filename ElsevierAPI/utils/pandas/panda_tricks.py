@@ -948,9 +948,12 @@ class df(pd.DataFrame):
     my_kwargs = dict(kwargs)
     my_kwargs['ignore_index'] = True
     my_kwargs['inplace'] = False
+    before_count  = len(self)
     dedupl_pd = self.drop_duplicates(**my_kwargs)
     dedupl_df = df.from_pd(dedupl_pd)
     dedupl_df.__copy_attrs__(self)
+    after_count = len(dedupl_df)
+    print(f"Deduplicated rows: {before_count - after_count} rows removed from self.{self._name_} worksheet.") 
     return dedupl_df
 
 
