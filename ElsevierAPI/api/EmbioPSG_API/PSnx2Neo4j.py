@@ -100,7 +100,7 @@ class neo4j_nx(GraphDatabase):
   
   def _connect_(self,regulator_objtypes:list[str], regulator_props:list[str],regulator_propName:str,
                 target_objtypes:list[str], target_props:list[str],target_propName:str,
-                by_relProps:dict[str,list[str|int|float]]={}, dir=False):
+                by_relProps:dict[str,list[str|int|float]]={}, dir=False,with_references=True):
       '''
       input:
         if not dir connects regulators, targets in BOTH directions, otherwise connects regulator->target
