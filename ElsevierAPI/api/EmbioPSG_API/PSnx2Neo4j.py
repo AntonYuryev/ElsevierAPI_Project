@@ -57,9 +57,15 @@ class neo4j_nx(GraphDatabase):
       target = PSObject({k:[v] for k,v in triple[2]._properties.items() if v not in ['_','']})
       target[OBJECT_TYPE] =  list(triple[2].labels)
       target['URN'] =  target.pop('urn',target['URN'])
-      rel = triple[1]
-      reldict = {k:[v] for k,v in rel._properties.items() if v not in ['_','']}
-      reldict[OBJECT_TYPE] = [rel.type]
+      reldict = dict()
+      for k,v in triple[1]._properties.items():
+        if isinstance(v,list):
+          v_clean = [x for x in v if x != '_'] # to support merged relations
+          if v_clean:
+            reldict[k] = v_clean
+        elif v not in ['_','']:
+          reldict[k] = [v]
+      reldict[OBJECT_TYPE] = [triple[1].type]
       is_directional = reldict[OBJECT_TYPE][0] not in nondirectional_reltype
       rel_obj = PSRelation.make_rel(regulator,target,reldict,[],is_directional)
       return rel_obj
