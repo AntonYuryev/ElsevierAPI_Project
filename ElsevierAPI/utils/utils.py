@@ -578,7 +578,7 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
 
 
 
-def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
+def plot_distribution(distribution_list:list[dict[str,list[int|float]]],**kwargs):
   '''
     input:
       distribution_list: [{distribution_name:[distribution values]}]
@@ -594,25 +594,29 @@ def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
   percentiles = kwargs.pop('percentiles', [])
   percentile4score = kwargs.pop('percentile4score', [])
   legend_loc = kwargs.pop('legend_loc', 'upper right')
+  clear_plot = kwargs.pop('clear_plot', True)
+  title = kwargs.pop('title', 'Distribution Plot')
 
+  legend_labels = []
+  patches_list = []
+  print(f'Plotting distribution for {title}')
   for dic in distribution_list:
     for name, distribution in dic.items():
-      print(f'Plotting distribution for {name} with {len(distribution)} values')
-      counts, bins, patches = plt.hist(distribution, **kwargs)
-
-      label = kwargs.get('label', '')
+      counts, bins, patches = plt.hist(distribution, label=name, **kwargs)
+      patches_list.append(patches)
+      legend_label = f'\n{name}:{len(distribution)}'
       if percentiles:
-        label += '\n'
+        legend_label += '\n'
         for percentile in percentiles:
           percentile_value = round(np.percentile(distribution, percentile),3)
-          label += f'{percentile}%ile is at {percentile_value}\n'
+          legend_label += f'{percentile}%ile is at {percentile_value}\n'
         
-      if percentile4score: # remove last \n
+      if percentile4score:
         for score in percentile4score:
           score_percentile = round(float(stats.percentileofscore(distribution, score, kind='strict')),2)
-          label += f"{score_percentile}%ile at {score}\n"
+          legend_label += f"{score_percentile}%ile at {score}\n"
 
-      if not label:
+      if not legend_label:
         max_idx = np.argmax(counts)
         visual_mode = (bins[max_idx] + bins[max_idx + 1]) / 2
         visual_mode = round(visual_mode,3)
@@ -621,27 +625,27 @@ def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
         percent_below_avg = round(float(stats.percentileofscore(distribution, average, kind='weak')),2)
         percent_below_mode = round(stats.percentileofscore(distribution, visual_mode, kind='weak'),2)
         skewness = stats.skew(distribution).item()
-        label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
-      else:
-        if label[-1] == '\n':
-          label = label[:-1]
-        
-      plt.legend(handles=[patches], labels=[label], loc=legend_loc)
-      plt.xlabel(xlabel)
-      plt.ylabel(ylabel)
-      plt.title(f'{name}: {len(distribution)}')
-      #plt.xlim(xmin=-2, xmax=2)
-      #plt.ylim(ymax=1)
-      fout = os.path.join(data_dir,name+'.histogram.png')
-      plt.savefig(fout)
-      y_min, y_max = plt.gca().get_ylim()
-      print(f'y-axis scale for "{name}":', y_min, "to", y_max)
+        legend_label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
 
-  plt.clf() # Clear the figure to free memory for the next plot
+      legend_labels.append(legend_label.strip())
+
+  
+  plt.legend(handles=patches_list, labels=legend_labels, loc=legend_loc)
+  plt.xlabel(xlabel)
+  plt.ylabel(ylabel)
+  plt.title(title)
+  fout = os.path.join(data_dir,title+'.histogram.png')
+  plt.savefig(fout)
+  y_min, y_max = plt.gca().get_ylim()
+  print(f'y-axis scale for "{title}":', y_min, "to", y_max)
+
+  if clear_plot:
+    plt.clf() # Clear the figure to free memory for the next plot
   print(f'Finished building plots for {len(distribution_list)} distribution')
+  return
 
 
-def plot_dependecies(Xvalues:list,Yvalues:dict[str,list], **kwargs):
+def plot_dependecies(Xvalues:list,Yvalues:dict[str,list[int|float]], **kwargs):
   '''
   kwargs:
     Xvalues: list of x-axis values
@@ -665,7 +669,7 @@ def plot_dependecies(Xvalues:list,Yvalues:dict[str,list], **kwargs):
   print(f'Finished building {len(Yvalues)} dependency plots')
 
 
-def scatter_plot(Xvalues:list,Yvalues:dict[str,list], **kwargs):
+def scatter_plot(Xvalues:list,Yvalues:dict[str,list[int|float]], **kwargs):
   '''
   Yvalues = {label:[values]}
   kwargs:

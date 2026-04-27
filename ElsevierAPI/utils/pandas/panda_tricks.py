@@ -245,7 +245,7 @@ class df(pd.DataFrame):
       Input
       -----
       args[0] - input filname for reading Excel file\n
-      kwargs = {sheet_name:str, read_formula:bool,names=[]}
+      kwargs = {sheet_name:str, read_formula:bool}
       '''
       df_name = kwargs.pop('name','')
       fname = str(args[0])
@@ -253,20 +253,20 @@ class df(pd.DataFrame):
       if extension == 'xlsx':
           read_formula = kwargs.pop('read_formula',False)
           if read_formula:
-              wb = load_workbook(filename=fname)
-              try:
-                  sheet = wb[kwargs['sheet_name']]  
-              except KeyError:
-                  #sheet_names = wb.get_sheet_names()
-                  sheet = wb[str(wb.sheetnames[0])]
+            wb = load_workbook(filename=fname)
+            try:
+              sheet = wb[kwargs['sheet_name']]  
+            except KeyError:
+              #sheet_names = wb.get_sheet_names()
+              sheet = wb[str(wb.sheetnames[0])]
 
-              header_pos = kwargs.pop('header',0)
-              skiprows = kwargs.pop('skiprows',0)
-              _dfname_ = df_name if df_name else sheet
-              _pd = pd.DataFrame(list(sheet.values))
-              _pd.columns = _pd.iloc[header_pos].to_list()
-              _df = df.from_pd(_pd[header_pos+1+skiprows:],str(_dfname_))
-              return _df
+            header_pos = kwargs.pop('header',0)
+            skiprows = kwargs.pop('skiprows',0)
+            _dfname_ = df_name if df_name else sheet
+            _pd = pd.DataFrame(list(sheet.values))
+            _pd.columns = _pd.iloc[header_pos].to_list()
+            _df = df.from_pd(_pd[header_pos+1+skiprows:],str(_dfname_))
+            return _df
           try:
               _pd = pd.read_excel(*args, **kwargs)
               _df = df.from_pd(_pd,df_name)

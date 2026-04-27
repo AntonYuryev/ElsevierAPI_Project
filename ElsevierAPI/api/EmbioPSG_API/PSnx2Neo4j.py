@@ -1,6 +1,6 @@
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
-from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL_RELTYPES
 from neo4j import GraphDatabase
 from neo4j import ManagedTransaction as tx
@@ -34,8 +34,29 @@ class neo4j_nx(GraphDatabase):
   def run_cypher(self,cypher:str,parameters:dict={},request_name=''):
     with self.session() as session:
       result = list(session.run(cypher,parameters))
-      print(f'Cypher query "{request_name}" returned {len(result)} records')
+      if request_name:
+        print(f'Cypher query "{request_name}" returned {len(result)} records')
       return result,request_name
+ 
+
+  def _unwind_(self,cypher:str,parameters:dict={},request_name=''):
+    '''
+      Cypher query must contain UNWIND $batch AS row and use row.{item} to refer to items in the list\n
+      output:
+        yields tuples of (result,request_name) for each batch processed, where result is the list of records returned by Neo4j for the batch
+    '''
+    batch_size = 10000
+    print(f'Multithread cypher query "{request_name}" with chunks {batch_size} and total input {len(parameters["batch"])}')
+    with ThreadPoolExecutor() as ex:
+      futures = []
+      for i in range(0, len(parameters['batch']), batch_size):
+        batch = parameters['batch'][i:i+batch_size]
+        params = parameters.copy()
+        params['batch'] = batch
+        futures.append(ex.submit(self.run_cypher,cypher,params))
+
+      for future in as_completed(futures):
+        yield future.result()
 
 
   def close(self):
@@ -78,8 +99,9 @@ class neo4j_nx(GraphDatabase):
   def fetch_graph(self,cypher:str,parameters:dict={},request_name='')->ResnetGraph:
     '''
     input:
-      cypher must MATCH (regulator)-[relation]->(target) 
+      cypher must RETURN (regulator)-[relation]->(target) 
       parameters["with_references"] is optional and is True by default
+      parameters["edge_duplication"] is optional and is True by default
     '''
     edge_duplication = parameters.pop('edge_duplication',True)
     with self.session() as session:
@@ -97,7 +119,6 @@ class neo4j_nx(GraphDatabase):
 
           to_return = ResnetGraph.from_rels(psrels,edge_duplication)
           if request_name:
-            #print(f'Cypher query for "{request_name}" ')
             print(f"loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
           return to_return
         else:
@@ -179,7 +200,7 @@ class neo4j_nx(GraphDatabase):
       return to_nodes
 
 
-  def load_children(self,parent:PSObject,max_childs:int=None,with_connectivity = False)->list[PSObject]:
+  def retrieve_childs(self,parent:PSObject,max_childs:int=None,with_connectivity = False)->list[PSObject]:
     '''
     output:
       if max_childs is None or zero loads all children,
@@ -217,7 +238,7 @@ class neo4j_nx(GraphDatabase):
       parent[CHILDS] = [PSObject()]*count
     '''
     def process_single(parent:PSObject):
-      return self.load_children(parent,max_childs)
+      return self.retrieve_childs(parent,max_childs)
     
     results = []
     with ThreadPoolExecutor(max_workers=20) as executor:
@@ -266,7 +287,7 @@ class neo4j_nx(GraphDatabase):
       if with_childs:
         childs = []
         for node in nodes:
-          self.load_children(node,with_connectivity=with_connectivity)
+          self.retrieve_childs(node,with_connectivity=with_connectivity)
           childs += node[CHILDS]
         nodes += childs
       return set(nodes)
@@ -513,7 +534,7 @@ class neo4j_nx(GraphDatabase):
               create_node_count += f.result()
 
       print('%d nodes were loaded in %s' % (create_node_count,execution_time(start)))
-      print('%d nodes were found in the database' % (len(nodes) - int(create_node_count)))
+      print('%d nodes were found in database' % (len(nodes) - int(create_node_count)))
 
   """
   @staticmethod
@@ -637,6 +658,49 @@ class neo4j_nx(GraphDatabase):
 
       print("Graph with %d nodes and %d edges was imported into Neo4j in %s ---" % 
           (resnet.number_of_nodes(), resnet_size, execution_time(import_start)))
+
+  from concurrent.futures import ThreadPoolExecutor
+
+  @staticmethod
+  def __update(tx, update_cypher:str, batch:list):
+    """
+    This function represents the work done inside a single transaction.
+    The 'tx' object is provided by the driver's execute_write method.
+    """
+    result = tx.run(update_cypher, batch=batch)
+    return list(result)
+
+  def process_update(self, update_cypher:str, chunk:list):
+    """
+    Each thread runs this: opens a session and calls execute_write.
+    """
+    with self.session() as session:
+      return session.execute_write(self.__update, update_cypher, chunk)
+
+
+  def _unwind_tx_(self, update_cypher:str, full_list:list, 
+               chunk_size=10000,request_name='',multithread=True):
+    '''
+      Cypher query must contain UNWIND $batch AS row and use row.{item} to refer to items in the list
+    '''
+    if request_name:
+      print(f'Multithread update with query "{request_name}" with chunks {chunk_size} and total input {len(full_list)}')
+    
+    if multithread:
+      with ThreadPoolExecutor() as ex:
+        futures = [
+          ex.submit(self.process_update, update_cypher, chunk) 
+          for chunk in [full_list[i:i + chunk_size] for i in range(0, len(full_list), chunk_size)]
+        ]
+      for future in as_completed(futures):
+        try:
+          yield future.result()
+        except Exception as e:
+          print(f"A batch failed: {e}")
+    else:
+      for chunk in [full_list[i:i + chunk_size] for i in range(0, len(full_list), chunk_size)]:
+        yield self.process_update(update_cypher, chunk)
+                  
       
 
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################
@@ -649,12 +713,12 @@ class neo4j_nx(GraphDatabase):
 
   def node_citation_count(self,seedtype='',reltype='', neighbortype='', source='Medscan') -> dict[str, PSObject]:
     '''
-    Calculates the citation count for each node based on relations from the specified source in all directions.
+    Calculates citation count and relation count for each node based on relations from the specified source in all directions.
     Returns a dictionary mapping node URNs to PSObjects updated with 'CitationCount' and 'Connectivity'.
     input:
-      seedtype: filter for seed node type (label), if empty matches any type
-      reltype: filter for relation type, if empty matches any type
-      neighbortype: filter for neighbor node type (label), if empty matches any type
+      seedtype: filter for seed node type (label), if empty retreives data for all node types
+      reltype: filter for relation type, if empty retreives data for all relation types linked to each seed node,
+      neighbortype: filter for neighbor node type (label), if retreives data for any neighbor type linked to each seed node,
       set neighbortype to empty to calculate citation count for non-directional relations connecting nodes of the same type, e.g. protein-protein interactions
     '''
     s = f's:{seedtype}' if seedtype else 's'
@@ -670,18 +734,19 @@ class neo4j_nx(GraphDatabase):
     relCount = record['TotalRelCount']
     if neighbortype:
       neighborCount = record['NeighborNodeCount']
-    n_type = neighbortype if neighbortype else 'any type of neighbor'
+    s_type = seedtype if seedtype else 'any type of node'
+    n_type = neighbortype if neighbortype else 'any type of neighbor node'
     rel_type = reltype if reltype else 'any type of relation'
     if neighbortype:
-      print(f'{nodeCount} {seedtype}s are connected via {rel_type} to {neighborCount} {n_type}s in the database with {relCount} relations')
+      print(f'{nodeCount} {s_type}s are connected via {rel_type} to {neighborCount} {n_type}s in database with {relCount} relations')
     else:
-      print(f'{nodeCount} {seedtype}s are connected via {rel_type} in the database with {relCount} relations')
-    if nodeCount == 0: 
+      print(f'{nodeCount} {s_type}s are connected via {rel_type} in database with {relCount} relations')
+    if nodeCount == 0:
       return dict()
     
     # match in both directions to calculate citationCount for both regulators and targets
-    # reduce calculates RelationNumberOfReferences for a single relation in case this relation was merged 
-    # from multiple relations in the database, e.g. due to merging of multiple sources or multiple relations between the same nodes, 
+    # RelationNumberOfReferences is list in merged relations. 
+    # "reduce" is used to accomodate both single value and multivalue RelationNumberOfReferences. 
     # and sum() sums up RelationNumberOfReferences across all matched relations to calculate total citation count for a node
     seed_cypher = f"""
       MATCH ({s})
@@ -706,8 +771,6 @@ class neo4j_nx(GraphDatabase):
 
       if neighbortype:
         target_cypher = f"""
-          MATCH ({n})
-          WHERE EXISTS {{()-[]-(n)}}
           MATCH ({s})-[{r}]-({n})
           WHERE r.Source = '{source}'
           RETURN n as target, count(r) AS relCount, 
