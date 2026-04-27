@@ -591,22 +591,42 @@ def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
   data_dir = kwargs.pop('outdir','')
   xlabel = kwargs.pop('xlabel',"values")
   ylabel = kwargs.pop('ylabel',"counts")
+  percentiles = kwargs.pop('percentiles', [])
+  percentile4score = kwargs.pop('percentile4score', [])
+  legend_loc = kwargs.pop('legend_loc', 'upper right')
 
   for dic in distribution_list:
     for name, distribution in dic.items():
       print(f'Plotting distribution for {name} with {len(distribution)} values')
       counts, bins, patches = plt.hist(distribution, **kwargs)
-      if 'label'  not in kwargs:
+
+      label = kwargs.get('label', '')
+      if percentiles:
+        label += '\n'
+        for percentile in percentiles:
+          percentile_value = round(np.percentile(distribution, percentile),3)
+          label += f'{percentile}%ile is at {percentile_value}\n'
+        
+      if percentile4score: # remove last \n
+        for score in percentile4score:
+          score_percentile = round(float(stats.percentileofscore(distribution, score, kind='strict')),2)
+          label += f"{score_percentile}%ile at {score}\n"
+
+      if not label:
         max_idx = np.argmax(counts)
         visual_mode = (bins[max_idx] + bins[max_idx + 1]) / 2
+        visual_mode = round(visual_mode,3)
         average = round(mean(distribution),3)
         _median = round(median(distribution),3)
         percent_below_avg = round(float(stats.percentileofscore(distribution, average, kind='weak')),2)
         percent_below_mode = round(stats.percentileofscore(distribution, visual_mode, kind='weak'),2)
         skewness = stats.skew(distribution).item()
-        new_label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
-      
-      plt.legend(handles=[patches], labels=[new_label], loc='upper right')
+        label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
+      else:
+        if label[-1] == '\n':
+          label = label[:-1]
+        
+      plt.legend(handles=[patches], labels=[label], loc=legend_loc)
       plt.xlabel(xlabel)
       plt.ylabel(ylabel)
       plt.title(f'{name}: {len(distribution)}')
@@ -617,6 +637,7 @@ def plot_distribution(distribution_list:list[dict[str,int|float]],**kwargs):
       y_min, y_max = plt.gca().get_ylim()
       print(f'y-axis scale for "{name}":', y_min, "to", y_max)
 
+  plt.clf() # Clear the figure to free memory for the next plot
   print(f'Finished building plots for {len(distribution_list)} distribution')
 
 

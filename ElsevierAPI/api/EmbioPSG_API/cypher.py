@@ -397,24 +397,26 @@ class Cypher:
   def connect(regulator_objtypes:list[str], regulator_props:list[str],regulator_propName:str,
     target_objtypes:list[str], target_props:list[str]=[],target_propName='',
     by_relProps:dict[str,list[str|int|float]]={}, dir=False):
-  
-    cypher = 'MATCH (a) WHERE any(label IN labels(a) WHERE label IN $reglabelList)\n'
-    parameters = {'reglabelList':regulator_objtypes,'tarlabelList':target_objtypes}
+
+    parameters = dict()
+    a = f'a:{'|'.join(regulator_objtypes)}'
+    b = f'b:{'|'.join(target_objtypes)}'
+
+    cypher = f'MATCH ({a})'
     if regulator_props:
-      cypher += f'AND a.{regulator_propName} IN $regpropList\n'
+      cypher += f'WHERE a.{regulator_propName} IN $regpropList\n'
       parameters['regpropList'] = regulator_props
-
-    cypher += 'MATCH (b) WHERE any(label IN labels(b) WHERE label IN $tarlabelList)\n'
+    cypher += f'\nMATCH ({b})'
     if target_props:
-      cypher += f'AND b.{target_propName} IN $tarpropList\n'
+      cypher += f'WHERE b.{target_propName} IN $tarpropList\n'
       parameters['tarpropList'] = target_props
-
+    
     if dir:
-      cypher += 'MATCH (a)-[r]->(b)'
+      cypher += f'MATCH (a)-[r]->(b)\n'
     else:
-      cypher += 'MATCH (a)-[r]-(b)'
+      cypher += f'MATCH (a)-[r]-(b)\n'
+    
     cypher = Cypher.add_relProps(cypher, by_relProps)
-
     cypher += '\nRETURN startNode(r) AS Regulator, r AS Relation, endNode(r) AS Target'
     return cypher, parameters
   

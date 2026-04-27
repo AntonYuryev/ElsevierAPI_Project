@@ -7,7 +7,6 @@ from neo4j import ManagedTransaction as tx
 from .cypher import Cypher, ENTPROP_NEO4J, RELPROP_NEO4J
 from .postgres import PostgreSQL
 
-
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
 nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL_RELTYPES))
 
@@ -30,6 +29,13 @@ class neo4j_nx(GraphDatabase):
 
   def session(self):
     return self.__driver__.session(database=self.database)
+  
+
+  def run_cypher(self,cypher:str,parameters:dict={},request_name=''):
+    with self.session() as session:
+      result = list(session.run(cypher,parameters))
+      print(f'Cypher query "{request_name}" returned {len(result)} records')
+      return result,request_name
 
 
   def close(self):
@@ -75,6 +81,7 @@ class neo4j_nx(GraphDatabase):
       cypher must MATCH (regulator)-[relation]->(target) 
       parameters["with_references"] is optional and is True by default
     '''
+    edge_duplication = parameters.pop('edge_duplication',True)
     with self.session() as session:
       psrels = []
       try:
@@ -88,7 +95,7 @@ class neo4j_nx(GraphDatabase):
             relation_ids = unpack([n[RELATIONID] for n in psrels])
             self.postgres.submit_refs(list(relation_ids))
 
-          to_return = ResnetGraph.from_rels(psrels)
+          to_return = ResnetGraph.from_rels(psrels,edge_duplication)
           if request_name:
             #print(f'Cypher query for "{request_name}" ')
             print(f"loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
@@ -104,31 +111,37 @@ class neo4j_nx(GraphDatabase):
   
   def _connect_(self,regulator_objtypes:list[str], regulator_props:list[str],regulator_propName:str,
                 target_objtypes:list[str], target_props:list[str],target_propName:str,
-                by_relProps:dict[str,list[str|int|float]]={}, dir=False,with_references=True):
-      '''
-      input:
-        if not dir connects regulators, targets in BOTH directions, otherwise connects regulator->target
-        by_relProps = {reltype:[propValue1,propValue2,...]},
-      '''
-      start = time.time()
-      cypher1, params1 = Cypher.connect(regulator_objtypes, regulator_props,regulator_propName,
-                                        target_objtypes, target_props,target_propName,by_relProps,dir)
-      params1['with_references'] = with_references
-      connectionG = self.fetch_graph(cypher1, params1, request_name='Connect nodes')
-      #print(f'Connection graph generated in {execution_time(start)} with {len(connectionG)} nodes and {connectionG.number_of_edges()} edges')
-      return connectionG
+                by_relProps:dict[str,list[str|int|float]]={}, dir=False, request_name='Connect nodes',
+                with_references=True,edge_duplication=True):
+    '''
+    input:
+      if not dir connects regulators, targets in BOTH directions, otherwise connects regulator->target
+      by_relProps = {reltype:[propValue1,propValue2,...]},
+    '''
+    cypher, params = Cypher.connect(regulator_objtypes, regulator_props,regulator_propName,
+                                      target_objtypes, target_props,target_propName,by_relProps,dir)
+    params['with_references'] = with_references
+    params['edge_duplication'] = edge_duplication
+    connectionG = self.fetch_graph(cypher, params, request_name=request_name)
+    return connectionG
 
 
 
   def connect_objs(self,regulators:set[PSObject],targets:set[PSObject],
-                   by_relProps:dict[str,list[str|int|float]]={}, dir=False,with_references=True)->ResnetGraph:
+                   by_relProps:dict[str,list[str|int|float]]={}, dir=False,
+                   with_references=True,edge_duplication=True)->ResnetGraph:
     regtypes = {n.objtype() for n in regulators}
     targtypes = {n.objtype() for n in targets}
     regurns = [n.urn() for n in regulators]
     targurns = [n.urn() for n in targets]
+    request_name = f'Connect {len(regulators)} regulators and {len(targets)} targets'
     return self._connect_(list(regtypes),regurns,'URN',
                           list(targtypes),targurns,'URN',
-                          by_relProps,dir,with_references=with_references)
+                          by_relProps,dir,
+                          with_references=with_references,
+                          edge_duplication=edge_duplication,
+                          request_name=request_name)
+    return
   
   
   def get_ppi(self,interactors:set[PSObject], minref=2,with_references=True)->ResnetGraph:
@@ -137,7 +150,7 @@ class neo4j_nx(GraphDatabase):
     return self.fetch_graph(cypher, params)
   
 
-  def _neighborhood_(self,seedProps:list[str],propType='Name',_2neighbor_types:list[str]=[],
+  def _neighborhood_(self,seedProps:list[str],propType='Name',_2targettypes:list[str]=[],
                     by_relProps:dict[str,list[str|int|float]]={},dir='',with_references=True)->ResnetGraph:
     '''
     input:
@@ -146,7 +159,7 @@ class neo4j_nx(GraphDatabase):
       dir: '', 'upstream', 'downstream'
       with_references: whether to fetch references for the relations
     '''
-    cypher,param = Cypher.expand(seedProps,propType,_2neighbor_types,by_relProps,dir)        
+    cypher,param = Cypher.expand(seedProps,propType,_2targettypes,by_relProps,dir)        
     param['with_references'] = with_references
     return self.fetch_graph(cypher,param)
   
@@ -331,6 +344,7 @@ class neo4j_nx(GraphDatabase):
     else:
       print(f'Fetching common neighbors with between {len(parameters['urnList1'])} and {len(parameters['urnList2'])} nodes')
 
+    edge_duplication = parameters.pop('edge_duplication',True)
     with self.session() as session:
       psrels = []
       try:
@@ -342,7 +356,7 @@ class neo4j_nx(GraphDatabase):
             relation_ids = unpack([n[RELATIONID] for n in psrels])
             self.postgres.submit_refs(relation_ids)
 
-          to_return = ResnetGraph.from_rels(psrels)
+          to_return = ResnetGraph.from_rels(psrels,edge_duplication)
           if request_name:
             print(f'Cypher query "{request_name}" found data:')
           print(f"Loaded network with {len(to_return)} nodes and {to_return.number_of_edges()} edges")
@@ -633,37 +647,87 @@ class neo4j_nx(GraphDatabase):
       print(f"Deleted {len(values)} relations with {in_propName}: {values}")
 
 
-  def node_citation_count(self,source='Medscan') -> dict[str, PSObject]:
-    cypher = f"MATCH (n)-[r]-() WHERE r.Source = '{source}' RETURN count(DISTINCT n) AS ConnectedNodeCount"
-    result = self.session().run(cypher)
-    nodeCount = result.single()['ConnectedNodeCount']
-    print(f'Total connected nodes in the database: {nodeCount}')
+  def node_citation_count(self,seedtype='',reltype='', neighbortype='', source='Medscan') -> dict[str, PSObject]:
+    '''
+    Calculates the citation count for each node based on relations from the specified source in all directions.
+    Returns a dictionary mapping node URNs to PSObjects updated with 'CitationCount' and 'Connectivity'.
+    input:
+      seedtype: filter for seed node type (label), if empty matches any type
+      reltype: filter for relation type, if empty matches any type
+      neighbortype: filter for neighbor node type (label), if empty matches any type
+      set neighbortype to empty to calculate citation count for non-directional relations connecting nodes of the same type, e.g. protein-protein interactions
+    '''
+    s = f's:{seedtype}' if seedtype else 's'
+    r = f'r:{reltype}' if reltype else 'r'
+    n = f'n:{neighbortype}' if neighbortype else '' #if neighbortype is empty will match any neighbor node
     
-    cypher = f"""
-      MATCH (n)
-      WHERE EXISTS {{(n)-[]-() }}
-      MATCH (n)-[r]-()
+    cypher = f"MATCH ({s})-[{r}]-({n}) WHERE r.Source = '{source}' RETURN count(DISTINCT s) AS ConnectedNodeCount, count(r) AS TotalRelCount"
+    if neighbortype:
+      cypher += f', count(DISTINCT n) AS NeighborNodeCount'
+    result = self.session().run(cypher)
+    record = result.single()
+    nodeCount = record['ConnectedNodeCount']
+    relCount = record['TotalRelCount']
+    if neighbortype:
+      neighborCount = record['NeighborNodeCount']
+    n_type = neighbortype if neighbortype else 'any type of neighbor'
+    rel_type = reltype if reltype else 'any type of relation'
+    if neighbortype:
+      print(f'{nodeCount} {seedtype}s are connected via {rel_type} to {neighborCount} {n_type}s in the database with {relCount} relations')
+    else:
+      print(f'{nodeCount} {seedtype}s are connected via {rel_type} in the database with {relCount} relations')
+    if nodeCount == 0: 
+      return dict()
+    
+    # match in both directions to calculate citationCount for both regulators and targets
+    # reduce calculates RelationNumberOfReferences for a single relation in case this relation was merged 
+    # from multiple relations in the database, e.g. due to merging of multiple sources or multiple relations between the same nodes, 
+    # and sum() sums up RelationNumberOfReferences across all matched relations to calculate total citation count for a node
+    seed_cypher = f"""
+      MATCH ({s})
+      WHERE EXISTS {{({s})-[]-()}}
+      MATCH ({s})-[{r}]-({n})
       WHERE r.Source = '{source}'
-      RETURN n, sum(
-        CASE 
-          WHEN r.RelationNumberOfReferences IS :: LIST<ANY> 
-          THEN reduce(s=0, x IN r.RelationNumberOfReferences | s+toInteger(x)) 
-          ELSE 
-          toInteger(coalesce(r.RelationNumberOfReferences, 0)) 
-        END
-        ) AS citationCount
+      RETURN s as seed, count(r) AS relCount, 
+      sum(reduce(total = 0, x IN apoc.convert.toList(r.RelationNumberOfReferences) | total + x)) AS citationCount
     """
     start = time.time()
+    node_dict = dict()
     with self.session() as session:
-      result = session.run(cypher)
-      nodes = []
+      result = session.run(seed_cypher)
       for record in result:
-        node = self.__record2psobj(record[0])
+        node = self.__record2psobj(record['seed'])
         citation_count = record['citationCount']
+        rel_count = record['relCount']
         if citation_count > 0 :
-          node.update_with_value('CitationCount',record['citationCount'])
-          nodes.append(node)
-          if len(nodes) % 100000 == 0:
-            print(f'Collected {len(nodes)} out of {nodeCount} nodes with citation counts so far in {execution_time(start)}')
-    print(f'Total collected {len(nodes)} nodes with citation counts in {execution_time(start)}')
-    return {n.urn():n for n in nodes}
+          node.update_with_value('CitationCount',citation_count)
+          node.update_with_value(CONNECTIVITY,rel_count)
+          node_dict[node.urn()] = node
+
+      if neighbortype:
+        target_cypher = f"""
+          MATCH ({n})
+          WHERE EXISTS {{()-[]-(n)}}
+          MATCH ({s})-[{r}]-({n})
+          WHERE r.Source = '{source}'
+          RETURN n as target, count(r) AS relCount, 
+          sum(reduce(total = 0, x IN apoc.convert.toList(r.RelationNumberOfReferences) | total + x)) AS citationCount
+        """
+        result = session.run(target_cypher)
+        for record in result:
+          return_node = self.__record2psobj(record['target'])
+          citation_count = record['citationCount']
+          rel_count = record['relCount']
+
+          return_urn = return_node.urn()
+          if return_urn in node_dict:
+            my_node = node_dict[return_urn]
+            my_node['CitationCount'][0] += citation_count
+            my_node[CONNECTIVITY][0] += rel_count
+          else:
+            return_node.update_with_value('CitationCount',citation_count)
+            return_node.update_with_value(CONNECTIVITY,rel_count)
+            node_dict[return_node.urn()] = return_node
+      
+      print(f'Total collected {len(node_dict)} nodes with citation counts in {execution_time(start)}')
+    return node_dict
