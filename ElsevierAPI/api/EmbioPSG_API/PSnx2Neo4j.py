@@ -76,40 +76,6 @@ class neo4j_nx(GraphDatabase):
     with self.session() as session:
       result = list(session.run(cypher))
       return sorted([record['label'] for record in result])
-         
-
-  def update_rels(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
-    '''
-    from_rels must be list of PSRelation with the same regulatorType, relType and targetType
-    '''
-    batch = []
-    for rel in from_rels:
-      if with_prop in rel:
-        prop_values = rel.get_props(with_prop)
-        prop_value = rel[with_prop] if len(prop_values) > 1 else rel[with_prop][0]
-        regulators = rel.regulators()
-        targets = rel.targets()
-        for r in regulators:
-          for t in targets:
-            batch.append({'rURN': r.urn(),
-                          'tURN': t.urn(), 
-                          'propValue': prop_value})
-
-    cypher = f"""UNWIND $batch AS row 
-            MATCH (a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]->(b:{targetType} {{URN:row.tURN}}) 
-            SET r.`{with_prop}` = row.propValue
-            RETURN COUNT(r) AS updatedCount
-            """
-    
-    total_updated = 0
-    start = time.time()
-    for result,request_name in self._unwind_(cypher,{'batch': batch}, request_name=f'Update relation with {with_prop}'):
-      batch_updated = result[0]['updatedCount'] if result else 0
-      total_updated += batch_updated
-    
-    print(f'updated {total_updated} out of {len(from_rels)} relations in {execution_time(start)}')
-    return total_updated
-
 
 
   def close(self):
@@ -480,8 +446,48 @@ class neo4j_nx(GraphDatabase):
          
 #################################################################################################
 
+
     
 ################ LOAD INTO NEO4J ####################### LOAD INTO NEO4J ########################
+
+  def update_rels(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
+    '''
+    from_rels must be list of PSRelation with the same regulatorType, relType and targetType
+    '''
+    batch = []
+    for rel in from_rels:
+      if with_prop in rel:
+        prop_values = rel.get_props(with_prop)
+        prop_value = rel[with_prop] if len(prop_values) > 1 else rel[with_prop][0]
+        regulators = rel.regulators()
+        targets = rel.targets()
+        rel_effect = rel.effect(unknown='_')
+        rel_mechanism = rel.mechanism(if_missing_return='_')
+        for r in regulators:
+          for t in targets:
+            batch.append({'rURN': r.urn(),
+                          'tURN': t.urn(),
+                          'effect': rel_effect,
+                          'mechanism': rel_mechanism,
+                          'propValue': prop_value})
+    # submit in batches to avoid memory issues and to speed up the process with multithreading
+    dir = '-' if relType in NONDIRECTIONAL_RELTYPES  else '->'
+    cypher = f"""UNWIND $batch AS row 
+          MATCH (a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})
+          WHERE r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = '')
+          AND r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = '')
+          SET r.`{with_prop}` = row.propValue
+          RETURN COUNT(r) AS updatedCount
+          """
+    total_updated = 0
+    start = time.time()
+    for result,request_name in self._unwind_(cypher,{'batch': batch}, request_name=f'Update relation with {with_prop}'):
+      batch_updated = result[0]['updatedCount'] if result else 0
+      total_updated += batch_updated
+    
+    print(f'updated {total_updated} out of {len(from_rels)} relations in {execution_time(start)}')
+    return total_updated
+
 
   def create_group(self,group_name:str,link_type:str,members:list[PSObject]):
     '''

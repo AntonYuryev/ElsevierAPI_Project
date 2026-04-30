@@ -11,7 +11,7 @@ from typing import Optional
 from torch_geometric.data import HeteroData
 from collections import defaultdict,deque
 from concurrent.futures import ThreadPoolExecutor,as_completed
-from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT
+from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT, RELATIONID
 from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,DIRECT_RELTYPES,OBJECT_TYPE
 from .references import Reference, pubmed_hyperlink, make_hyperlink
 from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS
@@ -19,7 +19,7 @@ from .RefStats import RefStats,IDENTIFIER_COLUMN
 from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize
 from ..EmbioPSG_API.postgres import PostgreSQL
 
-RELATIONID = 'RelationID' # id in Neo4j
+
 RESNET = 'resnet'
 
 PS_REF_COULUMN = 'Number of reference. Link opens recent publications in PubMed'

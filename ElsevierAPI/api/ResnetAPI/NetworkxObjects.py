@@ -17,6 +17,7 @@ CHILDS = 'Childs'
 EFFECT = 'Effect'
 MECHANISM = 'Mechanism'
 CONNECTIVITY = 'Connectivity'
+RELATIONID = 'RelationID' # id in Neo4j
 RELATION_PROPS = [EFFECT,MECHANISM]
 ALL_PSREL_PROPS = RELATION_PROPS+PS_REFERENCE_PROPS
 ALL_REL_PROPS = RELATION_PROPS+REFERENCE_PROPS
@@ -524,8 +525,8 @@ class PSRelation(PSObject):
       return self.propvalues(MECHANISM)
     
 
-  def mechanism(self):
-      return str(self.get_prop(MECHANISM))
+  def mechanism(self,if_missing_return=''):
+      return str(self.get_prop(MECHANISM, if_missing_return=if_missing_return))
   
 
   def name(self):
@@ -867,9 +868,11 @@ class PSRelation(PSObject):
     if refresh: self.references.clear()     
     if not self.references: # making self.references from self.PropSetToProps:
       if relid2refs: # case when graph is loaded from Neo4j
-        relid = int(self['RelationID'][0])
-        if relid in relid2refs:
-          self.references = relid2refs[relid]
+        relids = self['RelationID']
+        for relid in relids:
+          irelid = int(relid)
+          if irelid in relid2refs:
+            self.references = relid2refs[irelid]
       else:
         refdict4self = dict() # {(idtype,id):ref} # holds reference dictionary to check for duplicates
         

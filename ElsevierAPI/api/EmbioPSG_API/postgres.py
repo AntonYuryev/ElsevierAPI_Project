@@ -1,10 +1,14 @@
 import psycopg2
-from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
 from time import sleep
-from ...utils.pandas.panda_tricks import df,pd
-from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
 from collections import defaultdict
 
+from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID
+from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
+from ...utils.pandas.panda_tricks import df,pd
+from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
+
+
+#  !!!!!!!!!!!!!!!!!RELATIONID != RELATION_ID !!!!!!!!!!!!!!!!
 SNIPPET_ID = 'unique_id'
 RELATION_ID = 'id'
 REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID'}#,'clinvar_rcv_id':'Clinvar RCV ID'}
@@ -246,8 +250,9 @@ class PostgreSQL:
 
   def load_refs(self):
     """
+    load self.rel2refDict
     output:
-      {embio_relation_id:[Reference]}
+      self.rel2refDict = {embio_relation_id:[Reference]}
     """
     if self.futures:
       processed_futures = []
@@ -261,6 +266,26 @@ class PostgreSQL:
       self.futures = [f for f in  self.futures if f not in processed_futures]
       print(f'Cached references for {len(self.rel2refDict)} relations from Postgres')
     return self.rel2refDict
+  
+
+  def add_refs(self,to_rels:list[PSRelation]):
+    '''
+    input:
+      to_rels: list of PSRelation objects that need references to be added
+    output:
+      to_rels with added references
+    '''
+    self.load_refs()
+    add_counter = 0
+    for rel in to_rels:
+      for relid in rel[RELATIONID]:
+        irelid = int(relid)
+        if irelid in self.rel2refDict:
+          new_refs = self.rel2refDict[irelid]
+          [rel.references.append(ref) for ref in new_refs if ref not in rel.references]
+          add_counter += 1
+    print(f'Added references to {add_counter} out of {len(to_rels)} relations')
+    return to_rels
   
   
   def snippets_with(self,keywords:list[str])->dict[int,list[Reference]]:
