@@ -1,7 +1,6 @@
-from .ResnetGraph import PROTEIN_TYPES,PHYSICAL_INTERACTIONS,ResnetGraph
-from .PSPathway import PSPathway
+from .PSPathway import PSPathway, ResnetGraph
 from .FolderContent import FolderContent
-from .NetworkxObjects import ACTIVATED,REPRESSED,UNKNOWN_STATE,OBJECT_TYPE,CONNECTIVITY,EFFECT,MECHANISM,REFCOUNT,PSRelation,PSObject
+from .NetworkxObjects import ACTIVATED,REPRESSED,UNKNOWN_STATE,OBJECT_TYPE,CONNECTIVITY,EFFECT,MECHANISM,REFCOUNT,PSRelation,PSObject,PROTEIN_TYPES,PHYSICAL_INTERACTIONS
 from .SemanticSearch import SemanticSearch,OQL,RANK
 from .ResnetAPISession import NO_REL_PROPERTIES,ONLY_REL_PROPERTIES,REFERENCE_IDENTIFIERS,BIBLIO_PROPERTIES,DBID
 from ..EmbioPSG_API.PSnx2Neo4j import Cypher

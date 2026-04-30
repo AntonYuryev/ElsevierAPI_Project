@@ -1,8 +1,8 @@
 from .DiseaseTargets import DiseaseTargets, Cypher
 from .DiseaseTargets import ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS,REFERENCE_IDENTIFIERS,UNKNOWN_TARGETS_WS
-from .ResnetGraph import ResnetGraph,PSObject,OBJECT_TYPE,EFFECT,PROTEIN_TYPES
-from .SemanticSearch import RANK,time,PHENOTYPE_WORKSHEET
-from .ResnetAPISession import APISession,OQL,NO_REL_PROPERTIES,BIBLIO_PROPERTIES,ALL_CHILDS
+from .NetworkxObjects import PSObject, OBJECT_TYPE,EFFECT
+from .SemanticSearch import RANK,time,PHENOTYPE_WORKSHEET, ResnetGraph
+from .ResnetAPISession import APISession,OQL,NO_REL_PROPERTIES,BIBLIO_PROPERTIES
 from ...utils.pandas.panda_tricks import df,np
 from ..FDA_API.fda_api import FDA
 from ..ReaxysAPI.Reaxys_API import drugs2props

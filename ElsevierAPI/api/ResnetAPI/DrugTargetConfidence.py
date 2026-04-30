@@ -1,6 +1,7 @@
 from .ResnetAPIcache import APIcache
 from .PathwayStudioGOQL import OQL
-from .ResnetGraph import ResnetGraph,EFFECT,REFCOUNT,PROTEIN_TYPES,PSObject,CONSISTENCY
+from .NetworkxObjects import EFFECT,PROTEIN_TYPES,PSObject
+from .ResnetGraph import CONSISTENCY,ResnetGraph,REFCOUNT
 from ...utils.utils import execution_time2,time,execution_time
 from math import log, sqrt
 from collections import defaultdict

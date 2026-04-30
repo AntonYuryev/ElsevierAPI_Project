@@ -1,5 +1,5 @@
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,PSObject,CONNECTIVITY,EFFECT, PSRelation
-from ..ResnetAPI.ResnetGraph import PHYSICAL_INTERACTIONS, PROTEIN_TYPES,RELATIONID
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,PSObject,CONNECTIVITY,EFFECT, PSRelation, PHYSICAL_INTERACTIONS, PROTEIN_TYPES
+from ..ResnetAPI.ResnetGraph import RELATIONID
 from ..ResnetAPI.references import ANATOMICAL_PROPS
 from collections import defaultdict
 

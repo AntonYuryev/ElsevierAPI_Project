@@ -21,15 +21,11 @@ from ..EmbioPSG_API.postgres import PostgreSQL
 
 RELATIONID = 'RelationID' # id in Neo4j
 RESNET = 'resnet'
-PHYSICAL_INTERACTIONS = ['Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction']
-NONDIRECTIONAL_RELATIONS = ['Binding','FunctionalAssociation','Paralog','Metabolization','CellExpression']
-BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
-PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
-ANATOMICAL_CONCEPTS = ['Cell','Organ','Tissue','CellType']
+
 PS_REF_COULUMN = 'Number of reference. Link opens recent publications in PubMed'
 NUMBER_OF_TARGETS = '# targets'
 CLOSENESS = 'Closeness'
-CONSISTENCY = 'Consistency coefficient'
+CONSISTENCY = 'Consistency coefficient' # for drug-target interactions
 NUMERICAL_PROPS = [CLOSENESS]+list(INT_PROPS)
 SENTENCE_PROPS_SET = set(SENTENCE_PROPS+['TextRef'])
 

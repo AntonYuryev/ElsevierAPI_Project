@@ -1,18 +1,18 @@
-from matplotlib.pylab import record
+import logging
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL_RELTYPES
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, NotificationSeverity
 from neo4j import ManagedTransaction as tx
-from .cypher import Cypher, ENTPROP_NEO4J, RELPROP_NEO4J
+from .cypher import Cypher, ENTPROP_NEO4J
 from .postgres import PostgreSQL
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
 nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL_RELTYPES))
 
 class neo4j_nx(GraphDatabase):
-  def __init__(self, APIconfig:dict={}):
+  def __init__(self, APIconfig:dict={},**kwargs):
     '''
     required kwargs: uriNeo4j, userNeo4j, password, database
     '''
@@ -24,7 +24,11 @@ class neo4j_nx(GraphDatabase):
     self.database = APIconfig['neo4jdb']
     self.user =  APIconfig['neo4juser']
     self.password = APIconfig['neo4jpswd']
-    self.__driver__ = super().driver(self.uri, auth=(self.user, self.password))
+    verbosity = kwargs.get('notifications_min_severity',NotificationSeverity.WARNING)
+    self.__driver__ = super().driver(self.uri, 
+                                     auth=(self.user, self.password),
+                                     notifications_min_severity=verbosity
+                                     )
     self.postgres = PostgreSQL(APIconfig)
   
 
@@ -60,6 +64,54 @@ class neo4j_nx(GraphDatabase):
         yield future.result()
 
 
+  def DBrelTypes(self):
+    cypher = 'CALL db.relationshipTypes() YIELD relationshipType RETURN relationshipType'
+    with self.session() as session:
+      result = list(session.run(cypher))
+      return sorted([record['relationshipType'] for record in result])
+    
+
+  def DBnodeLabels(self):
+    cypher = 'CALL db.labels() YIELD label RETURN label'
+    with self.session() as session:
+      result = list(session.run(cypher))
+      return sorted([record['label'] for record in result])
+         
+
+  def update_rels(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
+    '''
+    from_rels must be list of PSRelation with the same regulatorType, relType and targetType
+    '''
+    batch = []
+    for rel in from_rels:
+      if with_prop in rel:
+        prop_values = rel.get_props(with_prop)
+        prop_value = rel[with_prop] if len(prop_values) > 1 else rel[with_prop][0]
+        regulators = rel.regulators()
+        targets = rel.targets()
+        for r in regulators:
+          for t in targets:
+            batch.append({'rURN': r.urn(),
+                          'tURN': t.urn(), 
+                          'propValue': prop_value})
+
+    cypher = f"""UNWIND $batch AS row 
+            MATCH (a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]->(b:{targetType} {{URN:row.tURN}}) 
+            SET r.`{with_prop}` = row.propValue
+            RETURN COUNT(r) AS updatedCount
+            """
+    
+    total_updated = 0
+    start = time.time()
+    for result,request_name in self._unwind_(cypher,{'batch': batch}, request_name=f'Update relation with {with_prop}'):
+      batch_updated = result[0]['updatedCount'] if result else 0
+      total_updated += batch_updated
+    
+    print(f'updated {total_updated} out of {len(from_rels)} relations in {execution_time(start)}')
+    return total_updated
+
+
+
   def close(self):
       # Don't forget to close the driver connection when you are finished with it
       self.__driver__.close()
@@ -72,7 +124,7 @@ class neo4j_nx(GraphDatabase):
     return psobj
 
 
-  def __triple2psrel(self, triple:neo4j.Record)->PSRelation:
+  def _triple2psrel(self, triple:neo4j.Record,add_reldbid=False)->PSRelation:
       '''
         triple: regulator-relation-target
       '''
@@ -92,6 +144,8 @@ class neo4j_nx(GraphDatabase):
         elif v not in ['_','']:
           reldict[k] = [v]
       reldict[OBJECT_TYPE] = [triple[1].type]
+      if add_reldbid:
+        reldict[DBID] = [triple[1].element_id]
       is_directional = reldict[OBJECT_TYPE][0] not in nondirectional_reltype
       rel_obj = PSRelation.make_rel(regulator,target,reldict,[],is_directional)
       return rel_obj
@@ -144,7 +198,7 @@ class neo4j_nx(GraphDatabase):
         start = time.time()
         neo4j_result = list(session.run(cypher,parameters))
         print(f'Cypher query "{request_name}" fetched {len(neo4j_result)} triples in {execution_time(start)}')
-        psrels = [self.__triple2psrel(record) for record in neo4j_result]
+        psrels = [self._triple2psrel(record) for record in neo4j_result]
         if psrels:
           if parameters.pop('with_references',True):
             # must use set() here: relations with the same RELATIONID can be duplicated
@@ -734,8 +788,6 @@ class neo4j_nx(GraphDatabase):
     else:
       for chunk in [full_list[i:i + chunk_size] for i in range(0, len(full_list), chunk_size)]:
         yield self.process_update(update_cypher, chunk)
-                  
-      
 
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################
   def delete_rels_with(self, values:list[str], in_propName:str):

@@ -1,7 +1,8 @@
 from .ResnetAPISession import time, math, NO_REL_PROPERTIES
 from .ResnetAPIcache import APIcache,os,CACHE_DIR
-from .ResnetGraph import REFCOUNT, EFFECT,NUMBER_OF_TARGETS,PROTEIN_TYPES,OBJECT_TYPE
-from .ResnetGraph import ResnetGraph, nx, PSObject
+from .ResnetGraph import REFCOUNT, EFFECT,NUMBER_OF_TARGETS,OBJECT_TYPE
+from .ResnetGraph import ResnetGraph, nx
+from .NetworkxObjects import PROTEIN_TYPES,PSObject
 from .PSPathway import PSPathway
 from ...utils.pandas.panda_tricks import df, ExcelWriter
 from .Drugs4Disease import Drugs4Targets

@@ -34,6 +34,17 @@ CHEMICAL_PROPS = ["CAS ID","HMDB ID","IUPAC Name","InChIKey","LMSD ID","Alias",
 DIRECT_RELTYPES = {'DirectRegulation','Binding','ChemicalReaction','ProtModification','PromoterBinding'}
 NONDIRECTIONAL_RELTYPES = {'Binding','CellExpression',FUNC_ASSOC,'Metabolization','Paralog'}
 
+PHYSICAL_INTERACTIONS = ['Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction']
+NONDIRECTIONAL_RELATIONS = ['Binding','FunctionalAssociation','Paralog','Metabolization','CellExpression']
+BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
+PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
+ANATOMICAL_CONCEPTS = ['Cell','Organ','Tissue','CellType']
+
+RESNET_NODE_TYPES = PROTEIN_TYPES+['Organ','Tissue','CellType']+['CellProcess','Disease','GeneticVariant','ClinicalParameter']
+RESNET_REL_TYPES = PHYSICAL_INTERACTIONS + BIOMARKER_RELATIONS+['Regulation','Expression','MolTransport','MolSynthesis','FunctionalAssociation','CellExpression']
+RESNET_NODE_TYPES.sort()
+RESNET_REL_TYPES.sort()
+
 SENTENCE_PROPSET = set(SENTENCE_PROPS)
 IGNORE_TEXTREFS = {'Admin imported', 'Customer imported', ''}
 
