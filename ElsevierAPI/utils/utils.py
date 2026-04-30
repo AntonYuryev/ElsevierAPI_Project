@@ -16,6 +16,7 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 import matplotlib.pyplot as plt
 from functools import partial
 from urllib.error import URLError
+from pathlib import Path
 
 
 # The "Safety Net" for almost all urllib-related failures:
@@ -28,8 +29,41 @@ NETWORK_EXCEPTIONS = (
     ssl.SSLError                   # HTTPS/Certificate issues
 )
 
-DEFAULT_CONFIG_DIR = os.path.join(os.getcwd(),'ElsevierAPI/')
-PATH2APICONFIG = os.path.join(DEFAULT_CONFIG_DIR,'.path2APIconfig.json')
+def _resolve_project_root(root_dir_name='ElsevierAPI_Project') -> Path:
+  """
+  Resolve the project root for both Python scripts and Jupyter notebooks.
+  """
+  current = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd().resolve()
+  for candidate in [current, *current.parents]:
+    if candidate.name == root_dir_name:
+      return candidate
+    nested = candidate / root_dir_name
+    if nested.exists():
+      return nested
+  return current
+
+
+def resolve_path2apiconfig(root_dir_name='ElsevierAPI_Project') -> str:
+  """
+  Resolve .path2APIconfig.json location for scripts and notebooks.
+  """
+  root_dir = _resolve_project_root(root_dir_name)
+  candidates = [
+      root_dir / 'ElsevierAPI' / '.path2APIconfig.json',
+      root_dir / '.path2APIconfig.json',
+      Path.cwd() / 'ElsevierAPI' / '.path2APIconfig.json',
+      Path.cwd() / '.path2APIconfig.json',
+  ]
+
+  for config_path in candidates:
+    if config_path.exists():
+      return str(config_path)
+
+  return str(candidates[0])
+
+
+DEFAULT_CONFIG_DIR = str(_resolve_project_root() / 'ElsevierAPI')
+PATH2APICONFIG = resolve_path2apiconfig()
 PCT = '%'
 
 CHROME_HEADERS = {
@@ -70,7 +104,7 @@ def execution_time2(execution_start:float,current_iteration:int,number_of_iterat
 def load_api_config(api_config_file='')->dict[str,str]:# file with your API keys and API URLs
   if not api_config_file:
     print(f'No API config file was specified\nWill use API config file specified in {PATH2APICONFIG} instead')
-    api_config_file = json.loads(open(PATH2APICONFIG,'r').read())
+    api_config_file = json.loads(open(PATH2APICONFIG,'r',encoding='utf-8').read())
 
   try:
     return dict(json.load(open(api_config_file,'r')))
@@ -718,6 +752,14 @@ def deterministic_hash64(text):
   myhash = deterministic_hash64
 
 
+def set_root_dir(root_dir_name='ElsevierAPI_Project'):
+  root_dir = _resolve_project_root(root_dir_name)
+  root_dir_str = str(root_dir)
+  if root_dir_str not in sys.path:
+    sys.path.append(root_dir_str)
+  return root_dir_str
+
+
 class Tee(object):
     def __init__(self, filename, mode="w"):
         self.file = open(filename, mode,encoding='utf-8')
@@ -737,3 +779,5 @@ class Tee(object):
 
     def __exit__(self, exc_type, exc_value, traceback):
         sys.stdout = self.stdout  # Restore original stdout
+
+

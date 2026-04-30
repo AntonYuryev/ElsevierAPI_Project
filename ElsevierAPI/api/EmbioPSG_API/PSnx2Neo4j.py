@@ -1,3 +1,4 @@
+from matplotlib.pylab import record
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
@@ -24,7 +25,7 @@ class neo4j_nx(GraphDatabase):
     self.user =  APIconfig['neo4juser']
     self.password = APIconfig['neo4jpswd']
     self.__driver__ = super().driver(self.uri, auth=(self.user, self.password))
-    self.postgres = PostgreSQL()
+    self.postgres = PostgreSQL(APIconfig)
   
 
   def session(self):
@@ -76,14 +77,14 @@ class neo4j_nx(GraphDatabase):
         triple: regulator-relation-target
       '''
       assert(len(triple) == 3), 'Only triples Regulator-relationship-target are considered'
-      regulator = PSObject({k:[v] for k,v in triple[0]._properties.items() if v not in ['_','']})
+      regulator = PSObject({k:[v] for k,v in triple[0].items() if v not in ['_','']})
       regulator[OBJECT_TYPE] =  list(triple[0].labels)
       regulator['URN'] =  regulator.pop('urn',regulator['URN'])
-      target = PSObject({k:[v] for k,v in triple[2]._properties.items() if v not in ['_','']})
+      target = PSObject({k:[v] for k,v in triple[2].items() if v not in ['_','']})
       target[OBJECT_TYPE] =  list(triple[2].labels)
       target['URN'] =  target.pop('urn',target['URN'])
       reldict = dict()
-      for k,v in triple[1]._properties.items():
+      for k,v in triple[1].items():
         if isinstance(v,list):
           v_clean = [x for x in v if x != '_'] # to support merged relations
           if v_clean:
@@ -94,6 +95,39 @@ class neo4j_nx(GraphDatabase):
       is_directional = reldict[OBJECT_TYPE][0] not in nondirectional_reltype
       rel_obj = PSRelation.make_rel(regulator,target,reldict,[],is_directional)
       return rel_obj
+  
+
+  def triple2dics(self,triple:neo4j.Record)->tuple[dict,dict,dict]:
+    '''
+      support graph visualisation in yFiles.
+      output: (regulator-relation-target)
+    '''
+    reg_record = triple[0]
+    reg_props = {k:[v] for k,v in reg_record.items() if v not in ['_','']}
+    reg_urn = reg_props['URN'][0]
+    regulator = { "id": reg_urn,
+                  "properties": reg_props,
+                  "labels": list(reg_record.labels)
+                }
+    
+    target_record = triple[2]
+    target_props = {k:[v] for k,v in target_record.items() if v not in ['_','']}
+    tar_urn = target_props['URN'][0]
+    target = { "id": tar_urn,
+                "properties": target_props,
+                "labels": list(target_record.labels)
+              }
+    
+    rel_record = triple[1]
+    rel_props = {k:[v] for k,v in rel_record.items() if v not in ['_','']}
+    rel = {
+        "id": rel_record.element_id,
+        "start": reg_urn,
+        "end": tar_urn,
+        "properties": rel_props,
+        "label": rel_record.type
+    }
+    return regulator, rel, target
 
 
   def fetch_graph(self,cypher:str,parameters:dict={},request_name='')->ResnetGraph:

@@ -23,7 +23,7 @@ RELATIONID = 'RelationID' # id in Neo4j
 RESNET = 'resnet'
 PHYSICAL_INTERACTIONS = ['Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction']
 NONDIRECTIONAL_RELATIONS = ['Binding','FunctionalAssociation','Paralog','Metabolization','CellExpression']
-BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange']
+BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
 PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
 ANATOMICAL_CONCEPTS = ['Cell','Organ','Tissue','CellType']
 PS_REF_COULUMN = 'Number of reference. Link opens recent publications in PubMed'
@@ -4236,32 +4236,6 @@ class ResnetGraph (nx.MultiDiGraph):
     nodes = from_nodes if from_nodes else self._get_nodes()
     return self._make_map(using_props,nodes)
   
-    '''
-    output:
-      {objectype:{propname:{propval:PSObject}}}, where propval is in lowercase()
-    '''
-    nodes = from_nodes if from_nodes else self._get_nodes()
-    mapdic = dict()
-    for n in nodes:
-      for prop in using_props:
-        try:
-          vals = n.get_props([prop])
-          vals = [x.lower() for x in vals]
-          n_type = n.objtype()
-          try:
-            [mapdic[n_type][prop][v].append(n) for v in vals]
-          except KeyError:
-            try:
-              for v in vals: 
-                mapdic[n_type][prop][v] =[n]
-            except KeyError:
-                mapdic[n_type] = {prop:{vals[0]:[n]}}
-              #  for i in range(1,len(vals)):
-              #    mapdic[n_type][prop].update({vals[i]:[n.urn()]})
-        except KeyError:
-            continue
-        
-    return dict(mapdic)
 
 '''
 class Regulome(ResnetGraph):
