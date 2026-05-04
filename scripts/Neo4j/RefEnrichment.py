@@ -174,6 +174,9 @@ def plot_group_name(stat_file:str):
 
 
 def group_stats_by_triple(stat_dir=WORK_DIR,file_ext='tsv'):
+  '''
+    Combines stats for protein type nodes: Protein,FunctionalClass,Complex
+  '''
   stat_files = dir2flist(stat_dir,file_ext=file_ext,include_subdirs=False)
   triple2stats = defaultdict(list)
   for stat_file in stat_files:
@@ -280,7 +283,6 @@ def RetreiveStats(_4nodetypes=RESNET_NODE_TYPES,_4reltypes=RESNET_REL_TYPES):
 
 
 if __name__ == "__main__":
-  #RetreiveStats(_4reltypes=['GeneticChange'])
-  #input_dir = os.path.join(WORK_DIR,'GeneticChange')
-  #make_plots()
-  _loadRefEnrichment_()
+  RetreiveStats() # retrieves relation RefCount and node neighborhood RefCount from Neo4j and calculates refEnrichment score
+  make_plots() # optional make histograms of RefEnrichment score distributions for each triple type NodeType1-RelType-NodeType2
+  _loadRefEnrichment_() # annotates relations in Neo4j with "refEnrichment" property calculated by RetreiveStats()
