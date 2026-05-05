@@ -1,7 +1,6 @@
 import psycopg2
 from time import sleep
 from collections import defaultdict
-
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID
 from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
 from ...utils.pandas.panda_tricks import df,pd
@@ -140,8 +139,8 @@ class PostgreSQL:
         plot_distribution([{f'{table}.{col}':distribution}],outdir=outdir)
 
 
-  def get_refs(self,relations_id:list[str]):
-    new_relids = set(relations_id).difference(self.rel2refDict)
+  def get_refs(self,relations_id:set[str]):
+    new_relids = relations_id.difference(self.rel2refDict)
     newrelid_str = ','.join(map(str, new_relids))
     sql = f"SELECT * FROM {self.resnet_version}.reference WHERE {self.resnet_version}.reference.id IN ({newrelid_str})"
     with self.db.cursor() as cur:
@@ -163,14 +162,18 @@ class PostgreSQL:
     
     
 
-  def submit_refs(self, relations_ids:list[str]):
+  def submit_refs(self, relations_ids:set[str],batch_size=50000):
     """
       submits reference fetching job to ThreadPoolExecutor future that is added to self.futures
     """
     if relations_ids:
-      if len(relations_ids) > 10000:
-        print(f'Submitting reference retrieval for {len(relations_ids)} relations to Postgres executor')
-      self.futures.append(self.executor.submit(self.get_refs,relations_ids))
+      if len(relations_ids) > batch_size:
+        print(f'Submitting reference retrieval for {len(relations_ids)} relations to Postgres executor in batches of {batch_size}')
+      
+      relid_list = list(relations_ids)
+      for i in range(0, len(relid_list), batch_size):
+        batch = set(relid_list[i:i+batch_size])
+        self.futures.append(self.executor.submit(self.get_refs,batch))
 
 
   def scopus_data(self, refids:list[int]):
@@ -194,7 +197,10 @@ class PostgreSQL:
         return pd.DataFrame()
       
     rows = [list(r) for r in rows]
-    scopus_pd = pd.DataFrame(rows,columns=colnames).set_index('reference_id')
+    scopus_pd = pd.DataFrame(rows,columns=colnames)
+    #no_list_cols = [col for col in scopus_pd.columns if col != 'author_ids_masked']
+    #scopus_pd = scopus_pd.drop_duplicates(subset = no_list_cols,ignore_index=True)
+    scopus_pd = scopus_pd.set_index('reference_id')
     return scopus_pd
   
 
@@ -235,7 +241,9 @@ class PostgreSQL:
 
         snippet_id = int(ref_pd.at[refpd_idx,SNIPPET_ID])
         if snippet_id in scopus_pd.index:
-          ref_scopus_data = scopus_pd.loc[snippet_id].to_dict()
+        #  if snippet_id == -4265759418113288334:
+        #    print()
+          ref_scopus_data = scopus_pd.loc[[snippet_id]].iloc[0].to_dict() # in case of duplicates in scopus_pd, take the first one
           ref.update({SCOPUS_DATA[k]:[v] for k,v in ref_scopus_data.items() if k in SCOPUS_DATA})
         else:
           refid = ref.doi_or_id()
@@ -268,7 +276,7 @@ class PostgreSQL:
     return self.rel2refDict
   
 
-  def add_refs(self,to_rels:list[PSRelation]):
+  def add_refs(self,to_rels:set[PSRelation]):
     '''
     input:
       to_rels: list of PSRelation objects that need references to be added
@@ -281,7 +289,7 @@ class PostgreSQL:
       for relid in rel[RELATIONID]:
         irelid = int(relid)
         if irelid in self.rel2refDict:
-          new_refs = self.rel2refDict[irelid]
+          new_refs = self.rel2refDict.pop(irelid) # use pop here to keep memory use down, assuming that each relation has around 10 refs, this should free up memory after processing 100 relations
           [rel.references.append(ref) for ref in new_refs if ref not in rel.references]
           add_counter += 1
     print(f'Added references to {add_counter} out of {len(to_rels)} relations')
@@ -293,7 +301,6 @@ class PostgreSQL:
     output:
       {relation_id:[Reference]},
       relation IDs for references containing any of the keywords in their sentences
-      
     '''
     start = time.time()
     vrsn = self.resnet_version
@@ -304,3 +311,42 @@ class PostgreSQL:
     rel2refs = self.__rows2refs(ref_pd)
     print(f'Snippet search for keywords {keywords} found {len(rel2refs)} relations and {len(ref_pd)} snippets in {execution_time(start)}')
     return rel2refs
+  
+
+  def select_citation_score(self,rels:list[PSRelation]):
+    relids = set()
+    [relids.update(rel[RELATIONID]) for rel in rels if rel[RELATIONID]]
+    relid_str = ','.join([str(relid) for relid in relids])
+    sql = f"""SELECT DISTINCT reference.id, relation_score
+          FROM {self.resnet_version}.reference, {self.resnet_version}.scopus_data
+          WHERE {self.resnet_version}.reference.unique_id = {self.resnet_version}.scopus_data.reference_id
+          AND {self.resnet_version}.reference.id IN ({relid_str})
+          """
+    
+    with self.db.cursor() as cur:
+      try:
+        cur.execute(sql)
+        rows = cur.fetchall()
+        if rows:
+          return {str(row[0]):row[1] for row in rows}
+        else:
+          return dict()
+      except Exception as e:
+        print(f'Error fetching citation score from Postgres for relation_ids {relid_str} with SQL {sql[:255]}:')
+        print(e)
+        self.db.rollback()
+        return dict()
+
+
+  def add_citation_score(self,rels:list[PSRelation]):
+    relid2citation_score = self.select_citation_score(rels)
+    rels_with_score = []
+    for rel in rels:
+      rel_ids = rel[RELATIONID]
+      for rel_id in rel_ids:
+        if rel_id in relid2citation_score:
+          rel['Citation score'] = [round(relid2citation_score[rel_id], 4)]
+          rels_with_score.append(rel)
+          break # if one of the relation IDs has a citation score, add it to the relation and move on to the next relation
+    print(f'\nAdded citation score to {len(rels_with_score)} out of {len(rels)} relations based on Scopus data from Postgres')
+    return rels_with_score

@@ -32,18 +32,18 @@ CHEMICAL_PROPS = ["CAS ID","HMDB ID","IUPAC Name","InChIKey","LMSD ID","Alias",
                   "Molecular Formula", "Molecular Weight","NCIm ID","PubChem CID","PubChem SID",
                   "Reaxys ID","Rotatable Bond Count","XLogP","XLogP-AA","Description","PharmaPendium ID"]
 
-DIRECT_RELTYPES = {'DirectRegulation','Binding','ChemicalReaction','ProtModification','PromoterBinding'}
-NONDIRECTIONAL_RELTYPES = {'Binding','CellExpression',FUNC_ASSOC,'Metabolization','Paralog'}
-
-PHYSICAL_INTERACTIONS = ['Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction']
-NONDIRECTIONAL_RELATIONS = ['Binding','FunctionalAssociation','Paralog','Metabolization','CellExpression']
-BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
 PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
 ANATOMICAL_CONCEPTS = ['Cell','Organ','Tissue','CellType']
-
-RESNET_NODE_TYPES = PROTEIN_TYPES+['Organ','Tissue','CellType']+['CellProcess','Disease','GeneticVariant','ClinicalParameter']
-RESNET_REL_TYPES = PHYSICAL_INTERACTIONS + BIOMARKER_RELATIONS+['Regulation','Expression','MolTransport','MolSynthesis','FunctionalAssociation','CellExpression']
+ORGANISM_CONCEPTS = ['Organism','Pathogen','Virus']
+ABSTARCT_CONCEPTS = ['CellProcess','Disease',GENETICVARIANT,'ClinicalParameter']
+RESNET_NODE_TYPES = ['SmallMol'] + PROTEIN_TYPES + ANATOMICAL_CONCEPTS + ORGANISM_CONCEPTS + ABSTARCT_CONCEPTS
 RESNET_NODE_TYPES.sort()
+
+NONDIRECTIONAL = {'Binding','CellExpression',FUNC_ASSOC,'Metabolization','Paralog'}
+PHYSICAL_INTERACTIONS = {'Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction'}
+BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
+INDIRECT_REGULATIONS = {'Regulation','Expression','MolTransport','MolSynthesis'}
+RESNET_REL_TYPES = list(PHYSICAL_INTERACTIONS) + BIOMARKER_RELATIONS + list(INDIRECT_REGULATIONS) + ['FunctionalAssociation','CellExpression']
 RESNET_REL_TYPES.sort()
 
 SENTENCE_PROPSET = set(SENTENCE_PROPS)
@@ -872,7 +872,7 @@ class PSRelation(PSObject):
         for relid in relids:
           irelid = int(relid)
           if irelid in relid2refs:
-            self.references = relid2refs[irelid]
+            self.references = relid2refs.pop(irelid) # use pop here to keep memory use down
       else:
         refdict4self = dict() # {(idtype,id):ref} # holds reference dictionary to check for duplicates
         
@@ -1293,7 +1293,7 @@ class PSRelation(PSObject):
           return INDIRECT
       
       objtype = self.objtype()
-      if objtype in DIRECT_RELTYPES:
+      if objtype in PHYSICAL_INTERACTIONS:
           return DIRECT if self.count_refs() >= MINREF4DIRECTREL else INDIRECT
       elif objtype in {'Regulation','MolTransport','Expression','MolSynthesis'}:
           return INDIRECT

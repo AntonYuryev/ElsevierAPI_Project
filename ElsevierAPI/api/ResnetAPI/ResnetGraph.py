@@ -12,7 +12,7 @@ from torch_geometric.data import HeteroData
 from collections import defaultdict,deque
 from concurrent.futures import ThreadPoolExecutor,as_completed
 from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT, RELATIONID
-from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,DIRECT_RELTYPES,OBJECT_TYPE
+from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,PHYSICAL_INTERACTIONS,OBJECT_TYPE
 from .references import Reference, pubmed_hyperlink, make_hyperlink
 from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS
 from .RefStats import RefStats,IDENTIFIER_COLUMN
@@ -1619,7 +1619,7 @@ class ResnetGraph (nx.MultiDiGraph):
       return self._get_nodes(taregt_uids)
 
 
-  def __mean_effect(self,of_regulator:PSObject|int,with_reltypes:set=DIRECT_RELTYPES,cutoff = 0.8):
+  def __mean_effect(self,of_regulator:PSObject|int,with_reltypes:set=PHYSICAL_INTERACTIONS,cutoff = 0.8):
       '''
       Return
       ------

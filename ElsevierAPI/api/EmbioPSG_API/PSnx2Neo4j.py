@@ -1,15 +1,15 @@
-import logging
+import csv
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL_RELTYPES
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL
 from neo4j import GraphDatabase, NotificationSeverity
 from neo4j import ManagedTransaction as tx
 from .cypher import Cypher, ENTPROP_NEO4J
 from .postgres import PostgreSQL
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
-nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL_RELTYPES))
+nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL))
 
 class neo4j_nx(GraphDatabase):
   def __init__(self, APIconfig:dict={},**kwargs):
@@ -32,11 +32,15 @@ class neo4j_nx(GraphDatabase):
     self.postgres = PostgreSQL(APIconfig)
   
 
-  def session(self):
-    return self.__driver__.session(database=self.database)
+  def session(self,**kwargs):
+    return self.__driver__.session(database=self.database, **kwargs)
   
 
   def run_cypher(self,cypher:str,parameters:dict={},request_name=''):
+    '''
+    output:
+      (result,request_name) where result is the list of records returned by Neo4j for the query
+    '''
     with self.session() as session:
       result = list(session.run(cypher,parameters))
       if request_name:
@@ -51,7 +55,7 @@ class neo4j_nx(GraphDatabase):
         yields tuples of (result,request_name) for each batch processed, where result is the list of records returned by Neo4j for the batch
     '''
     batch_size = 10000
-    print(f'Multithread cypher query "{request_name}" with chunks {batch_size} and total input {len(parameters["batch"])}')
+    print(f'Multithreading cypher "{request_name}" for {len(parameters["batch"])} input list. Batch size: {batch_size}')
     with ThreadPoolExecutor() as ex:
       futures = []
       for i in range(0, len(parameters['batch']), batch_size):
@@ -197,26 +201,19 @@ class neo4j_nx(GraphDatabase):
                                       target_objtypes, target_props,target_propName,by_relProps,dir)
     params['with_references'] = with_references
     params['edge_duplication'] = edge_duplication
-    connectionG = self.fetch_graph(cypher, params, request_name=request_name)
-    return connectionG
+    return self.fetch_graph(cypher, params, request_name=request_name)
+
 
 
 
   def connect_objs(self,regulators:set[PSObject],targets:set[PSObject],
                    by_relProps:dict[str,list[str|int|float]]={}, dir=False,
                    with_references=True,edge_duplication=True)->ResnetGraph:
-    regtypes = {n.objtype() for n in regulators}
-    targtypes = {n.objtype() for n in targets}
-    regurns = [n.urn() for n in regulators]
-    targurns = [n.urn() for n in targets]
     request_name = f'Connect {len(regulators)} regulators and {len(targets)} targets'
-    return self._connect_(list(regtypes),regurns,'URN',
-                          list(targtypes),targurns,'URN',
-                          by_relProps,dir,
-                          with_references=with_references,
-                          edge_duplication=edge_duplication,
-                          request_name=request_name)
-    return
+    cypher,params = Cypher.connect_objs(regulators,targets,by_relProps,dir)
+    params['with_references'] = with_references
+    params['edge_duplication'] = edge_duplication
+    return self.fetch_graph(cypher, params, request_name=request_name)
   
   
   def get_ppi(self,interactors:set[PSObject], minref=2,with_references=True)->ResnetGraph:
@@ -443,16 +440,70 @@ class neo4j_nx(GraphDatabase):
       except Exception as e:
         print(f"Error during network retrival: {e}")
         raise
+
+
+  def export_relation_properties(self,fout:str, relProps:dict[str,bool],_4reltypes=[]):
+    '''
+    input:
+      relProps: {relation_property_name: cannot_have_null_values}, if cannot_have_null_values is True, rows with null values for this property will be skipped in the output
+      _4reltypes: if specified, export only for these relation types, otherwise export all relation types in the database
+    '''
+    prop_names = list(relProps.keys())
+    reltypes = _4reltypes if _4reltypes else self.DBrelTypes()
+    reltypes = '|'.join(reltypes)
+    match = f"MATCH ()-[r:{reltypes}]->()"
+    
+    where_clauses = []
+    for prop in prop_names:
+      if relProps[prop]:
+         quoted_name = Cypher.quoted_prop(prop)
+         where_clauses.append(f'r.{quoted_name} IS NOT NULL AND r.{quoted_name} <> ["", "_"]')
+    if where_clauses:
+      match += ' WHERE ' + ' AND '.join(where_clauses)
+    
+    cypher2count = match + ' RETURN COUNT(r) AS count'
+    cypher4export = match + ' RETURN ' + ', '.join([f'r.{Cypher.quoted_prop(prop)} AS {prop}' for prop in prop_names])
+
+    count_rels = self.run_cypher(cypher2count,request_name='Count relations for export')[0][0]['count']
+    print(f'Exporting {count_rels} relations with properties {list(relProps.keys())}')
+    
+    counter = 0
+    with self.session(fetch_size=10000) as session:
+      result = session.run(cypher4export)
+      with open(fout, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(prop_names) # header
+        for record in result:
+          row_values = [record[prop] for prop in prop_names]      
+          writer.writerow(row_values)
+          counter += 1
+          percent = (counter / count_rels) * 100
+          if percent % 10 == 0:
+            print(f'Exported {percent:.2f}% of {count_rels} relations...')
          
 #################################################################################################
 
 
     
 ################ LOAD INTO NEO4J ####################### LOAD INTO NEO4J ########################
+  def update_rels(self, with_prop:str, from_rels:list[PSRelation]):
+    reltypes = '|'.join(set(rel.objtype() for rel in from_rels))
+    regulators = set()
+    targets = set()
+    for rel in from_rels:
+      regulators.update(rel.regulators())
+      targets.update(rel.targets())
+    regulator_nodetypes = '|'.join(set(n.objtype() for n in regulators))
+    target_nodetypes = '|'.join(set(n.objtype() for n in targets))
+    return self._update_rels_(with_prop, from_rels, regulator_nodetypes, reltypes, target_nodetypes)
 
-  def update_rels(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
+
+
+  def _update_rels_(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
     '''
     from_rels must be list of PSRelation with the same regulatorType, relType and targetType
+    output:
+      (number of updated relations, match used to select them in Neo4j)
     '''
     batch = []
     for rel in from_rels:
@@ -471,9 +522,10 @@ class neo4j_nx(GraphDatabase):
                           'mechanism': rel_mechanism,
                           'propValue': prop_value})
     # submit in batches to avoid memory issues and to speed up the process with multithreading
-    dir = '-' if relType in NONDIRECTIONAL_RELTYPES  else '->'
+    dir = '-' if relType in NONDIRECTIONAL  else '->'
+    match = f'(a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})'
     cypher = f"""UNWIND $batch AS row 
-          MATCH (a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})
+          MATCH {match}
           WHERE r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = '')
           AND r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = '')
           SET r.`{with_prop}` = row.propValue
@@ -485,8 +537,9 @@ class neo4j_nx(GraphDatabase):
       batch_updated = result[0]['updatedCount'] if result else 0
       total_updated += batch_updated
     
-    print(f'updated {total_updated} out of {len(from_rels)} relations in {execution_time(start)}')
-    return total_updated
+    match = f'(a:{regulatorType})-[r:{relType}]{dir}(b:{targetType})'
+    print(f'updated {total_updated} out of {len(from_rels)} matched by {match} in {execution_time(start)}')
+    return total_updated, match
 
 
   def create_group(self,group_name:str,link_type:str,members:list[PSObject]):
@@ -813,6 +866,7 @@ class neo4j_nx(GraphDatabase):
       neighbortype: filter for neighbor node type (label), if retreives data for any neighbor type linked to each seed node,
       set neighbortype to empty to calculate citation count for non-directional relations connecting nodes of the same type, e.g. protein-protein interactions
     '''
+    print('Collecting nodes reference density and connectivity in Neo4j...')
     s = f's:{seedtype}' if seedtype else 's'
     r = f'r:{reltype}' if reltype else 'r'
     n = f'n:{neighbortype}' if neighbortype else '' #if neighbortype is empty will match any neighbor node
@@ -884,5 +938,5 @@ class neo4j_nx(GraphDatabase):
             return_node.update_with_value(CONNECTIVITY,rel_count)
             node_dict[return_node.urn()] = return_node
       
-      print(f'Total collected {len(node_dict)} nodes with citation counts in {execution_time(start)}')
+      print(f'Total collected {len(node_dict)} nodes in {execution_time(start)}')
     return node_dict

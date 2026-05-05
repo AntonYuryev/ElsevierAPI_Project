@@ -13,6 +13,15 @@ class Cypher:
   @staticmethod
   def __urns(nodes:list[PSObject]):
     return [n.urn() for n in nodes]
+  
+  @staticmethod
+  def quoted_prop(prop_name:str)->str:
+    escaped = prop_name.replace('`', '``')
+    return f'`{escaped}`' if any(ch.isspace() for ch in prop_name) else escaped
+
+  @staticmethod
+  def quoted_list(prop_names:list[str])->list[str]:
+    return [Cypher.quoted_prop(name) for name in prop_names]
 
 
   @staticmethod
@@ -404,13 +413,42 @@ class Cypher:
 
     cypher = f'MATCH ({a})'
     if regulator_props:
-      cypher += f'WHERE a.{regulator_propName} IN $regpropList\n'
+      cypher += f'\nWHERE a.{regulator_propName} IN $regpropList\n'
       parameters['regpropList'] = regulator_props
     cypher += f'\nMATCH ({b})'
     if target_props:
-      cypher += f'WHERE b.{target_propName} IN $tarpropList\n'
+      cypher += f'\nWHERE b.{target_propName} IN $tarpropList\n'
       parameters['tarpropList'] = target_props
     
+    if dir:
+      cypher += f'MATCH (a)-[r]->(b)\n'
+    else:
+      cypher += f'MATCH (a)-[r]-(b)\n'
+    
+    cypher = Cypher.add_relProps(cypher, by_relProps)
+    cypher += '\nRETURN startNode(r) AS Regulator, r AS Relation, endNode(r) AS Target'
+    return cypher, parameters
+  
+
+  @staticmethod
+  def connect_objs(regulators:set[PSObject],targets:set[PSObject],
+                   by_relProps:dict[str,list[str|int|float]]={}, dir=False):
+
+    parameters = dict()
+    a = f'a:{'|'.join({obj.objtype() for obj in regulators})}'
+    b = f'b:{'|'.join({obj.objtype() for obj in targets})}'
+ 
+    reg_urns = [obj.urn() for obj in regulators]
+    parameters['rURNs'] = reg_urns
+    tar_urns = [obj.urn() for obj in targets]
+    parameters['tURNs'] = tar_urns
+
+    cypher = 'UNWIND $rURNs AS rURN\n'
+    cypher += f'MATCH ({a} {{URN:rURN}})\n'
+
+    cypher += f'UNWIND $tURNs AS tURN\n'
+    cypher += f'MATCH ({b} {{URN:tURN}})\n'
+
     if dir:
       cypher += f'MATCH (a)-[r]->(b)\n'
     else:
