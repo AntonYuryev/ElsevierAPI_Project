@@ -48,13 +48,15 @@ class neo4j_nx(GraphDatabase):
       return result,request_name
  
 
-  def _unwind_(self,cypher:str,parameters:dict={},request_name=''):
+  def _unwind_(self,cypher:str,parameters:dict={}):
     '''
       Cypher query must contain UNWIND $batch AS row and use row.{item} to refer to items in the list\n
+      request_name can be in parameters for messaging purposes, but is not used in the cypher query itself
       output:
         yields tuples of (result,request_name) for each batch processed, where result is the list of records returned by Neo4j for the batch
     '''
     batch_size = 10000
+    request_name = parameters.pop('request_name','')
     print(f'Multithreading cypher "{request_name}" for {len(parameters["batch"])} input list. Batch size: {batch_size}')
     with ThreadPoolExecutor() as ex:
       futures = []
@@ -498,13 +500,24 @@ class neo4j_nx(GraphDatabase):
     return self._update_rels_(with_prop, from_rels, regulator_nodetypes, reltypes, target_nodetypes)
 
 
-
   def _update_rels_(self, with_prop:str, from_rels:list[PSRelation],regulatorType:str,relType:str,targetType:str)->int:
     '''
     from_rels must be list of PSRelation with the same regulatorType, relType and targetType
     output:
-      (number of updated relations, match used to select them in Neo4j)
+      (number of updated relations, number of input relations, match used to select relations in Neo4j)
     '''
+    dir = '-' if relType in NONDIRECTIONAL  else '->'
+    match = f'(a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})'
+    print(f'updating {len(from_rels)} relations matched by {match}')
+
+    cypher = f"""UNWIND $batch AS row 
+          MATCH {match}
+          WHERE r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = '')
+          AND r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = '')
+          SET r.`{with_prop}` = row.propValue
+          RETURN COUNT(r) AS updatedCount
+          """
+
     batch = []
     for rel in from_rels:
       if with_prop in rel:
@@ -521,25 +534,16 @@ class neo4j_nx(GraphDatabase):
                           'effect': rel_effect,
                           'mechanism': rel_mechanism,
                           'propValue': prop_value})
-    # submit in batches to avoid memory issues and to speed up the process with multithreading
-    dir = '-' if relType in NONDIRECTIONAL  else '->'
-    match = f'(a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})'
-    cypher = f"""UNWIND $batch AS row 
-          MATCH {match}
-          WHERE r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = '')
-          AND r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = '')
-          SET r.`{with_prop}` = row.propValue
-          RETURN COUNT(r) AS updatedCount
-          """
+    
     total_updated = 0
-    start = time.time()
-    for result,request_name in self._unwind_(cypher,{'batch': batch}, request_name=f'Update relation with {with_prop}'):
+    #start = time.time()
+    for result,request_name in self._unwind_(cypher,{'batch': batch, 'request_name':f'Update relation with {with_prop}'}):
       batch_updated = result[0]['updatedCount'] if result else 0
       total_updated += batch_updated
     
-    match = f'(a:{regulatorType})-[r:{relType}]{dir}(b:{targetType})'
-    print(f'updated {total_updated} out of {len(from_rels)} matched by {match} in {execution_time(start)}')
-    return total_updated, match
+    #match = f'(a:{regulatorType})-[r:{relType}]{dir}(b:{targetType})'
+    #print(f'update finished in {execution_time(start)}')
+    return total_updated, len(from_rels), match
 
 
   def create_group(self,group_name:str,link_type:str,members:list[PSObject]):
@@ -866,7 +870,7 @@ class neo4j_nx(GraphDatabase):
       neighbortype: filter for neighbor node type (label), if retreives data for any neighbor type linked to each seed node,
       set neighbortype to empty to calculate citation count for non-directional relations connecting nodes of the same type, e.g. protein-protein interactions
     '''
-    print('Collecting nodes reference density and connectivity in Neo4j...')
+    print('Collecting reference density and connectivity for nodes in Neo4j...')
     s = f's:{seedtype}' if seedtype else 's'
     r = f'r:{reltype}' if reltype else 'r'
     n = f'n:{neighbortype}' if neighbortype else '' #if neighbortype is empty will match any neighbor node

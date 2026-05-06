@@ -32,7 +32,7 @@ WITH relType, rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN relType, count(rel) AS mergedCount1
+RETURN "Same reltype" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -68,7 +68,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedRegulation1
+RETURN "FuncAssoc2Regulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -92,7 +92,7 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedRegulations2
+RETURN "reversedFuncAssoc2Regulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -139,7 +139,7 @@ WITH rel, apoc.map.fromLists(
 ) AS finalProps
 
 SET rel = finalProps
-RETURN count(rel) AS DirectRegulationsCreated1
+RETURN "createDirectRegulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -191,7 +191,7 @@ WITH newRel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET newRel = finalProps
-RETURN count(newRel) AS DirectRegulationCreated2
+RETURN "createDirectRegulationReversedBinding" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -229,7 +229,7 @@ WITH relType, rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN relType, count(rel) AS mergedCount
+RETURN "Same reltype after DirectReglation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -250,7 +250,7 @@ WHERE NOT n IN enzymeNodes
 CALL apoc.refactor.setType(r, 'Regulation') 
 YIELD input, output
 // Return the results
-RETURN count(output) AS convertedProtModification
+RETURN "ConvertProtMod2Regulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -303,7 +303,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedProtModifications
+RETURN "Regulation2ProtMod" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -340,7 +340,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedDirectRegulations1
+RETURN "RegProtModBind2DirectRegulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -365,7 +365,7 @@ SET anchor = mergedProps
 WITH rev_binds
 UNWIND rev_binds AS rb
 DELETE rb
-RETURN count(rb) AS updatedDirectRegulation2
+RETURN "reversedBind2DirectRegulation" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -402,7 +402,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedExpression1
+RETURN "RegFuncAssoc2Expression" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -426,7 +426,7 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedExpression2
+RETURN "reversedFuncAssoc2Expression" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -441,7 +441,7 @@ CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
     produceSelfRel: false
 })
 YIELD rel
-RETURN count(rel) AS updatedPromoterBinding
+RETURN "RegExpr2PromoterBinding" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -453,7 +453,7 @@ WITH a, b, anchor, collect(evidence) AS evidenceRels
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties:""combine"", produceSelfRel:false})
 YIELD rel
-RETURN count(rel) AS updatedQuantitativeChange1
+RETURN "FuncAssoc2QuantitativeChange" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -477,7 +477,7 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedQuantitativeChange2
+RETURN "reversedFuncAssoc2QuantitativeChange" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -492,7 +492,7 @@ CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
     produceSelfRel: false
 })
 YIELD rel
-RETURN count(rel) AS updatedBiomarker1
+RETURN "QuanChangeFuncAssoc2Biomarker" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -516,7 +516,7 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedBiomarker2
+RETURN "reversedFuncAssoc2Biomarker" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -553,7 +553,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedMolTransport1
+RETURN "FuncAssocCellExpReg2MolTransport" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -577,7 +577,7 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedMolTransport2
+RETURN "reversedFuncAssocCellExp2MolTransport" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -614,7 +614,7 @@ WITH rel, apoc.map.fromLists(
     ]
 ) AS finalProps
 SET rel = finalProps
-RETURN count(rel) AS updatedMolSynthesis1
+RETURN "FuncAssocReg2MolSynthesis" AS merge_type, count(rel) AS mergedCount
 
 UNION
 
@@ -638,4 +638,4 @@ SET anchor = mergedProps
 WITH evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN count(rb) AS updatedMolSynthesis2
+RETURN "reversedFuncAssoc2MolSynthesis " AS merge_type, count(rel) AS mergedCount

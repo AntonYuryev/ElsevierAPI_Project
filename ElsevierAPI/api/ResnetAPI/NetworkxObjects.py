@@ -33,9 +33,9 @@ CHEMICAL_PROPS = ["CAS ID","HMDB ID","IUPAC Name","InChIKey","LMSD ID","Alias",
                   "Reaxys ID","Rotatable Bond Count","XLogP","XLogP-AA","Description","PharmaPendium ID"]
 
 PROTEIN_TYPES = ['Protein','FunctionalClass','Complex']
-ANATOMICAL_CONCEPTS = ['Cell','Organ','Tissue','CellType']
+ANATOMICAL_CONCEPTS = ['CellObject', 'Cell','Organ','Tissue','CellType']
 ORGANISM_CONCEPTS = ['Organism','Pathogen','Virus']
-ABSTARCT_CONCEPTS = ['CellProcess','Disease',GENETICVARIANT,'ClinicalParameter']
+ABSTARCT_CONCEPTS = ['CellProcess','Disease',GENETICVARIANT,'ClinicalParameter','Treatment']
 RESNET_NODE_TYPES = ['SmallMol'] + PROTEIN_TYPES + ANATOMICAL_CONCEPTS + ORGANISM_CONCEPTS + ABSTARCT_CONCEPTS
 RESNET_NODE_TYPES.sort()
 
