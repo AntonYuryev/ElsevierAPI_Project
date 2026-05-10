@@ -1,12 +1,10 @@
 
 import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi,http.client,socket,ssl,hashlib
-from scipy import stats
 import numpy as np
 from urllib.parse import quote as urlencode
 from collections import Counter
 from itertools import chain as iterchain
 from math import ceil
-from statistics import mean, median
 from typing import Generator
 from datetime import timedelta,datetime
 from xml.dom import minidom
@@ -611,74 +609,6 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
     print(f'Finished processing {node_counter} nodes, {control_counter} controls, {pathway_counter} pathways from "{path2rnef}" in {elapsed_time}')
 
 
-
-def plot_distribution(distribution_list:list[dict[str,list[int|float]]],**kwargs):
-  '''
-    input:
-      distribution_list: [{distribution_name:[distribution values]}]
-    kwargs: 
-      'number_of_bins':int,edgecolor:'black',xlabel:values,ylabel:'counts',title,outdir
-  '''
-  kwargs['alpha'] = kwargs.pop('alpha',0.5) # transperancy value
-  kwargs['bins'] = kwargs.pop('number_of_bins',50)
-  kwargs['edgecolor'] = kwargs.pop('edgecolor',"black")
-  data_dir = kwargs.pop('outdir','')
-  xlabel = kwargs.pop('xlabel',"values")
-  ylabel = kwargs.pop('ylabel',"counts")
-  percentiles = kwargs.pop('percentiles', [])
-  percentile4score = kwargs.pop('percentile4score', [])
-  legend_loc = kwargs.pop('legend_loc', 'upper right')
-  clear_plot = kwargs.pop('clear_plot', True)
-  title = kwargs.pop('title', 'Distribution Plot')
-
-  legend_labels = []
-  patches_list = []
-  print(f'Plotting distribution for {title}')
-  for dic in distribution_list:
-    for name, distribution in dic.items():
-      counts, bins, patches = plt.hist(distribution, label=name, **kwargs)
-      patches_list.append(patches)
-      legend_label = f'\n{name}:{len(distribution)}'
-      if percentiles:
-        legend_label += '\n'
-        for percentile in percentiles:
-          percentile_value = round(np.percentile(distribution, percentile),3)
-          legend_label += f'{percentile}%ile is at {percentile_value}\n'
-        
-      if percentile4score:
-        for score in percentile4score:
-          score_percentile = round(float(stats.percentileofscore(distribution, score, kind='strict')),2)
-          legend_label += f"{score_percentile}%ile at {score}\n"
-
-      if not legend_label:
-        max_idx = np.argmax(counts)
-        visual_mode = (bins[max_idx] + bins[max_idx + 1]) / 2
-        visual_mode = round(visual_mode,3)
-        average = round(mean(distribution),3)
-        _median = round(median(distribution),3)
-        percent_below_avg = round(float(stats.percentileofscore(distribution, average, kind='weak')),2)
-        percent_below_mode = round(stats.percentileofscore(distribution, visual_mode, kind='weak'),2)
-        skewness = stats.skew(distribution).item()
-        legend_label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
-
-      legend_labels.append(legend_label.strip())
-
-  
-  plt.legend(handles=patches_list, labels=legend_labels, loc=legend_loc)
-  plt.xlabel(xlabel)
-  plt.ylabel(ylabel)
-  plt.title(title)
-  fout = os.path.join(data_dir,title+'.histogram.png')
-  plt.savefig(fout)
-  y_min, y_max = plt.gca().get_ylim()
-  print(f'y-axis scale for "{title}":', y_min, "to", y_max)
-
-  if clear_plot:
-    plt.clf() # Clear the figure to free memory for the next plot
-  print(f'Finished building plots for {len(distribution_list)} distribution')
-  return
-
-
 def plot_dependecies(Xvalues:list,Yvalues:dict[str,list[int|float]], **kwargs):
   '''
   kwargs:
@@ -779,5 +709,6 @@ class Tee(object):
 
     def __exit__(self, exc_type, exc_value, traceback):
         sys.stdout = self.stdout  # Restore original stdout
+        
 
 

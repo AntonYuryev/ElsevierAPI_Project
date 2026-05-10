@@ -2,7 +2,7 @@ import psycopg2
 from time import sleep
 from collections import defaultdict
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID
-from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config, plot_distribution,print_error_info,execution_time
+from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config,print_error_info,execution_time
 from ...utils.pandas.panda_tricks import df,pd
 from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
 
@@ -129,14 +129,17 @@ class PostgreSQL:
 
 
   def plot_distribution(self,table:str,columns:list[str],outdir=''):
+    my_df = df(columns=columns)
     for col in columns:
       sql = f'SELECT {col} FROM {self.resnet_version}.{table}'
       with self.db.cursor() as cur:
         cur.execute(sql)
-        distribution = cur.fetchall()
-        distribution = [t[0] for t in distribution]
-        print(f'Will plot distribution for {table}.{col} with {len(distribution)} values')
-        plot_distribution([{f'{table}.{col}':distribution}],outdir=outdir)
+        rows = [list(r) for r in cur.fetchall()]
+        my_df[col] = rows
+
+    print(f'Will plot distribution for {columns} in {table} with {len(my_df)} rows')
+    my_df.plot_distribution(columns,outdir=outdir)
+    return
 
 
   def get_refs(self,relations_id:set[str]):
@@ -317,11 +320,14 @@ class PostgreSQL:
     relids = set()
     [relids.update(rel[RELATIONID]) for rel in rels if rel[RELATIONID]]
     relid_str = ','.join([str(relid) for relid in relids])
-    sql = f"""SELECT DISTINCT reference.id, relation_score
-          FROM {self.resnet_version}.reference, {self.resnet_version}.scopus_data
-          WHERE {self.resnet_version}.reference.unique_id = {self.resnet_version}.scopus_data.reference_id
-          AND {self.resnet_version}.reference.id IN ({relid_str})
-          """
+  #  sql = f"""SELECT DISTINCT reference.id, relation_score
+  #       FROM {self.resnet_version}.reference, {self.resnet_version}.scopus_data
+  #        WHERE {self.resnet_version}.reference.unique_id = {self.resnet_version}.scopus_data.reference_id
+  #        AND {self.resnet_version}.reference.id IN ({relid_str})
+  #        """
+    sql = f"""SELECT DISTINCT control_attribute, relation_score
+          FROM {self.resnet_version}.control_attribute_summary
+          WHERE control_attribute IN ({relid_str})"""
     
     with self.db.cursor() as cur:
       try:

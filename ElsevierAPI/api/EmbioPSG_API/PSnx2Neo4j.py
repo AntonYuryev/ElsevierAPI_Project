@@ -1,3 +1,4 @@
+import atexit
 import csv
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
@@ -25,11 +26,22 @@ class neo4j_nx(GraphDatabase):
     self.user =  APIconfig['neo4juser']
     self.password = APIconfig['neo4jpswd']
     verbosity = kwargs.get('notifications_min_severity',NotificationSeverity.WARNING)
+    self._closed = False
     self.__driver__ = super().driver(self.uri, 
                                      auth=(self.user, self.password),
                                      notifications_min_severity=verbosity
                                      )
     self.postgres = PostgreSQL(APIconfig)
+    atexit.register(self.close)
+
+
+  def __enter__(self):
+    return self
+
+
+  def __exit__(self, exc_type, exc, tb):
+    self.close()
+    return False
   
 
   def session(self,**kwargs):
@@ -85,8 +97,15 @@ class neo4j_nx(GraphDatabase):
 
 
   def close(self):
-      # Don't forget to close the driver connection when you are finished with it
+    # Close once; avoid late-shutdown exceptions from driver finalization.
+    if self._closed:
+      return
+    self._closed = True
+    try:
       self.__driver__.close()
+    except Exception:
+      # Interpreter shutdown can tear down logging before driver finalizers run.
+      pass
 
 
   @staticmethod
@@ -454,6 +473,7 @@ class neo4j_nx(GraphDatabase):
     reltypes = _4reltypes if _4reltypes else self.DBrelTypes()
     reltypes = '|'.join(reltypes)
     match = f"MATCH ()-[r:{reltypes}]->()"
+    start = time.time()
     
     where_clauses = []
     for prop in prop_names:
@@ -464,8 +484,12 @@ class neo4j_nx(GraphDatabase):
       match += ' WHERE ' + ' AND '.join(where_clauses)
     
     cypher2count = match + ' RETURN COUNT(r) AS count'
-    cypher4export = match + ' RETURN ' + ', '.join([f'r.{Cypher.quoted_prop(prop)} AS {prop}' for prop in prop_names])
+    clean_props = [prop.translate(str.maketrans(' ()%', '____')) for prop in prop_names]
+    #clean_props = [c.strip('_') for c in clean_props]
+    cypher4export = match + ' RETURN ' + ', '.join([f'r.{Cypher.quoted_prop(prop)} AS {clean_prop}' 
+                                                for prop, clean_prop in zip(prop_names, clean_props)])
 
+    
     count_rels = self.run_cypher(cypher2count,request_name='Count relations for export')[0][0]['count']
     print(f'Exporting {count_rels} relations with properties {list(relProps.keys())}')
     
@@ -476,12 +500,14 @@ class neo4j_nx(GraphDatabase):
         writer = csv.writer(f)
         writer.writerow(prop_names) # header
         for record in result:
-          row_values = [record[prop] for prop in prop_names]      
+          row_values = [record[prop] for prop in clean_props]      
           writer.writerow(row_values)
           counter += 1
           percent = (counter / count_rels) * 100
           if percent % 10 == 0:
-            print(f'Exported {percent:.2f}% of {count_rels} relations...')
+            print(f'Exported {counter} ({percent:.2f}%) of {count_rels} relations... in {execution_time(start)}')
+
+    print('Export of relation properties finished in', execution_time(start))
          
 #################################################################################################
 

@@ -206,9 +206,9 @@ def load_stat_file(stat_file:str):
   stat_df = df.read(stat_file,header=0,encoding='utf-8', encoding_errors='replace')
 
   my_df = stat_df[['rURN','rType','tURN','tType','RelType','RelationID', 'LocalrefEnrichment']].copy()
-  my_df['Enrichment pvalue'] = df.calculate_pvalues(my_df['LocalrefEnrichment'])
-  my_df['Confidence (%)'] = (1.0 - my_df['Enrichment pvalue']) * 100
-  my_df['Confidence (%)'] = my_df['Confidence (%)'].round(2)
+  _, distr_conf_col = my_df.calulate_confidence('LocalrefEnrichment')
+  my_df = my_df.dfcopy(rename2={distr_conf_col:'Confidence (%)'})
+  
   my_df.loc[my_df['LocalrefEnrichment'] > 0.001, 'LocalrefEnrichment'] = my_df.loc[
     my_df['LocalrefEnrichment'] > 0.001, 'LocalrefEnrichment'].round(3)
   print(f"Submitting {len(my_df)} rows with refEnrichment score to update {basename} relations")

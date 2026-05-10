@@ -1,12 +1,14 @@
 import pandas as pd
 import numpy as np
 from pandas import ExcelWriter
-from scipy.stats import expon
+from scipy import stats
+from statistics import mean, median
 import rdfpandas,xlsxwriter,string, os
-from ..utils import unpack
+from ..utils import unpack, plt
 from ...api.ResnetAPI.NetworkxObjects import PSObject
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype,is_numeric_dtype
+import datashader as ds, pandas as pd, colorcet as cc
 
 
 MIN_COLUMN_WIDTH = 0.65 # in inches
@@ -959,20 +961,41 @@ class df(pd.DataFrame):
 
   @staticmethod
   def calculate_pvalues(scores:pd.Series,skip1strow=False):
+    def _empirical_pvalues(series:pd.Series) -> np.ndarray:
+      """
+      Fast exact empirical p-values: p_i = mean(series >= series[i]).
+      Uses sorting + search to avoid O(n^2) comparisons.
+      """
+      values = pd.to_numeric(series, errors='coerce').to_numpy(dtype=float)
+      n_total = values.size
+      if n_total == 0: return np.array([], dtype=float)
+
+      valid_mask = ~np.isnan(values)
+      valid_values = values[valid_mask]
+      n_valid = valid_values.size
+      if n_valid == 0: return np.zeros(n_total, dtype=float)
+
+      # Unique values are sorted ascending; ge_counts[idx] gives #valid values >= uniq[idx].
+      uniq, counts = np.unique(valid_values, return_counts=True)
+      ge_counts = np.cumsum(counts[::-1])[::-1]
+
+      p_values = np.zeros(n_total, dtype=float)
+      valid_positions = np.searchsorted(uniq, values[valid_mask], side='left')
+      p_values[valid_mask] = ge_counts[valid_positions] / n_total
+      return p_values
+
     if skip1strow:
       """Calculates exponential p-values, skipping the first row."""
       if scores.empty or len(scores) <= 1: #handle empty, or single row series.
           return pd.Series([])
-      scores_to_fit = np.array(scores.iloc[1:])
-      p_values = [(scores_to_fit >= score).mean() for score in scores_to_fit]
+      scores_to_fit = scores.iloc[1:]
+      p_values = _empirical_pvalues(scores_to_fit)
       full_p_values = pd.Series(index = scores.index)
       full_p_values.iloc[1:] = p_values
       return full_p_values
     else:
       """Calculates empirical p-values for a list of scores."""
-      scores = np.array(scores)
-      p_values = [(scores >= score).mean() for score in scores]
-      return p_values
+      return _empirical_pvalues(scores)
   
 
   @staticmethod
@@ -984,12 +1007,12 @@ class df(pd.DataFrame):
 
       scores_to_fit = scores.iloc[1:]  # Skip the first row
       scores_filled = scores_to_fit.fillna(0)
-      lambda_hat = expon.fit(scores_filled, floc=0)[1]
+      lambda_hat = stats.expon.fit(scores_filled, floc=0)[1]
       if lambda_hat <= 0:
         print(f"Warning: lambda_hat is {lambda_hat}. Returning array of ones.")
         p_values = pd.Series(np.ones_like(scores_filled), index=scores_filled.index)
       else:
-        p_values = expon.sf(scores_filled, scale=lambda_hat)
+        p_values = stats.expon.sf(scores_filled, scale=lambda_hat)
         p_values = pd.Series(p_values, index=scores_filled.index)
 
       full_p_values = pd.Series(index = scores.index)
@@ -997,8 +1020,8 @@ class df(pd.DataFrame):
       return full_p_values
     else:
       scores_filled = scores.fillna(0)
-      lambda_hat = expon.fit(scores_filled, floc=0)[1] # Fit an exponential distribution
-      p_values = expon.sf(scores_filled, scale=lambda_hat) # Calculate p-values
+      lambda_hat = stats.expon.fit(scores_filled, floc=0)[1] # Fit an exponential distribution
+      p_values = stats.expon.sf(scores_filled, scale=lambda_hat) # Calculate p-values
       return p_values
   
 
@@ -1058,4 +1081,151 @@ class df(pd.DataFrame):
   def info_df()->"df":
     rows = [['Number of worksheets in this file:','=INFO("numfile")']]
     return df.from_rows(rows,['Info','Counts'],dfname='info')
+  
+
+  def calulate_confidence(self,distr_col:str):
+    '''
+      Adds columns with p-values and confidence for values in "distr_col" column
+    '''
+    distr_pval_col = f'{distr_col} pvalue'
+    distr_conf_col = f'{distr_col} confidence'
+    self[distr_pval_col] = df.calculate_pvalues(self[distr_col])
+    self[distr_conf_col] = (1.0 - self[distr_pval_col]) * 100
+    self[distr_conf_col] = self[distr_conf_col].round(2)
+    return distr_pval_col, distr_conf_col
+  
+
+  def winsorize(self, columns:list[str], quatiles:tuple[float,float]=(0.05,0.95)):
+    lower_quantile, upper_quantile = quatiles
+    copy_df = self.dfcopy()
+    for column in columns:
+      if column in self.columns:
+        lower_bound = copy_df[column].quantile(lower_quantile)
+        upper_bound = copy_df[column].quantile(upper_quantile)
+        copy_df[column] = copy_df[column].clip(lower_bound, upper_bound)
+    return copy_df
+  
+
+  def _winsorize(self, columns:list[str], limits:tuple[float,float]):
+    lower_limit, upper_limit = limits
+    copy_df = self.dfcopy()
+    for column in columns:
+      if column in self.columns:
+        copy_df[column] = copy_df[column].clip(lower_limit, upper_limit)
+    return copy_df
+  
+
+  def normalize(self, columns:list[str]):
+    copy_df = self.dfcopy()
+    for column in columns:
+      if column in self.columns:
+        col_min = copy_df[column].min()
+        col_max = copy_df[column].max()
+        if col_max > col_min:  # Avoid division by zero
+          copy_df[column] = (copy_df[column] - col_min) / (col_max - col_min)
+    return copy_df
+
+
+  def plot_correlation(self, Xcol:str, Ycol:str,fout='',_2dir=''):
+    print(f'Plotting correlation between {Xcol} and {Ycol} for {len(self)} data points in {self._name_}')
+    corr = self[Xcol].corr(self[Ycol])
+    cvs = ds.Canvas(plot_width=100, plot_height=100)
+    agg = cvs.points(self, Xcol, Ycol)
+    img = ds.tf.shade(agg, cmap=cc.fire, how='eq_hist')
+    
+    fig, ax = plt.subplots(figsize=(10, 8)) # Use Matplotlib to "hold" the image and add a colorbar
+
+    # Display the image
+    ax.imshow(img.to_pil(), extent=[self[Xcol].min(), self[Xcol].max(), 
+                                    self[Ycol].min(), self[Ycol].max()])
+
+    # Add a manual colorbar to match 'cc.fire'
+    sm = plt.cm.ScalarMappable(cmap=plt.get_cmap('hot'), norm=plt.Normalize(vmin=0, vmax=1))
+    plt.colorbar(sm, ax=ax, label='Relative Density (Log Scale)')
+
+    plt.title(f"{len(self):,} data points | Correlation: {corr:.3f}")
+    plt.xlabel(Xcol)
+    plt.ylabel(Ycol)
+
+    if not fout:
+      fout = f'Correlation {Ycol.title()}Vs{Xcol.title()}.png'
+    if _2dir:
+      fout = os.path.join(_2dir, fout)
+    plt.savefig(fout, dpi=300)
+
+
+  def plot_distribution(self, distribution_cols:list[str],**kwargs):
+    '''
+      input:
+        distribution_list: [{distribution_name:[distribution values]}]
+      kwargs: 
+        number_of_bins:int
+        edgecolor:'black'
+        xlabel:values; ylabel:'counts'
+        title
+        outdir
+        percentiles - list of percentiles to calculate and add to legend
+        percentile4score - list of scores to calculate percentiles for and add to legend
+        legend_loc - location of legend, default is 'best'
+      output:
+        histogram plot of the distribution with percentiles in legend.
+        histogram is saved to "outdir/title+'.histogram.png'".
+    '''
+    kwargs['alpha'] = kwargs.pop('alpha',0.5) # transperancy value
+    kwargs['bins'] = kwargs.pop('number_of_bins',50)
+    kwargs['edgecolor'] = kwargs.pop('edgecolor',"black")
+    data_dir = kwargs.pop('outdir','')
+    xlabel = kwargs.pop('xlabel',"values")
+    ylabel = kwargs.pop('ylabel',"counts")
+    percentiles = kwargs.pop('percentiles', [])
+    percentile4score = kwargs.pop('percentile4score', [])
+    legend_loc = kwargs.pop('legend_loc', 'best')
+    clear_plot = kwargs.pop('clear_plot', True)
+    title = kwargs.pop('title', 'Distribution Plot')
+
+    legend_labels = []
+    patches_list = []
+    print(f'Plotting distribution for {title}')
+    for name in distribution_cols:
+      distribution = self[name].dropna().tolist()
+      counts, bins, patches = plt.hist(distribution, label=name, **kwargs)
+      patches_list.append(patches)
+      legend_label = f'\n{name}:{len(distribution)}'
+      if percentiles:
+        legend_label += '\n'
+        for percentile in percentiles:
+          percentile_value = round(np.percentile(distribution, percentile),3)
+          legend_label += f'{percentile}%ile is at {percentile_value}\n'
+        
+      if percentile4score:
+        for score in percentile4score:
+          score_percentile = round(float(stats.percentileofscore(distribution, score, kind='strict')),2)
+          legend_label += f"{score_percentile}%ile at {score}\n"
+
+      if not legend_label:
+        max_idx = np.argmax(counts)
+        visual_mode = (bins[max_idx] + bins[max_idx + 1]) / 2
+        visual_mode = round(visual_mode,3)
+        average = round(mean(distribution),3)
+        _median = round(median(distribution),3)
+        percent_below_avg = round(float(stats.percentileofscore(distribution, average, kind='weak')),2)
+        percent_below_mode = round(stats.percentileofscore(distribution, visual_mode, kind='weak'),2)
+        skewness = stats.skew(distribution).item()
+        legend_label = f'Mean: {average}, %ile: {percent_below_avg}\nMedian: {_median}\nMode: {visual_mode}, %ile: {percent_below_mode}\nSkewness: {skewness:.2f}'
+
+      legend_labels.append(legend_label.strip())
+
+    plt.legend(handles=patches_list, labels=legend_labels, loc=legend_loc)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    fout = os.path.join(data_dir,title+'.histogram.png')
+    plt.savefig(fout)
+    y_min, y_max = plt.gca().get_ylim()
+    print(f'y-axis scale for "{title}":', y_min, "to", y_max)
+
+    if clear_plot:
+      plt.clf() # Clear the figure to free memory for the next plot
+    print(f'Finished building plots for {len(distribution_cols)} distributions')
+    return
 
