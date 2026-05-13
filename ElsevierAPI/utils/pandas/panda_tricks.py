@@ -9,6 +9,20 @@ from ...api.ResnetAPI.NetworkxObjects import PSObject
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype,is_numeric_dtype
 import datashader as ds, pandas as pd, colorcet as cc
+import matplotlib
+import matplotlib.colors as mcolors
+import holoviews as hv
+from holoviews.operation.datashader import rasterize, dynspread
+import datashader as ds
+import colorcet as cc
+import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import encoders
+import plotly.graph_objects as go
+import plotly.express as px
 
 
 MIN_COLUMN_WIDTH = 0.65 # in inches
@@ -341,14 +355,14 @@ class df(pd.DataFrame):
 
 
   @classmethod 
-  def from_rows(cls,rows:list[list],header:list[str],index=-1,dfname='')->'df':
+  def from_rows(cls,rows:list[list],columns:list[str],index=-1,dfname='')->'df':
     '''
     rows - list/set of lists/tuples
     '''
-    _2return = pd.DataFrame(rows,columns=header)
+    _2return = pd.DataFrame(rows,columns=columns)
 
     if index >= 0:
-      _2return.set_index(header[index], inplace=True)
+      _2return.set_index(columns[index], inplace=True)
         
     return df.from_pd(_2return,dfname)
   
@@ -977,7 +991,7 @@ class df(pd.DataFrame):
 
       # Unique values are sorted ascending; ge_counts[idx] gives #valid values >= uniq[idx].
       uniq, counts = np.unique(valid_values, return_counts=True)
-      ge_counts = np.cumsum(counts[::-1])[::-1]
+      ge_counts = np.cumsum(counts[::-1])[::-1] # cumulative counts of values >= each unique value
 
       p_values = np.zeros(n_total, dtype=float)
       valid_positions = np.searchsorted(uniq, values[valid_mask], side='left')
@@ -1091,12 +1105,12 @@ class df(pd.DataFrame):
     distr_conf_col = f'{distr_col} confidence'
     self[distr_pval_col] = df.calculate_pvalues(self[distr_col])
     self[distr_conf_col] = (1.0 - self[distr_pval_col]) * 100
-    self[distr_conf_col] = self[distr_conf_col].round(2)
+    #self[distr_conf_col] = self[distr_conf_col].round(2)
     return distr_pval_col, distr_conf_col
   
 
-  def winsorize(self, columns:list[str], quatiles:tuple[float,float]=(0.05,0.95)):
-    lower_quantile, upper_quantile = quatiles
+  def winsorize(self, columns:list[str], quantiles:tuple[float,float]=(0.05,0.95)):
+    lower_quantile, upper_quantile = quantiles
     copy_df = self.dfcopy()
     for column in columns:
       if column in self.columns:
@@ -1106,7 +1120,7 @@ class df(pd.DataFrame):
     return copy_df
   
 
-  def _winsorize(self, columns:list[str], limits:tuple[float,float]):
+  def clip(self, columns:list[str], limits:tuple[float,float]):
     lower_limit, upper_limit = limits
     copy_df = self.dfcopy()
     for column in columns:
@@ -1126,29 +1140,54 @@ class df(pd.DataFrame):
     return copy_df
 
 
-  def plot_correlation(self, Xcol:str, Ycol:str,fout='',_2dir=''):
+  def plot_correlation(self, Xcol:str, Ycol:str,**kwargs):
+    '''
+    kwargs:
+      plot_width:int - width of the plot in pixels, default is 100
+      plot_height:int - height of the plot in pixels, default is 100
+      out_dir:str - directory to save the plot, default is current directory
+      how2shade - str - method to shade the plot, default is 'eq_hist', other option is 'log','linear'
+    '''
     print(f'Plotting correlation between {Xcol} and {Ycol} for {len(self)} data points in {self._name_}')
     corr = self[Xcol].corr(self[Ycol])
-    cvs = ds.Canvas(plot_width=100, plot_height=100)
-    agg = cvs.points(self, Xcol, Ycol)
-    img = ds.tf.shade(agg, cmap=cc.fire, how='eq_hist')
+    print(f'Correlation coefficient between {Xcol} and {Ycol}: {corr:.3f}')
+    p_width, p_height = kwargs.pop('plot_width', 100), kwargs.pop('plot_height', 100)
+    cvs = ds.Canvas(plot_width=p_width, plot_height=p_height)
+    agg = cvs.points(pd.DataFrame(self), Xcol, Ycol)
+    how2shade = kwargs.pop('how2shade','eq_hist') # 'linear', 'log'
+    img = ds.tf.shade(agg, cmap=cc.fire, how=how2shade)
+    #img = ds.tf.set_background(img, "black")
+    #img = ds.tf.dynspread(img, threshold=0.5, max_px=2)
     
-    fig, ax = plt.subplots(figsize=(10, 8)) # Use Matplotlib to "hold" the image and add a colorbar
-
+    figsize = 12
+    fig, ax = plt.subplots(figsize=(figsize+2, figsize), dpi=300) # leave 2 inches for color bar
     # Display the image
-    ax.imshow(img.to_pil(), extent=[self[Xcol].min(), self[Xcol].max(), 
-                                    self[Ycol].min(), self[Ycol].max()])
+    x_min, x_max = self[Xcol].min(), self[Xcol].max()
+    y_min, y_max = self[Ycol].min(), self[Ycol].max()
+    ax.imshow(img.to_pil(), 
+              extent=[x_min, x_max, y_min, y_max],
+              #interpolation='nearest', 
+              #aspect='auto'
+              )
 
     # Add a manual colorbar to match 'cc.fire'
-    sm = plt.cm.ScalarMappable(cmap=plt.get_cmap('hot'), norm=plt.Normalize(vmin=0, vmax=1))
-    plt.colorbar(sm, ax=ax, label='Relative Density (Log Scale)')
+    if how2shade == 'log':
+      sm = plt.cm.ScalarMappable(cmap=plt.get_cmap('hot'), norm=plt.Normalize(vmin=0, vmax=1))
+      plt.colorbar(sm, ax=ax, label='Relative Density (Log Scale)')
+    elif how2shade == 'eq_hist':
+      fire_cmap = mcolors.ListedColormap(cc.fire)
+      sm = plt.cm.ScalarMappable(cmap=fire_cmap, norm=plt.Normalize(vmin=0, vmax=1))
+      cbar = plt.colorbar(sm, ax=ax)
+      cbar.set_label('Relative Density (Histogram Equalized)', rotation=270, labelpad=15)
+      cbar.set_ticks([0, 0.5, 1])
+      cbar.set_ticklabels(['Low', 'Medium', 'High'])
 
     plt.title(f"{len(self):,} data points | Correlation: {corr:.3f}")
     plt.xlabel(Xcol)
     plt.ylabel(Ycol)
 
-    if not fout:
-      fout = f'Correlation {Ycol.title()}Vs{Xcol.title()}.png'
+    fout = kwargs.pop('fout', f'Correlation {Ycol.title()}Vs{Xcol.title()}.png')
+    _2dir = kwargs.pop('out_dir', '')
     if _2dir:
       fout = os.path.join(_2dir, fout)
     plt.savefig(fout, dpi=300)
@@ -1228,4 +1267,177 @@ class df(pd.DataFrame):
       plt.clf() # Clear the figure to free memory for the next plot
     print(f'Finished building plots for {len(distribution_cols)} distributions')
     return
+  
+    
+  def plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
+    '''
+    kwargs:
+      Xvalues: list of x-axis values
+      Yvalues: dict of label to list of y-axis values: {label:[values]}
+      outdir: directory to save the plot
+    '''
+    title = kwargs.get('title',"Dependency Graph")
+    Yvalues = {col:self[col].tolist() for col in Ycols}
+    Xvalues = self[Xcol].tolist()
+    
+    for label, y_values in Yvalues.items():
+      plt.figure(figsize=(10, 6)) # Optional: Makes the graph larger
+      plt.plot(Xvalues, y_values, label=label)
+      plt.title(title)
+      plt.xlabel(kwargs.get('xlabel',''))
+      plt.ylabel(kwargs.get('ylabel',''))
+      plt.grid(True) # Optional: Add a grid for better readability
+    plt.legend(loc='upper right')
+    plt.gca().ticklabel_format(useOffset=False, style='plain')
+    #plt.show()# Display the plot
+    data_dir = kwargs.pop('outdir','')
+    fout = os.path.join(data_dir,title+'.dependency.png')
+    plt.savefig(fout)
+    print(f'Dependency plot saved to {fout}')
+    print(f'Finished building {len(Yvalues)} dependency plots')
+
+
+
+  def scatter_plot(self, Xcol:str, Ycols:list[str], **kwargs):
+    '''
+    Yvalues = {label:[values]}
+    kwargs:
+      trend_line: default False
+    '''
+    title = kwargs.get('title',"Scatter plot")
+    Yvalues = {col:self[col].tolist() for col in Ycols}
+    Xvalues = self[Xcol].tolist()
+    
+    for label, y_values in Yvalues.items():
+      plt.plot(Xvalues, y_values,'o', label=label) # 'o' = marker='o', linestyle='none'
+      if kwargs.get('trend_line',False):
+        z = np.polyfit(Xvalues, y_values, 1)
+        p = np.poly1d(z)
+        plt.plot(Xvalues, p(Xvalues), "r--", label='Trend Line')
+      plt.title(title)
+      plt.xlabel(kwargs.get('xlabel',''))
+      plt.ylabel(kwargs.get('ylabel',''))
+      plt.grid(True) # Optional: Add a grid for better readability
+    plt.legend(loc='upper right')
+    plt.gca().ticklabel_format(useOffset=False, style='plain')
+    #plt.show()# Display the plot
+    data_dir = kwargs.pop('outdir','')
+    fout = os.path.join(data_dir,title+'.scatter.png')
+    plt.savefig(fout)
+    print(f'Scatter plot saved to {fout}')
+    print(f'Finished building {len(Yvalues)} scatter plots')
+    
+
+
+
+  def rasterize(self, Xcol:str, Ycol:str, fout='', _2dir='', interactive=False):
+    '''
+    Create a rasterized 2D density plot.
+    
+    Parameters
+    ----------
+    Xcol : str
+        Column name for X-axis
+    Ycol : str
+        Column name for Y-axis
+    fout : str
+        Output filename (default: auto-generated)
+    _2dir : str
+        Output directory
+    interactive : bool
+        If True, creates interactive HTML with hover tooltips (Plotly).
+        If False, creates static PNG image (matplotlib). Default is False.
+    
+    Returns
+    -------
+    str
+        Path to the saved file (HTML or PNG depending on interactive flag)
+    '''
+    print(f'Plotting correlation between {Xcol} and {Ycol} for {len(self):,} data points')
+    corr = self[Xcol].corr(self[Ycol])
+    
+    if interactive:
+      # Create interactive Plotly 2D histogram with hover
+      fig = px.density_heatmap(
+          pd.DataFrame(self),
+          x=Xcol,
+          y=Ycol,
+          nbinsx=100,
+          nbinsy=100,
+          color_continuous_scale='Turbo',  # Similar to fire colormap
+          title=f"{len(self):,} data points | Correlation: {corr:.3f}",
+          hover_data={Xcol: ':.2f', Ycol: ':.2f'},
+          labels={Xcol: Xcol, Ycol: Ycol}
+      )
+      
+      # Customize layout for better interactivity
+      fig.update_layout(
+          width=1200,
+          height=1000,
+          hovermode='closest',
+          coloraxis_colorbar=dict(
+              title="Count",
+              thicknessmode="pixels",
+              thickness=20,
+              lenmode="pixels",
+              len=300,
+              yanchor="top",
+              y=1,
+              ticks="outside"
+          )
+      )
+      
+      # Handle file path
+      if not fout:
+          fout = f'Correlation_{Ycol.title()}Vs{Xcol.title()}_interactive.html'
+      if _2dir:
+          fout = os.path.join(_2dir, fout)
+      
+      fig.write_html(fout)
+      print(f"Saved interactive plot: {fout}")
+      return fout
+      
+    else:
+      # Create static matplotlib plot with datashader
+      p_width, p_height = 1000, 1000
+      cvs = ds.Canvas(plot_width=p_width, plot_height=p_height)
+      agg = cvs.points(pd.DataFrame(self), Xcol, Ycol)
+      
+      img = ds.tf.shade(agg, cmap=cc.fire, how='eq_hist')
+      img = ds.tf.dynspread(img, threshold=0.5, max_px=2)
+      
+      # Create matplotlib figure for output
+      figsize = 10
+      fig, ax = plt.subplots(figsize=(figsize+2, figsize))
+      
+      x_min, x_max = self[Xcol].min(), self[Xcol].max()
+      y_min, y_max = self[Ycol].min(), self[Ycol].max()
+      
+      ax.imshow(img.to_pil(),
+                extent=[x_min, x_max, y_min, y_max],
+                origin='lower',
+                aspect='auto')
+      
+      # Add colorbar
+      fire_cmap = mcolors.ListedColormap(cc.fire)
+      sm = plt.cm.ScalarMappable(cmap=fire_cmap, norm=plt.Normalize(vmin=0, vmax=1))
+      cbar = plt.colorbar(sm, ax=ax)
+      cbar.set_label('Relative Density (Histogram Equalized)', rotation=270, labelpad=15)
+      cbar.set_ticks([0, 0.5, 1])
+      cbar.set_ticklabels(['Low', 'Medium', 'High'])
+      
+      plt.title(f"{len(self):,} data points | Correlation: {corr:.3f}")
+      plt.xlabel(Xcol)
+      plt.ylabel(Ycol)
+      
+      # Handle File Path
+      if not fout:
+          fout = f'Correlation_{Ycol.title()}Vs{Xcol.title()}.png'
+      if _2dir:
+          fout = os.path.join(_2dir, fout)
+      
+      plt.savefig(fout, dpi=300, bbox_inches='tight')
+      plt.close(fig)
+      print(f"Saved static plot: {fout}")
+      return fout
 

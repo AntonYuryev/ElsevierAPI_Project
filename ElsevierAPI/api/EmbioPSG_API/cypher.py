@@ -1,4 +1,5 @@
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,PSObject,CONNECTIVITY,EFFECT, PSRelation, PHYSICAL_INTERACTIONS, PROTEIN_TYPES
+from ..ResnetAPI.NetworkxObjects import PSObject,PSRelation, PHYSICAL_INTERACTIONS, PROTEIN_TYPES
+from ..ResnetAPI.NetworkxObjects import RESNET_REL_TYPES,OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,CONNECTIVITY,EFFECT
 from ..ResnetAPI.ResnetGraph import RELATIONID
 from ..ResnetAPI.references import ANATOMICAL_PROPS
 from collections import defaultdict
@@ -23,6 +24,9 @@ class Cypher:
   def quoted_list(prop_names:list[str])->list[str]:
     return [Cypher.quoted_prop(name) for name in prop_names]
 
+  @staticmethod
+  def rel_types(reltypes=RESNET_REL_TYPES) -> str:
+    return '|'.join(reltypes)
 
   @staticmethod
   def match_psobjs(objs:list[PSObject],letter='a'):

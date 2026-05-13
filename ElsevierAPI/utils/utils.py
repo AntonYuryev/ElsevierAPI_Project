@@ -609,55 +609,6 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
     print(f'Finished processing {node_counter} nodes, {control_counter} controls, {pathway_counter} pathways from "{path2rnef}" in {elapsed_time}')
 
 
-def plot_dependecies(Xvalues:list,Yvalues:dict[str,list[int|float]], **kwargs):
-  '''
-  kwargs:
-    Xvalues: list of x-axis values
-    Yvalues: dict of label to list of y-axis values: {label:[values]}
-    outdir: directory to save the plot
-  '''
-  title = kwargs.get('title',"Dependency Graph")
-  for label, y_values in Yvalues.items():   
-    plt.figure(figsize=(10, 6)) # Optional: Makes the graph larger
-    plt.plot(Xvalues, y_values, label=label)
-    plt.title(title)
-    plt.xlabel(kwargs.get('xlabel',''))
-    plt.ylabel(kwargs.get('ylabel',''))
-    plt.grid(True) # Optional: Add a grid for better readability
-  plt.legend(loc='upper right')
-  plt.gca().ticklabel_format(useOffset=False, style='plain')
-  #plt.show()# Display the plot
-  data_dir = kwargs.pop('outdir','')
-  fout = os.path.join(data_dir,title+'.dependency.png')
-  plt.savefig(fout)
-  print(f'Finished building {len(Yvalues)} dependency plots')
-
-
-def scatter_plot(Xvalues:list,Yvalues:dict[str,list[int|float]], **kwargs):
-  '''
-  Yvalues = {label:[values]}
-  kwargs:
-    trend_line: default False
-  '''
-  title = kwargs.get('title',"Scatter plot")
-  for label, y_values in Yvalues.items():
-    plt.plot(Xvalues, y_values,'o', label=label) # 'o' = marker='o', linestyle='none'
-    if kwargs.get('trend_line',False):
-      z = np.polyfit(Xvalues, y_values, 1)
-      p = np.poly1d(z)
-      plt.plot(Xvalues, p(Xvalues), "r--", label='Trend Line')
-    plt.title(title)
-    plt.xlabel(kwargs.get('xlabel',''))
-    plt.ylabel(kwargs.get('ylabel',''))
-    plt.grid(True) # Optional: Add a grid for better readability
-  plt.legend(loc='upper right')
-  plt.gca().ticklabel_format(useOffset=False, style='plain')
-  #plt.show()# Display the plot
-  data_dir = kwargs.pop('outdir','')
-  fout = os.path.join(data_dir,title+'.scatter.png')
-  plt.savefig(fout)
-  print(f'Finished building {len(Yvalues)} scatter plots')
-
 
 def deterministic_hash64(text):
   """Return a deterministic signed 64-bit hash for text or bytes."""

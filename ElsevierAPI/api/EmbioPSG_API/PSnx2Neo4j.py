@@ -109,7 +109,7 @@ class neo4j_nx(GraphDatabase):
 
 
   @staticmethod
-  def __record2psobj(node_record):
+  def __record2psobj(node_record:neo4j.Record)->PSObject:
     psobj = PSObject({NODECOLUMN2ATTR.get(k,k):[v] for k,v in node_record._properties.items() if v not in ['_','']})
     psobj[OBJECT_TYPE] =  list(node_record.labels)
     return psobj
