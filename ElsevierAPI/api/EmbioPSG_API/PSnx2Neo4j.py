@@ -2,12 +2,12 @@ import atexit
 import csv
 import neo4j, time
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
-from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,np
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL
 from neo4j import GraphDatabase, NotificationSeverity
 from neo4j import ManagedTransaction as tx
 from .cypher import Cypher, ENTPROP_NEO4J
-from .postgres import PostgreSQL
+from .postgres import PostgreSQL,pd
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
 nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL))
@@ -970,3 +970,56 @@ class neo4j_nx(GraphDatabase):
       
       print(f'Total collected {len(node_dict)} nodes in {execution_time(start)}')
     return node_dict
+  
+
+  def snippets_df(self,relids: list[str], only_reltypes=[]):
+    '''
+    pd.Dataframe with columns:\n['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score','RelType,ID','journal','title','doi','pmid']
+    '''
+    r = f"r:{'|'.join(only_reltypes)}" if only_reltypes else "r"
+    cypher = f"""
+    MATCH (a)-[{r}]->(b) 
+    WHERE r.RelationID IN $id_list
+    RETURN a, r, b
+    """
+    requeste_name = f"Fetch snippets for {len(relids)} relations"
+    params = {'id_list': relids}
+    graph2display = self.fetch_graph(cypher, parameters=params, request_name=requeste_name)
+
+    relid2attrs = {}
+    for rel in graph2display._psrels():
+      raw_ids = rel.get('RelationID')
+      if isinstance(raw_ids, str):
+        raw_ids = [raw_ids]
+
+      regulators = ','.join([n.name() for n in rel.regulators()])
+      targets = ','.join([n.name() for n in rel.targets()])
+      confidence = rel['Confidence (%)'][0] if 'Confidence (%)' in rel else np.nan
+      citation_score = rel['Citation score'][0] if 'Citation score' in rel else np.nan
+      rel_attrs = (regulators, targets, rel.objtype(), rel.effect(), confidence, citation_score)
+
+      for raw_id in raw_ids:
+        relid2attrs[raw_id] = rel_attrs
+
+    rel_props = self.postgres.get_refs(set(relid2attrs.keys()))
+    rel_props['id'] = rel_props['id'].astype(str)
+
+    default_attrs = ('', '', '', '', 0, 0)
+    mapped_attrs = rel_props['id'].map(lambda rid: relid2attrs.get(rid, default_attrs))
+    rel_props[['Regulators', 'Targets', 'RelType', 'Effect', 'Confidence (%)', 'Citation score']] = pd.DataFrame(
+      mapped_attrs.tolist(), index=rel_props.index)
+
+    rel_props['RelType,ID'] = rel_props['RelType']+": "+rel_props['id']
+
+    # deduplicating rows
+    def sentences_key(row):
+      return row['Regulators']+'_'+row['Targets']+'_'+row['msrc'][0:30]+row['RelType']+' '+row['Effect']
+    
+    rel_props = rel_props.sort_values(by='msrc', key=lambda x: x.str.len(), ascending=False)
+    rel_props['sentence_key'] = rel_props.apply(sentences_key, axis=1)
+    rel_props = rel_props.drop_duplicates(subset='sentence_key', keep='first')
+
+    col2display = ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score','RelType,ID','journal','title','doi','pmid']
+    snippets_df = rel_props[col2display]
+    snippets_df = snippets_df.drop_duplicates(subset=['Regulators','Targets','msrc','Effect','RelType,ID'], keep='first')
+    return snippets_df

@@ -946,6 +946,7 @@ class ResnetGraph (nx.MultiDiGraph):
     snippet_df[PS_CITATION_INDEX] = snippet_df[PS_CITATION_INDEX].astype(int)
     snippet_df = snippet_df.sortrows(by=[PS_CITATION_INDEX,'Concept','Entity'],ascending=[False,True,True])
     return snippet_df
+  
 
 ##################### DEL DEL DEL ######################################
   def remove_nodes_by_prop(self, property_values:list[str], prop_names:list[str]=[OBJECT_TYPE]):

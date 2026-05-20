@@ -1,11 +1,11 @@
-import psycopg2
+import psycopg2,ast
 from time import sleep
 from collections import defaultdict
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID
 from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config,print_error_info,execution_time
 from ...utils.pandas.panda_tricks import df,pd
 from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
-
+import numpy as np
 
 #  !!!!!!!!!!!!!!!!!RELATIONID != RELATION_ID !!!!!!!!!!!!!!!!
 SNIPPET_ID = 'unique_id'
@@ -34,7 +34,7 @@ class PostgreSQL:
   def __init__(self, APIconfig:dict={}):
     if not APIconfig:
       APIconfig = load_api_config()
-    self.resnet_version = APIconfig.get('postgreSQschema', DB_SCHEMA)
+    self.schema = APIconfig.get('postgreSQschema', DB_SCHEMA)
     self.rel2refDict = dict() # {int(relid):[Reference]}
     self.executor = ThreadPoolExecutor(thread_name_prefix='postgres')
     self.futures = [] # futures of reference retrieval
@@ -62,12 +62,12 @@ class PostgreSQL:
 
 
   def full_table_name(self,table:str):
-    return f'{self.resnet_version}.{table}'
+    return f'{self.schema}.{table}'
 
 
   def get_relprops(self,relations_id:list[str]):
     relid_str = ','.join(map(str, relations_id))
-    sql = f"SELECT * FROM {self.resnet_version}.control WHERE {self.resnet_version}.control.id IN ({relid_str})"
+    sql = f"SELECT * FROM {self.schema}.control WHERE {self.schema}.control.id IN ({relid_str})"
 
     with self.db.cursor() as cur:
         cur.execute(sql)
@@ -84,7 +84,7 @@ class PostgreSQL:
     '''
     count_str = ','.join([f'count({c})' for c in columns])
     count_str += ',count(*)'
-    sql = f'SELECT {count_str} from {self.resnet_version}.{table}'
+    sql = f'SELECT {count_str} from {self.schema}.{table}'
     if filter:    
       clauses = [f'{colname} {value[0]} {value[1]}' for colname,value in filter.items()]
       sql += ' WHERE '+ ' AND '.join(clauses)
@@ -106,7 +106,7 @@ class PostgreSQL:
       filter = {columns_name:(sign,value)}
     '''
     count_str = ','.join([f'AVG({c})' for c in columns])
-    sql = f'SELECT {count_str} from {self.resnet_version}.{table}'
+    sql = f'SELECT {count_str} from {self.schema}.{table}'
     if min_values:    
       clauses = [f'{colname} {value[0]} {value[1]}' for colname,value in min_values.items()]
       sql += ' WHERE '+ ' AND '.join(clauses)
@@ -131,7 +131,7 @@ class PostgreSQL:
   def plot_distribution(self,table:str,columns:list[str],outdir=''):
     my_df = df(columns=columns)
     for col in columns:
-      sql = f'SELECT {col} FROM {self.resnet_version}.{table}'
+      sql = f'SELECT {col} FROM {self.schema}.{table}'
       with self.db.cursor() as cur:
         cur.execute(sql)
         rows = [list(r) for r in cur.fetchall()]
@@ -145,7 +145,7 @@ class PostgreSQL:
   def get_refs(self,relations_id:set[str]):
     new_relids = relations_id.difference(self.rel2refDict)
     newrelid_str = ','.join(map(str, new_relids))
-    sql = f"SELECT * FROM {self.resnet_version}.reference WHERE {self.resnet_version}.reference.id IN ({newrelid_str})"
+    sql = f"SELECT * FROM {self.schema}.reference WHERE {self.schema}.reference.id IN ({newrelid_str})"
     with self.db.cursor() as cur:
       for attempt in range(3):
         try:
@@ -184,7 +184,7 @@ class PostgreSQL:
       scopus_data.reference_id is joined with reference.unique_id
     '''
     refid_str = ','.join(map(str, refids))
-    sql = f"SELECT * FROM {self.resnet_version}.scopus_data WHERE {self.resnet_version}.scopus_data.reference_id IN ({refid_str})"
+    sql = f"SELECT * FROM {self.schema}.scopus_data WHERE {self.schema}.scopus_data.reference_id IN ({refid_str})"
     with self.db.cursor() as cur:
       try:
         cur.execute(sql)
@@ -306,7 +306,7 @@ class PostgreSQL:
       relation IDs for references containing any of the keywords in their sentences
     '''
     start = time.time()
-    vrsn = self.resnet_version
+    vrsn = self.schema
     sql = f'''SELECT * FROM {vrsn}.reference
           WHERE {vrsn}.reference.msrc ILIKE ANY (ARRAY[{','.join([f"\'%{kw}%\'" for kw in keywords])}]);
       '''
@@ -321,12 +321,12 @@ class PostgreSQL:
     [relids.update(rel[RELATIONID]) for rel in rels if rel[RELATIONID]]
     relid_str = ','.join([str(relid) for relid in relids])
   #  sql = f"""SELECT DISTINCT reference.id, relation_score
-  #       FROM {self.resnet_version}.reference, {self.resnet_version}.scopus_data
-  #        WHERE {self.resnet_version}.reference.unique_id = {self.resnet_version}.scopus_data.reference_id
-  #        AND {self.resnet_version}.reference.id IN ({relid_str})
+  #       FROM {self.schema}.reference, {self.schema}.scopus_data
+  #        WHERE {self.schema}.reference.unique_id = {self.schema}.scopus_data.reference_id
+  #        AND {self.schema}.reference.id IN ({relid_str})
   #        """
     sql = f"""SELECT DISTINCT control_attribute, relation_score
-          FROM {self.resnet_version}.control_attribute_summary
+          FROM {self.schema}.control_attribute_summary
           WHERE control_attribute IN ({relid_str})"""
     
     with self.db.cursor() as cur:
@@ -356,3 +356,109 @@ class PostgreSQL:
           break # if one of the relation IDs has a citation score, add it to the relation and move on to the next relation
     print(f'\nAdded citation score to {len(rels_with_score)} out of {len(rels)} relations based on Scopus data from Postgres')
     return rels_with_score
+
+
+  def add_column(self,_2df:df,using_sql:str, relid_col= RELATIONID, 
+                 column_name='new_column', how2agg=None, new_col_dtype='string'):
+    '''
+    add a new column to the dataframe with a specified value for rows that have a relation ID, otherwise leave it as NA\n
+    how2agg = min,max,avg.  Shows how to aggregate values for rows with list of relation IDs in string format (e.g. "[123,456,789]"),\n 
+    if how2agg=None, will return a comma-separated list of values for the relation IDs in the list
+    new_col_dtype = Int64, float, string, etc.  The dtype of the new column, used for proper NA handling and aggregation.  If how2agg is not None, new_col_dtype must be numeric.  If how2agg is None, new_col_dtype can be string to return comma-separated list of values.
+    '''
+    chunk_size = 10000
+    number_of_batches = (len(_2df) // chunk_size) + 1
+    print(f'Adding "{column_name}" to "{_2df._name_}" dataframe with {len(_2df)} rows using streaming cursor in batches of {chunk_size} for {number_of_batches} batches...')
+    relid2prop = dict()
+    with self.db.cursor(name=f'fetch{column_name.title()}') as srv_cur:
+      srv_cur.itersize = chunk_size
+      srv_cur.execute(using_sql)
+      for row in srv_cur:
+        relid2prop[row[0]] = row[1]
+
+    print(f'Retreived {column_name} for {len(relid2prop)} relation IDs from Postgres, now mapping to dataframe...')
+    
+    relid_series = _2df[relid_col].astype(str).str.strip() # ensure that relation IDs are strings and strip any whitespace
+    list_mask = relid_series.str.startswith('[') # mask for rows where relation ID is a list of relation IDs in string format (e.g. "[123,456,789]"), we will need to parse these and take the earliest publication year among the list of relation IDs
+    scalar_relids = pd.to_numeric(relid_series[~list_mask], errors='coerce') # Vectorized fast path for scalar relation IDs.
+    scalar_relids = scalar_relids.dropna().astype(int)
+    my_dype = 'float' if how2agg == 'avg' else new_col_dtype
+    default_val = '' if my_dype == 'string' else (np.nan if my_dype == 'float' else pd.NA)
+    _2df[column_name] = pd.Series(default_val, index=_2df.index, dtype=my_dype) # nullable integer dtype to allow NA values
+    _2df.loc[scalar_relids.index, column_name] = scalar_relids.map(relid2prop)
+    mapped_count = _2df[column_name].notna().sum()
+    print(f'Mapped {mapped_count} out of {len(_2df)} rows with scalar relation IDs, now processing list-like relation IDs...')
+
+    # Parse list-like relation IDs and take the earliest mapped publication year.
+    def list2list(relid_value:str):
+      relid_list = list(map(int, ast.literal_eval(relid_value)))
+      if how2agg is None or new_col_dtype == 'string':
+        value_list = [str(relid2prop[relid]) for relid in relid_list if relid in relid2prop and relid2prop[relid] is not None]
+        return f'{",".join(value_list)}'
+      elif how2agg == 'min':
+        values = [relid2prop[relid] for relid in relid_list if relid in relid2prop and relid2prop[relid] is not None]
+        if values:
+          return int(min(values)) if new_col_dtype == 'Int64' else float(min(values))
+        return default_val
+      elif how2agg == 'max':
+        values = [relid2prop[relid] for relid in relid_list if relid in relid2prop and relid2prop[relid] is not None]
+        if values:
+          return int(max(values)) if new_col_dtype == 'Int64' else float(max(values))
+        return default_val
+      elif how2agg == 'avg':
+        values = [relid2prop[relid] for relid in relid_list if relid in relid2prop and relid2prop[relid] is not None]
+        if values:
+          return float(sum(values)/len(values))
+        return default_val
+      else:
+        raise ValueError(f'Unsupported aggregation method: {how2agg}')
+
+    if list_mask.any():
+      _2df.loc[list_mask, column_name] = relid_series[list_mask].apply(list2list)
+
+    mapped_count = _2df[column_name].notna().sum()
+    print(f"Finished mapping {column_name} for {_2df._name_} rows using streaming cursor")
+    print(f'Mapped {mapped_count}' f' out of {len(_2df)} rows, {mapped_count/len(_2df)*100:.2f}% coverage')
+    return _2df
+
+
+  def add_1st_pubyear(self,_2df:df, relid_col= RELATIONID, pubyear_col='1stPubYear', stream=True):
+    '''
+    use stream to add 1st publication year to large number of RelationsIDs
+    handles "relid_col" to be either a single relation ID or a list of relation IDs in string format (e.g. "[123,456,789]")
+    '''
+    chunk_size = 10000
+    batch_counter = 0
+    number_of_batches = (len(_2df) // chunk_size) + 1
+    if stream:
+      sql = f'''SELECT id, MIN(pubyear) as first_pubyear
+          FROM {self.schema}.reference
+          WHERE {self.schema}.reference.pubyear IS NOT NULL
+          GROUP BY id'''
+      return self.add_column(_2df, using_sql=sql, relid_col=relid_col, column_name=pubyear_col, how2agg='min', new_col_dtype='Int64')
+    else: # batching without server-side cursor, not recommended for large number of relation IDs due to memory use, but can be faster for small number of relation IDs
+      sql = f'''SELECT id, MIN(pubyear) as first_pubyear
+          FROM {self.schema}.reference
+          WHERE {self.schema}.reference.id IN '''
+      sql += '''({relid_str})
+          GROUP BY id'''
+    
+      for idx in range(0, len(_2df), chunk_size):
+        chunk = _2df.iloc[idx:idx+chunk_size]
+        relid_str = ','.join([str(relid) for relid in set().union(*chunk[relid_col].to_list())])
+        sql = sql.format(relid_str=relid_str)
+        # 'cursor_name' makes this a server-side cursor
+        with self.db.cursor() as cur:
+          try:
+            cur.execute(sql)
+            rows = cur.fetchall()
+            if rows:
+              relid2pubyear = {str(row[0]): row[1] for row in rows}
+              _2df[pubyear_col] = _2df[relid_col].map(relid2pubyear)
+              batch_counter += 1
+              print(f"Processed batch {batch_counter} of {number_of_batches}, {len(rows)} rows...")
+          except Exception as e:
+            print(f'Error fetching MIN PubYear from Postgres for relation_ids {relid_str} with SQL {sql[:255]}:')
+            print(e)
+            self.db.rollback()
+            return dict()

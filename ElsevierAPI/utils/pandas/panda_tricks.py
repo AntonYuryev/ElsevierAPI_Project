@@ -259,9 +259,8 @@ class df(pd.DataFrame):
   def read(cls, *args, **kwargs):
       '''
       Input
-      -----
-      args[0] - input filname for reading Excel file\n
-      kwargs = {sheet_name:str, read_formula:bool}
+        args[0] - input filname for reading Excel file\n
+        kwargs = {sheet_name:str, read_formula:bool, name:str}
       '''
       df_name = kwargs.pop('name','')
       fname = str(args[0])
@@ -665,7 +664,9 @@ class df(pd.DataFrame):
   
   
   def smaller_than(self, value:float, in_column:str):
-    '''removes rows with in_column value >= value'''
+    '''
+      removes rows with in_column value >= value
+    '''
     old_len = len(self)
     new_pd = self[self[in_column] < value]
     removed_rows = old_len - len(new_pd)
@@ -914,7 +915,6 @@ class df(pd.DataFrame):
           veclen =  np.sqrt(np.sum(vec**2))
           new_col = my_cols[col] if isinstance(my_cols,dict) else col 
           copy_df[new_col] = vec / veclen if veclen > 0.0 else 0.0
-      
       return copy_df
   
 
@@ -1129,24 +1129,14 @@ class df(pd.DataFrame):
     return copy_df
   
 
-  def normalize(self, columns:list[str]):
-    copy_df = self.dfcopy()
-    for column in columns:
-      if column in self.columns:
-        col_min = copy_df[column].min()
-        col_max = copy_df[column].max()
-        if col_max > col_min:  # Avoid division by zero
-          copy_df[column] = (copy_df[column] - col_min) / (col_max - col_min)
-    return copy_df
-
-
   def plot_correlation(self, Xcol:str, Ycol:str,**kwargs):
     '''
     kwargs:
       plot_width:int - width of the plot in pixels, default is 100
       plot_height:int - height of the plot in pixels, default is 100
-      out_dir:str - directory to save the plot, default is current directory
+      outdir:str - directory to save the plot, default is current directory
       how2shade - str - method to shade the plot, default is 'eq_hist', other option is 'log','linear'
+      out_file str - name of the output file, default is 'Correlation YcolVsXcol.png'
     '''
     print(f'Plotting correlation between {Xcol} and {Ycol} for {len(self)} data points in {self._name_}')
     corr = self[Xcol].corr(self[Ycol])
@@ -1186,11 +1176,14 @@ class df(pd.DataFrame):
     plt.xlabel(Xcol)
     plt.ylabel(Ycol)
 
-    fout = kwargs.pop('fout', f'Correlation {Ycol.title()}Vs{Xcol.title()}.png')
-    _2dir = kwargs.pop('out_dir', '')
+    fout = kwargs.pop('out_file', f'Correlation {Ycol.title()}Vs{Xcol.title()}')
+    fout += '.heatmap.png'
+    _2dir = kwargs.pop('outdir', '')
     if _2dir:
       fout = os.path.join(_2dir, fout)
     plt.savefig(fout, dpi=300)
+    print(f'Correlation plot saved to {fout}')
+    plt.clf()
 
 
   def plot_distribution(self, distribution_cols:list[str],**kwargs):
@@ -1210,6 +1203,7 @@ class df(pd.DataFrame):
         histogram plot of the distribution with percentiles in legend.
         histogram is saved to "outdir/title+'.histogram.png'".
     '''
+    assert(isinstance(distribution_cols, list)), "distribution_cols must be a list of column names"
     kwargs['alpha'] = kwargs.pop('alpha',0.5) # transperancy value
     kwargs['bins'] = kwargs.pop('number_of_bins',50)
     kwargs['edgecolor'] = kwargs.pop('edgecolor',"black")
@@ -1220,7 +1214,7 @@ class df(pd.DataFrame):
     percentile4score = kwargs.pop('percentile4score', [])
     legend_loc = kwargs.pop('legend_loc', 'best')
     clear_plot = kwargs.pop('clear_plot', True)
-    title = kwargs.pop('title', 'Distribution Plot')
+    title = kwargs.pop('title', 'Distribution of ' + ', '.join(distribution_cols))
 
     legend_labels = []
     patches_list = []
@@ -1276,18 +1270,25 @@ class df(pd.DataFrame):
       Yvalues: dict of label to list of y-axis values: {label:[values]}
       outdir: directory to save the plot
     '''
-    title = kwargs.get('title',"Dependency Graph")
+    ycolnames = ', '.join(Ycols)
+    title = kwargs.get('title',f"{ycolnames} vs {Xcol}")
     Yvalues = {col:self[col].tolist() for col in Ycols}
     Xvalues = self[Xcol].tolist()
     
+    legend_labels = []
+    patches_list = []
+    plt.figure(figsize=(10, 6)) # Optional: Makes the graph larger
     for label, y_values in Yvalues.items():
-      plt.figure(figsize=(10, 6)) # Optional: Makes the graph larger
-      plt.plot(Xvalues, y_values, label=label)
-      plt.title(title)
-      plt.xlabel(kwargs.get('xlabel',''))
-      plt.ylabel(kwargs.get('ylabel',''))
-      plt.grid(True) # Optional: Add a grid for better readability
-    plt.legend(loc='upper right')
+      line, = plt.plot(Xvalues, y_values, label=label)
+      patches_list.append(line)
+      legend_label = f'\n{label}:{len(y_values)}'
+      legend_labels.append(legend_label.strip())
+    
+    plt.grid(True) # Optional: Add a grid for better readability
+    plt.xlabel(kwargs.get('xlabel',''))
+    plt.ylabel(kwargs.get('ylabel',''))
+    plt.title(title)
+    plt.legend(handles=patches_list, labels=legend_labels, loc='best')
     plt.gca().ticklabel_format(useOffset=False, style='plain')
     #plt.show()# Display the plot
     data_dir = kwargs.pop('outdir','')
@@ -1295,6 +1296,7 @@ class df(pd.DataFrame):
     plt.savefig(fout)
     print(f'Dependency plot saved to {fout}')
     print(f'Finished building {len(Yvalues)} dependency plots')
+    plt.clf()
 
 
 
@@ -1304,7 +1306,8 @@ class df(pd.DataFrame):
     kwargs:
       trend_line: default False
     '''
-    title = kwargs.get('title',"Scatter plot")
+    ycolnames = ', '.join(Ycols)
+    title = kwargs.get('title',f"{ycolnames} vs {Xcol}")
     Yvalues = {col:self[col].tolist() for col in Ycols}
     Xvalues = self[Xcol].tolist()
     
@@ -1314,21 +1317,20 @@ class df(pd.DataFrame):
         z = np.polyfit(Xvalues, y_values, 1)
         p = np.poly1d(z)
         plt.plot(Xvalues, p(Xvalues), "r--", label='Trend Line')
-      plt.title(title)
-      plt.xlabel(kwargs.get('xlabel',''))
-      plt.ylabel(kwargs.get('ylabel',''))
-      plt.grid(True) # Optional: Add a grid for better readability
-    plt.legend(loc='upper right')
+
+    plt.title(title)
+    plt.xlabel(kwargs.get('xlabel',Xcol))
+    plt.ylabel(kwargs.get('ylabel',ycolnames))
+    plt.grid(True) # Optional: Add a grid for better readability
+    plt.legend(loc='best')
     plt.gca().ticklabel_format(useOffset=False, style='plain')
-    #plt.show()# Display the plot
     data_dir = kwargs.pop('outdir','')
     fout = os.path.join(data_dir,title+'.scatter.png')
     plt.savefig(fout)
     print(f'Scatter plot saved to {fout}')
     print(f'Finished building {len(Yvalues)} scatter plots')
+    plt.clf()
     
-
-
 
   def rasterize(self, Xcol:str, Ycol:str, fout='', _2dir='', interactive=False):
     '''
