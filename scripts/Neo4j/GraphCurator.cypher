@@ -8,7 +8,7 @@ WITH a, b, relType, r
 ORDER BY coalesce(r.RelationNumberOfReferences, 0) DESC
 WITH a, b, relType, collect(r) AS sortedRels
 // Merge into a single survivor
-CALL apoc.refactor.mergeRelationships(sortedRels, {properties: ""combine""})
+CALL apoc.refactor.mergeRelationships(sortedRels, {properties: "combine"})
 YIELD rel
 // Immediate Cleanup
 WITH relType, rel, properties(rel) AS props
@@ -42,7 +42,7 @@ MATCH (a)-[evidence:FunctionalAssociation]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
@@ -112,7 +112,7 @@ CALL apoc.create.relationship(a, 'DirectRegulation', properties(sortedRels[0]), 
 YIELD rel AS newRel
 // Merge the properties from the OTHER old relations into the new one
 CALL apoc.refactor.mergeRelationships([newRel]+sortedRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
@@ -205,7 +205,7 @@ WITH a, b, relType, r
 ORDER BY coalesce(r.RelationNumberOfReferences, 0) DESC
 WITH a, b, relType, collect(r) AS sortedRels
 // Perform the merge
-CALL apoc.refactor.mergeRelationships(sortedRels, {properties: ""combine""})
+CALL apoc.refactor.mergeRelationships(sortedRels, {properties: "combine"})
 YIELD rel
 // Immediate Cleanup
 WITH relType, rel, properties(rel) AS props
@@ -281,7 +281,7 @@ ORDER BY
   coalesce(r.RelationNumberOfReferences, 0) DESC
 WITH enzyme, b, collect(r) AS sortedRels
 // Merge (The first rel in sortedRels will be the survivor)
-CALL apoc.refactor.mergeRelationships(sortedRels, {properties: ""combine""})
+CALL apoc.refactor.mergeRelationships(sortedRels, {properties: "combine"})
 YIELD rel
 // Cleanup Logic (Unique values, preserve ""_"")
 WITH rel, properties(rel) AS props
@@ -311,22 +311,21 @@ UNION
 MATCH (a)-[anchor:DirectRegulation]->(b)
 MATCH (a)-[evidence:Regulation|Binding|ProtModification]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
-// Merge evidence into the existing anchor
-// [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
-CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
-    produceSelfRel: false
-})
+
+// Merging evidence into the existing anchor
+// Fixed: Added parentheses and fixed the ""combine"" string quotes
+CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: "combine", produceSelfRel: false})
 YIELD rel
+
 // Immediate Cleanup
 WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
         apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
+
 // Final step: Unwrap single-item lists to strings
 WITH rel, uniqueMap
 WITH rel, apoc.map.fromLists(
@@ -339,6 +338,7 @@ WITH rel, apoc.map.fromLists(
         END
     ]
 ) AS finalProps
+
 SET rel = finalProps
 RETURN "RegProtModBind2DirectRegulation" AS merge_type, count(rel) AS mergedCount
 
@@ -375,10 +375,7 @@ MATCH (a)-[evidence:Regulation|FunctionalAssociation]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor:
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
-CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
-    produceSelfRel: false
-})
+CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: "combine",produceSelfRel: false})
 YIELD rel
 // Immediate Cleanup
 WITH rel, properties(rel) AS props
@@ -437,7 +434,7 @@ WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
@@ -488,7 +485,7 @@ WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
@@ -527,7 +524,7 @@ WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
@@ -588,7 +585,7 @@ WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
-    properties: ""combine"",
+    properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
