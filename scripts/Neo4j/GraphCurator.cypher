@@ -313,7 +313,6 @@ MATCH (a)-[evidence:Regulation|Binding|ProtModification]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 
 // Merging evidence into the existing anchor
-// Fixed: Added parentheses and fixed the ""combine"" string quotes
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: "combine", produceSelfRel: false})
 YIELD rel
 
