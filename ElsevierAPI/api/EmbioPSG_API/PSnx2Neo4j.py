@@ -1,9 +1,7 @@
-import atexit
-import csv
-import neo4j, time
-from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID
+import atexit, csv, neo4j, time
+from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID,df
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,np
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT
 from neo4j import GraphDatabase, NotificationSeverity
 from neo4j import ManagedTransaction as tx
 from .cypher import Cypher, ENTPROP_NEO4J
@@ -974,8 +972,10 @@ class neo4j_nx(GraphDatabase):
 
   def snippets_df(self,relids: list[str], only_reltypes=[]):
     '''
-    pd.Dataframe with columns:\n['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score','RelType,ID','journal','title','doi','pmid']
+    pd.Dataframe with columns: ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score',
+    'RelType,ID','journal','title','doi','pmid']
     '''
+    print(f'Fetching snippets from Postgres for {len(relids)} relations ...')
     r = f"r:{'|'.join(only_reltypes)}" if only_reltypes else "r"
     cypher = f"""
     MATCH (a)-[{r}]->(b) 
@@ -985,6 +985,7 @@ class neo4j_nx(GraphDatabase):
     requeste_name = f"Fetch snippets for {len(relids)} relations"
     params = {'id_list': relids}
     graph2display = self.fetch_graph(cypher, parameters=params, request_name=requeste_name)
+    graph2display = self.annotate_nodes(graph2display, with_prop="MedScan ID")
 
     relid2attrs = {}
     for rel in graph2display._psrels():
@@ -992,34 +993,114 @@ class neo4j_nx(GraphDatabase):
       if isinstance(raw_ids, str):
         raw_ids = [raw_ids]
 
-      regulators = ','.join([n.name() for n in rel.regulators()])
-      targets = ','.join([n.name() for n in rel.targets()])
+      regulators = ','.join([n.name()+':'+n.get_prop("MedScan ID") for n in rel.regulators()])
+      targets = ','.join([n.name()+':'+n.get_prop("MedScan ID")  for n in rel.targets()])
       confidence = rel['Confidence (%)'][0] if 'Confidence (%)' in rel else np.nan
       citation_score = rel['Citation score'][0] if 'Citation score' in rel else np.nan
-      rel_attrs = (regulators, targets, rel.objtype(), rel.effect(), confidence, citation_score)
+      refcount = rel.count_refs()
+      rel_attrs = (regulators, targets, rel.objtype(), rel.effect(), confidence, citation_score, refcount)
 
       for raw_id in raw_ids:
         relid2attrs[raw_id] = rel_attrs
 
     rel_props = self.postgres.get_refs(set(relid2attrs.keys()))
+    row_count = len(rel_props)
+    rel_props = rel_props[rel_props['msrc'].notna()]
+    rel_props = rel_props[rel_props['msrc'].astype(str).str.strip().ne('')]
+    print(f'Fetched {len(rel_props)} rows with non-empty snippets out of {row_count} total rows for {len(relid2attrs)} relation ids')
+    
     rel_props['id'] = rel_props['id'].astype(str)
-
     default_attrs = ('', '', '', '', 0, 0)
     mapped_attrs = rel_props['id'].map(lambda rid: relid2attrs.get(rid, default_attrs))
-    rel_props[['Regulators', 'Targets', 'RelType', 'Effect', 'Confidence (%)', 'Citation score']] = pd.DataFrame(
+    rel_props[['Regulators', 'Targets', 'RelType', 'Effect', 'Confidence (%)', 'Citation score',REFCOUNT]] = pd.DataFrame(
       mapped_attrs.tolist(), index=rel_props.index)
 
     rel_props['RelType,ID'] = rel_props['RelType']+": "+rel_props['id']
-
+    
     # deduplicating rows
     def sentences_key(row):
       return row['Regulators']+'_'+row['Targets']+'_'+row['msrc'][0:30]+row['RelType']+' '+row['Effect']
-    
+
     rel_props = rel_props.sort_values(by='msrc', key=lambda x: x.str.len(), ascending=False)
     rel_props['sentence_key'] = rel_props.apply(sentences_key, axis=1)
     rel_props = rel_props.drop_duplicates(subset='sentence_key', keep='first')
 
-    col2display = ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score','RelType,ID','journal','title','doi','pmid']
+    col2display = ['Regulators','Targets','msrc',REFCOUNT,'RelType,ID','Effect','journal','title','doi','pmid','Confidence (%)','Citation score']
     snippets_df = rel_props[col2display]
     snippets_df = snippets_df.drop_duplicates(subset=['Regulators','Targets','msrc','Effect','RelType,ID'], keep='first')
+    print(f'Finished fetching {len(snippets_df)} snippets for {len(relids)}')
+    snippets_df = df.from_pd(snippets_df, dfname='Snippets')
+    snippets_df = snippets_df.sortrows(by=['Regulators','Targets','RelType,ID','msrc'])
     return snippets_df
+  
+
+  def annotate_nodes(self,in_graph:ResnetGraph, with_prop:str):
+    '''
+    Annotates nodes in input graph with a new property with_prop containing the count of relations from the specified source in Neo4j connected to each node in the input graph. 
+    If node_type is specified, counts only relations connected to nodes of this type, otherwise counts all relations connected to each node in the input graph. 
+    If rel_type is specified, counts only relations of this type, otherwise counts all relations connected to each node in the input graph.
+    '''
+    nodeids2urn = {node['NodeID'][0] : node['URN'][0] for uid,node in in_graph.nodes(data=True)}
+    nodeids2prop = self.postgres.nodeid2prop(list(nodeids2urn.keys()), with_prop)
+    urn2prop = {nodeids2urn[nodeid]:[prop] for nodeid, prop in nodeids2prop.items()}
+    my_graph = in_graph.copy()
+    my_graph.set_node_annotation(urn2prop, with_prop)
+    print(f'Annotated {len(urn2prop)} nodes in input graph with property {with_prop} from Postgres')
+    return my_graph
+
+
+  def color_sentences(self, snippets_df:df, outfile:str):
+    '''
+    Colors sentences in the input dataframe by highlighting the part of the sentence corresponding to the regulator in green and the part corresponding to the target in red.
+    '''
+    sheet_name = getattr(snippets_df, '_name_', 'Sheet1')
+    with pd.ExcelWriter(outfile, engine="xlsxwriter") as writer:
+      snippets_df.to_excel(writer, sheet_name=sheet_name, index=False)
+      workbook = writer.book
+      worksheet = writer.sheets[sheet_name]
+      for col_num, value in enumerate(snippets_df.columns):
+        worksheet.write(0, col_num, value)
+
+      normal_format = workbook.add_format({"color": "black"})      
+      green_format = workbook.add_format({"color": "green", "bold": True})
+      red_format = workbook.add_format({"color": "red", "bold": True})
+      col_idx = snippets_df.columns.get_loc("msrc")
+      
+      rownum = 1
+      for idx in snippets_df.index:
+        regulator_nameid = snippets_df.at[idx, 'Regulators']
+        regulator_id = regulator_nameid.split(':')[1]
+        target_nameid = snippets_df.at[idx, 'Targets']
+        target_id = target_nameid.split(':')[1]
+        sentence = snippets_df.at[idx, 'msrc']
+        # 1. Capture the word inside parentheses so re.split keeps the matches in the resulting list
+        # Using \b flags exact word matches, and re.IGNORECASE handles capitalized instances
+        rich_args = []
+        previous_markup_end = 0
+        markup_start = sentence.find('ID{')
+        while markup_start != -1:
+          end_idpos = sentence.find('=', markup_start)
+          markup_ids = sentence[markup_start+3:end_idpos].split(',')
+          end_markup = sentence.find('}', end_idpos)+1
+          if regulator_id in markup_ids:
+            if markup_start > previous_markup_end:
+              rich_args.extend([normal_format, sentence[previous_markup_end:markup_start]])
+            rich_args.extend([green_format, sentence[markup_start:end_markup]])
+          elif target_id in markup_ids:
+            if markup_start > previous_markup_end:
+              rich_args.extend([normal_format, sentence[previous_markup_end:markup_start]])
+            rich_args.extend([red_format, sentence[markup_start:end_markup]])
+          else:
+            rich_args.extend([normal_format, sentence[previous_markup_end:end_markup]])
+          previous_markup_end = end_markup
+          markup_start = sentence.find('ID{', previous_markup_end)
+
+        if previous_markup_end < len(sentence):
+          rich_args.extend([normal_format, sentence[previous_markup_end:]])
+        worksheet.write_rich_string(rownum, col_idx, *rich_args)
+        rownum += 1
+
+      sentence_format = writer.book.add_format({"font_size": 9})
+      sentence_format.set_text_wrap()
+      worksheet.set_column(col_idx, col_idx, 100, sentence_format)
+    print(f'Colored sentences and saved to {outfile}')

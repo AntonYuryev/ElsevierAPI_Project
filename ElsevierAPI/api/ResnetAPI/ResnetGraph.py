@@ -58,8 +58,10 @@ class ResnetGraph (nx.MultiDiGraph):
       return "{}".format(str(timedelta(seconds=time.time() - execution_start)))
 
 ###############    ADD ADD ADD    #############################
-  def set_node_attributes(self,values:list,name:str):
-    nx.function.set_node_attributes(self,values,name)
+  def __update_rels(self):
+    '''
+    updates relation objects in graph after node update to keep node objects in relations up to date with node objects in graph.
+    '''
     for ruid,tuid,rel in self.edges.data('relation'):
       if REGULATORS in rel.Nodes:
         for i,reg in enumerate(rel.Nodes[REGULATORS]):
@@ -67,6 +69,12 @@ class ResnetGraph (nx.MultiDiGraph):
       if TARGETS in rel.Nodes:
         for i,tar in enumerate(rel.Nodes[TARGETS]):
           rel.Nodes[TARGETS][i] = self._get_node(tar.uid())
+    return
+  
+
+  def set_node_attributes(self,values:list,name:str):
+    nx.function.set_node_attributes(self,values,name)
+    self.__update_rels()
     return
 
 
@@ -275,17 +283,15 @@ class ResnetGraph (nx.MultiDiGraph):
 ################## SET SET SET ##########################################
   def set_node_annotation(self, urn2values:dict[str,list], new_prop_name:str):
       """
-      Input
-      -----
-      urn2values = {urn:[with_prop_values]}
-
-      Adds
-      ----
-      new property to exsisting nodes. Existing values of 'new_prop_name' will be replaced
+      Input:
+        urn2values = {urn:[with_prop_values]}
+      Adds:
+        new property to existing nodes. Existing values of 'new_prop_name' will be replaced
       """
       uid2values = {PSObject.urn2uid(k):v for k,v in urn2values.items()}
-      nx.function.set_node_attributes(self,uid2values,new_prop_name)
       # set_node_attributes() does not update nodes that do not exist in Graph
+      nx.function.set_node_attributes(self,uid2values,new_prop_name) 
+      self.__update_rels()
       return
 
 
@@ -367,7 +373,8 @@ class ResnetGraph (nx.MultiDiGraph):
 
       print('%d nodes were annotated "%s" values out of %d "%s" values used for mapping' %
               (annotation_counter,with_new_prop,len(using_map), map2prop) )
-
+      self.__update_rels()
+      
 
   def rename_rel_property(self, oldPropertyName='MedlineTA', newPropertyName='Journal'):
     '''

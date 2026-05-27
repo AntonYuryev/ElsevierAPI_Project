@@ -2,9 +2,10 @@ import sys,os,time
 from pathlib import Path as path
 from collections import defaultdict
 
-root_dir = path(__file__).resolve().parent.parent
+#root_dir = path(__file__).resolve().parent.parent
+root_dir = 'D:\\Python\\ENTELLECT_API_SCRIPTS'
 sys.path.append(str(root_dir))
-from ElsevierAPI_Project.ElsevierAPI.utils.utils import execution_time,plot_distribution, dir2flist,Tee
+from ElsevierAPI_Project.ElsevierAPI.utils.utils import execution_time, dir2flist,Tee
 from ElsevierAPI_Project.ElsevierAPI.api.EmbioPSG_API.PSnx2Neo4j import neo4j_nx,OBJECT_TYPE,CONNECTIVITY
 from ElsevierAPI_Project.ElsevierAPI.api.ResnetAPI.ResnetGraph import ResnetGraph,PSObject
 from ElsevierAPI_Project.ElsevierAPI.api.ResnetAPI.NetworkxObjects import RESNET_NODE_TYPES, RESNET_REL_TYPES, PROTEIN_TYPES
@@ -12,7 +13,7 @@ from ElsevierAPI_Project.ElsevierAPI.api.ResnetAPI.SNEA import df
 
 
 neo4j = neo4j_nx()
-WORK_DIR = 'D:/Python/ENTELLECT_API_SCRIPTS/Cypher/CitationVsRefcount'
+WORK_DIR = 'D:/Python/ENTELLECT_API_SCRIPTS/Database statistics/RefEnrichmentVsCitation/CitationVsRefcount'
 
 
 STAT_HEADER = [
@@ -91,13 +92,12 @@ def stats(urn2nodes:dict[str,PSObject]={},_4nodetypes=RESNET_NODE_TYPES,_4reltyp
 
               db_refEnrichment = 2 * refcount / (r_dbcit/r_dbdegree + t_dbcit/t_dbdegree)
               local_refEnrichment = 2 * refcount / (r_local_cit/r_localdegree + t_local_cit/t_localdegree)
-              relationid = rel.get_prop('RelationID')
-
-              row = [r.name(), r.objtype(), r_urn, r_dbcit, r_dbdegree, r_local_cit, r_localdegree,
+              for relationid in rel.get_props('RelationID'):
+                row = [r.name(), r.objtype(), r_urn, r_dbcit, r_dbdegree, r_local_cit, r_localdegree,
                      t.name(), t.objtype(), t_urn, t_dbcit, t_dbdegree, t_local_cit, t_localdegree,
                      reltype, relationid, refcount, round(db_refEnrichment, 5), round(local_refEnrichment, 5)]
+                out_f.write('\t'.join(map(str, row)) + '\n')
 
-              out_f.write('\t'.join(map(str, row)) + '\n')
             triples_counter += 1
             relation_counter += number_of_edges
             print(f"Found/Processed {number_of_edges} relations in {execution_time(start)}")
@@ -116,21 +116,27 @@ def hist4df(stats_df:df,out_dir=WORK_DIR,_2subdir='Distributions'):
   # Create Distributions subdirectory in out_dir
   distributions_dir = os.path.join(out_dir, _2subdir)
   os.makedirs(distributions_dir, exist_ok=True)
-  if len(stats_df) > size_limit:
-      db_winsorized = [x if x <= 1.0 else 1.0 for x in stats_df['DBrefEnrichment'].tolist()]
-      local_winsorized = [x if x <= 1.0 else 1.0 for x in stats_df['LocalrefEnrichment'].tolist()]
-      distributions = [{'DBnorm': db_winsorized},
-                       {'LocalNorm' : local_winsorized}]
-      kwargs = {'number_of_bins': 100,
-                'outdir': distributions_dir,
-                'percentiles':[1,2,3,4,5,10],
-                'percentile4score': [1.0],
-                'legend_loc':'upper center',
-                'title':stats_df._name_
-                }
-      plot_distribution(distributions,**kwargs)
-      print(f"Plotted distributions for {stats_df._name_} with {len(stats_df)} relations")
-      return True
+  stats_df['minRefEnrichment'] = calculate_min_refEnrichment(stats_df)
+  db_winsorized = [x if x <= 1.0 else 1.0 for x in stats_df['DBrefEnrichment'].tolist()]
+  local_winsorized = [x if x <= 1.0 else 1.0 for x in stats_df['LocalrefEnrichment'].tolist()]
+  #min_winsorized = [x if x <= 1.0 else 1.0 for x in stats_df['minRefEnrichment'].tolist()]
+  min_winsorized = [x for x in stats_df['minRefEnrichment'].tolist() if x < 1.0]
+  if len(min_winsorized) > size_limit:
+    distribution_df = df.from_dict({#'DBnorm': db_winsorized,
+                                    #'LocalNorm' : local_winsorized,
+                                    'MinNorm' : min_winsorized})
+    kwargs = {'number_of_bins': 100,
+              'outdir': distributions_dir,
+              #'percentiles':[1,2,3,4,5,10],
+              #'percentile4score': [1.0],
+              'legend_loc':'upper center',
+              'title':stats_df._name_ + f" ({len(min_winsorized)} out of {len(stats_df)})",
+              }
+    
+    distribution_df.plot_distribution(['MinNorm'],**kwargs)
+    #distribution_df.plot_distribution(['DBnorm', 'LocalNorm', 'MinNorm'],**kwargs)
+    print(f"Plotted distributions for {stats_df._name_} with {len(stats_df)} relations")
+    return True
   else:
     print(f"Skipped plotting for {stats_df._name_} with only {len(stats_df)} relations (<= {size_limit})")
   return False
@@ -199,18 +205,46 @@ def make_plots(input_dir = WORK_DIR):
 
       if hist4df(plot_df):
         print(f"Plotted distribution combined from {plot_name} from {len(stat_files)} files with {len(plot_df)} relations")
+
+    print(f"Finished plotting distributions for {len(triple2stats)} triple types from {sum(len(v) for v in triple2stats.values())} stat files in total")
   
 
-def load_stat_file(stat_file:str):
+def calculate_min_refEnrichment(stat_df:df):
+  r_ref_density = stat_df['rLocalRefCount'] / stat_df['rLocalConnectivity']
+  t_ref_density = stat_df['tLocalRefCount'] / stat_df['tLocalConnectivity']
+  min_ref_density = r_ref_density.combine(t_ref_density, min)
+  #min_ref_density = min_ref_density.where(min_ref_density != 0)
+  return stat_df['RefCount'] / min_ref_density
+
+
+def load_stat_file(stat_file:str,pair_refcount_df:df,snippet2refcount:df):
   basename = os.path.basename(stat_file).split('.')[0]
   stat_df = df.read(stat_file,header=0,encoding='utf-8', encoding_errors='replace')
-
-  my_df = stat_df[['rURN','rType','tURN','tType','RelType','RelationID', 'LocalrefEnrichment']].copy()
-  _, distr_conf_col = my_df.calulate_confidence('LocalrefEnrichment')
-  my_df = my_df.dfcopy(rename2={distr_conf_col:'Confidence (%)'})
+  stat_df['minRefEnrichment'] = calculate_min_refEnrichment(stat_df)
+ 
+  my_df = stat_df[['rURN','rType','tURN','tType','RelType','RelationID', 'RefCount', 'minRefEnrichment','LocalrefEnrichment']].copy()
   
-  my_df.loc[my_df['LocalrefEnrichment'] > 0.001, 'LocalrefEnrichment'] = my_df.loc[
-    my_df['LocalrefEnrichment'] > 0.001, 'LocalrefEnrichment'].round(3)
+  my_df = my_df.merge(pair_refcount_df, how='left', left_on=['rURN','tURN'], right_on=['rURN','tURN'])
+  my_df['TotalRefCount'] = my_df['TotalRefCount'].fillna(1)
+
+  my_df = my_df.merge(snippet2refcount, how='left', left_on=['RelationID'], right_on=['RelationID'])
+  my_df['Snippet2Refcount'] = my_df['Snippet2Refcount'].fillna(1)
+  # correcting refEnrichment scores by fraction of references supporting the relation among all references 
+  weighted_refcount = my_df['RefCount'] / my_df['TotalRefCount']
+  my_df['refEnrichment'] = my_df['LocalrefEnrichment'] * weighted_refcount * my_df['Snippet2Refcount']
+  my_df['minRefEnrichment'] = my_df['minRefEnrichment'] * weighted_refcount * my_df['Snippet2Refcount']
+  
+  _, distr_conf_col = my_df.calculate_confidence('minRefEnrichment')
+  my_df = my_df.dfcopy(rename2={distr_conf_col:'MaxConfidence (%)'})
+
+  _, distr_conf_col = my_df.calculate_confidence('refEnrichment')
+  my_df = my_df.dfcopy(rename2={distr_conf_col:'Confidence (%)'})
+ 
+  my_df.loc[my_df['minRefEnrichment'] > 0.001, 'minRefEnrichment'] = my_df.loc[
+    my_df['minRefEnrichment'] > 0.001, 'minRefEnrichment'].round(3)
+  
+  my_df.loc[my_df['refEnrichment'] > 0.001, 'refEnrichment'] = my_df.loc[
+    my_df['refEnrichment'] > 0.001, 'refEnrichment'].round(3)
   print(f"Submitting {len(my_df)} rows with refEnrichment score to update {basename} relations")
   
   RType, RelType, TType = basename.split('_')
@@ -227,21 +261,22 @@ def load_stat_file(stat_file:str):
 
     batch4future = [
       {'rURN': str(r_urn), 'rType': str(r_type), 'tURN': str(t_urn), 'tType': str(t_type), 
-      'reltype': str(rel_type), 'RelationID': str(rel_id), 
-      'LocalrefEnrichment': float(ref_enrichment), 'Confidence (%)': float(conf)}
+      'reltype': str(rel_type), 'RelationID': str(rel_id), 'RefEnrichment': float(ref_enrichment), 
+      'Confidence (%)': float(conf), 'minRefEnrichment': float(min_ref_enrichment), 'MaxConfidence (%)': float(maxconf)}
 
-      for r_urn, r_type, t_urn, t_type, rel_type, rel_id, ref_enrichment, conf in 
-      zip(_df['rURN'],_df['rType'], _df['tURN'], _df['tType'],
-          _df['RelType'],_df['RelationID'], _df['LocalrefEnrichment'],_df['Confidence (%)'])
+      for r_urn, r_type, t_urn, t_type, rel_type, rel_id, ref_enrichment, conf, min_ref_enrichment, maxconf in 
+      zip(_df['rURN'],_df['rType'], _df['tURN'], _df['tType'], _df['RelType'],_df['RelationID'], _df['refEnrichment'],
+          _df['Confidence (%)'], _df['minRefEnrichment'], _df['MaxConfidence (%)'])
     ]
     
     cypher = f"""
               UNWIND $batch AS row
               MATCH (a:{RType} {{URN: row.rURN}})-[r:{RelType}]-(b:{TType} {{URN: row.tURN}})
               WHERE r.RelationID = row.RelationID OR row.RelationID IN r.RelationID
-              SET r.refEnrichment = toFloat(row.LocalrefEnrichment)
+              SET r.refEnrichment = toFloat(row.RefEnrichment)
               SET r.`Confidence (%)` = toFloat(row.`Confidence (%)`)
-              SET r.refPVal = NULL
+              SET r.minRefEnrichment = toFloat(row.minRefEnrichment)
+              SET r.`MaxConfidence (%)` = toFloat(row.`MaxConfidence (%)`)
               RETURN count(r) AS updated_count
             """
     start = time.time()
@@ -264,14 +299,21 @@ def load_stat_file(stat_file:str):
 
 
 def _loadRefEnrichment_(input_dir=WORK_DIR):
+  total_refcount_df = df.read(os.path.join('D:/Python/ENTELLECT_API_SCRIPTS/Database statistics/','TotalRefCount4Pair.tsv'),header=0)
+  snippet2refcount_df = df.read(os.path.join('D:/Python/ENTELLECT_API_SCRIPTS/Database statistics/','Snippet2Refcount.tsv'),header=0)
+  below_one_count = (snippet2refcount_df['Snippet2Refcount'] < 1.0).sum()
+  print(f'Found {below_one_count} rows with Snippet2Refcount < 1.0 out of {len(snippet2refcount_df)} total rows in Snippet2Refcount.tsv.')
+  print('Clipping Snippet2Refcount values at 1.0 to handle outliers.')
+  snippet2refcount_df['Snippet2Refcount'] = snippet2refcount_df['Snippet2Refcount'].clip(lower=1.0)
+
   stat_files = dir2flist(input_dir,file_ext='tsv',include_subdirs=True)
   start = time.time()
   total_count = 0
   with Tee(os.path.join(input_dir,'RefEnrichmentAnnotation.log')):
     for stat_file in stat_files:
-      updated_count = load_stat_file(stat_file)
+      updated_count = load_stat_file(stat_file, total_refcount_df, snippet2refcount_df)
       total_count += updated_count
-    print(f"Scrip finished and annotated {total_count} relations with RefEnrichment and COnfidence values from {len(stat_files)} stat files in {execution_time(start)}")
+    print(f"Script finished and annotated {total_count} relations with RefEnrichment and COnfidence values from {len(stat_files)} stat files in {execution_time(start)}")
   return
 
 
@@ -283,6 +325,6 @@ def RetreiveStats(_4nodetypes=RESNET_NODE_TYPES,_4reltypes=RESNET_REL_TYPES):
 
 
 if __name__ == "__main__":
-  RetreiveStats() # retrieves relation RefCount and node neighborhood RefCount from Neo4j and calculates refEnrichment score
-  make_plots() # optional make histograms of RefEnrichment score distributions for each triple type NodeType1-RelType-NodeType2
+  #RetreiveStats() # retrieves relation RefCount and node neighborhood RefCount from Neo4j and calculates refEnrichment score
+  #make_plots() # optional make histograms of RefEnrichment score distributions for each triple type NodeType1-RelType-NodeType2
   _loadRefEnrichment_() # annotates relations in Neo4j with "refEnrichment" property calculated by RetreiveStats()

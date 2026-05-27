@@ -26,6 +26,10 @@ class Cypher:
 
   @staticmethod
   def rel_types(reltypes=RESNET_REL_TYPES) -> str:
+    '''
+    output:
+      "r:RelType1|RelType2|RelType3"
+    '''
     return '|'.join(reltypes)
 
   @staticmethod

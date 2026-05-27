@@ -1378,6 +1378,16 @@ class PSRelation(PSObject):
       if set(self.regulators()) == set(other.regulators()) and set(self.targets()) == set(other.targets()):
         return True
     return False
+
+
+
+  def snippets(self):
+    '''
+    output:
+      generator of (textref,sentence) pairs for all sentences in all snippets in all references for self
+    '''
+    for ref in self.refs():
+      yield ref._snippets()
   
 
   def sentences(self):

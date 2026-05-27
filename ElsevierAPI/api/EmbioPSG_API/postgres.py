@@ -319,7 +319,7 @@ class PostgreSQL:
   def select_citation_score(self,rels:list[PSRelation]):
     relids = set()
     [relids.update(rel[RELATIONID]) for rel in rels if rel[RELATIONID]]
-    relid_str = ','.join([str(relid) for relid in relids])
+    #relid_str = ','.join([str(relid) for relid in relids])
   #  sql = f"""SELECT DISTINCT reference.id, relation_score
   #       FROM {self.schema}.reference, {self.schema}.scopus_data
   #        WHERE {self.schema}.reference.unique_id = {self.schema}.scopus_data.reference_id
@@ -327,18 +327,18 @@ class PostgreSQL:
   #        """
     sql = f"""SELECT DISTINCT control_attribute, relation_score
           FROM {self.schema}.control_attribute_summary
-          WHERE control_attribute IN ({relid_str})"""
+          WHERE control_attribute IN (%s)"""
     
     with self.db.cursor() as cur:
       try:
-        cur.execute(sql)
+        cur.execute(sql, (tuple(relids),))
         rows = cur.fetchall()
         if rows:
           return {str(row[0]):row[1] for row in rows}
         else:
           return dict()
       except Exception as e:
-        print(f'Error fetching citation score from Postgres for relation_ids {relid_str} with SQL {sql[:255]}:')
+        print(f'Error fetching citation score from Postgres for relation_ids {relids} with SQL {sql[:255]}:')
         print(e)
         self.db.rollback()
         return dict()
@@ -429,36 +429,69 @@ class PostgreSQL:
     '''
     chunk_size = 10000
     batch_counter = 0
+    # ensure that relation IDs are strings and strip any whitespace
     number_of_batches = (len(_2df) // chunk_size) + 1
     if stream:
       sql = f'''SELECT id, MIN(pubyear) as first_pubyear
           FROM {self.schema}.reference
           WHERE {self.schema}.reference.pubyear IS NOT NULL
           GROUP BY id'''
-      return self.add_column(_2df, using_sql=sql, relid_col=relid_col, column_name=pubyear_col, how2agg='min', new_col_dtype='Int64')
+      df_year = self.add_column(_2df, using_sql=sql, relid_col=relid_col, column_name=pubyear_col, how2agg='min', new_col_dtype='Int64')
     else: # batching without server-side cursor, not recommended for large number of relation IDs due to memory use, but can be faster for small number of relation IDs
-      sql = f'''SELECT id, MIN(pubyear) as first_pubyear
+      sql = f'''SELECT id::text AS id, MIN(pubyear) as first_pubyear
           FROM {self.schema}.reference
           WHERE {self.schema}.reference.id IN '''
-      sql += '''({relid_str})
+      sql += '''(%s)
           GROUP BY id'''
-    
+      
+      _2df[relid_col] = _2df[relid_col].astype(int).str.strip() 
       for idx in range(0, len(_2df), chunk_size):
-        chunk = _2df.iloc[idx:idx+chunk_size]
-        relid_str = ','.join([str(relid) for relid in set().union(*chunk[relid_col].to_list())])
-        sql = sql.format(relid_str=relid_str)
+        chunk = _2df.iloc[idx:idx+chunk_size][relid_col].to_list()
+        #relid_str = ','.join([str(relid) for relid in set().union(*chunk[relid_col].to_list())])
+        #sql = sql.format(relid_str=relid_str)
         # 'cursor_name' makes this a server-side cursor
         with self.db.cursor() as cur:
           try:
-            cur.execute(sql)
+            cur.execute(sql, (tuple(set(chunk)),))
             rows = cur.fetchall()
             if rows:
-              relid2pubyear = {str(row[0]): row[1] for row in rows}
+              relid2pubyear = {row[0]: row[1] for row in rows}
               _2df[pubyear_col] = _2df[relid_col].map(relid2pubyear)
               batch_counter += 1
               print(f"Processed batch {batch_counter} of {number_of_batches}, {len(rows)} rows...")
           except Exception as e:
-            print(f'Error fetching MIN PubYear from Postgres for relation_ids {relid_str} with SQL {sql[:255]}:')
+            print(f'Error fetching MIN PubYear from Postgres for relation_ids {chunk} with SQL {sql[:255]}:')
             print(e)
             self.db.rollback()
-            return dict()
+      df_year = _2df
+      df_year[pubyear_col] = df_year[pubyear_col].astype('Int64')
+    return df_year
+
+      
+  def nodeid2prop(self,nodeids:list[str], prop:str):
+    '''
+    output:
+      {nodeid:prop_value}
+    '''
+    id_str = ','.join([f"{nodeid}" for nodeid in nodeids])
+    sql = f"""SELECT n.id::text AS id, a.value
+              FROM {self.schema}.node as n
+              JOIN {self.schema}.attr as a ON a.id = ANY(n.attributes)
+              WHERE a.name = %s
+              AND n.id = ANY(%s)"""
+    
+    node_ids = list(map(int, nodeids))
+    with self.db.cursor() as cur:
+      try:
+        cur.execute(sql, (prop, node_ids))
+        #colnames = [desc[0] for desc in cur.description]
+        rows = cur.fetchall()
+        if rows:
+          return {str(row[0]):row[1] for row in rows}
+        else:
+          return dict()
+      except Exception as e:
+        print(f'Error fetching {prop} from Postgres for URNs {id_str} with SQL {sql[:255]}:')
+        print(e)
+        self.db.rollback()
+        return dict()

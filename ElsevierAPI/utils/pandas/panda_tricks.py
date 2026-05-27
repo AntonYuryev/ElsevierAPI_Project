@@ -1048,24 +1048,22 @@ class df(pd.DataFrame):
     key - function to be called on each column before sorting, default is None (no key function)\n
     '''
     skip_rows = kwargs.pop('skip_rows',0)
-    my_kwargs = {'key':lambda x: pd.to_numeric(x, errors='coerce')}
+    my_kwargs = {'ascending':False, 'inplace':False}
+    my_kwargs.update(kwargs) # overwrites defaults with user-specified kwargs
     if skip_rows:
       if len(self) > skip_rows:
-        my_kwargs.update(kwargs)
         top_rows = self.iloc[:skip_rows]
-        remaining_rows = self.iloc[skip_rows:].sort_values(**kwargs)
+        remaining_rows = self.iloc[skip_rows:].sort_values(**my_kwargs)
         sorted_df = df.from_pd(pd.concat([top_rows, remaining_rows], ignore_index=True),dfname=self._name_)
         sorted_df.copy_format(self)
         return sorted_df
       else:
         return self
     else:
-      my_kwargs.update({'ascending':False, 'inplace':False})
-      my_kwargs.update(kwargs)
       sorted_pd = self.sort_values(**my_kwargs)
       sorted_df = df.from_pd(sorted_pd,self._name_)
       sorted_df.copy_format(self)
-    return sorted_df
+      return sorted_df
   
 
   def column_stats(self,column:str,sep=''):
@@ -1097,7 +1095,7 @@ class df(pd.DataFrame):
     return df.from_rows(rows,['Info','Counts'],dfname='info')
   
 
-  def calulate_confidence(self,distr_col:str):
+  def calculate_confidence(self,distr_col:str):
     '''
       Adds columns with p-values and confidence for values in "distr_col" column
     '''
@@ -1160,15 +1158,23 @@ class df(pd.DataFrame):
               #aspect='auto'
               )
 
+    # Determine colorbar orientation based on figure aspect ratio
+    if (x_max - x_min) / (y_max - y_min) > 1.2:
+      cbar_orientation = 'horizontal'
+    else:
+      cbar_orientation = 'vertical'
+
     # Add a manual colorbar to match 'cc.fire'
     if how2shade == 'log':
       sm = plt.cm.ScalarMappable(cmap=plt.get_cmap('hot'), norm=plt.Normalize(vmin=0, vmax=1))
-      plt.colorbar(sm, ax=ax, label='Relative Density (Log Scale)')
+      plt.colorbar(sm, ax=ax, label='Relative Density (Log Scale)', orientation=cbar_orientation)
     elif how2shade == 'eq_hist':
       fire_cmap = mcolors.ListedColormap(cc.fire)
       sm = plt.cm.ScalarMappable(cmap=fire_cmap, norm=plt.Normalize(vmin=0, vmax=1))
-      cbar = plt.colorbar(sm, ax=ax)
-      cbar.set_label('Relative Density (Histogram Equalized)', rotation=270, labelpad=15)
+      cbar = plt.colorbar(sm, ax=ax, orientation=cbar_orientation)
+      cbar.set_label('Relative Density (Histogram Equalized)', 
+            rotation=(0 if cbar_orientation == 'horizontal' else 270), 
+            labelpad=(10 if cbar_orientation == 'horizontal' else 15))
       cbar.set_ticks([0, 0.5, 1])
       cbar.set_ticklabels(['Low', 'Medium', 'High'])
 
@@ -1263,11 +1269,9 @@ class df(pd.DataFrame):
     return
   
     
-  def plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
+  def __plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
     '''
     kwargs:
-      Xvalues: list of x-axis values
-      Yvalues: dict of label to list of y-axis values: {label:[values]}
       outdir: directory to save the plot
     '''
     ycolnames = ', '.join(Ycols)
@@ -1299,6 +1303,37 @@ class df(pd.DataFrame):
     plt.clf()
 
 
+  def plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
+    '''
+    kwargs:
+      outdir: directory to save the plot
+      number_of_bins: int - number of bins to group Xcol values into (for continuous float values), default is None (no binning, group by unique values)
+      float_round_digits: int - number of decimal places to round Xcol values to before grouping (for continuous float values), default is 0
+    '''
+    my_columns = [Xcol]+Ycols
+    my_stat_df = self.dfcopy(only_columns=my_columns)
+    my_stat_pd = my_stat_df.dropna(subset=my_columns).copy()
+    averaged_pd = my_stat_pd
+  
+    if my_stat_pd[Xcol].dtype.kind == 'f':
+      number_of_bins = kwargs.pop('number_of_bins', None)
+      float_round_digits = kwargs.pop('float_round_digits', 0)
+    
+      if number_of_bins: # Bin continuous float values to avoid one-row-per-unique-value grouping.
+        bin_size = (my_stat_pd[Xcol].max() - my_stat_pd[Xcol].min()) / number_of_bins
+        my_stat_pd['_group_bin'] = (my_stat_pd[Xcol] / bin_size).round() * bin_size
+      else: # Default behavior for floats: round to a stable precision before grouping.
+        my_stat_pd['_group_bin'] = my_stat_pd[Xcol].round(float_round_digits)
+
+      averaged_pd = my_stat_pd[['_group_bin']+Ycols]
+      averaged_pd = averaged_pd.rename(columns={'_group_bin': Xcol})
+      
+    averaged_pd = averaged_pd.groupby(Xcol).mean().reset_index()
+    averaged_df = df.from_pd(averaged_pd.sort_values(Xcol), dfname=f'{Xcol}VsAvgRefEnrichment')
+    title = kwargs.pop('title',f'Averages per {Xcol}')
+    averaged_df.__plot_dependecies(Xcol,Ycols,xlabel=Xcol,ylabel='Averages',title=title, **kwargs)
+    return
+  
 
   def scatter_plot(self, Xcol:str, Ycols:list[str], **kwargs):
     '''
@@ -1420,11 +1455,15 @@ class df(pd.DataFrame):
                 origin='lower',
                 aspect='auto')
       
+      # Determine colorbar orientation based on figure aspect ratio
+      fig_width, fig_height = fig.get_size_inches()
+      cbar_orientation = 'horizontal' if fig_width / fig_height > 1.2 else 'vertical'
+      
       # Add colorbar
       fire_cmap = mcolors.ListedColormap(cc.fire)
       sm = plt.cm.ScalarMappable(cmap=fire_cmap, norm=plt.Normalize(vmin=0, vmax=1))
-      cbar = plt.colorbar(sm, ax=ax)
-      cbar.set_label('Relative Density (Histogram Equalized)', rotation=270, labelpad=15)
+      cbar = plt.colorbar(sm, ax=ax, orientation=cbar_orientation)
+      cbar.set_label('Relative Density (Histogram Equalized)', rotation=(0 if cbar_orientation == 'horizontal' else 270), labelpad=(10 if cbar_orientation == 'horizontal' else 15))
       cbar.set_ticks([0, 0.5, 1])
       cbar.set_ticklabels(['Low', 'Medium', 'High'])
       
