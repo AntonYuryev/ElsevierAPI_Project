@@ -109,7 +109,7 @@ class PSNetworx(DataModel):
               direction = l['Dir'] # 0:no arrow, 1:arrow to entity from relation, -1:arrow from entity to relation
               graph_node = id2psobj[l['EntityId']]
               # link = (l['EntityId'], direction, l[EFFECT])
-              link = (graph_node.uid(), direction, l[EFFECT])
+              #link = (graph_node.uid(), direction, l[EFFECT])
 
               if direction == 1:
                 new_relations[rel_id].Nodes[TARGETS].append(graph_node)

@@ -339,6 +339,8 @@ class DiseaseTargets(SemanticSearch):
 
   # STEP 2 in make_report()
   def find_targets(self):
+   # test_oql = "SELECT Relation WHERE objectType = Regulation AND NeighborOf (SELECT Entity WHERE URN = 'urn:agi-llid:1118') AND NeighborOf (SELECT Entity WHERE URN = 'urn:agi-diseases:ssc-ild')"
+   # testG = self.process_oql(test_oql,'test')
     target_disease_graph = self.targets_from_db() # STEP 2.1
 
     if isinstance(target_disease_graph,ResnetGraph):

@@ -103,7 +103,7 @@ class RefStats:
     table_rows = set()
     for (id_type,identifier), (ref,refcount) in self.ref_counter.items():
       assert(isinstance(ref,Reference))
-      if use_relevance:
+      if use_relevance and maxmin:
         score = 100 * (math.log(ref[RELEVANCE][0],10)-min_log)/maxmin
       else:
         score = refcount

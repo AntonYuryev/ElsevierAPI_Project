@@ -1,28 +1,13 @@
-import pandas as pd
-import numpy as np
 from pandas import ExcelWriter
 from scipy import stats
 from statistics import mean, median
 import rdfpandas,xlsxwriter,string, os
-from ..utils import unpack, plt
+import matplotlib.pyplot as plt, matplotlib.colors as mcolors
+from ..utils import unpack
 from ...api.ResnetAPI.NetworkxObjects import PSObject
 from openpyxl import load_workbook
 from pandas.api.types import is_string_dtype,is_numeric_dtype
-import datashader as ds, pandas as pd, colorcet as cc
-import matplotlib
-import matplotlib.colors as mcolors
-import holoviews as hv
-from holoviews.operation.datashader import rasterize, dynspread
-import datashader as ds
-import colorcet as cc
-import os
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email import encoders
-import plotly.graph_objects as go
-import plotly.express as px
+import datashader as ds, pandas as pd, colorcet as cc, numpy as np, plotly.express as px
 
 
 MIN_COLUMN_WIDTH = 0.65 # in inches
@@ -652,25 +637,27 @@ class df(pd.DataFrame):
       return copedf
 
 
-  def greater_than(self, value:float, in_column:str):
+  def greater_than(self, value:float, in_column:str,verbose = True):
     '''removes rows with in_column value <= value'''
     old_len = len(self)
     new_pd = self[self[in_column] > value]
     removed_rows = old_len - len(new_pd)
-    print(f'Removed {removed_rows} out of {old_len} rows from {self._name_} because their "{in_column}" values were smaller than {value}')
+    if verbose:
+        print(f'Removed {removed_rows} out of {old_len} rows from {self._name_} because their "{in_column}" values were smaller than {value}')
     new_df = df.from_pd(new_pd)
     new_df.__copy_attrs__(self) 
     return new_df
   
   
-  def smaller_than(self, value:float, in_column:str):
+  def smaller_than(self, value:float, in_column:str, verbose = True):
     '''
       removes rows with in_column value >= value
     '''
     old_len = len(self)
     new_pd = self[self[in_column] < value]
     removed_rows = old_len - len(new_pd)
-    print(f'{removed_rows} rows were removed from {self._name_} because "{in_column}" value was greater than {value}')
+    if verbose:
+      print(f'{removed_rows} rows were removed from {self._name_} because "{in_column}" value was greater than {value}')
     new_df = df.from_pd(new_pd)
     new_df.__copy_attrs__(self)
     return new_df
@@ -901,40 +888,62 @@ class df(pd.DataFrame):
       return self.dfcopy(my_columns)
           
 
-  def l2norm(self,columns:list|dict=[]):
-      '''
-      Input
-      -----
+  def l2norm(self,columns:list|dict=None):
+    '''
+    input:
       columns = {column2normalize:column_with_normalization}
-      '''
-      my_cols = columns if columns else self.columns
-      copy_df = self.dfcopy()
-      for col in my_cols:
-        if is_numeric_dtype(copy_df[col]):
-          vec = copy_df[[col]].to_numpy(float)
-          veclen =  np.sqrt(np.sum(vec**2))
-          new_col = my_cols[col] if isinstance(my_cols,dict) else col 
-          copy_df[new_col] = vec / veclen if veclen > 0.0 else 0.0
-      return copy_df
+      if columns is a list - normalized columns will be named the same as original columns
+      if columns is None all columns in dataframe will be normalized and named the same as original columns
+    '''
+    my_cols = columns if columns else self.columns
+    new_col_names = columns if isinstance(columns,dict) else dict()
+    col2newcol = [(col,new_col_names.get(col,col)) for col in my_cols]
+    copy_df = self.dfcopy()
+    for col,newcol in col2newcol:
+      if is_numeric_dtype(copy_df[col]):
+        vec = copy_df[[col]].to_numpy(float)
+        veclen =  np.sqrt(np.sum(vec**2))
+        copy_df[newcol] = vec / veclen if veclen > 0.0 else 0.0
+    return copy_df
   
 
-  def minmax_norm(self,columns:list):
+  def minmax_norm(self,columns:list|dict=None):
       '''
       Input
       -----
       columns = {column2normalize:column_with_normalization}
+      if columns is a list - normalized columns will be named the same as original columns
+      if columns is None all columns in dataframe will be normalized and named the same as original columns
       ''' 
       my_cols = columns if columns else self.columns
+      new_col_names = columns if isinstance(columns,dict) else dict()
+      col2newcol = [(col,new_col_names.get(col,col)) for col in my_cols]
       copy_df = self.dfcopy()
-      for col in my_cols:
+      for col, newcol in col2newcol:
         if is_numeric_dtype(copy_df[col]):
           vec = copy_df[[col]].to_numpy(float)
           vec_clean = vec[~np.isnan(vec)]
           vec_min = vec_clean.min()
           vec_max = vec_clean.max()
-          copy_df[col] = (vec - vec_min) / (vec_max - vec_min)
+          copy_df[newcol] = (vec - vec_min) / (vec_max - vec_min)
       return copy_df
+  
 
+  def hadaramad(self,columns:list) -> pd.Series:
+    '''
+    input:
+    columns - list of columns to apply hadaramad product to. Columns must be numeric and have the same length.
+    output:
+    pd.Series with hadaramad product of specified columns
+    '''
+    copy_df = self.dfcopy()
+    vecs = [copy_df[col].to_numpy(dtype=float).reshape(-1) for col in columns if is_numeric_dtype(copy_df[col])]
+    if not vecs:
+        print("No numeric columns provided for Hadamard product.")
+        return pd.Series([], index=self.index)
+    hadamard_product = np.prod(np.vstack(vecs), axis=0).reshape(-1)
+    return pd.Series(hadamard_product, index=self.index)
+     
 
   def split(self,num_parts:int):
     split_dataframes = np.array_split(self, num_parts)
@@ -974,20 +983,20 @@ class df(pd.DataFrame):
 
 
   @staticmethod
-  def calculate_pvalues(scores:pd.Series,skip1strow=False):
-    def _empirical_pvalues(series:pd.Series) -> np.ndarray:
+  def calculate_pvalues(scores:pd.Series,skip1strow=False)->pd.Series:
+    def _empirical_pvalues_(series:pd.Series) -> pd.Series:
       """
       Fast exact empirical p-values: p_i = mean(series >= series[i]).
       Uses sorting + search to avoid O(n^2) comparisons.
       """
       values = pd.to_numeric(series, errors='coerce').to_numpy(dtype=float)
       n_total = values.size
-      if n_total == 0: return np.array([], dtype=float)
+      if n_total == 0: return pd.Series([], index=series.index)
 
       valid_mask = ~np.isnan(values)
       valid_values = values[valid_mask]
       n_valid = valid_values.size
-      if n_valid == 0: return np.zeros(n_total, dtype=float)
+      if n_valid == 0: return pd.Series(np.zeros(n_total, dtype=float), index=series.index)
 
       # Unique values are sorted ascending; ge_counts[idx] gives #valid values >= uniq[idx].
       uniq, counts = np.unique(valid_values, return_counts=True)
@@ -996,28 +1005,28 @@ class df(pd.DataFrame):
       p_values = np.zeros(n_total, dtype=float)
       valid_positions = np.searchsorted(uniq, values[valid_mask], side='left')
       p_values[valid_mask] = ge_counts[valid_positions] / n_total
-      return p_values
+      return pd.Series(p_values, index=series.index)
 
     if skip1strow:
       """Calculates exponential p-values, skipping the first row."""
       if scores.empty or len(scores) <= 1: #handle empty, or single row series.
-          return pd.Series([])
+          return pd.Series([], index=scores.index)
       scores_to_fit = scores.iloc[1:]
-      p_values = _empirical_pvalues(scores_to_fit)
+      p_values = _empirical_pvalues_(scores_to_fit)
       full_p_values = pd.Series(index = scores.index)
       full_p_values.iloc[1:] = p_values
       return full_p_values
     else:
       """Calculates empirical p-values for a list of scores."""
-      return _empirical_pvalues(scores)
+      return _empirical_pvalues_(scores)
   
 
   @staticmethod
-  def calculate_expo_pvalues(scores:pd.Series,skip1strow=False):
+  def calculate_expo_pvalues(scores:pd.Series,skip1strow=False)->pd.Series:
     if skip1strow:
       """Calculates exponential p-values, skipping the first row."""
       if scores.empty or len(scores) <= 1: #handle empty, or single row series.
-          return pd.Series([])
+          return pd.Series([], index=scores.index)
 
       scores_to_fit = scores.iloc[1:]  # Skip the first row
       scores_filled = scores_to_fit.fillna(0)
@@ -1036,7 +1045,7 @@ class df(pd.DataFrame):
       scores_filled = scores.fillna(0)
       lambda_hat = stats.expon.fit(scores_filled, floc=0)[1] # Fit an exponential distribution
       p_values = stats.expon.sf(scores_filled, scale=lambda_hat) # Calculate p-values
-      return p_values
+      return pd.Series(p_values, index=scores_filled.index)
   
 
   def sortrows(self,**kwargs)->"df":
@@ -1095,16 +1104,12 @@ class df(pd.DataFrame):
     return df.from_rows(rows,['Info','Counts'],dfname='info')
   
 
-  def calculate_confidence(self,distr_col:str):
+  def calculate_confidence(self,distr_col:str)->pd.Series:
     '''
       Adds columns with p-values and confidence for values in "distr_col" column
     '''
-    distr_pval_col = f'{distr_col} pvalue'
-    distr_conf_col = f'{distr_col} confidence'
-    self[distr_pval_col] = df.calculate_pvalues(self[distr_col])
-    self[distr_conf_col] = (1.0 - self[distr_pval_col]) * 100
-    #self[distr_conf_col] = self[distr_conf_col].round(2)
-    return distr_pval_col, distr_conf_col
+    pValues = df.calculate_pvalues(self[distr_col])
+    return ((1.0 - pValues) * 100).round(3)
   
 
   def winsorize(self, columns:list[str], quantiles:tuple[float,float]=(0.05,0.95)):
@@ -1192,10 +1197,9 @@ class df(pd.DataFrame):
     plt.clf()
 
 
-  def plot_distribution(self, distribution_cols:list[str],**kwargs):
+  @staticmethod
+  def _plot_distribution_(distribution_dict:dict[str, list],**kwargs):
     '''
-      input:
-        distribution_list: [{distribution_name:[distribution values]}]
       kwargs: 
         number_of_bins:int
         edgecolor:'black'
@@ -1205,11 +1209,12 @@ class df(pd.DataFrame):
         percentiles - list of percentiles to calculate and add to legend
         percentile4score - list of scores to calculate percentiles for and add to legend
         legend_loc - location of legend, default is 'best'
+        clear_plot - whether to clear the plot after saving, default is True, if False the plot will be kept in memory and can be displayed with plt.show() or used for further plotting
       output:
         histogram plot of the distribution with percentiles in legend.
         histogram is saved to "outdir/title+'.histogram.png'".
     '''
-    assert(isinstance(distribution_cols, list)), "distribution_cols must be a list of column names"
+    assert(isinstance(distribution_dict, dict)), "distribution_dict must be a dictionary with column names as keys and lists of values as values"
     kwargs['alpha'] = kwargs.pop('alpha',0.5) # transperancy value
     kwargs['bins'] = kwargs.pop('number_of_bins',50)
     kwargs['edgecolor'] = kwargs.pop('edgecolor',"black")
@@ -1220,13 +1225,12 @@ class df(pd.DataFrame):
     percentile4score = kwargs.pop('percentile4score', [])
     legend_loc = kwargs.pop('legend_loc', 'best')
     clear_plot = kwargs.pop('clear_plot', True)
-    title = kwargs.pop('title', 'Distribution of ' + ', '.join(distribution_cols))
+    title = kwargs.pop('title', 'Distribution of ' + ', '.join(distribution_dict.keys()))
 
     legend_labels = []
     patches_list = []
     print(f'Plotting distribution for {title}')
-    for name in distribution_cols:
-      distribution = self[name].dropna().tolist()
+    for name, distribution in distribution_dict.items():
       counts, bins, patches = plt.hist(distribution, label=name, **kwargs)
       patches_list.append(patches)
       legend_label = f'\n{name}:{len(distribution)}'
@@ -1265,8 +1269,30 @@ class df(pd.DataFrame):
 
     if clear_plot:
       plt.clf() # Clear the figure to free memory for the next plot
-    print(f'Finished building plots for {len(distribution_cols)} distributions')
+    print(f'Finished building plots for {len(distribution_dict)} distributions')
     return
+
+
+  def plot_distribution(self, distribution_cols:str, **kwargs):
+    '''
+      kwargs: 
+        number_of_bins:int
+        edgecolor:'black'
+        xlabel:values; ylabel:'counts'
+        title
+        outdir
+        percentiles - list of percentiles to calculate and add to legend
+        percentile4score - list of scores to calculate percentiles for and add to legend
+        legend_loc - location of legend, default is 'best'
+        clear_plot - whether to clear the plot after saving, default is True, if False the plot will be kept in memory and can be displayed with plt.show() or used for further plotting
+      output:
+        histogram plot of the distribution with percentiles in legend.
+        histogram is saved to "outdir/title+'.histogram.png'".
+    '''
+    distribution_dict = dict()
+    for name in distribution_cols:
+      distribution_dict[name] = self[name].dropna().tolist()
+    return self._plot_distribution_(distribution_dict, **kwargs)
   
     
   def __plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
@@ -1303,7 +1329,7 @@ class df(pd.DataFrame):
     plt.clf()
 
 
-  def plot_dependecies(self,Xcol:str,Ycols:list[str], **kwargs):
+  def plot_dependencies(self,Xcol:str,Ycols:list[str], **kwargs):
     '''
     kwargs:
       outdir: directory to save the plot
@@ -1329,7 +1355,7 @@ class df(pd.DataFrame):
       averaged_pd = averaged_pd.rename(columns={'_group_bin': Xcol})
       
     averaged_pd = averaged_pd.groupby(Xcol).mean().reset_index()
-    averaged_df = df.from_pd(averaged_pd.sort_values(Xcol), dfname=f'{Xcol}VsAvgRefEnrichment')
+    averaged_df = df.from_pd(averaged_pd.sort_values(Xcol), dfname=f'{Xcol}VsAverages')
     title = kwargs.pop('title',f'Averages per {Xcol}')
     averaged_df.__plot_dependecies(Xcol,Ycols,xlabel=Xcol,ylabel='Averages',title=title, **kwargs)
     return
@@ -1481,4 +1507,16 @@ class df(pd.DataFrame):
       plt.close(fig)
       print(f"Saved static plot: {fout}")
       return fout
+    
 
+  def fit2normal(self,Xcol:str,Ycol:str, Yscale_factor = 1):
+    '''
+     Fits a normal distribution to the data in Ycol, weighted by the values in Xcol.
+     normal distribution formula: f(x) = (1 / (std * sqrt(2 * pi))) * exp(-0.5 * ((x - mean) / std) ** 2))
+    '''
+    print(f"Fitting normal distribution of size {len(self)} for {Ycol} vs {Xcol} with scale factor {Yscale_factor}")
+    frequencies = np.round(self[Ycol]*Yscale_factor).astype(int)
+    raw_data = np.repeat(self[Xcol].values, frequencies) # Create raw data by repeating Xcol values according to their frequencies in Ycol
+    mean, std = stats.norm.fit(raw_data) # Fit a normal distribution to the raw data
+    print(f"Fitted normal distribution parameters for {Ycol} vs {Xcol}: mean={mean:.2f}, std={std:.2f}")
+    return mean, std

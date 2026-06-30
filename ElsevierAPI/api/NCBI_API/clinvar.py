@@ -24,7 +24,7 @@ class cvSNP(PSObject):
        super().__init__()
        self.set_property('Name',replace_non_unicode(name))
        self.Idendifires = {database:id}
-       urn = 'urn:agi-gv-'+database.lower()+':'+id
+       urn = 'urn:agi-gv-dbsnp:vcv'+id # need to have agi-gv-dbsnp prefix to support name assignment by Medscan
        self.set_property('URN',urn)
        self.MAFs = dict() # 
 
@@ -118,14 +118,18 @@ def parse_measureset(measureset:et._Element,assertion_id:str,only_rsids=set())->
     if rs:
       gv.update_with_value('URN',urn_encode(rs,'agi-gv-dbsnp'))
     elif vcv_id:
-      gv.update_with_value('URN',urn_encode(vcv_id,'agi-clinvar-vcv'))
+      gv.update_with_value('URN',urn_encode('vcv'+vcv_id,'agi-gv-dbsnp'))
+      if not gv.name():
+        gv['Name'] = ['vcv'+vcv_id]
     elif gv_ids:
       db,identifier = next(iter(gv_ids.items()))
-      gv.update_with_value('URN',urn_encode(identifier,f'clinvar-{db}'))
+      gv.update_with_value('URN',urn_encode(db+identifier,'agi-gv-dbsnp'))
+      if not gv.name():
+        gv['Name'] = [db+':'+identifier]
     else:
       gvname = gv.name()
       if gvname:
-        gv.update_with_value('URN',urn_encode(gv.name(),f'clinvar'))
+        gv.update_with_value('URN',urn_encode(gv.name(),'agi-gv-dbsnp'))
       else:
         print(f'cannot create URN for SNP in  Clinvar record {assertion_id}')
         return empty_return
@@ -162,7 +166,7 @@ def parse_measureset(measureset:et._Element,assertion_id:str,only_rsids=set())->
           gene.update_with_value('LocusLink ID',geneid)
       elif gene_ids:
           db,identifier = next(iter(gene_ids.items()))
-          gene.update_with_value('URN',urn_encode(identifier,f'clinvar-{db}'))
+          gene.update_with_value('URN',urn_encode(identifier,f'agi-{db.lower()}'))
       else:
           gene.update_with_value('URN',urn_encode(gene_name,'agi-prot'))
     else:
@@ -266,6 +270,9 @@ def rcv2psrels(ClinVarSet:et._Element,mapdic:dict[str,dict[str,dict[str,PSObject
   gv,gene,molecular_consequences = parse_measureset(measureset_elem,assertion_id,only4rsids)
   if not gv:
     return PSObject(),PSRelation(),PSRelation()
+  
+  #if gv.name() == '':
+  #    print()
   
   classifications = {x.text for x in assertion.findall('Classifications/GermlineClassification/Description')}
   #ClinVar contains benign and unknown significancs SNPs that do not have disease associations

@@ -11,7 +11,6 @@ from xml.dom import minidom
 from requests.auth import HTTPBasicAuth
 from lxml import etree as et
 from concurrent.futures import ThreadPoolExecutor,as_completed
-import matplotlib.pyplot as plt
 from functools import partial
 from urllib.error import URLError
 from pathlib import Path
@@ -76,6 +75,11 @@ def current_time():
   """Prints the current date and time in a human-readable format."""
   now = datetime.now()
   return now.strftime('%Y-%m-%d %H:%M:%S')
+
+
+def current_year() -> int:
+  """Returns the current year as a four-digit integer."""
+  return datetime.now().year
 
 
 def execution_time(execution_start):

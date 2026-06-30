@@ -494,25 +494,26 @@ class Reference(dict):
       return id_type  +':'+identifier if id_type  else ''
 
   
-  @staticmethod
-  def identifiers_str(id_type:str,identifier:str):
-      return id_type + ':' + identifier
-  
-
-  def _identifiers_str(self,id_type=''):
+  def identifiers_str(self,id_type:str='',identifier:str=''):
       '''
       output:
         if id_type provided and exists in self.Identifiers: id_type:id_value\n
         else: first id_type:id_value from REF_ID_TYPES
       '''
-      if id_type in self.Identifiers:
-        return id_type+':'+self.Identifiers[id_type]
+      def __2str(id_type:str,identifier:str):
+          return id_type + ':' + identifier if id_type and identifier else ''
+      
+      if id_type and identifier:
+        return __2str(id_type, identifier)
       else:
-        id_type, identifier = self.get_doc_id() 
-        return id_type  +':'+identifier if id_type  else ''
-  
+        if id_type in self.Identifiers:
+          return __2str(id_type, self.Identifiers[id_type])
+        else:
+          id_type, identifier = self.get_doc_id() 
+          return __2str(id_type, identifier)
+    
 
-  def identifier(self,identifier_type):
+  def identifier(self,identifier_type:str):
       try:
           return self.Identifiers[identifier_type]
       except KeyError:
@@ -561,7 +562,7 @@ class Reference(dict):
           except KeyError:
             row.append('')
       else:
-          row.append(self._identifiers_str())
+          row.append(self.identifiers_str())
               
       for prop_id in biblio_props:
         try:

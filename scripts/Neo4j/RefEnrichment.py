@@ -167,7 +167,6 @@ def hist4dir(stat_dir=WORK_DIR,file_ext='tsv',join_plot_name=''):
   return
 
 
-
 def plot_group_name(stat_file:str):
   basename = os.path.basename(stat_file).split('.')[0]
   RType, RelType, TType = basename.split('_')
@@ -196,11 +195,11 @@ def make_plots(input_dir = WORK_DIR):
     triple2stats = group_stats_by_triple(input_dir)
     for triple, stat_files in triple2stats.items():
       plot_name = '_'.join(triple)
-      plot_df = df.read(stat_files[0],header=0,encoding='utf-8', encoding_errors='replace')
+      plot_df = df.read(stat_files[0], header=0,encoding='utf-8', encoding_errors='replace')
       plot_df._name_ = plot_name
       if len(stat_files) > 1:
         for i in range(1, len(stat_files)):
-          stat_df = df.read(stat_files[i],header=0,encoding='utf-8', encoding_errors='replace')
+          stat_df = df.read(stat_files[i], header=0,encoding='utf-8', encoding_errors='replace')
           plot_df = plot_df.append_df(stat_df)
 
       if hist4df(plot_df):
@@ -234,11 +233,8 @@ def load_stat_file(stat_file:str,pair_refcount_df:df,snippet2refcount:df):
   my_df['refEnrichment'] = my_df['LocalrefEnrichment'] * weighted_refcount * my_df['Snippet2Refcount']
   my_df['minRefEnrichment'] = my_df['minRefEnrichment'] * weighted_refcount * my_df['Snippet2Refcount']
   
-  _, distr_conf_col = my_df.calculate_confidence('minRefEnrichment')
-  my_df = my_df.dfcopy(rename2={distr_conf_col:'MaxConfidence (%)'})
-
-  _, distr_conf_col = my_df.calculate_confidence('refEnrichment')
-  my_df = my_df.dfcopy(rename2={distr_conf_col:'Confidence (%)'})
+  my_df['MaxConfidence (%)'] = my_df.calculate_confidence('minRefEnrichment')
+  my_df['Confidence (%)'] = my_df.calculate_confidence('refEnrichment')
  
   my_df.loc[my_df['minRefEnrichment'] > 0.001, 'minRefEnrichment'] = my_df.loc[
     my_df['minRefEnrichment'] > 0.001, 'minRefEnrichment'].round(3)
@@ -324,7 +320,69 @@ def RetreiveStats(_4nodetypes=RESNET_NODE_TYPES,_4reltypes=RESNET_REL_TYPES):
   return
 
 
+def load_all_dfs(input_dir=WORK_DIR):
+  start = time.time()
+  stat_files = dir2flist(input_dir,file_ext='tsv',include_subdirs=False)
+  all_stats_df = df()
+  for stat_file in stat_files:
+    stat_df = df.read(stat_file,header=0,encoding='utf-8', encoding_errors='replace')
+    all_stats_df = all_stats_df.append_df(stat_df)
+  print(f"Loaded {len(all_stats_df)} relations from {len(stat_files)} stat files in {execution_time(start)}")
+  return all_stats_df
+
+
+def calculate_confidence_for_all_stats(input_dir=WORK_DIR,global_confidence=True):
+  start = time.time()
+  snippet2refcount_df = df.read(os.path.join('D:/Python/ENTELLECT_API_SCRIPTS/Database statistics/','Snippet2Refcount.tsv'),header=0)
+  low_snippet_mask = snippet2refcount_df['Snippet2Refcount'] < 1.0
+  print(f'Found {low_snippet_mask.sum()} rows with Snippet2Refcount < 1.0 out of {len(snippet2refcount_df)} total rows in Snippet2Refcount.tsv.')
+  print('Clipping Snippet2Refcount values at 1.0 to handle outliers.')
+  snippet2refcount_df.loc[low_snippet_mask, 'SnippetCount'] = snippet2refcount_df.loc[low_snippet_mask, 'RefCount']
+  snippet2refcount_df.loc[low_snippet_mask, 'Snippet2Refcount'] = 1.0
+
+  all_stats_df = df()
+  file_count = len(dir2flist(input_dir,file_ext='tsv',include_subdirs=False))
+  for count,fname in enumerate(dir2flist(input_dir,file_ext='tsv',include_subdirs=False)):
+    print(f"Processing {fname} for confidence calculation ({count+1}/{file_count})")
+    sdf = df.read(fname,header=0,encoding='utf-8', encoding_errors='replace')
+    print(f"Loaded {len(sdf)} relations from {fname}")
+  
+    sdf = sdf.merge_df(snippet2refcount_df[['RelationID','SnippetCount']], how='left', left_on='RelationID', right_on='RelationID')
+    r_triple_density = sdf['rLocalRefCount'] / sdf['rLocalConnectivity']
+    t_triple_density = sdf['tLocalRefCount'] / sdf['tLocalConnectivity']
+    triple_density = (r_triple_density + t_triple_density)/2
+    min_triple_density = r_triple_density.combine(t_triple_density, min)
+
+    sdf['ContextEnrichment'] = sdf['RefCount'] / (triple_density)
+    sdf['ContextMinEnrichment'] = sdf['RefCount'] / (min_triple_density)
+
+    r_global_density = sdf['rCitationCount']/sdf['rConnectivity'] 
+    t_global_density = sdf['tCitationCount']/sdf['tConnectivity']
+    global_density = (r_global_density + t_global_density)/2
+    min_global_density = r_global_density.combine(t_global_density, min)
+    sdf['GlobalEnrichment'] =  sdf['RefCount'] / global_density
+    sdf['GlobalMinEnrichment'] =  sdf['RefCount'] / min_global_density
+
+    sdf['ContextTripleConfidence'] = sdf.calculate_confidence('ContextEnrichment')
+    sdf['ContextTripleMaxConfidence'] = sdf.calculate_confidence('ContextMinEnrichment')
+    all_stats_df = all_stats_df.append_df(sdf)
+    
+  all_stats_df['GlobalConfidence'] = all_stats_df.calculate_confidence('GlobalEnrichment')
+  all_stats_df['GlobalMaxConfidence'] = all_stats_df.calculate_confidence('GlobalMinEnrichment')
+
+  all_stats_df['GlobalTripleConfidence'] = all_stats_df.calculate_confidence('ContextEnrichment')
+  all_stats_df['GlobalTripleMaxConfidence'] = all_stats_df.calculate_confidence('ContextMinEnrichment')
+  
+  all_stats_df = all_stats_df.sortrows(by='GlobalTripleConfidence', ascending=False)
+  print(f"Finished calculating RefEnrichment and confidence scores for {len(all_stats_df)} relations in {execution_time(start)}")
+  return all_stats_df
+
+
 if __name__ == "__main__":
+  stats_df = calculate_confidence_for_all_stats(WORK_DIR, global_confidence=False)
+  stats_df.to_csv(os.path.join('D:/Python/ENTELLECT_API_SCRIPTS/Database statistics/','RefEnrichment.tsv'), index=False,sep='\t')
+  print(f"Saved RefEnrichment scores for {len(stats_df)} relations to RefEnrichment.tsv in {WORK_DIR}")
+  print('Columns in the output file: ' + '\n'.join(stats_df.columns))
   #RetreiveStats() # retrieves relation RefCount and node neighborhood RefCount from Neo4j and calculates refEnrichment score
   #make_plots() # optional make histograms of RefEnrichment score distributions for each triple type NodeType1-RelType-NodeType2
-  _loadRefEnrichment_() # annotates relations in Neo4j with "refEnrichment" property calculated by RetreiveStats()
+ # _loadRefEnrichment_() # annotates relations in Neo4j with "refEnrichment" property calculated by RetreiveStats()

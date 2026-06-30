@@ -40,6 +40,8 @@ RESNET_NODE_TYPES = ['SmallMol'] + PROTEIN_TYPES + ANATOMICAL_CONCEPTS + ORGANIS
 RESNET_NODE_TYPES.sort()
 
 NONDIRECTIONAL = {'Binding','CellExpression',FUNC_ASSOC,'Metabolization','Paralog'}
+DIRECTIONAL = {'Regulation','Expression','MolTransport','MolSynthesis','DirectRegulation','ProtModification',
+  'PromoterBinding','Biomarker','QuantitativeChange','StateChange','GeneticChange','ChemicalReaction','miRNAEffect'}
 PHYSICAL_INTERACTIONS = {'Binding','DirectRegulation','ProtModification','PromoterBinding','ChemicalReaction'}
 BIOMARKER_RELATIONS = ['Biomarker','QuantitativeChange','StateChange','GeneticChange']
 INDIRECT_REGULATIONS = {'Regulation','Expression','MolTransport','MolSynthesis'}
@@ -529,7 +531,7 @@ class PSRelation(PSObject):
       return str(self.get_prop(MECHANISM, if_missing_return=if_missing_return))
   
 
-  def name(self):
+  def name(self)->str:
     if 'Name' in self.keys():
       return self['Name'][0]
     else:
@@ -1009,8 +1011,7 @@ class PSRelation(PSObject):
       # case when REFCOUNT was loaded from RNEF dump or from Neo4j as string without references
       # e.g. for loading network from __pscache__
       if len(refcount) > 1: # case if refcount has 2 or more values after relation merge
-        refcount2merge = list(map(int,refcount))
-        self[REFCOUNT] = [max(refcount2merge)]
+        self[REFCOUNT] = [sum(list(map(int,refcount)))]
       else:
         self[REFCOUNT] = [int(refcount[0])] if refcount else [0]
     return int(self[REFCOUNT][0])

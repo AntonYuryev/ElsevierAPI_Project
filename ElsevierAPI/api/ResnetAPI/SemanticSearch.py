@@ -1524,11 +1524,11 @@ class SemanticSearch (APISession):
       if name2weights:
         if type not in internal_params:
           if isinstance(name2weights, dict):
-            [rows.append([type,name,value]) for name,value in name2weights.items()]
+            [rows.append([type,name,str(value)]) for name,value in name2weights.items()]
           elif isinstance(name2weights, list):
             [rows.append([type,name,'']) for name in name2weights]
           else:
-            rows.append([type,type,name2weights])
+            rows.append([type,type,str(name2weights)])
         
     param_df = df.from_rows(rows,['Parameter','Concept','Value'])
     param_df = param_df.sortrows(by=['Value','Parameter','Concept'])

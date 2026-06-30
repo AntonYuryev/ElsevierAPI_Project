@@ -25,7 +25,7 @@ class Cypher:
     return [Cypher.quoted_prop(name) for name in prop_names]
 
   @staticmethod
-  def rel_types(reltypes=RESNET_REL_TYPES) -> str:
+  def rel_types(reltypes:list|set=RESNET_REL_TYPES) -> str:
     '''
     output:
       "r:RelType1|RelType2|RelType3"

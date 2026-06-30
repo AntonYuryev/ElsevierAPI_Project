@@ -2312,7 +2312,11 @@ class ResnetGraph (nx.MultiDiGraph):
 
           if not ref.snippets:
             textref = ref._make_textref()
-            et.SubElement(xml_control, 'attr',{'name': str('TextRef'), 'value': textref, 'index': str(ref_index)},nsmap=None)
+            if textref != NotImplemented:
+              et.SubElement(xml_control, 'attr',{'name': str('TextRef'), 'value': textref, 'index': str(ref_index)},nsmap=None)
+            else:
+               print(f'Warning: Reference {ref.identifiers_str()} has no snippets and cannot generate TextRef')
+            
             for prop_name, prop_values in ref.items():
               if prop_name in snippet_props:
                 for prop_value in prop_values:

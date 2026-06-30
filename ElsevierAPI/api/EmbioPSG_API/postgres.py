@@ -74,7 +74,7 @@ class PostgreSQL:
         data = cur.fetchall()
         colnames = [desc[0] for desc in cur.description]
 
-    return df(data, columns=colnames)
+    return df.from_rows(data, columns=colnames)
   
 
   def get_stats(self,table:str, columns:list[str],filter:dict[str:tuple[str,int]]=dict()):
@@ -140,16 +140,26 @@ class PostgreSQL:
     print(f'Will plot distribution for {columns} in {table} with {len(my_df)} rows')
     my_df.plot_distribution(columns,outdir=outdir)
     return
+  
+
+  def sql2df(self,sql:str):
+    with self.db.cursor() as cur:
+      cur.execute(sql)
+      rows = cur.fetchall()
+      colnames = [desc[0] for desc in cur.description]
+      rows = [list(r) for r in rows]
+      return df.from_rows(rows,columns=colnames)
 
 
   def get_refs(self,relations_id:set[str]):
     new_relids = relations_id.difference(self.rel2refDict)
-    newrelid_str = ','.join(map(str, new_relids))
-    sql = f"SELECT * FROM {self.schema}.reference WHERE {self.schema}.reference.id IN ({newrelid_str})"
+    #newrelid_str = ','.join(map(str, new_relids))
+    sql = f"SELECT * FROM {self.schema}.reference WHERE {self.schema}.reference.id IN (%s)"
+
     with self.db.cursor() as cur:
       for attempt in range(3):
         try:
-          cur.execute(sql)
+          cur.execute(sql, (list(new_relids),))
           rows = cur.fetchall()
           colnames = [desc[0] for desc in cur.description]
           rows = [list(r) for r in rows]

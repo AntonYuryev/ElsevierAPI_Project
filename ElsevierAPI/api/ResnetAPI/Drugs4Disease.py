@@ -66,8 +66,15 @@ class Drugs4Targets(DiseaseTargets):
     self.direct_target2drugs = PSObject() # used for annotation of ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS with drugs
     self.indirect_target2drugs = PSObject() # used for annotation of ANTAGONIST_TARGETS_WS,AGONIST_TARGETS_WS with drugs
     self.add_targets2drugs_ws = True
-    self.executor = ThreadPoolExecutor(max_workers=2)
-    self.dt_future = self.executor.submit(self.load_dt)
+    if my_kwargs.get('consistency_correction4target_rank',False):
+      self.executor = ThreadPoolExecutor(max_workers=2)
+      self.dt_future = self.executor.submit(self.load_dt)
+      print('Drug-target consistency network is being loaded in background thread')
+    else:
+      self.dt_consist = None
+      self.dt_future = None
+      self.executor = None
+      print('Drug-target consistency network is not used for ranking because "consistency_correction4target_rank" is set to False')
 
   def load_dt(self,**kwargs):
     my_kwargs = {'useNeo4j':self.useNeo4j()}
@@ -462,8 +469,14 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
     if concepts:
       phenotypedf_rows += concepts2rows(concepts,kwargs['concept_name'])
 
-    kwargs['with_effects'] = ['positive']
     kwargs['concept_name'] = 'Cells to activate  in '+ self._disease2str()
+    kwargs['with_effects'] = ['positive']
+    _,drug_df,concepts = self.score_concept('cells2activate',drug_df,**kwargs)
+    if concepts:
+      phenotypedf_rows += concepts2rows(concepts,kwargs['concept_name'])
+
+    kwargs['concept_name'] = 'Cells to activate  in '+ self._disease2str()
+    kwargs['with_effects'] = ['positive']
     _,drug_df,concepts = self.score_concept('cells2activate',drug_df,**kwargs)
     if concepts:
       phenotypedf_rows += concepts2rows(concepts,kwargs['concept_name'])
@@ -926,12 +939,14 @@ Directly inhibited targets',\n'Indirectly inhibited targets',\n'Directly activat
 
     if self.params['debug']:
       self.refs2targets() # Step 2 uses ETM or SBS
-      self.dt_future.result()
+      if self.dt_future:
+        self.dt_future.result()
       print('Drug-target consistency network was loaded.')
       self.init_load_score()
       self.add_tm_bibliography_df()
     else:
-      self.dt_future.result()
+      if self.dt_future:
+        self.dt_future.result()
       print('Drug-target consistency network was loaded.')
       if self.params['add_bibliography']:
         tasks = [(self.init_load_score,()),(self.refs2targets,())]

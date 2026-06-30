@@ -58,14 +58,22 @@ class neo4j_nx(GraphDatabase):
       return result,request_name
  
 
-  def _unwind_(self,cypher:str,parameters:dict={}):
+  def _unwind_(self,cypher:str,parameters:dict={},batch_size=10000):
     '''
-      Cypher query must contain UNWIND $batch AS row and use row.{item} to refer to items in the list\n
-      request_name can be in parameters for messaging purposes, but is not used in the cypher query itself
+    Cypher example:
+      UNWIND $batch AS row
+      MATCH (a:{RType} {{URN: row.rURN}})-[r:{RelType}]-(b:{TType} {{URN: row.tURN}})
+      WHERE r.RelationID = row.RelationID OR row.RelationID IN r.RelationID
+      SET r.refEnrichment = toFloat(row.RefEnrichment))
+      RETURN count(r) AS updated_count
+
+      must have "UNWIND $batch AS row", where row={propName1:value1,propName2:value2..}\n
+      parameters must have "batch" key with [row1,row2,...] as value
+      "request_name" is optional parameters for messaging purposes, but is not used in the cypher query itself
+      submits each batch in parallel using threads, then yields results as they are completed. Use this for large updates/inserts to avoid transaction timeouts and speed up the process by parallelization.
       output:
         yields tuples of (result,request_name) for each batch processed, where result is the list of records returned by Neo4j for the batch
     '''
-    batch_size = 10000
     request_name = parameters.pop('request_name','')
     print(f'Multithreading cypher "{request_name}" for {len(parameters["batch"])} input list. Batch size: {batch_size}')
     with ThreadPoolExecutor() as ex:
@@ -564,9 +572,7 @@ class neo4j_nx(GraphDatabase):
     for result,request_name in self._unwind_(cypher,{'batch': batch, 'request_name':f'Update relation with {with_prop}'}):
       batch_updated = result[0]['updatedCount'] if result else 0
       total_updated += batch_updated
-    
-    #match = f'(a:{regulatorType})-[r:{relType}]{dir}(b:{targetType})'
-    #print(f'update finished in {execution_time(start)}')
+      print(f'Batch updated {batch_updated} relations. Total updated so far: {total_updated}')
     return total_updated, len(from_rels), match
 
 
@@ -1015,7 +1021,7 @@ class neo4j_nx(GraphDatabase):
     rel_props[['Regulators', 'Targets', 'RelType', 'Effect', 'Confidence (%)', 'Citation score',REFCOUNT]] = pd.DataFrame(
       mapped_attrs.tolist(), index=rel_props.index)
 
-    rel_props['RelType,ID'] = rel_props['RelType']+": "+rel_props['id']
+    #rel_props['RelType,ID'] = rel_props['RelType']+": "+rel_props['id']
     
     # deduplicating rows
     def sentences_key(row):
@@ -1025,20 +1031,19 @@ class neo4j_nx(GraphDatabase):
     rel_props['sentence_key'] = rel_props.apply(sentences_key, axis=1)
     rel_props = rel_props.drop_duplicates(subset='sentence_key', keep='first')
 
-    col2display = ['Regulators','Targets','msrc',REFCOUNT,'RelType,ID','Effect','journal','title','doi','pmid','Confidence (%)','Citation score']
+    col2display = ['Regulators','Targets','msrc','RelType','Effect','journal','title','doi','pmid','id',REFCOUNT]
     snippets_df = rel_props[col2display]
-    snippets_df = snippets_df.drop_duplicates(subset=['Regulators','Targets','msrc','Effect','RelType,ID'], keep='first')
+    snippets_df = snippets_df.rename(columns={'id':RELATIONID})
+    snippets_df = snippets_df.drop_duplicates(subset=['Regulators','Targets','msrc','Effect','RelType',RELATIONID], keep='first')
     print(f'Finished fetching {len(snippets_df)} snippets for {len(relids)}')
     snippets_df = df.from_pd(snippets_df, dfname='Snippets')
-    snippets_df = snippets_df.sortrows(by=['Regulators','Targets','RelType,ID','msrc'])
+    snippets_df = snippets_df.sortrows(by=['Regulators','Targets','RelType',RELATIONID,'msrc'])
     return snippets_df
   
 
   def annotate_nodes(self,in_graph:ResnetGraph, with_prop:str):
     '''
-    Annotates nodes in input graph with a new property with_prop containing the count of relations from the specified source in Neo4j connected to each node in the input graph. 
-    If node_type is specified, counts only relations connected to nodes of this type, otherwise counts all relations connected to each node in the input graph. 
-    If rel_type is specified, counts only relations of this type, otherwise counts all relations connected to each node in the input graph.
+    Annotates nodes in input graph with a new property from Neo4j database with_prop containing the count of relations from the specified source in Neo4j connected to each node in the input graph. 
     '''
     nodeids2urn = {node['NodeID'][0] : node['URN'][0] for uid,node in in_graph.nodes(data=True)}
     nodeids2prop = self.postgres.nodeid2prop(list(nodeids2urn.keys()), with_prop)
@@ -1047,11 +1052,52 @@ class neo4j_nx(GraphDatabase):
     my_graph.set_node_annotation(urn2prop, with_prop)
     print(f'Annotated {len(urn2prop)} nodes in input graph with property {with_prop} from Postgres')
     return my_graph
+  
+
+  def import_relprops(self, rel_props_df:df, relid_col:str=RELATIONID, prop_value_col=[]):
+    '''
+    Imports relation properties from the input dataframe to Postgres. The dataframe must contain a column with relation ids that match the relation ids in Postgres and a column with the property values to be imported. The relation ids must be in the format "r:{reltype} {effect} {confidence}" to match the relation ids in Postgres.
+    input:
+      rel_props_df: dataframe with columns [relid_col, prop_value_col]
+      relid_col: name of the column containing relation ids in the format "r:{reltype} {effect} {confidence}"
+      prop_value_col: name of the column containing property values to be imported
+    '''
+    if not prop_value_col:
+      prop_value_col = [col for col in rel_props_df.columns if col != relid_col]
+
+    cypher = '''
+    UNWIND $batch AS row
+    MATCH ()-[r]->()
+    WHERE r.RelationID = row.relId
+    '''
+
+    set_clauses = []
+    for prop_col in prop_value_col:
+      set_clauses.append(f'r.{prop_col} = row.{prop_col}')
+
+    cypher += ' SET ' + ', '.join(set_clauses)
+
+    batch = []
+    for idx in rel_props_df.index:
+      rel_id = rel_props_df.at[idx, relid_col]
+      prop_values = {prop_col: rel_props_df.at[idx, prop_col] for prop_col in prop_value_col}
+      batch.append({'relId': rel_id, **prop_values})
+
+    with self.session() as session:
+      for result,request_name in self._unwind_tx_(cypher, batch, request_name=f'Import relation properties for {len(batch)} relations'):
+        pass
+
+    print(f'Finished importing properties for {len(batch)} relations to Postgres')
+    return
 
 
-  def color_sentences(self, snippets_df:df, outfile:str):
+  @staticmethod
+  def color_sentences(snippets_df:df, outfile:str):
     '''
     Colors sentences in the input dataframe by highlighting the part of the sentence corresponding to the regulator in green and the part corresponding to the target in red.
+    input:
+      snippets_df: dataframe with columns ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score','RelType,ID','journal','title','doi','pmid']
+      'Regulators','Targets' must be in format "Name:MedScanID" and the MedScanID must be present in the sentence in the format "ID{MedScanID=...}" for the coloring to work.
     '''
     sheet_name = getattr(snippets_df, '_name_', 'Sheet1')
     with pd.ExcelWriter(outfile, engine="xlsxwriter") as writer:
@@ -1065,6 +1111,10 @@ class neo4j_nx(GraphDatabase):
       green_format = workbook.add_format({"color": "green", "bold": True})
       red_format = workbook.add_format({"color": "red", "bold": True})
       col_idx = snippets_df.columns.get_loc("msrc")
+
+      def append_fragment(fragments:list[tuple], fragment_format, text:str):
+        if text:
+          fragments.append((fragment_format, str(text)))
       
       rownum = 1
       for idx in snippets_df.index:
@@ -1075,29 +1125,54 @@ class neo4j_nx(GraphDatabase):
         sentence = snippets_df.at[idx, 'msrc']
         # 1. Capture the word inside parentheses so re.split keeps the matches in the resulting list
         # Using \b flags exact word matches, and re.IGNORECASE handles capitalized instances
-        rich_args = []
+        formatted_fragments = []
         previous_markup_end = 0
         markup_start = sentence.find('ID{')
+        normal_frmt_str = ''
         while markup_start != -1:
           end_idpos = sentence.find('=', markup_start)
           markup_ids = sentence[markup_start+3:end_idpos].split(',')
           end_markup = sentence.find('}', end_idpos)+1
           if regulator_id in markup_ids:
             if markup_start > previous_markup_end:
-              rich_args.extend([normal_format, sentence[previous_markup_end:markup_start]])
-            rich_args.extend([green_format, sentence[markup_start:end_markup]])
+              normal_frmt_str += str(sentence[previous_markup_end:markup_start])
+              append_fragment(formatted_fragments, normal_format, normal_frmt_str)
+              append_fragment(formatted_fragments, green_format, sentence[markup_start:end_markup])
+              normal_frmt_str = ''
           elif target_id in markup_ids:
             if markup_start > previous_markup_end:
-              rich_args.extend([normal_format, sentence[previous_markup_end:markup_start]])
-            rich_args.extend([red_format, sentence[markup_start:end_markup]])
+              normal_frmt_str += str(sentence[previous_markup_end:markup_start])
+              append_fragment(formatted_fragments, normal_format, normal_frmt_str)
+              append_fragment(formatted_fragments, red_format, sentence[markup_start:end_markup])
+              normal_frmt_str = ''
           else:
-            rich_args.extend([normal_format, sentence[previous_markup_end:end_markup]])
-          previous_markup_end = end_markup
-          markup_start = sentence.find('ID{', previous_markup_end)
+            # markup does not contain regulator or target, add it with normal format
+            normal_frmt_str += str(sentence[previous_markup_end:end_markup])
+        
+          if end_markup > previous_markup_end:
+            previous_markup_end = end_markup
+            markup_start = sentence.find('ID{', previous_markup_end)
+          else:
+            # to avoid infinite loop in case of malformed sentence with missing closing }
+            break
 
         if previous_markup_end < len(sentence):
-          rich_args.extend([normal_format, sentence[previous_markup_end:]])
-        worksheet.write_rich_string(rownum, col_idx, *rich_args)
+          append_fragment(formatted_fragments, normal_format, sentence[previous_markup_end:])
+        
+        try:
+          if not formatted_fragments:
+            worksheet.write(rownum, col_idx, sentence, normal_format)
+          elif len(formatted_fragments) == 1:
+            fragment_format, fragment_text = formatted_fragments[0]
+            worksheet.write(rownum, col_idx, fragment_text, fragment_format)
+          else:
+            rich_args = []
+            for fragment_format, fragment_text in formatted_fragments:
+              rich_args.extend([fragment_format, fragment_text])
+            worksheet.write_rich_string(rownum, col_idx, *rich_args)
+        except Exception as e:
+          print(f"Error writing rich string at row {rownum}, column {col_idx}: {e}")
+          continue
         rownum += 1
 
       sentence_format = writer.book.add_format({"font_size": 9})

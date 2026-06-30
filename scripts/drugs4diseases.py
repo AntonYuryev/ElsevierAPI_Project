@@ -1,3 +1,8 @@
+
+import sys
+root_dir = 'D:\\Python\\ENTELLECT_API_SCRIPTS\\ElsevierAPI_Project'
+sys.path.append(str(root_dir))
+
 from ElsevierAPI.utils.utils import execution_time, Tee, time,datetime, json
 from ElsevierAPI.api.ResnetAPI.Drugs4Disease import Drugs4Targets
 from ElsevierAPI.api.ResnetAPI.PathwayStudioZeepAPI import load_api_config
@@ -13,11 +18,12 @@ def do_the_job(dt:Drugs4Targets):
 
   dt.clear()
     
+config_parameters = 'D:\\Customers\\SSc-ILD\\diseases.json'
 
 if __name__ == "__main__":
     print(f'Script was started at {datetime.now()}')
     start = time.time()
-    parameters_list = list(json.load(open("configs/drugs4diseases_parameters.json", "r")))
+    parameters_list = list(json.load(open(config_parameters, "r")))
     job_count = 0
     for parameters in parameters_list:
       assert isinstance(parameters,dict)
