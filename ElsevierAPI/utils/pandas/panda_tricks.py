@@ -548,6 +548,7 @@ class df(pd.DataFrame):
     Column format specifications must be in self.column2format\n
     Header format specification must be in self.header_format\n
     Tab format specification must be in tab_format
+    defaults: {'startrow':1,'header':False,'index':False,'float_format':'%g'}
 
     Parameters
     ----------
@@ -597,6 +598,9 @@ class df(pd.DataFrame):
 
 
   def df2excel(self,writer:ExcelWriter,sheet_name:str,**kwargs):
+    '''
+      defaults: {'startrow':1,'header':False,'index':False,'float_format':'%g'}
+    '''
     if len(self) > 1000000:
       chunks = [df.from_pd(self[i:i+1000000]) for i in range(0, len(self), 1000000)]
       [d.__df2excel(writer,sheet_name+str(i+1),**kwargs) for i,d in enumerate(chunks)]

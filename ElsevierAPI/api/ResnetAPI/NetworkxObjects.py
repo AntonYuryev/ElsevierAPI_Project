@@ -133,7 +133,7 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
   
 
   def neo4j_hash(self):
-    return self.deterministic_hash64(self.urn())
+    return deterministic_hash64(self.urn())
 
 
   def __eq__(self, other:"PSRelation"):
@@ -1405,19 +1405,23 @@ class PSRelation(PSObject):
     return sum([ref.number_of_snippets() for ref in self.refs()])
 
 
-  def neo4j_hash(self):
-    return deterministic_hash64(
-        str(
-            (
-                [], #inref does not exist in Resnet
-                [n.self.neo4j_hash() for n in self.regulators()], # inoutref
-                [n.self.neo4j_hash() for n in self.targets()], # outref
-                self.objtype(), # controlType
-                self.get_prop('Ontology'), # ontology
-                self.get_prop('Relationship'), # relationship
-                self.effect(), # effect
-                self.mechanism(), # mechanism
-            )
-        )
-    )
+  def neo4j_relationID(self):
+      inoutref = [n.neo4j_hash() for n in self.regulators()]
+      inoutref.sort(reverse=True)
+      outref = [n.neo4j_hash() for n in self.targets()]
+      relationID = deterministic_hash64( str(
+              (
+                  [], #inref does not exist in Resnet
+                  inoutref,
+                  outref,
+                  self.objtype(), # controlType
+                  self.get_prop('Ontology'), # ontology
+                  self.get_prop('Relationship'), # relationship
+                  self.effect(), # effect
+                  self.mechanism(), # mechanism
+              )
+                                            )
+      )
 
+      self[RELATIONID] = [relationID]
+      return relationID

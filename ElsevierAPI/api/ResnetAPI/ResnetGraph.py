@@ -149,7 +149,7 @@ class ResnetGraph (nx.MultiDiGraph):
           self.__add_rel(rel)
 
 
-  def __add_psrels(self,rels:set[PSRelation],add_nodes=True,merge=True,edge_duplication=True):
+  def __add_psrels__(self,rels:set[PSRelation],add_nodes=True,merge=True,edge_duplication=True):
       """
       input:
         rels - {PSRelation}
@@ -182,7 +182,7 @@ class ResnetGraph (nx.MultiDiGraph):
     [rel_nodes.update(r.regulators()+r.targets()) for r in rels]
     newG.add_psobjs(rel_nodes,merge=False)
     my_rels = list(rels) if isinstance(rels,set) else list(set(rels))
-    newG.__add_psrels(list(my_rels),add_nodes=False,merge=False,edge_duplication=edge_duplication)
+    newG.__add_psrels__(list(my_rels),add_nodes=False,merge=False,edge_duplication=edge_duplication)
     return newG
 
 
@@ -233,7 +233,7 @@ class ResnetGraph (nx.MultiDiGraph):
       '''
       if other:
         self.add_psobjs(set(other._get_nodes()),merge)
-        self.__add_psrels(other._psrels(),add_nodes=False,merge=merge)
+        self.__add_psrels__(other._psrels(),add_nodes=False,merge=merge)
 
       
   def compose(self,other:"ResnetGraph")->"ResnetGraph":
@@ -276,7 +276,7 @@ class ResnetGraph (nx.MultiDiGraph):
       new_rel.urn(refresh=True)
       new_rel['Id'] = [] # remove old dbid that may interfere with graph updates from the database
       new_rels.append(new_rel)
-    self.__add_psrels(new_rels,add_nodes=True, merge=False)
+    self.__add_psrels__(new_rels,add_nodes=True, merge=False)
     return new_rels
 
 
@@ -726,13 +726,13 @@ class ResnetGraph (nx.MultiDiGraph):
       self.set_node_annotation(urn2weight4annotation,under_new_name)
 
 
-  def citation_index(self)->dict[str,Reference]:
+  def citation_index(self)->tuple[dict[str,Reference], "ResnetGraph"]:
       """
-      Returns
-      -------
-      dictionary {id_type:ref_id:Reference} with all references in graph.\n 
-      Reference objects in return dictionary are annotated by PS_CITATION_INDEX property\n
-      undirected duplicates are not counted 
+      output:
+        dictionary {id_type:ref_id:Reference} with all references in graph.\n 
+        Reference objects in return dictionary are annotated by PS_CITATION_INDEX property\n
+        undirected duplicates are not counted
+        deduplicated graph is returned as second output
       """
       my_graph = self.remove_undirected_duplicates()
       graph_references = dict()
@@ -751,11 +751,11 @@ class ResnetGraph (nx.MultiDiGraph):
                       graph_references[id_type+':'+ref_id] = ref
 
       sorted_dict = dict(sorted(graph_references.items(),reverse=True,key=lambda item: item[1][PS_CITATION_INDEX][0]))
-      return sorted_dict
+      return sorted_dict, my_graph
   
 
   def author_index(self)->dict[str,int]:
-      citation_index = self.citation_index()
+      citation_index, _ = self.citation_index()
       my_refs = set(citation_index.values())
       author_idx = dict()
       for ref in my_refs:
@@ -795,7 +795,7 @@ class ResnetGraph (nx.MultiDiGraph):
       if with_effect:
           sub_graph = sub_graph.subgraph_by_relprops(with_effect,['Effect'])
       
-      references = sub_graph.citation_index() # annotates
+      references, _ = sub_graph.citation_index() # annotates
       ref_df = RefStats.external_counter2pd(set(references.values()),stat_prop=PS_CITATION_INDEX)
       ref_df._name_ = df_name
 
@@ -879,14 +879,15 @@ class ResnetGraph (nx.MultiDiGraph):
                   remove_duplicate_sentences=True)->df:
     '''
     input:
+      add_nodetype - if True adds columns "Concept Type" and "Entity Type" to the output df. Use for non-directional relations to have regulators of certain type in one column
       add_rel_props - *must* be either empty or ['Name','RelType',EFFECT,REFCOUNT]
       ref_sentence_props - additional reference properties 
     output:
       df with columns: "Concept","Entity",'Concept','Concept Type','Entity','Entity Type'},add_rel_props,add_ref_props,PS_CITATION_INDEX,"PMID","DOI",PUBYEAR,TITLE,"Snippets",\n
       where "Concept" contains graph regulators, "Entity" contains graph targets
-    '''
-    my_graph = self.remove_undirected_duplicates()
-    
+    '''   
+    annotated_refs, my_graph = my_graph.citation_index()
+
     header = ['Concept','Concept Type','Entity','Entity Type'] if add_nodetype else ['Concept','Entity']
     header += add_rel_props
     header += [PS_CITATION_INDEX]+ref_sentence_props+ref_identifiers+ref_biblio_props #+['Snippets']
@@ -894,7 +895,6 @@ class ResnetGraph (nx.MultiDiGraph):
     if refcount == 0:
       return df(**{'name':df_name,'columns':header}) # to support empty graph case
     
-    annotated_refs = my_graph.citation_index()
     rows = list()
     for regulatorID, targetID, rel in my_graph.edges.data('relation'):
       regulator_name = my_graph.nodes[regulatorID]['Name'][0]
@@ -1101,7 +1101,7 @@ class ResnetGraph (nx.MultiDiGraph):
       psobjs4norefs_rels = set(self._get_nodes(noduids4norefs_rels))
       norefs_graph = ResnetGraph()
       norefs_graph.add_psobjs(psobjs4norefs_rels)
-      norefs_graph.__add_psrels(set(norefs_rels),add_nodes=False,merge=False)
+      norefs_graph.__add_psrels__(set(norefs_rels),add_nodes=False,merge=False)
 
       deleted_refcount = len(self.load_references()) - len(norefs_graph.load_references())
       print(f'{deleted_refcount} references were deleted in {affected_relcount} relations')
@@ -2387,7 +2387,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
   def remove_undirected_duplicates(self)->"ResnetGraph":
     before_number_of_edges = self.number_of_edges()
-    print(f'Removing undirected duplicate relations from graph "{self.name}" with {self.number_of_edges()} edges')
+    #print(f'Removing undirected duplicate relations from graph "{self.name}" with {self.number_of_edges()} edges')
     relset = set()
     to_return = self.copy()
     for ruid,tuid,rel in self.edges.data('relation'):
@@ -2397,7 +2397,7 @@ class ResnetGraph (nx.MultiDiGraph):
         relset.add(rel)
 
     number_of_edges = to_return.number_of_edges()
-    print(f"Removed {before_number_of_edges - number_of_edges} undirected duplicate relations")
+    print(f"Removed {before_number_of_edges - number_of_edges} undirected duplicate relations from graph \"{self.name}\" with {self.number_of_edges()} edges")
     print(f'Total number of relations after removing duplicates: {number_of_edges}')
     return to_return
   
@@ -2572,6 +2572,7 @@ class ResnetGraph (nx.MultiDiGraph):
           ps_rel[OBJECT_TYPE] = ps_rel.pop('ControlType')
           ps_rel.refs()
           ps_rel.urn(refresh=True) # URN algorithm may change
+          ps_rel.neo4j_relationID()
           valid_rels.add(ps_rel)
       #ps_rel does not have 'Id' property.This is used by PSRelation.is_from_rnef()
       return valid_nodes, valid_rels
@@ -2636,7 +2637,7 @@ class ResnetGraph (nx.MultiDiGraph):
       match_ends = 2 if on_both_ends else 1
       nodes,rels = g._parse_nodes_controls(resnet,prop2values,only_relprops,only4objs,match_ends)
       g.add_psobjs(nodes)
-      g.__add_psrels(rels,add_nodes=False,edge_duplication=edge_duplication)
+      g.__add_psrels__(rels,add_nodes=False,edge_duplication=edge_duplication)
       return g
 
 
@@ -2660,7 +2661,7 @@ class ResnetGraph (nx.MultiDiGraph):
           nodes,rels = g.__read_rnef(rnef_file,prop2values,only_relprops,no_mess,only4objs,on_both_ends)
           g.name = f'from {rnef_file}'
           g.add_psobjs(nodes,merge)
-          g.__add_psrels(rels,add_nodes=False,merge=merge,edge_duplication=edge_duplication)
+          g.__add_psrels__(rels,add_nodes=False,merge=merge,edge_duplication=edge_duplication)
 
           if not no_mess:
               print('File %s with %d edges and %d nodes was loaded in %s' 
@@ -2686,7 +2687,7 @@ class ResnetGraph (nx.MultiDiGraph):
         for f in as_completed(futures):
           nodes,rels = f.result()
           combo_g.add_psobjs(nodes,merge)
-          combo_g.__add_psrels(rels,add_nodes=False,merge=merge,edge_duplication=edge_duplication)
+          combo_g.__add_psrels__(rels,add_nodes=False,merge=merge,edge_duplication=edge_duplication)
         e.shutdown()    
       return combo_g
 
@@ -2985,21 +2986,21 @@ class ResnetGraph (nx.MultiDiGraph):
 
       unique2self = ResnetGraph()
       unique2self.add_psobjs(nodes2add)
-      unique2self.__add_psrels(rels2add,add_nodes=False)
+      unique2self.__add_psrels__(rels2add,add_nodes=False)
       return unique2self
 
 
   def intersect(self, other: "ResnetGraph"):
-      #only self graph is analyzed 
-      # works faster if other graph is bigger than self
-      intersection = ResnetGraph()
-      edges_from_other = other._psrels()
-      for n1,n2,e in self.edges(data='relation'):
-          if e in edges_from_other:
-              intersection.add_psobjs({self.nodes[n1],self.nodes[n2]},merge=False)
-              intersection.__add_rel(e['relation'])
+    '''
+      works faster if other graph is bigger than self
+    '''
+    edges_from_other = other._psrels()
+    common_rels = set()
+    for n1,n2,e in self.edges(data='relation'):
+      if e in edges_from_other:
+        common_rels.add(e)
 
-      return intersection
+    return ResnetGraph.from_rels(common_rels)
 
 
   def filter_references(self, keep_prop2values:dict, rel_types=[]):
@@ -3043,7 +3044,7 @@ class ResnetGraph (nx.MultiDiGraph):
       reg_subgraph = ResnetGraph()
       reg_subgraph.add_psobjs(subraph_nodes) # only targets in self are annotated with expression values
       # cannot use from_psrels() here
-      reg_subgraph.__add_psrels(rel2copy,add_nodes=False,merge=False)      
+      reg_subgraph.__add_psrels__(rel2copy,add_nodes=False,merge=False)      
       reg_subgraph.name = network_name
       print('%s subnetwork with %d edges was selected in %s from network with %d edges' % 
             (network_name, reg_subgraph.number_of_edges(), self.execution_time(start),self.number_of_edges()))
@@ -3843,7 +3844,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
       mapped_graph = ResnetGraph()
       mapped_graph.add_psobjs(remapped_nodes|unmapped_nodes,merge=False)
-      mapped_graph.__add_psrels(set(self.__remap_rels(uid_remap)),add_nodes=False)
+      mapped_graph.__add_psrels__(set(self.__remap_rels(uid_remap)),add_nodes=False)
       return mapped_graph, unmapped_nodes
   
 
@@ -3868,7 +3869,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
       replaced_graph = ResnetGraph()
       replaced_graph.add_psobjs(new_graph_nodes,merge=False)
-      replaced_graph.__add_psrels(set(self.__remap_rels(dict(uid_remap))),add_nodes=False)
+      replaced_graph.__add_psrels__(set(self.__remap_rels(dict(uid_remap))),add_nodes=False)
       print(f'Replaced {len(psobj_pairs)} node pairs')
       return replaced_graph, replaced_graph.neighborhood(new_nodes)
 

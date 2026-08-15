@@ -614,27 +614,22 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
 
 
 
-def deterministic_hash64(text):
+def deterministic_hash64(text:str):
   """Return a deterministic signed 64-bit hash for text or bytes."""
+  text = text.encode("utf8")
+  # use md5 to create a hash
+  digest = hashlib.md5(text).hexdigest()
+  dint = int(digest, 16)  # create 128 bit integer
 
-  if isinstance(text, str):
-    text = text.encode("utf8")
+  # xor high and low halves
+  result = ((dint >> 64) ^ dint) & 0xFFFFFFFFFFFFFFFF
+  # if greater than max 64bit signed int, make negative. python doesn't wrap on overflow
+  # because it never overflows
+  if result > 0x7FFFFFFFFFFFFFFF:
+      result = -(result & 0x7FFFFFFFFFFFFFFF)
 
-    # use md5 to create a hash
-    digest = hashlib.md5(text).hexdigest()
-    dint = int(digest, 16)  # create 128 bit integer
+  return result
 
-    # xor high and low halves
-    result = ((dint >> 64) ^ dint) & 0xFFFFFFFFFFFFFFFF
-    # if greater than max 64bit signed int, make negative. python doesn't wrap on overflow
-    # because it never overflows
-    if result > 0x7FFFFFFFFFFFFFFF:
-        result = -(result & 0x7FFFFFFFFFFFFFFF)
-
-    return result
-
-  # Backward-compatible alias for older imports/usages.
-  myhash = deterministic_hash64
 
 
 def set_root_dir(root_dir_name='ElsevierAPI_Project'):
