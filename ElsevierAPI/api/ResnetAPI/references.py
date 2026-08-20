@@ -167,6 +167,13 @@ def doi_hyperlink(identifier:str,display_str=''):
   return '=HYPERLINK("'+url+identifier+'",\"{}\")'.format(display_str)
 
 
+def remove_markup(sentence:str):
+  '''Remove Medscan markup from sentence, e.g. ID{123456=name} -> name\n'''
+  pattern = r"ID\{[^=]+=([^}]+)\}"  
+  no_markup = re.sub(pattern, r"\1", sentence)
+  return no_markup.strip('" .,')
+
+
 class Reference(dict):
   '''
   Reference{BIBLIO_PROPS[i]:[values]};\n
@@ -302,6 +309,7 @@ class Reference(dict):
       return prop_names
 
 
+
   def update_with_value(self, PropId, PropValue:int|str):
       clean_prop = PropValue.strip(' .\n') if isinstance(PropValue,str) else PropValue
       try:
@@ -340,7 +348,6 @@ class Reference(dict):
     self.snippets[text_ref][propID].add(prop_value)
 
 
-
   def number_of_sentences(self):
     count = 0
     for snippet in self.snippets.values():
@@ -350,7 +357,7 @@ class Reference(dict):
 
   def add_snippet(self,textref:str,snippet:dict[str,set]):
     '''
-    input:
+    input
       snippet = {prop_name:{values}}
     '''
     [self.add_sentence_props(textref,k,list(v)) for k,v in snippet.items()]
@@ -518,7 +525,20 @@ class Reference(dict):
           return self.Identifiers[identifier_type]
       except KeyError:
           return ''
-  
+
+
+  def sent_keys(self,key_len:int=30)->set[tuple[str,str]]:
+    '''Sentence key: (doi_or_id, first key_len characters of the sentence in lowercase).'''
+    keys = set()
+    doi = self.doi_or_id()
+    for textref, snippet in self.snippets.items():
+      sents_no_markup = {remove_markup(s) for s in snippet.get(SENTENCE, set())}
+      if len(sents_no_markup) > 0:
+        snippet['Original sentence'] = sents_no_markup
+        for sent in sents_no_markup:
+          keys.add((doi,sent[:key_len].lower()))
+    return keys
+
 
   def biblioprop2str(self,propid:str):
     if propid in self:
@@ -656,8 +676,12 @@ class Reference(dict):
       return self.Identifiers['PII']
     else:
       return ''
-    
 
+
+  def embase_id(self):
+    return self.Identifiers.get('EMBASE','')
+
+  
   def number_of_snippets(self):
       return len(self.snippets)
 

@@ -2716,13 +2716,14 @@ class ResnetGraph (nx.MultiDiGraph):
       listing = glob.glob(os.path.join(path2dir, '*.rnef'))+glob.glob(os.path.join(path2dir, '**/*.rnef'),recursive=include_subdirs)
       combo_g = ResnetGraph()
       if listing:
-          combo_g = ResnetGraph.fromRNEFflist(listing,prop2values,only_relprops,merge,edge_duplication)
-          print('Graph (%d edges, %d nodes) was loaded from "%s" with %d files in %s' 
-          % (combo_g.number_of_edges(),combo_g.number_of_nodes(),path2dir,len(listing),execution_time(start)))
-          combo_g.name = f'{os.path.basename(os.path.normpath(path2dir))}'
+        combo_g = ResnetGraph.fromRNEFflist(listing,prop2values,only_relprops,merge,edge_duplication)
+        print('Graph (%d edges, %d nodes) was loaded from "%s" with %d files in %s' 
+        % (combo_g.number_of_edges(),combo_g.number_of_nodes(),path2dir,len(listing),execution_time(start)))
+        combo_g.name = f'{os.path.basename(os.path.normpath(path2dir))}'
       else:
-          print('Cannot find "%s" directory' % path2dir)
-      
+        print('Cannot find "%s" directory' % path2dir)
+
+      #print(f'Graph ({combo_g.number_of_edges()} edges, {combo_g.number_of_nodes()} nodes) was loaded from "{path2dir}" with {len(listing)} files in {execution_time(start)}')
       return combo_g
       
 

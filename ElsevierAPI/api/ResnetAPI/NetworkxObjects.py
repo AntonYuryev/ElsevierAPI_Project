@@ -20,7 +20,7 @@ CONNECTIVITY = 'Connectivity'
 RELATIONID = 'RelationID' # id in Neo4j
 RELATION_PROPS = [EFFECT,MECHANISM]
 ALL_PSREL_PROPS = RELATION_PROPS+PS_REFERENCE_PROPS
-ALL_REL_PROPS = RELATION_PROPS+REFERENCE_PROPS
+ALL_REL_PROPS = RELATION_PROPS+SENTENCE_PROPS
 #enums for objectypes to avoid misspeling
 GENETICVARIANT = 'GeneticVariant'
 FUNC_ASSOC = 'FunctionalAssociation'
@@ -1425,3 +1425,8 @@ class PSRelation(PSObject):
 
       self[RELATIONID] = [relationID]
       return relationID
+
+  def sent_keys(self):
+    sent_keys = set()
+    [sent_keys.update(ref.sent_keys()) for ref in self.refs()]
+    return sent_keys

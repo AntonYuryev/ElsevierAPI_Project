@@ -561,8 +561,12 @@ class RepurposeDrug(Indications4targets):
     def other_effects(self)->df:
       my_targets = self.activated_targets|self.inhibited_targets
       if self.useNeo4j():
-       unknown_effectsG = self.neo4j.neighborhood(self.drugs,self.params['indication_types'],
+        unknown_effectsG = self.neo4j.neighborhood(self.drugs,self.params['indication_types'],
                                               {OBJECT_TYPE:['Regulation'],EFFECT:['unknown', '_', '']})
+        biomarker_iG = self.neo4j.neighborhood(my_targets,
+                                             self.params['indication_types'],
+                                              {OBJECT_TYPE: ['Biomarker']})
+
       else:
         my_session = RepurposeDrug(**self.params)
         my_session.relProps = PS_REFERENCE_PROPS
@@ -574,12 +578,12 @@ class RepurposeDrug(Indications4targets):
         OQLquery = f'SELECT Relation WHERE objectType = Regulation AND Effect = unknown AND \
             NeighborOf({self.SELECTdrug}) AND NeighborOf ({select_indications})'
         unknown_effectsG = my_session.process_oql(OQLquery,REQUEST_NAME)
+        biomarker_iG = my_session._biomarker_indicationsG(my_targets)
 
-      biomarker_iG = my_session._biomarker_indicationsG(my_targets)
       all_unknownsG = unknown_effectsG.compose(self.GVs2DiseaseGraph).compose(biomarker_iG)
       known_indications = self.DrugIndications|self.DrugToxicities
       all_unknownsG.remove_nodes_from(ResnetGraph.uids(known_indications))
-      unknown_indication = all_unknownsG.psobjs_with(only_with_values=my_session.params['indication_types'])
+      unknown_indication = all_unknownsG.psobjs_with(only_with_values=self.params['indication_types'])
       print(f'Found {len(unknown_indication)} indications with unknown effect')
       if unknown_indication:
           other_indications_df = all_unknownsG.snippets2df(df_name=UNKEFFECTDF)
@@ -665,8 +669,9 @@ class RepurposeDrug(Indications4targets):
 
         targets = self.activated_targets|self.inhibited_targets
         target_names = ','.join([t.name() for t in targets])
-        print("%s repurposing using %s as targets was done in %s" % 
-        (self.params['input_compound'],target_names,execution_time(start_time)))
+        partner_names = ','.join([t.name() for t in self.activated_partners|self.inhibited_partners])
+        print("%s repurposing using %s as targets and %s as partners was done in %s" % 
+        (self.params['input_compound'],target_names,partner_names,execution_time(start_time)))
         return
         
 

@@ -986,20 +986,14 @@ class Indications4targets(SemanticSearch):
 
 
     def _biomarker_indicationsG(self,_4targets:list[PSObject]):
-      if self.neo4j():
-        BiomarkerInDiseaseNetwork = self.neo4j.neighborhood(_4targets,
-                                                    self.params['indication_types'],
-                                                    {OBJECT_TYPE: ['Biomarker']})
-        return BiomarkerInDiseaseNetwork
-      else:
-        t_n = self.target_names_str()
-        REQUEST_NAME = f'Find indications where {t_n} is biomarker'
-        OQLquery = 'SELECT Relation WHERE objectType = Biomarker AND NeighborOf({select_target}) AND NeighborOf ({indications})'
+      t_n = self.target_names_str()
+      REQUEST_NAME = f'Find indications where {t_n} is biomarker'
+      OQLquery = 'SELECT Relation WHERE objectType = Biomarker AND NeighborOf({select_target}) AND NeighborOf ({indications})'
 
-        f_t = OQL.get_objects(ResnetGraph.dbids(_4targets))
-        oql4indications,_ = self.oql4indications()
-        OQLquery = OQLquery.format(select_target=f_t,indications=oql4indications)
-        BiomarkerInDiseaseNetwork = self.process_oql(OQLquery,REQUEST_NAME)
+      f_t = OQL.get_objects(ResnetGraph.dbids(_4targets))
+      oql4indications,_ = self.oql4indications()
+      OQLquery = OQLquery.format(select_target=f_t,indications=oql4indications)
+      BiomarkerInDiseaseNetwork = self.process_oql(OQLquery,REQUEST_NAME)
 
       if isinstance(BiomarkerInDiseaseNetwork,ResnetGraph):
           return BiomarkerInDiseaseNetwork
