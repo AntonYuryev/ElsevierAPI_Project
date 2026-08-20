@@ -11,8 +11,8 @@
 "strict_mode": true,
 "pathway_name_must_include_target": true,
 "data_dir":"D:/Python/ENTELLECT_API_SCRIPTS/ElsevierAPI_Project/DemoOutput",
-"add_bibliography" : false,
-"init_refstat":false,
+"add_bibliography" : true,
+"init_refstat":true,
 "debug":false,
 "skip":false,
 "useNeo4j":true
