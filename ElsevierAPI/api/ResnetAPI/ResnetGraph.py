@@ -886,8 +886,7 @@ class ResnetGraph (nx.MultiDiGraph):
       df with columns: "Concept","Entity",'Concept','Concept Type','Entity','Entity Type'},add_rel_props,add_ref_props,PS_CITATION_INDEX,"PMID","DOI",PUBYEAR,TITLE,"Snippets",\n
       where "Concept" contains graph regulators, "Entity" contains graph targets
     '''   
-    annotated_refs, my_graph = my_graph.citation_index()
-
+    annotated_refs, my_graph = self.citation_index()
     header = ['Concept','Concept Type','Entity','Entity Type'] if add_nodetype else ['Concept','Entity']
     header += add_rel_props
     header += [PS_CITATION_INDEX]+ref_sentence_props+ref_identifiers+ref_biblio_props #+['Snippets']

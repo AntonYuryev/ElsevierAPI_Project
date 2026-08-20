@@ -1,24 +1,19 @@
-import time, json
-from pandas import ExcelWriter
+import time, json,sys
+from pathlib import Path
+
+# This finds the 'ENTELLECT_API_SCRIPTS' folder
+root_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(root_dir))
+
 from ElsevierAPI.utils.utils import Tee, execution_time
 from ElsevierAPI.api.ResnetAPI.RepurposeDrug import RepurposeDrug
 
 
 def do_the_job(dcp:RepurposeDrug):
   dcp.make_report()
-
-  report_path = dcp.report_path()
-  report = ExcelWriter(report_path, engine='xlsxwriter')
-  dcp.add2writer(report)
-  report.close()
-
-  raw_report_path = dcp.report_path('_raw_data','.xlsx')
-  raw_data_cache = ExcelWriter(raw_report_path, engine='xlsxwriter')
-  dcp.addraw2writer(raw_data_cache)
-  raw_data_cache.close()
-
+  dcp.print_report(dcp.report_path())
+  dcp.print_rawdata(dcp.report_path('_raw_data','.xlsx'))
   print(f'Report was generated in {execution_time(global_start)}')
-  print(f'Report is in "{report_path}" file')
   dcp.clear()
 
 
@@ -28,14 +23,15 @@ if __name__ == "__main__":
   'similars'  - optional list of similar drugs that have same mechanism of action (i.e. same target(s))
   'indication_types' - required. Any combination of [Disease, CellProcess, Virus, Pathogen]
   'drug_effect' - required drug effect on indication: 
-          INHIBIT  for Disease to find drug indications,
-          ACTIVATE for Disease to find drug toxicities or side-effects
-          INHIBIT  for [CellProcess, Virus, Pathogen] to find concepts inhibited by input_compound or similars
-          ACTIVATE for [CellProcess, Virus, Pathogen] to find concepts activated by input_compound or similars
+          INHIBIT=-1  for Disease to find drug indications,
+          ACTIVATE=1 for Disease to find drug toxicities or side-effects
+          INHIBIT=-1  for [CellProcess, Virus, Pathogen] to find concepts inhibited by input_compound or similars
+          ACTIVATE=1 for [CellProcess, Virus, Pathogen] to find concepts activated by input_compound or similars
+          ALL_EFFECTS=0 to find both indications and toxicities
   'targets' - optional. dict{mode_of_action:[target_names]}. script uses all targets in 'target_names' to find or rank indications. 
           To find indications linked only to single target 'target_names' must contain only one target name
           if 'target_names' is empty script will attempt to find targets in Reaxys and then in Pathway Studio if no targets found in Reaxys
-          'mode_of_action' - specifies effect of input_compound on target(s): AGONIST or ANTAGONIST
+  'mode_of_action' - specifies effect of input_compound on target(s): AGONIST=1 or ANTAGONIST=-1, ANY_MOA=0
   'partners' - optional. dict{target_name:partner_class:[partner_names]}. explicit list of endogenous ligands for drug targets. 
           If 'partner_names' is not specified script attempts to find endogenous ligands with object type = Protein. 
           Use 'partner_names' when endogenous ligands for targets in 'target_names' are metabolites
@@ -58,7 +54,7 @@ if __name__ == "__main__":
               - high level parent ontology category from MAP2ONTOLOGY for each indication
               - possible indications that could not be ranked due to missing effect sign in a link to 'input_compound'
 """
-  drug_parameters = "configs/repurpose_drug_parameters.json"
+  drug_parameters = "configs/RepurposeHumira.json"
   global_start = time.time()
   parameters_list = list(json.load(open(drug_parameters, "r")))
 
@@ -69,4 +65,3 @@ if __name__ == "__main__":
     else:
       with Tee(dcp.report_path(extension='.log')):
         do_the_job(dcp)
-

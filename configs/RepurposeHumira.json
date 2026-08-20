@@ -1,0 +1,20 @@
+[
+{
+"input_compound" : "Adalimumab", 
+"similars" : ["Infliximab", "Etanercept","Certolizumab pegol","Golimumab","Afelimomab"],
+"indication_types": ["Disease"],
+"drug_effect": -1,
+"mode_of_action": -1,
+"target_names": ["TNF"],
+"partners": {"TNF":{"Receptor":["TNFRSF1A","TNFRSF1B"]}},
+"partner_class": "Receptor",
+"strict_mode": true,
+"pathway_name_must_include_target": true,
+"data_dir":"D:/Python/ENTELLECT_API_SCRIPTS/ElsevierAPI_Project/DemoOutput",
+"add_bibliography" : false,
+"init_refstat":false,
+"debug":false,
+"skip":false,
+"useNeo4j":true
+}
+]

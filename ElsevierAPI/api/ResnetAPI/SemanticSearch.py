@@ -89,7 +89,7 @@ class SemanticSearch (APISession):
       ontology_file = my_kwargs.get('ontology_file','')
       if ontology_file:
         self.ontology_loader = ThreadPoolExecutor(thread_name_prefix=f'Loading ontology')
-        print('Submiting future for')
+        print(f'Submiting future for {ontology_file}')
         self.__ontology_future__ = self.ontology_loader.submit(self._load_ontology, ontology_file)
       else:
         self.__ontology_future__ = None

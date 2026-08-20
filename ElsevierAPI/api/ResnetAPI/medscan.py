@@ -231,10 +231,8 @@ class MedScan:
       map_tuple = (markup, '','','')
       if iscomplete(markup):
         equal_pos = markup.find('=',4)
-        id = markup[3:equal_pos]
-        comma_pos = id.find(',')
-        if comma_pos > 0:
-          id = id[comma_pos+1:]
+        ids = markup[3:equal_pos].split(',')
+        id = ids[0] if len(ids) == 1 else ids[1]
         term = markup[equal_pos+1:-1]
         ms_name,ms_urn =  self.objnames.get(id, ('',''))
         map_tuple = (term, id, ms_name, ms_urn)

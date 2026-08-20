@@ -121,6 +121,29 @@ class neo4j_nx(GraphDatabase):
     return psobj
 
 
+  def find_nodes_by_names(self,names:list[str],objtypes=[], with_connectivity=False)->list[PSObject]:
+    '''
+    input:
+      objtype (label) can be empty, but the query will be slower
+    '''
+    objtype_str = '|'.join(objtypes) if objtypes else ''
+    cypher,params = Cypher.match_node_by_names(names,objtype_str,'a',with_connectivity)
+
+    nodes = []
+    # _unwind_ yields (records_list, request_name) tuples
+    params['request_name'] = f'Find {len(names)} nodes by names'
+    for records, _  in self._unwind_(cypher,params,batch_size=10):
+      if with_connectivity:
+        for record in records:
+          if record:
+            node = self.__record2psobj(record[0])
+            node.update_with_value(CONNECTIVITY,record[1])
+            nodes.append(node)
+      else:
+        nodes.extend([self.__record2psobj(record[0]) for record in records if record])
+    return nodes
+
+
   def _triple2psrel(self, triple:neo4j.Record,add_reldbid=False)->PSRelation:
       '''
         triple: regulator-relation-target
@@ -247,6 +270,19 @@ class neo4j_nx(GraphDatabase):
     cypher, params = Cypher.ppi(list(interactors), minref=minref)
     params.update({'with_references':with_references})
     return self.fetch_graph(cypher, params)
+
+
+  def neighborhood(self, seeds:list[PSObject],_2targettypes:list[str]=[],
+                    by_relProps:dict[str,list[str|int|float]]={},dir='',with_references=True)->ResnetGraph:
+    '''
+    input:
+      by_relProps = {reltype:[propValue1,propValue2,...]},
+      use OBJECT_TYPE string to specify filtering by relation type
+      dir: '', 'upstream', 'downstream'
+      with_references: whether to fetch references for the relations
+    '''
+    seed_names = ResnetGraph.names(seeds)
+    return self._neighborhood_(seed_names,'Name',_2targettypes,by_relProps,dir,with_references)
   
 
   def _neighborhood_(self,seedProps:list[str],propType='Name',_2targettypes:list[str]=[],
@@ -260,7 +296,8 @@ class neo4j_nx(GraphDatabase):
     '''
     cypher,param = Cypher.expand(seedProps,propType,_2targettypes,by_relProps,dir)        
     param['with_references'] = with_references
-    return self.fetch_graph(cypher,param)
+    request_name = f'Neighborhood of {len(seedProps)} seeds with {_2targettypes}'
+    return self.fetch_graph(cypher,param,request_name=request_name)
   
 
   def add_connectivity(self,to_nodes:list[PSObject]):
