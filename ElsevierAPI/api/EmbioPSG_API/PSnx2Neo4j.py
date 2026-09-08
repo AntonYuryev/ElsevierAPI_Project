@@ -1,6 +1,7 @@
 import atexit, csv, neo4j, time
+from numpy import nan as NAN
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID,df
-from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,np
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT
 from neo4j import GraphDatabase, NotificationSeverity
 from neo4j import ManagedTransaction as tx
@@ -1086,8 +1087,8 @@ class neo4j_nx(GraphDatabase):
 
       regulators = ','.join([n.name()+':'+n.get_prop("MedScan ID") for n in rel.regulators()])
       targets = ','.join([n.name()+':'+n.get_prop("MedScan ID")  for n in rel.targets()])
-      confidence = rel['Confidence (%)'][0] if 'Confidence (%)' in rel else np.nan
-      citation_score = rel['Citation score'][0] if 'Citation score' in rel else np.nan
+      confidence = rel['Confidence (%)'][0] if 'Confidence (%)' in rel else NAN
+      citation_score = rel['Citation score'][0] if 'Citation score' in rel else NAN
       refcount = rel.count_refs()
       rel_attrs = (regulators, targets, rel.objtype(), rel.effect(), confidence, citation_score, refcount)
 
@@ -1101,7 +1102,7 @@ class neo4j_nx(GraphDatabase):
     print(f'Fetched {len(rel_props)} rows with non-empty snippets out of {row_count} total rows for {len(relid2attrs)} relation ids')
     
     rel_props['id'] = rel_props['id'].astype(str)
-    default_attrs = ('', '', '', '', 0, 0)
+    default_attrs = ('', '', '', '', 0, 0, 0)
     mapped_attrs = rel_props['id'].map(lambda rid: relid2attrs.get(rid, default_attrs))
     rel_props[['Regulators', 'Targets', 'RelType', 'Effect', 'Confidence (%)', 'Citation score',REFCOUNT]] = pd.DataFrame(
       mapped_attrs.tolist(), index=rel_props.index)
