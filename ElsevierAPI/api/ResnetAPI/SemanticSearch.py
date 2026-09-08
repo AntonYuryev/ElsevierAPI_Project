@@ -1326,7 +1326,7 @@ class SemanticSearch (APISession):
       output:
           dict{name: 'parent1->parent2->entity'} for each entity in _4df
       '''
-
+      print(f'Creating ontology paths for {len(_4df)} entities in column "{for_entities_in_column}"')
       name2child_objs = self.entities(_4df,for_entities_in_column,map_by_graph_property)
       return self.ontopaths2(name2child_objs,ontology_depth)
 
@@ -1402,6 +1402,8 @@ class SemanticSearch (APISession):
     '''
     input:
       ontology_file = {NodeType:path2file_with_groups}
+    output:
+      self.__Ontology__ = set of parent nodes with children loaded from ontology_file
     '''
     if ontology_file and not self.__Ontology__ :
       assert isinstance(ontology_file,dict), 'Format for ontology file input: {{NodeType:path2file}}'
@@ -1432,7 +1434,8 @@ class SemanticSearch (APISession):
       output:
           Adds worksheet to "report_pandas" containing statistics for ontology groups listed in 'ElsevierAPI/ResnetAPI/ontology/disease4ontology_analysis.txt'
       '''
-      self._load_ontology()
+      self._load_ontology(self.params.get('ontology_file',{}))
+      assert isinstance(_4df,df), 'Input must be a df object'
 
       try:
           scored_disease_names = _4df[self.__resnet_name__].to_list()

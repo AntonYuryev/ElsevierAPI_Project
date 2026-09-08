@@ -183,30 +183,39 @@ class Cypher:
   
 
   @staticmethod
-  def get_childs(parent:PSObject,max_childs:int=None):
+  def get_childs(parent:PSObject,max_childs:int=None,depth=None):
     '''
       if max_childs is specified, only parents with less than max_childs childs are returned
       set max_childs to None to get all childs
     '''
+    cypher = f"MATCH (p:{parent.objtype()} {{URN:$urn}})"
+    if depth:
+      cypher += f"OPTIONAL MATCH (child)-[:is_a*..{depth}]->(p)"
+    else:
+      cypher += f"OPTIONAL MATCH (child)-[:is_a*]->(p)\n"
+
+    cypher += f"WITH p, collect(DISTINCT child) AS all_children"
     if max_childs:
-      cypher = f"""
-              MATCH (p:{parent.objtype()} {{URN:$urn}})
-              OPTIONAL MATCH (child)-[:is_a*]->(p)
-              WITH p, collect(DISTINCT child) AS all_children  
+      cypher += f"""
               WITH size(all_children) AS count, all_children
               RETURN count, 
                 CASE WHEN count > 0 AND count <= {max_childs} THEN all_children ELSE null 
                 END AS childs
-            """
+          """    
     else:
-      cypher = f"""
-                MATCH (p:{parent.objtype()} {{URN:$urn}})
-                OPTIONAL MATCH (child)-[:is_a*]->(p)
-                WITH p, collect(DISTINCT child) AS all_children 
-                RETURN size(all_children) AS count, all_children AS childs
-            """
+      cypher += "\nRETURN size(all_children) AS count, all_children AS childs"
+
     return cypher, {'urn':parent.urn()} # urn is returned as parametert to overcome URNs with ' sign
+
   
+  @staticmethod
+  def get_parents(child:PSObject,depth=3):
+    cypher = f"""MATCH (child:{child.objtype()} {{URN:$urn}})
+              OPTIONAL MATCH (parent)<-[:is_a*..{depth}]-(child)
+              WITH child, collect(DISTINCT parent) AS parents
+              RETURN parents AS parents"""
+    return cypher, {'urn':child.urn()} # urn is returned as parametert to overcome URNs with ' sign
+
 
   @staticmethod
   def node_connectivity(nodes:list[PSObject]):

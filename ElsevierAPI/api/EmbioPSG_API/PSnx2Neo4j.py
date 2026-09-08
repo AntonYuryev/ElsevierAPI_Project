@@ -116,8 +116,17 @@ class neo4j_nx(GraphDatabase):
 
   @staticmethod
   def __record2psobj(node_record:neo4j.Record)->PSObject:
-    psobj = PSObject({NODECOLUMN2ATTR.get(k,k):[v] for k,v in node_record._properties.items() if v not in ['_','']})
-    psobj[OBJECT_TYPE] =  list(node_record.labels)
+    props = node_record._properties if hasattr(node_record, '_properties') else dict(node_record)
+    for prop, val in props.items():
+      prop_name = NODECOLUMN2ATTR.get(prop,prop)
+      if isinstance(val, list):
+        props[prop_name] = [v for v in val if v not in ['_','']]
+      elif val not in ['_','']:
+          props[prop_name] = [val]
+        
+    psobj = PSObject({k:v for k,v in props.items() if v not in ['_','']})
+    labels = node_record.labels if hasattr(node_record, 'labels') else []
+    psobj[OBJECT_TYPE] = list(labels)
     return psobj
 
 
@@ -315,7 +324,8 @@ class neo4j_nx(GraphDatabase):
       return to_nodes
 
 
-  def retrieve_childs(self,parent:PSObject,max_childs:int=None,with_connectivity = False)->list[PSObject]:
+  def retrieve_childs(self,parent:PSObject,max_childs:int=None,
+                      with_connectivity = False,depth = None)->list[PSObject]:
     '''
     output:
       if max_childs is None or zero loads all children,
@@ -327,7 +337,7 @@ class neo4j_nx(GraphDatabase):
       return parent
     children = []
     with self.session() as session:
-      cypher,params = Cypher.get_childs(parent, max_childs)
+      cypher,params = Cypher.get_childs(parent, max_childs,depth)
       record = session.run(cypher,params).single()
       if record:
         count = record['count']
@@ -343,7 +353,7 @@ class neo4j_nx(GraphDatabase):
     return parent
   
 
-  def _load_children_(self,parents:list[PSObject],max_childs=None)->list[PSObject]:
+  def _load_children_(self,parents:list[PSObject],max_childs=None,depth=None)->list[PSObject]:
     '''
     output:
       list of parent annotated with CHILDS attributed
@@ -353,7 +363,7 @@ class neo4j_nx(GraphDatabase):
       parent[CHILDS] = [PSObject()]*count
     '''
     def process_single(parent:PSObject):
-      return self.retrieve_childs(parent,max_childs)
+      return self.retrieve_childs(parent,max_childs,depth=depth)
     
     results = []
     with ThreadPoolExecutor(max_workers=20) as executor:
@@ -361,6 +371,44 @@ class neo4j_nx(GraphDatabase):
       for res in futures:
         results.append(res)
     return results
+
+
+  def retrieve_parents(self,child:PSObject,with_connectivity = False,depth = None)->list[PSObject]:
+    '''
+    output:
+      if max_childs is None or zero loads all parents,
+      otherwise loads parents only for children with number of parents less than max_childs
+    '''
+    parents = []
+    with self.session() as session:
+      cypher,params = Cypher.get_parents(child, depth=depth)
+      record = session.run(cypher,params).single()
+      if record:
+        parents_records = record['parents']
+        if parents_records:
+          parents = [self.__record2psobj(record) for record in parents_records]
+          if with_connectivity:
+            parents = self.add_connectivity(parents)
+        else:
+          parents = []
+    return parents
+
+
+  def _load_parents_(self,childs:list[PSObject],depth=3)->list[PSObject]:
+    '''
+    output:
+      list of parents annotated with childs
+    '''
+    def process_single(child:PSObject):
+      return self.retrieve_parents(child,depth=depth)
+    
+    all_parents = set()
+    with ThreadPoolExecutor(max_workers=20) as executor:
+      futures = executor.map(process_single,childs)  
+      for res in futures:
+        all_parents.update(res)
+
+    return list(all_parents)
     
 
   def count_nodes(self, objtype:str,propName='',propVals=[])->int:
@@ -382,7 +430,7 @@ class neo4j_nx(GraphDatabase):
 
 
   def get_nodes(self,objtype:str,propName:str,propVals:list[str],
-                with_childs=False,with_connectivity=False)->list[PSObject]:
+                with_childs=False,with_connectivity=False)->set[PSObject]:
     """
     input:
       objtype (label) can be empty, but the query will be slower
@@ -406,7 +454,7 @@ class neo4j_nx(GraphDatabase):
           childs += node[CHILDS]
         nodes += childs
       return set(nodes)
-    
+  
 
   def select_drugs(self,only_from:list[PSObject]=[]):
     cypher,params = Cypher.select_drugs(only_from)

@@ -1,3 +1,5 @@
+from contextlib import nullcontext
+
 import networkx as nx
 from networkx.exception import NetworkXError
 from ...utils.pandas.panda_tricks import df,np,pd
@@ -93,6 +95,8 @@ class ResnetGraph (nx.MultiDiGraph):
     # nodes connected by rel must exist in the graph
     if edge_duplication non-directional relations are duplicated in two directions
     """
+  #  if rel.objtype() == 'Binding':
+  #     pass
     uid_pairs = rel.get_regulators_targets(edge_duplication)
     if uid_pairs:
       rel_urn = rel.urn(refresh_urn)
@@ -182,7 +186,7 @@ class ResnetGraph (nx.MultiDiGraph):
     [rel_nodes.update(r.regulators()+r.targets()) for r in rels]
     newG.add_psobjs(rel_nodes,merge=False)
     my_rels = list(rels) if isinstance(rels,set) else list(set(rels))
-    newG.__add_psrels__(list(my_rels),add_nodes=False,merge=False,edge_duplication=edge_duplication)
+    newG.__add_psrels__(my_rels,add_nodes=False,merge=False,edge_duplication=edge_duplication)
     return newG
 
 
@@ -1405,9 +1409,9 @@ class ResnetGraph (nx.MultiDiGraph):
 
   def _psrels(self):
       """
-      Returns
-      -------
-      {PSRelation} - list of all unique relations in graph
+      # SLOW - use only for small graphs
+      Returns:
+        {PSRelation} - list of all unique relations in graph
       \n bi-directional duplicates from non-directional relations are removed
       """
       return {PSRelation.copy(r) for n1,n2,r in self.edges.data('relation')}
@@ -2250,8 +2254,7 @@ class ResnetGraph (nx.MultiDiGraph):
         continue
 
     xml_controls = et.SubElement(resnet, 'controls',attrib=dict(),nsmap=None)
-    graph_relations = self._psrels()
-    for rel in graph_relations:
+    for r,t,rel in self.edges.data('relation'):
       control_id = rel.urn()
       xml_control = et.SubElement(xml_controls, 'control', {'local_id':control_id},nsmap=None)
       et.SubElement(xml_control, 'attr', {'name':'ControlType', 'value':str(rel[OBJECT_TYPE][0])},nsmap=None)
@@ -2327,53 +2330,63 @@ class ResnetGraph (nx.MultiDiGraph):
     return
 
 
-  def to_rnefstr(self,ent_props:list,rel_props:list,add_rel_props:dict={},add_pathway_props:dict={},delete_nodes=False):
+  def to_rnefstr(self,ent_props:list,rel_props:list,add_rel_props:dict={},
+                 add_pathway_props:dict={},delete_nodes=False, xml_declaration=True):
+    '''
+    output:
+      prettified RNEF string with <resnet> section. Ident = 2
+    '''
     resnet_attr = {'refonly':'true'} if delete_nodes else dict()
     resnet = et.Element('resnet',resnet_attr,nsmap=None)
     self.__2resnet(resnet,ent_props,rel_props,add_rel_props,add_pathway_props,delete_nodes)
-    xml_str = et.tostring(resnet)
-    return xml_str
+    return et.tostring(resnet, pretty_print=True, encoding='unicode', xml_declaration=xml_declaration)
 
 
-  def __2rnef(self,to_file:str,ent_props:list,rel_props:list,add_rel_props:dict={},add_pathway_props:dict={},delete_nodes=False):
-    with et.xmlfile(to_file,encoding='utf-8',buffered=False) as xf:
-      xf.write(et.Comment(RNEF_DISCLAIMER),pretty_print=True)
-      resnet_attr = {'refonly':'true'} if delete_nodes else dict()
-      with xf.element('batch'):
-        resnet = et.Element('resnet',attrib=resnet_attr,nsmap=None)
-        self.__2resnet(resnet,ent_props,rel_props,add_rel_props,add_pathway_props,delete_nodes)
-        xf.write(resnet,pretty_print=True)
+  def __2rnef(self,to_file:str,ent_props:list,rel_props:list,add_rel_props:dict={},
+              add_pathway_props:dict={},delete_nodes=False, lock=None):
+    lock_context = lock if lock is not None else nullcontext()
+    with lock_context:
+      with et.xmlfile(to_file,encoding='utf-8',buffered=False) as xf:
+        xf.write(et.Comment(RNEF_DISCLAIMER),pretty_print=True)
+        resnet_attr = {'refonly':'true'} if delete_nodes else dict()
+        with xf.element('batch'):
+          resnet = et.Element('resnet',attrib=resnet_attr,nsmap=None)
+          self.__2resnet(resnet,ent_props,rel_props,add_rel_props,add_pathway_props,delete_nodes)
+          xf.write(resnet,pretty_print=True)
     return
   
 
-  def __2rnef_secs(self,xmlfile:et.xmlfile,ent_prop2print:list,rel_prop2print:list,add_rel_props=dict(),with_section_size=1000,delete_nodes=False):
+  def __2rnef_secs(self,xmlfile:et.xmlfile,ent_prop2print:list,rel_prop2print:list,
+                   add_rel_props=dict(),with_section_size=1000,delete_nodes=False, lock=None):
       """
       splits RNEF into <resnet> sections with_section_size <control> elements
       used to write large graphs to file by redcuing the length of xml string
       \nwith_section_size = 1000 recommended to avoid memory problems
       \nresolves printing graphs with and without edges\n
       """
-      resnet_attr = {'refonly':'true'} if delete_nodes else dict()
-      if self.number_of_edges():
-        resnet_sections_rels = set()
-        for regulatorID, targetID, rel in self.edges.data('relation'):
-          resnet_sections_rels.add(rel)
-          if len(resnet_sections_rels) == with_section_size:
+      lock_context = lock if lock is not None else nullcontext()
+      with lock_context:
+        resnet_attr = {'refonly':'true'} if delete_nodes else dict()
+        if self.number_of_edges():
+          resnet_sections_rels = set()
+          for regulatorID, targetID, rel in self.edges.data('relation'):
+            resnet_sections_rels.add(rel)
+            if len(resnet_sections_rels) == with_section_size:
+              section_graph = self.subgraph_by_rels(list(resnet_sections_rels))
+              resnet = et.Element('resnet',attrib=resnet_attr,nsmap=None)
+              section_graph.__2resnet(resnet,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
+              xmlfile.write(resnet,pretty_print=True)
+              resnet_sections_rels.clear()
+          # printing leftovers
+          if resnet_sections_rels:
             section_graph = self.subgraph_by_rels(list(resnet_sections_rels))
             resnet = et.Element('resnet',attrib=resnet_attr,nsmap=None)
             section_graph.__2resnet(resnet,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
             xmlfile.write(resnet,pretty_print=True)
-            resnet_sections_rels.clear()
-        # printing leftovers
-        if resnet_sections_rels:
-          section_graph = self.subgraph_by_rels(list(resnet_sections_rels))
-          resnet = et.Element('resnet',attrib=resnet_attr,nsmap=None)
-          section_graph.__2resnet(resnet,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
-          xmlfile.write(resnet,pretty_print=True)
-        return
-      else:
-          all_nodes = self._get_nodes()
-          for sec in range(0, len(all_nodes), with_section_size):
+          return
+        else:
+            all_nodes = self._get_nodes()
+            for sec in range(0, len(all_nodes), with_section_size):
               section_nodes = all_nodes[sec:sec+with_section_size]
               section_graph = ResnetGraph()
               section_graph.add_psobjs(set(section_nodes))
@@ -2401,7 +2414,8 @@ class ResnetGraph (nx.MultiDiGraph):
     return to_return
   
 
-  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print:list=[],add_rel_props:dict={},with_section_size=0,delete_nodes=False):
+  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print:list=[],add_rel_props:dict={},
+                with_section_size=0,delete_nodes=False,lock=None):
     '''
     input:
       if fname is empty will create file with graph self.name
@@ -2420,19 +2434,18 @@ class ResnetGraph (nx.MultiDiGraph):
     else:
       rnef_fname = graph_fname + '.rnef'
 
-    graph_copy = self.remove_undirected_duplicates() 
+    graph_copy = self.remove_undirected_duplicates()
     message = f'Writing graph "{graph_fname}" with {graph_copy.number_of_nodes()} nodes, {graph_copy.number_of_edges()} edges to {rnef_fname} file'
     # copying graph to enable using the function in multithreaded file writing
-    
     if with_section_size:
       with et.xmlfile(rnef_fname,encoding='utf-8',buffered=False) as xf:
         print(message + f' in resnet section of size {with_section_size}')
         xf.write(et.Comment(RNEF_DISCLAIMER),pretty_print=True)
         with xf.element('batch'):
-          graph_copy.__2rnef_secs(xf,ent_prop2print,rel_prop2print,add_rel_props,with_section_size,delete_nodes)
+          graph_copy.__2rnef_secs(xf,ent_prop2print,rel_prop2print,add_rel_props,with_section_size,delete_nodes,lock=lock)
     else:
       print(message + f' in one resnet section')
-      graph_copy.__2rnef(rnef_fname,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes)
+      graph_copy.__2rnef(rnef_fname,ent_prop2print,rel_prop2print,add_rel_props,delete_nodes=delete_nodes,lock=lock)
 
     print(f'Graph "{graph_fname}" with {graph_copy.number_of_nodes()} nodes and {graph_copy.number_of_edges()} edges dumped to {rnef_fname} file')
     return
@@ -2540,12 +2553,20 @@ class ResnetGraph (nx.MultiDiGraph):
           else: 
             regulators.append(localid2node[link.get('ref')])
 
+#        if 'biodata:protein/HGNC3535' in [n.urn() for n in regulators]:
+#          if 'biodata:disease/Concept_86428755' in [n.urn() for n in targets]:
+#            print(f'Found relation with HGNC3535 and Concept_86428755')
+#            pass
+
         if validate(regulators,targets):
           valid_nodes.update(targets)
           valid_nodes.update(regulators)
           ps_rel = PSRelation(dict())
           for reg in regulators:
             ps_rel.Nodes[REGULATORS].append(reg)
+
+          if not targets:
+             pass
           for targ in targets:
             ps_rel.Nodes[TARGETS].append(targ)
 
@@ -2562,8 +2583,9 @@ class ResnetGraph (nx.MultiDiGraph):
             if index is not None: # Property has an index and therefore must be in SENTENCE_PROPS_SET
               value = attr.get('value')
               ps_rel.PropSetToProps[index][prop_id].append(value)
+            elif prop_id == EFFECT: # EFECT is now in SENTENCE_PROPS_SET because of BCE
+                ps_rel.update_with_value(prop_id, attr.get('value'))
             elif prop_id in SENTENCE_PROPS_SET:# MedScan single reference case
-                 # TextRef is used as a reference identifier in single reference case, so it should be added to references, not relation properties
               ps_rel.PropSetToProps['1'][prop_id].append(attr.get('value'))
             else: # No index, not a sentence prop
               ps_rel.update_with_value(prop_id, attr.get('value'))
@@ -3518,16 +3540,11 @@ class ResnetGraph (nx.MultiDiGraph):
       return ResnetGraph.from_rels(resnet_rels)
 
 
-  def ontology_graph(self):
-      '''
-      input:
-        nodes in self must be annotated with [CHILDS] property
-      ouput:
-        ResnetGraph with edges (child,parent,relation=[MemberOf, is_a, Pathway Studio Ontology]
-      '''
-      ontology_graph = ResnetGraph()
-      parents = self.psobjs_with([CHILDS])
-      for p in parents:
+  @staticmethod
+  def _ontologyG_from(parents:list[PSObject]):
+    ontology_graph = ResnetGraph()
+    for p in parents:
+        if CHILDS in p:
           ontology_graph.add_psobj(p)
           ontology_graph.add_psobjs(p[CHILDS])
           for child in p[CHILDS]:
@@ -3535,7 +3552,18 @@ class ResnetGraph (nx.MultiDiGraph):
               rel.Nodes[REGULATORS] = [child]
               rel.Nodes[TARGETS] = [p]
               ontology_graph.add_rel(rel,merge=False)
-      return ontology_graph
+    return ontology_graph
+
+
+  def ontology_graph(self):
+    '''
+    input:
+      nodes in self must be annotated with [CHILDS] property
+    ouput:
+      ResnetGraph with edges (child,parent,relation=[MemberOf, is_a, Pathway Studio Ontology]
+    '''
+    parents = self._get_nodes()
+    return self._ontologyG_from(parents)
 
 
   def all_paths_from(self,child:PSObject)->list[list[PSObject]]:

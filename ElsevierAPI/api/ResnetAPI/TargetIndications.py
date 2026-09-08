@@ -27,6 +27,9 @@ ANTAGONIST = -1 # drug inhibits its targets
 AGONIST = 1 # drug activates its targets
 ANY_MOA = 0
 
+DISEASEONTOLOGY = {'Disease': os.path.join(DEFAULT_CONFIG_DIR,'api/ResnetAPI/.config/ontology/disease4ontology_analysis.txt')}
+
+
 class Indications4targets(SemanticSearch):
     pass
     max_threads4ontology = 50
@@ -53,7 +56,7 @@ class Indications4targets(SemanticSearch):
                  'what2retrieve':BIBLIO_PROPERTIES, # need biblio props to create PSbibliography
                  'mode_of_action':ANY_MOA,
                  'max_ontology_parent': 10,
-                 'ontology_file' : os.path.join(os.getcwd(),DEFAULT_CONFIG_DIR,'ResnetAPI/ontology/disease4ontology_analysis.txt'),
+                 'ontology_file' : DISEASEONTOLOGY,
                 }
         my_kwargs.update(kwargs)
 
@@ -118,8 +121,13 @@ class Indications4targets(SemanticSearch):
       '''
       ind_prefix = 'ind4'
       tox_prefix = 'tox4'
-      trunc_name = self.ws_prefix[0:21]
-      sep = '-' if trunc_name[-1].isalnum() else ''
+      if self.ws_prefix:
+        trunc_name = self.ws_prefix[0:21]
+        sep = '-' if trunc_name[-1].isalnum() else ''
+      else:
+        trunc_name = ''
+        sep = ''
+         
       suffix = 'antag' if self.__moa() == ANTAGONIST else 'agon'
       return ind_prefix + trunc_name+sep+suffix, tox_prefix +trunc_name+sep+suffix
        
@@ -131,8 +139,11 @@ class Indications4targets(SemanticSearch):
 
     def __moa(self):
         return self.params['mode_of_action']
-    
 
+
+    def input_concepts(self):
+      return list(self.__targets__) + list(self.__GVs__)+list(self.__partners__)
+    
     def clear_indications(self):
       self.__targets__.clear()
       self.__indications4agonists__.clear()
@@ -564,10 +575,9 @@ class Indications4targets(SemanticSearch):
         if self.useNeo4j():
           ActivatedInDiseaseNetwork = self.neo4j.neighborhood(targets,self.params['indication_types'],
                                   {OBJECT_TYPE: ['QuantitativeChange'], EFFECT:[with_effect_on_indications]})
-        if with_effect_on_indications == 'positive':
-          BiomarkerG = self.neo4j.neighborhood(targets,self.params['indication_types'],
-                                  {OBJECT_TYPE: ['Biomarker']})
-          ActivatedInDiseaseNetwork = ActivatedInDiseaseNetwork.compose(BiomarkerG)
+          if with_effect_on_indications == 'positive':
+            BiomarkerG = self.neo4j.neighborhood(targets,self.params['indication_types'],{OBJECT_TYPE: ['Biomarker']})
+            ActivatedInDiseaseNetwork = ActivatedInDiseaseNetwork.compose(BiomarkerG)
         else:
           REQUEST_NAME = f'Find indications {with_effect_on_indications}ly modulated by {t_n}'
           OQLquery = f'SELECT Relation WHERE objectType = QuantitativeChange AND Effect = {with_effect_on_indications} AND \
@@ -1510,9 +1520,9 @@ NeighborOf({self.oql4targets}) AND NeighborOf ({oql4indications})'
       adds:
         df with PS_BIBLIOGRAPHY-suffix name to self.report_pandas
       """
-      target_concepts = list(self.__targets__) + list(self.__GVs__)+list(self.__partners__)
-      antagonistsG = self.Graph.get_subgraph(target_concepts,self.__indications4antagonists__)
-      agonistsG = self.Graph.get_subgraph(target_concepts,self.__indications4agonists__)
+      focus_concepts = self.input_concepts()
+      antagonistsG = self.Graph.get_subgraph(focus_concepts,self.__indications4antagonists__)
+      agonistsG = self.Graph.get_subgraph(focus_concepts,self.__indications4agonists__)
       ws_ind, ws_tox = self.ws_names()
       ind_refs = f'EBKGrefs4{ws_ind[:22]}'
       tox_refs = f'EBKGrefs4{ws_tox[:22]}'

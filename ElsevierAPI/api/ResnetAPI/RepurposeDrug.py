@@ -207,6 +207,11 @@ class RepurposeDrug(Indications4targets):
         childs,parents = self.load_children4(my_targets)
         my_targets.update(childs)
         return my_targets
+
+
+    def input_concepts(self):
+      input_targets = super().input_concepts()
+      return list(self.drugs) + list(self.SimilarDrugs) + input_targets
     
 
     def find_drug_indications(self)->set[PSObject]:
@@ -673,16 +678,6 @@ class RepurposeDrug(Indications4targets):
         print("%s repurposing using %s as targets and %s as partners was done in %s" % 
         (self.params['input_compound'],target_names,partner_names,execution_time(start_time)))
         return
-        
-
-    def add_graph_bibliography(self,suffix:str, _4diseases:list[PSObject]):
-        """
-        adds:
-            df with PS_BIBLIOGRAPHY-suffix name to self.report_pandas
-        """
-        input_targets = set(self.drugs)|set(self.SimilarDrugs)|self.activated_targets|self.inhibited_targets|self.activated_partners|self.inhibited_partners
-        disease_neighborhood =  self.Graph.get_subgraph(input_targets, _4diseases)
-        super().add_graph_bibliography(suffix,add_graph=disease_neighborhood)
 
 
     def Reaxys_targets(self,minpX = 6.0):
@@ -1056,17 +1051,17 @@ class RepurposeDrug(Indications4targets):
           ranked_df4report,_ = self.normalize(df_name,df_name,drop_empty_columns=drop_empty_cols,nozero_rank=remove_zero_indications)
           ranked_df4report = self.add_target_column(ranked_df4report)
           suffix = '4ind'if df_name == INDICATIONS else '4tox'
-          diseases = self.DrugIndications if df_name == INDICATIONS else self.DrugToxicities
+          #diseases = self.DrugIndications if df_name == INDICATIONS else self.DrugToxicities
 
           if self.params.get('debug',False):
             ontology_df = self.add_ontology_df(ranked_df4report)
             id2paths = self.id2paths(ranked_df4report)
-            self.add_graph_bibliography(suffix,diseases)
+            self.add_graph_bibliography(suffix)
           else:
             with ThreadPoolExecutor(max_workers=4, thread_name_prefix='Report annotation') as e:
               ontology_df_future = e.submit(self.add_ontology_df,ranked_df4report)
               add_parent_future = e.submit(self.id2paths,ranked_df4report)
-              e.submit(self.add_graph_bibliography,suffix,diseases)
+              e.submit(self.add_graph_bibliography,suffix)
 
             id2paths = add_parent_future.result()
             ontology_df = ontology_df_future.result()

@@ -63,7 +63,7 @@ ANATOMICAL_PROPS = ['Organ','Tissue','CellType','CellLineName','Organism']
 
 PS_SENTENCE_PROPS = [SENTENCE,'Source','Percent',THRESHOLD,'pX','Phase','Start','TrialStatus','URL','Experimental System',CLINVAR_ID,
     CLINVAR_ACC,'Clinvar ID','TextMods','BiomarkerType','ChangeType','QuantitativeType']+ANATOMICAL_PROPS
-BCE_SENTENCE_PROPS = ['Confidence']
+BCE_SENTENCE_PROPS = ['Confidence', 'Effect']
 SENTENCE_PROPS = PS_SENTENCE_PROPS + BCE_SENTENCE_PROPS + ['Evidence','msrc','mref','Similarity']
 
 # SENTENCE_PROPS needs to be a list for ordered printing
@@ -189,23 +189,23 @@ class Reference(dict):
     # PropID:{Values} = defaultdict(set)
 
 
-  def copy_ref(self):
-      '''
-      Return
-      ------
-      Reference object copy if self has valid identifiers\n
-      otherwise returns empty Reference() object
-      '''
-      for i in REF_ID_TYPES:
-        try:
-          id_value = self.Identifiers[i]
-          my_copy = Reference(i,id_value)
-          my_copy.update(self)
-          my_copy.Identifiers = self.Identifiers.copy()
-          my_copy.snippets = self.snippets.copy()
-          return my_copy
-        except KeyError: continue
-      return Reference()
+  def copy(self):
+    '''
+    Return
+    ------
+    Reference object copy if self has valid identifiers\n
+    otherwise returns empty Reference() object
+    '''
+    for i in REF_ID_TYPES:
+      try:
+        id_value = self.Identifiers[i]
+        my_copy = Reference(i,id_value)
+        my_copy.update(self)
+        my_copy.Identifiers = self.Identifiers.copy()
+        my_copy.snippets = self.snippets.copy()
+        return my_copy
+      except KeyError: continue
+    return Reference()
   
 
   @staticmethod
@@ -453,7 +453,7 @@ class Reference(dict):
   
 
   def remove_props(self, prop_names:list):
-      my_copy = self.copy_ref()
+      my_copy = self.copy()
       if my_copy:
         for prop2values in my_copy.snippets.values():
           [prop2values.pop(p,'') for p in prop_names]
@@ -535,8 +535,7 @@ class Reference(dict):
       sents_no_markup = {remove_markup(s) for s in snippet.get(SENTENCE, set())}
       if len(sents_no_markup) > 0:
         snippet['Original sentence'] = sents_no_markup
-        for sent in sents_no_markup:
-          keys.add((doi,sent[:key_len].lower()))
+        [keys.add((doi,sent[:key_len].lower())) for sent in sents_no_markup]
     return keys
 
 
@@ -680,6 +679,10 @@ class Reference(dict):
 
   def embase_id(self):
     return self.Identifiers.get('EMBASE','')
+
+
+  def pui_id(self):
+    return self.Identifiers.get('PUI','')
 
   
   def number_of_snippets(self):
@@ -874,7 +877,7 @@ class Reference(dict):
         yield textref,snippet
 
 
-  def get_snippet_prop(self,prop_name:str):
+  def get_snippet_prop(self,prop_name:str)->dict[str,set]:
       """
       output:
         {textref:[prop_vals]}

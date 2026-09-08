@@ -20,7 +20,7 @@ CONNECTIVITY = 'Connectivity'
 RELATIONID = 'RelationID' # id in Neo4j
 RELATION_PROPS = [EFFECT,MECHANISM]
 ALL_PSREL_PROPS = RELATION_PROPS+PS_REFERENCE_PROPS
-ALL_REL_PROPS = RELATION_PROPS+SENTENCE_PROPS
+ALL_REL_PROPS = RELATION_PROPS+REFERENCE_PROPS
 #enums for objectypes to avoid misspeling
 GENETICVARIANT = 'GeneticVariant'
 FUNC_ASSOC = 'FunctionalAssociation'
@@ -807,6 +807,8 @@ class PSRelation(PSObject):
           
 
   def is_directional(self):
+      if self.objtype() in NONDIRECTIONAL:
+        return False
       return len(self.Nodes) == 2
 
 
@@ -1147,6 +1149,9 @@ class PSRelation(PSObject):
       
   def targets(self)->list[PSObject]:
     return self.Nodes[TARGETS] if TARGETS in self.Nodes else []
+
+  def size(self):
+     return len(self.regulators()) + len(self.targets())
       
 
   def get_regulators_targets(self,duplicate4undirected=True)->list[tuple[int,int]]:
