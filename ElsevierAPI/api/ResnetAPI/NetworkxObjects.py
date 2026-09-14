@@ -535,9 +535,9 @@ class PSRelation(PSObject):
     if 'Name' in self.keys():
       return self['Name'][0]
     else:
-      regulators, targets = self.Nodes[REGULATORS],self.Nodes[TARGETS]
-      targ_names = ','.join([t['Name'][0] for t in targets])
-      if targ_names:
+      regulators, targets = self.regulators(),self.targets()
+      if targets:
+          targ_names = ','.join([t['Name'][0] for t in targets])
           reg_names = ','.join([r['Name'][0] for r in regulators])
           arrow = str('--->')
           effect = self.effect()
@@ -1038,9 +1038,8 @@ class PSRelation(PSObject):
 
   def to_table_dict(self, columnPropNames:list, cell_sep:str=';', RefNumPrintLimit=0, add_entities=False)->dict[int,str]:
       '''
-      Return
-      ------
-      {rownum:[column_values]}
+      output:
+        {rownum:[column_values]}
       '''
       # assumes all properties in columnPropNames were fetched from Database otherwise will crash
       # initializing table
@@ -1051,37 +1050,34 @@ class PSRelation(PSObject):
       if RelationNumberOfReferences >= RefNumPrintLimit:
           rowCount = max(1, len(self.PropSetToProps))
 
-      table = dict()
-      for r in range(0, rowCount):
-          table[r] = [''] * col_count
-
+      table = {r:[''] * col_count for r in range(0, rowCount)}
       if add_entities:
-          regulatorIDs = str()
-          targetIDs = str()
-          for k, v in self.Nodes.items():
-              if k == REGULATORS:
-                  regulatorIDs = ','.join([str(x.dbid()) for x in v])
-              else:
-                  targetIDs = ','.join([str(x.dbid()) for x in v])
+        regulatorIDs = str()
+        targetIDs = str()
+        for k, v in self.Nodes.items():
+          if k == REGULATORS:
+            regulatorIDs = ','.join([str(x.dbid()) for x in v])
+          else:
+            targetIDs = ','.join([str(x.dbid()) for x in v])
 
-          for r in range(0, rowCount):
-              table[r][col_count-2] = regulatorIDs
-              table[r][col_count-1] = targetIDs
+        for r in range(0, rowCount):
+          table[r][col_count-2] = regulatorIDs
+          table[r][col_count-1] = targetIDs
 
       for col in range(len(columnPropNames)):
-          propId = columnPropNames[col]
-          if propId in self.keys(): # filling columns with relation properties
-              for row in range(0, rowCount):
-                  propValue = self._prop2str(propId)
-                  table[row][col] = propValue
-          elif RelationNumberOfReferences >= RefNumPrintLimit: #filling columns with reference properties
-              row = 0
-              for propList in self.PropSetToProps.values():
-                  if propId in propList.keys():
-                      propValues = propList[propId]
-                      cellValue = cell_sep.join(propValues)
-                      table[row][col] = cellValue
-                  row += 1
+        propId = columnPropNames[col]
+        if propId in self.keys(): # filling columns with relation properties
+          for row in range(0, rowCount):
+            propValue = self._prop2str(propId)
+            table[row][col] = propValue
+        elif RelationNumberOfReferences >= RefNumPrintLimit: #filling columns with reference properties
+          row = 0
+          for propList in self.PropSetToProps.values():
+              if propId in propList.keys():
+                propValues = propList[propId]
+                cellValue = cell_sep.join(propValues)
+                table[row][col] = cellValue
+              row += 1
 
       return table
 
@@ -1410,28 +1406,41 @@ class PSRelation(PSObject):
     return sum([ref.number_of_snippets() for ref in self.refs()])
 
 
-  def neo4j_relationID(self):
-      inoutref = [n.neo4j_hash() for n in self.regulators()]
-      inoutref.sort(reverse=True)
-      outref = [n.neo4j_hash() for n in self.targets()]
-      relationID = deterministic_hash64( str(
-              (
-                  [], #inref does not exist in Resnet
-                  inoutref,
-                  outref,
-                  self.objtype(), # controlType
-                  self.get_prop('Ontology'), # ontology
-                  self.get_prop('Relationship'), # relationship
-                  self.effect(), # effect
-                  self.mechanism(), # mechanism
-              )
-                                            )
-      )
+  def text_refs(self):
+    text_refs = set()
+    for ref in self.refs():
+      text_refs.update(ref.snippets.keys())
+    return text_refs
 
-      self[RELATIONID] = [relationID]
-      return relationID
+
+  def neo4j_relationID(self):
+    inoutref = [n.neo4j_hash() for n in self.regulators()]
+    inoutref.sort(reverse=True)
+    outref = [n.neo4j_hash() for n in self.targets()]
+    relationID = deterministic_hash64( str(
+            (
+                [], #inref does not exist in Resnet
+                inoutref,
+                outref,
+                self.objtype(), # controlType
+                self.get_prop('Ontology'), # ontology
+                self.get_prop('Relationship'), # relationship
+                self.effect(), # effect
+                self.mechanism(), # mechanism
+            )
+                )
+    )
+    self[RELATIONID] = [relationID]
+    return relationID
+
 
   def sent_keys(self):
     sent_keys = set()
     [sent_keys.update(ref.sent_keys()) for ref in self.refs()]
     return sent_keys
+
+
+  def add_sent_prop(self, prop, value):
+    for ref in self.refs():
+      for text_ref in ref.snippets.keys():
+        ref.add_sentence_prop(text_ref, prop, value)
