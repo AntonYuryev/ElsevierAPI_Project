@@ -807,22 +807,22 @@ class PSRelation(PSObject):
           
 
   def is_directional(self):
-      if self.objtype() in NONDIRECTIONAL:
-        return False
-      return len(self.Nodes) == 2
+    if self.objtype() in NONDIRECTIONAL:
+      return False
+    return len(self.Nodes) == 2
 
 
   def regulator_uids(self):
-      nodeIds = [x.uid() for x in self.Nodes[REGULATORS]]
-      return list(nodeIds)
+    nodeIds = [x.uid() for x in self.Nodes[REGULATORS]]
+    return list(nodeIds)
   
   
   def target_uids(self)->list[int]:    
-      return [x.uid() for x in self.Nodes[TARGETS]] if TARGETS in self.Nodes else []
+    return [x.uid() for x in self.Nodes[TARGETS]] if TARGETS in self.Nodes else []
 
 
   def entities_uids(self):
-      return self.regulator_uids()+self.target_uids()
+    return self.regulator_uids()+self.target_uids()
   
 
   def get_props(self,propname:str)->list:
