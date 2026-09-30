@@ -37,8 +37,8 @@ RETURN "Same reltype" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 2. Merge to Regulation FunctionalAssociation:
-MATCH (a)-[anchor:biomed:Regulation]->(b)
-MATCH (a)-[evidence:biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:Regulation`]->(b)
+MATCH (a)-[evidence:`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {
@@ -73,31 +73,31 @@ RETURN "FuncAssoc2Regulation" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 3. Merge to Regulation reverse FunctionalAssociation:
-MATCH (a)-[anchor:biomed:Regulation]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:Regulation`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssoc2Regulation" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssoc2Regulation" AS merge_type, count(DISTINCT anchor) AS mergedCount
 
 UNION
 
 //STEP 4. Create DirectRegulation from >> Binding+Regulation (same direction):
-MATCH (a)-[r:biomed:Regulation|biomed:Binding]->(b)
+MATCH (a)-[r:`biomed:Regulation`|`biomed:Binding`]->(b)
 WHERE r.RelationNumberOfReferences > 1 //>1 ref fosafety
 WITH a, b, collect(r) AS rels
 WHERE size(rels) > 1
@@ -241,20 +241,22 @@ UNION
 // Identify all enzymes including their sub-classes via the is_a hierarchy
 MATCH (p)
 WHERE p.Name IN [
-    'protein kinase', 'acetyltransferase', 'peptide hydrolase',
-    'deacetylase', 'protein methyltransferase', 'histone modification enzyme',
-    'aminoacyltransferase', 'peptide synthase', 'protein phosphatase'
+'protein kinase', 'acetyltransferase', 'peptide hydrolase',
+'deacetylase', 'protein methyltransferase', 'histone modification enzyme',
+'aminoacyltransferase', 'peptide synthase', 'protein phosphatase'
 ]
 OPTIONAL MATCH (child)-[:is_a*]->(p)
 WITH collect(DISTINCT child) + collect(DISTINCT p) AS enzymeNodes
 // Find ProtModification relations where the regulator (n) is NOT in that list
-MATCH (n)-[r:biomed:ProtModification]->(t)
+MATCH (n)-[r:`biomed:ProtModification`]->(t)
 WHERE NOT n IN enzymeNodes
-// Change the relationship type to 'Regulation'
-CALL apoc.refactor.setType(r, 'Regulation') 
-YIELD input, output
+// Replace the relationship with one of type 'Regulation'
+WITH n, t, r, properties(r) AS oldProps, 'Regulation' AS newType
+CREATE (n)-[newRel:$(newType)]->(t)
+SET newRel = oldProps
+DELETE r
 // Return the results
-RETURN "ConvertProtMod2Regulation" AS merge_type, count(rel) AS mergedCount
+RETURN "ConvertProtMod2Regulation" AS merge_type, count(newRel) AS mergedCount
 
 UNION
 
@@ -312,8 +314,8 @@ RETURN "Regulation2ProtMod" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 9. Merge to DirectRegulation [Regulation|Binding|ProtModification]:
-MATCH (a)-[anchor:biomed:DirectRegulation]->(b)
-MATCH (a)-[evidence:biomed:Regulation|biomed:Binding|biomed:ProtModification]->(b)
+MATCH (a)-[anchor:`biomed:DirectRegulation`]->(b)
+MATCH (a)-[evidence:`biomed:Regulation`|`biomed:Binding`|`biomed:ProtModification`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 
 // Merging evidence into the existing anchor
@@ -348,10 +350,10 @@ RETURN "RegProtModBind2DirectRegulation" AS merge_type, count(rel) AS mergedCoun
 UNION
 
 //STEP 10. Merge to DirectRegulation [reverse Binding]:
-MATCH (a)-[anchor:biomed:DirectRegulation]->(b)
-MATCH (b)-[bind:biomed:Binding]->(a)
+MATCH (a)-[anchor:`biomed:DirectRegulation`]->(b)
+MATCH (b)-[bind:`biomed:Binding`]->(a)
 WHERE bind.RelationNumberOfReferences > 2
-// Group bindings by anchor to handle multiple bindings per pair
+// Group by anchor to handle multiple reversed bindings per pair
 WITH anchor, collect(bind) AS rev_binds
 WITH anchor, rev_binds, [rb IN rev_binds | properties(rb)] AS bind_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
@@ -359,24 +361,24 @@ WITH anchor, rev_binds, bind_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN bind_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, rev_binds,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN bind_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH rev_binds
+WITH anchor, rev_binds
 UNWIND rev_binds AS rb
 DELETE rb
-RETURN "reversedBind2DirectRegulation" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedBind2DirectRegulation" AS merge_type, count(DISTINCT anchor) AS mergedCount
 
 UNION
 
 //STEP 11. Merge to Expression [Regulation.FunctionalAssociation]:
-MATCH (a)-[anchor:biomed:Expression]->(b)
-MATCH (a)-[evidence:biomed:Regulation|biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:Expression`]->(b)
+MATCH (a)-[evidence:`biomed:Regulation`|`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
-// Merge evidence into the existing anchor:biomed:
+// Merge evidence into the existing anchor:
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
 CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: "combine",produceSelfRel: false})
 YIELD rel
@@ -407,32 +409,32 @@ RETURN "RegFuncAssoc2Expression" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 12. Merge to Expression reverse FunctionalAssociation
-MATCH (a)-[anchor:biomed:Expression]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:Expression`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssoc2Expression" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssoc2Expression" AS merge_type, count(DISTINCT anchor) AS mergedCount
 
 UNION
 
 //STEP 13. Merge to PromoterBinding [Regulation,Expression]:
-MATCH (a)-[anchor:biomed:PromoterBinding]->(b)
-MATCH (a)-[evidence:biomed:Regulation|biomed:Expression]->(b)
+MATCH (a)-[anchor:`biomed:PromoterBinding`]->(b)
+MATCH (a)-[evidence:`biomed:Regulation`|`biomed:Expression`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
@@ -446,44 +448,44 @@ RETURN "RegExpr2PromoterBinding" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 14. Merge to QuantitativeChange FunctionalAssociation
-MATCH (a)-[anchor:biomed:QuantitativeChange]->(b)
-MATCH (a)-[evidence:biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:QuantitativeChange`]->(b)
+MATCH (a)-[evidence:`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
-CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties:""combine"", produceSelfRel:false})
+CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: 'combine', produceSelfRel: false})
 YIELD rel
-RETURN "FuncAssoc2QuantitativeChange" AS merge_type, count(rel) AS mergedCount
+RETURN 'FuncAssoc2QuantitativeChange' AS merge_type, count(rel) AS mergedCount
 
 UNION
 
 //STEP 16. Merge to QuantitativeChange reverse FunctionalAssociation
-MATCH (a)-[anchor:biomed:QuantitativeChange]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:QuantitativeChange`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssoc2QuantitativeChange" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssoc2QuantitativeChange" AS merge_type, count(DISTINCT anchor) AS mergedCount
 
 UNION
 
 //STEP 17. Merge to Biomarker [QuantitativeChange, FunctionalAssociation]:
-MATCH (a)-[anchor:biomed:Biomarker]->(b)
-MATCH (a)-[evidence:biomed:QuantitativeChange|biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:Biomarker`]->(b)
+MATCH (a)-[evidence:`biomed:QuantitativeChange`|`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
@@ -497,32 +499,32 @@ RETURN "QuanChangeFuncAssoc2Biomarker" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 18. Merge to Biomarker reverse FunctionalAssociation:
-MATCH (a)-[anchor:biomed:Biomarker]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:Biomarker`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssoc2Biomarker" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssoc2Biomarker" AS merge_type, count(DISTINCT anchor) AS mergedCount
 
 UNION
 
 //STEP 19. Merge to Moltransport [Regulation,CellExpression,FunctionalAssociation]:
-MATCH (a)-[anchor:biomed:MolTransport]->(b)
-MATCH (a)-[evidence:biomed:CellExpression|biomed:Regulation|biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:MolTransport`]->(b)
+MATCH (a)-[evidence:`biomed:CellExpression`|`biomed:Regulation`|`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
@@ -558,32 +560,33 @@ RETURN "FuncAssocCellExpReg2MolTransport" AS merge_type, count(rel) AS mergedCou
 UNION
 
 //STEP 20. Merge to MolTransport reverse CellExpression,FunctionalAssociation:
-MATCH (a)-[anchor:biomed:MolTransport]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation|biomed:CellExpression]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:MolTransport`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`|`biomed:CellExpression`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssocCellExp2MolTransport" AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssocCellExp2MolTransport" AS merge_type, count(DISTINCT anchor) AS mergedCount
+
 
 UNION
 
 //STEP 21. Merge to MolSynthesis [Regulation.FunctionalAssociation]:
-MATCH (a)-[anchor:biomed:MolSynthesis]->(b)
-MATCH (a)-[evidence:biomed:Regulation|biomed:FunctionalAssociation]->(b)
+MATCH (a)-[anchor:`biomed:MolSynthesis`]->(b)
+MATCH (a)-[evidence:`biomed:Regulation`|`biomed:FunctionalAssociation`]->(b)
 WITH a, b, anchor, collect(evidence) AS evidenceRels
 // Merge evidence into the existing anchor
 // [anchor] + evidenceRels ensures 'anchor' is index 0 and survives
@@ -619,23 +622,23 @@ RETURN "FuncAssocReg2MolSynthesis" AS merge_type, count(rel) AS mergedCount
 UNION
 
 //STEP 22. Merge to MolSynthesis reverse FunctionalAssociation:
-MATCH (a)-[anchor:biomed:MolSynthesis]->(b)
-MATCH (b)-[assoc:biomed:FunctionalAssociation]->(a)
-// Group bindings by anchor to handle multiple bindings per pair
+MATCH (a)-[anchor:`biomed:MolSynthesis`]->(b)
+MATCH (b)-[assoc:`biomed:FunctionalAssociation`]->(a)
+// Group by anchor to handle multiple reversed relations per pair
 WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
-// Extract all unique keys from both the anchor and the reversed bindings
+// Extract all unique keys from both the anchor and the reversed relations
 WITH anchor, evidence, assoc_props_list,
      coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
-         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
+         coll.flatten([coalesce(properties(anchor)[k], [])]) +
          coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
-WITH evidence
+WITH anchor, evidence
 UNWIND evidence AS rb
 DELETE rb
-RETURN "reversedFuncAssoc2MolSynthesis " AS merge_type, count(rel) AS mergedCount
+RETURN "reversedFuncAssoc2MolSynthesis" AS merge_type, count(DISTINCT anchor) AS mergedCount
