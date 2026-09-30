@@ -15,8 +15,8 @@ WITH relType, rel, properties(rel) AS props
 WITH relType, rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Unwrap single-item lists to strings
@@ -51,8 +51,8 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -80,12 +80,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -121,8 +121,8 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -155,11 +155,11 @@ WITH a, b, regs, rev_binds,
      [r IN regs + rev_binds | properties(r)] AS all_props_maps
 // Extract unique property names
 WITH a, b, regs, rev_binds, all_props_maps,
-     apoc.coll.toSet(apoc.coll.flatten([m IN all_props_maps | keys(m)])) AS all_keys
+     coll.distinct(coll.flatten([m IN all_props_maps | keys(m)])) AS all_keys
 // Build the property map
 WITH a, b, regs, rev_binds,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-        apoc.coll.flatten([m IN all_props_maps | coalesce(m[k], [])])
+        coll.flatten([m IN all_props_maps | coalesce(m[k], [])])
      ]) AS combinedProps
 // Create the new Directed relationship
 CALL apoc.create.relationship(a, 'DirectRegulation', combinedProps, b) 
@@ -173,7 +173,7 @@ WITH newRel, properties(newRel) AS props
 WITH newRel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-    [val IN apoc.coll.flatten([props[k]]) 
+    [val IN coll.flatten([props[k]]) 
          WHERE val IS NOT NULL | val]
     ]
 ) AS filteredLists
@@ -181,7 +181,7 @@ WITH newRel, apoc.map.fromLists(
 WITH newRel, apoc.map.fromLists(
     keys(filteredLists),
     [k IN keys(filteredLists) | 
-        WITH apoc.coll.toSet(filteredLists[k]) AS uniqueVals
+        WITH coll.distinct(filteredLists[k]) AS uniqueVals
         RETURN 
         CASE 
             WHEN size(uniqueVals) = 0 THEN null
@@ -212,8 +212,8 @@ WITH relType, rel, properties(rel) AS props
 WITH relType, rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -288,7 +288,7 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 WITH rel, uniqueMap
@@ -321,7 +321,7 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 
@@ -352,12 +352,12 @@ WITH anchor, collect(bind) AS rev_binds
 WITH anchor, rev_binds, [rb IN rev_binds | properties(rb)] AS bind_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, rev_binds, bind_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN bind_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN bind_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, rev_binds,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN bind_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN bind_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -381,8 +381,8 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -410,12 +410,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -461,12 +461,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -500,12 +500,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -532,8 +532,8 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -561,12 +561,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
@@ -593,8 +593,8 @@ WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
     keys(props), 
     [k IN keys(props) | 
-        // Use apoc.coll.toSet on the filtered list directly
-        apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
+        // Use coll.distinct on the filtered list directly
+        coll.distinct([v IN coll.flatten([props[k]]) WHERE v IS NOT NULL | v])
     ]
 ) AS uniqueMap
 // Final step: Unwrap single-item lists to strings
@@ -622,12 +622,12 @@ WITH anchor, collect(assoc) AS evidence
 WITH anchor, evidence, [rb IN evidence | properties(rb)] AS assoc_props_list
 // Extract all unique keys from both the anchor and the reversed bindings
 WITH anchor, evidence, assoc_props_list,
-     apoc.coll.toSet(keys(properties(anchor)) + apoc.coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
+     coll.distinct(keys(properties(anchor)) + coll.flatten([m IN assoc_props_list | keys(m)])) AS all_keys
 // Build the combined property map
 WITH anchor, evidence,
      apoc.map.fromLists(all_keys, [k IN all_keys | 
-         apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) + 
-         apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
+         coll.flatten([coalesce(properties(anchor)[k], [])]) + 
+         coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
      ]) AS mergedProps
 // Apply the properties to the anchor and delete the reversed relationships
 SET anchor = mergedProps
