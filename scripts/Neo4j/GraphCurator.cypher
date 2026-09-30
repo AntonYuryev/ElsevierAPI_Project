@@ -106,16 +106,22 @@ UNWIND rels AS r
 WITH a, b, r
 ORDER BY coalesce(r.RelationNumberOfReferences, 0) DESC
 WITH a, b, collect(r) AS sortedRels
-// Use apoc.refactor.create.relationship to build the new type 
-// We use the properties of the first (strongest) relation as a base
-CALL apoc.create.relationship(a, 'DirectRegulation', properties(sortedRels[0]), b) 
-YIELD rel AS newRel
+
+// Create the new relationship with a dynamic type, using the strongest relation's properties as a base
+WITH a, b, sortedRels,
+     'DirectRegulation' AS relType,
+     properties(sortedRels[0]) AS baseProps
+CREATE (a)-[newRel:$(relType)]->(b)
+SET newRel = baseProps
+
 // Merge the properties from the OTHER old relations into the new one
+WITH newRel, sortedRels
 CALL apoc.refactor.mergeRelationships([newRel]+sortedRels, {
     properties: "combine",
     produceSelfRel: false
 })
 YIELD rel
+
 // Immediate Cleanup
 WITH rel, properties(rel) AS props
 WITH rel, apoc.map.fromLists(
