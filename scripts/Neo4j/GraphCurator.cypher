@@ -157,19 +157,20 @@ WHERE bind.RelationNumberOfReferences > 2
 // Group them
 WITH a, b, collect(reg) AS regs, collect(bind) AS rev_binds
 // Combine all property maps
-WITH a, b, regs, rev_binds, 
+WITH a, b, regs, rev_binds,
      [r IN regs + rev_binds | properties(r)] AS all_props_maps
 // Extract unique property names
 WITH a, b, regs, rev_binds, all_props_maps,
      coll.distinct(coll.flatten([m IN all_props_maps | keys(m)])) AS all_keys
 // Build the property map
 WITH a, b, regs, rev_binds,
-     apoc.map.fromLists(all_keys, [k IN all_keys | 
+     apoc.map.fromLists(all_keys, [k IN all_keys |
         coll.flatten([m IN all_props_maps | coalesce(m[k], [])])
      ]) AS combinedProps
-// Create the new Directed relationship
-CALL apoc.create.relationship(a, 'DirectRegulation', combinedProps, b) 
-YIELD rel AS newRel
+// Create the new directed relationship (dynamic type)
+WITH a, b, regs, rev_binds, combinedProps, 'DirectRegulation' AS relType
+CREATE (a)-[newRel:$(relType)]->(b)
+SET newRel = combinedProps
 // Delete original evidence
 WITH regs, rev_binds, newRel
 FOREACH (r IN regs | DELETE r)
@@ -177,27 +178,24 @@ FOREACH (rb IN rev_binds | DELETE rb)
 // Final Cleanup (Deduplicate)
 WITH newRel, properties(newRel) AS props
 WITH newRel, apoc.map.fromLists(
-    keys(props), 
-    [k IN keys(props) | 
-    [val IN coll.flatten([props[k]]) 
-         WHERE val IS NOT NULL | val]
+    keys(props),
+    [k IN keys(props) |
+        coll.distinct([val IN coll.flatten([props[k]]) WHERE val IS NOT NULL | val])
     ]
 ) AS filteredLists
 
 WITH newRel, apoc.map.fromLists(
     keys(filteredLists),
-    [k IN keys(filteredLists) | 
-        WITH coll.distinct(filteredLists[k]) AS uniqueVals
-        RETURN 
-        CASE 
-            WHEN size(uniqueVals) = 0 THEN null
-            WHEN size(uniqueVals) = 1 THEN uniqueVals[0]
-            ELSE uniqueVals
+    [k IN keys(filteredLists) |
+        CASE
+            WHEN size(filteredLists[k]) = 0 THEN null
+            WHEN size(filteredLists[k]) = 1 THEN filteredLists[k][0]
+            ELSE filteredLists[k]
         END
     ]
 ) AS finalProps
 SET newRel = finalProps
-RETURN "createDirectRegulationReversedBinding" AS merge_type, count(rel) AS mergedCount
+RETURN "createDirectRegulationReversedBinding" AS merge_type, count(newRel) AS mergedCount
 
 UNION
 
