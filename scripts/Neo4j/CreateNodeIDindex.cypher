@@ -1,0 +1,23 @@
+statement
+CREATE INDEX smallmol_node_id IF NOT EXISTS FOR (n:SmallMol) ON (n.NodeID);
+CREATE INDEX protein_node_id IF NOT EXISTS FOR (n:Protein) ON (n.NodeID);
+CREATE INDEX geneticvariant_node_id IF NOT EXISTS FOR (n:GeneticVariant) ON (n.NodeID);
+CREATE INDEX virus_node_id IF NOT EXISTS FOR (n:Virus) ON (n.NodeID);
+CREATE INDEX semanticconcept_node_id IF NOT EXISTS FOR (n:SemanticConcept) ON (n.NodeID);
+CREATE INDEX cellprocess_node_id IF NOT EXISTS FOR (n:CellProcess) ON (n.NodeID);
+CREATE INDEX disease_node_id IF NOT EXISTS FOR (n:Disease) ON (n.NodeID);
+CREATE INDEX treatment_node_id IF NOT EXISTS FOR (n:Treatment) ON (n.NodeID);
+CREATE INDEX functionalclass_node_id IF NOT EXISTS FOR (n:FunctionalClass) ON (n.NodeID);
+CREATE INDEX clinicalparameter_node_id IF NOT EXISTS FOR (n:ClinicalParameter) ON (n.NodeID);
+CREATE INDEX complex_node_id IF NOT EXISTS FOR (n:Complex) ON (n.NodeID);
+CREATE INDEX organ_node_id IF NOT EXISTS FOR (n:Organ) ON (n.NodeID);
+CREATE INDEX cellobject_node_id IF NOT EXISTS FOR (n:CellObject) ON (n.NodeID);
+CREATE INDEX celltype_node_id IF NOT EXISTS FOR (n:CellType) ON (n.NodeID);
+CREATE INDEX pathogen_node_id IF NOT EXISTS FOR (n:Pathogen) ON (n.NodeID);
+CREATE INDEX medicalprocedure_node_id IF NOT EXISTS FOR (n:MedicalProcedure) ON (n.NodeID);
+CREATE INDEX tissue_node_id IF NOT EXISTS FOR (n:Tissue) ON (n.NodeID);
+CREATE INDEX organism_node_id IF NOT EXISTS FOR (n:Organism) ON (n.NodeID);
+CREATE INDEX site_node_id IF NOT EXISTS FOR (n:Site) ON (n.NodeID);
+CREATE INDEX rna_node_id IF NOT EXISTS FOR (n:RNA) ON (n.NodeID);
+CREATE INDEX mutation_node_id IF NOT EXISTS FOR (n:Mutation) ON (n.NodeID);
+CREATE INDEX phosphosite_node_id IF NOT EXISTS FOR (n:PhosphoSite) ON (n.NodeID);
