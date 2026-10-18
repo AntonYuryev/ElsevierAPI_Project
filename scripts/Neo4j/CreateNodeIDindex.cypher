@@ -17,7 +17,3 @@ CREATE INDEX pathogen_node_id IF NOT EXISTS FOR (n:Pathogen) ON (n.NodeID);
 CREATE INDEX medicalprocedure_node_id IF NOT EXISTS FOR (n:MedicalProcedure) ON (n.NodeID);
 CREATE INDEX tissue_node_id IF NOT EXISTS FOR (n:Tissue) ON (n.NodeID);
 CREATE INDEX organism_node_id IF NOT EXISTS FOR (n:Organism) ON (n.NodeID);
-CREATE INDEX site_node_id IF NOT EXISTS FOR (n:Site) ON (n.NodeID);
-CREATE INDEX rna_node_id IF NOT EXISTS FOR (n:RNA) ON (n.NodeID);
-CREATE INDEX mutation_node_id IF NOT EXISTS FOR (n:Mutation) ON (n.NodeID);
-CREATE INDEX phosphosite_node_id IF NOT EXISTS FOR (n:PhosphoSite) ON (n.NodeID);
