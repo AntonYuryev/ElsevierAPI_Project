@@ -1,5 +1,6 @@
 
-import time,sys,os,json, requests,re,traceback,urllib3,unicodedata,certifi,http.client,socket,ssl,hashlib,psutil
+import time,sys,os,json, requests,re,traceback,urllib3,unicodedata
+import certifi,http.client,socket,ssl,hashlib,psutil
 from urllib.parse import quote as urlencode
 from collections import Counter
 from itertools import chain as iterchain
@@ -612,7 +613,6 @@ def processRNEF(path2rnef:str,how2process_function,**kwargs):
     print(f'Finished processing {node_counter} nodes, {control_counter} controls, {pathway_counter} pathways from "{path2rnef}" in {elapsed_time}')
 
 
-
 def deterministic_hash64(text:str):
   """Return a deterministic signed 64-bit hash for text or bytes."""
   text = text.encode("utf8")
@@ -625,7 +625,7 @@ def deterministic_hash64(text:str):
   # if greater than max 64bit signed int, make negative. python doesn't wrap on overflow
   # because it never overflows
   if result > 0x7FFFFFFFFFFFFFFF:
-      result = -(result & 0x7FFFFFFFFFFFFFFF)
+    result = -(result & 0x7FFFFFFFFFFFFFFF)
 
   return result
 

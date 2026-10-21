@@ -18,6 +18,7 @@ EFFECT = 'Effect'
 MECHANISM = 'Mechanism'
 CONNECTIVITY = 'Connectivity'
 RELATIONID = 'RelationID' # id in Neo4j
+NODE_ID = 'NodeID'
 RELATION_PROPS = [EFFECT,MECHANISM]
 ALL_PSREL_PROPS = RELATION_PROPS+PS_REFERENCE_PROPS
 ALL_REL_PROPS = RELATION_PROPS+REFERENCE_PROPS
@@ -118,6 +119,14 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
       repressed_self = PSObject(self.copy())
       repressed_self['URN'] = [repressed_self.repressed_urn()]
       return repressed_self
+
+
+  def neo4j_NodeID(self):
+    if NODE_ID in self:
+      return self[NODE_ID][0]
+    nodeID = deterministic_hash64(self.urn())
+    self[NODE_ID] = [nodeID]
+    return nodeID
 
 
   @staticmethod
@@ -605,7 +614,7 @@ class PSRelation(PSObject):
       targets = self.targets()
       reg_urns = sorted([r.urn() for r in regulators])
       tar_urns = sorted([r.urn() for r in targets])
-      urn_parts = ['urn:agi-'+self.objtype()+':']
+      urn_parts = ['urn:agi-'+self.objtype()]
       if tar_urns:
         urn_parts.append('out:'+'out:'.join(tar_urns)) # out:urn:out:
         urn_parts.append('in-out:'+'in-out:'.join(reg_urns))
@@ -807,9 +816,10 @@ class PSRelation(PSObject):
           
 
   def is_directional(self):
-    if self.objtype() in NONDIRECTIONAL:
-      return False
-    return len(self.Nodes) == 2
+    objtype = self.objtype()
+    if objtype.startswith('biomed:'): #to cover BCE format
+      objtype = objtype[len('biomed:'):]
+    return not objtype in NONDIRECTIONAL
 
 
   def regulator_uids(self):
@@ -826,13 +836,40 @@ class PSRelation(PSObject):
   
 
   def get_props(self,propname:str)->list:
-    if propname in self:
-      return self[propname]
+    val = self.get(propname)
+    if val is not None:
+      return list(val)
     else:
-      prop_set_values = set()
       my_refs = self.refs()
+      prop_set_values = set()
       [prop_set_values.update(ref.get_values(propname)) for ref in my_refs]
       return list(prop_set_values)
+
+
+  def values_dict(self, prop_names: list[str]) -> dict[str, list[str | int]]:
+    results: dict[str, list[str | int]] = {}
+    pending_snippets: dict[str, set[str | int]] = {}
+
+    for propname in prop_names:
+      val = self.get(propname)
+      if val is not None:
+        results[propname] = list(val)
+      else:
+        pending_snippets[propname] = set()
+
+    if pending_snippets:
+      my_refs = self.refs()
+      for ref in my_refs:
+        ref_value = ref.values_dict(list(pending_snippets.keys()))
+        for propname, collected_set in pending_snippets.items():
+          if propname in ref_value:
+            collected_set.update(ref_value[propname])
+
+      for propname, collected_set in pending_snippets.items():
+        if collected_set:
+          results[propname] = list(collected_set)
+
+    return results
 
 
   def _prop2str(self, propname:str, cell_sep:str =';'):
@@ -841,25 +878,10 @@ class PSRelation(PSObject):
     if propname in [SENTENCE,TITLE]:
       to_return = re.sub(NOT_ALLOWED_IN_SENTENCE, ' ', to_return)
     return to_return
-  
 
-  def props2dict(self, prop_ids:list,cell_sep:str =';'):
+  
+  def props2dict(self, prop_ids:list,cell_sep:str =';')->dict[str:str]:
       return {k:self._prop2str(k,cell_sep) for k in self.keys() if k in prop_ids}
-  
-
-  def props2list(self, propID, cell_sep=';'):
-    try:
-      return self[propID]
-    except (IndexError,KeyError):
-      to_return = list()
-      for prop in self.PropSetToProps.values():
-        prop_set_val = str()
-        for prop_id, values in prop.items():
-          if prop_id == propID:
-            prop_set_val = cell_sep.join(values)
-            break
-        to_return.append(prop_set_val)
-      return to_return
 
 
   def refs(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
@@ -942,6 +964,8 @@ class PSRelation(PSObject):
               propSet_ref.update_with_list(propId, propValues)
             elif propId in SENTENCE_PROPSET:
               propSet_ref.add_sentence_props(propset_textref,propId, propValues)
+            elif propId == 'Sentence':
+              propSet_ref.add_sentence_props(propset_textref,SENTENCE,propValues)
 
           if MEDLINETA in propSet_ref:
             propSet_ref[JOURNAL] = propSet_ref.pop(MEDLINETA)
@@ -1414,6 +1438,8 @@ class PSRelation(PSObject):
 
 
   def neo4j_relationID(self):
+    if RELATIONID in self:
+      return self[RELATIONID][0]
     inoutref = [n.neo4j_hash() for n in self.regulators()]
     inoutref.sort(reverse=True)
     outref = [n.neo4j_hash() for n in self.targets()]

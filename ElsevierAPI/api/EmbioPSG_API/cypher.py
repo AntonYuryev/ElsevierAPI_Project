@@ -1,20 +1,25 @@
 from ..ResnetAPI.NetworkxObjects import PSObject,PSRelation, PHYSICAL_INTERACTIONS, PROTEIN_TYPES
 from ..ResnetAPI.NetworkxObjects import RESNET_REL_TYPES,OBJECT_TYPE,REFCOUNT,SNIPPET_COUNT,CONNECTIVITY,EFFECT
 from ..ResnetAPI.ResnetGraph import RELATIONID
-from ..ResnetAPI.references import ANATOMICAL_PROPS
+from ..ResnetAPI.references import ANATOMICAL_PROPS,REFERENCE_POSTGRES_COLS
 from collections import defaultdict
 
 
 ENTPROP_NEO4J = ['URN', 'Name', 'Description','Alias', 'CAS_ID','Localization',
                  'NodeID','Reaxys_ID','Pharmapendium_ID','Notes']
-RELPROP_NEO4J = ['Name', 'Effect', 'Mechanism', 'Source', 'TextRef', RELATIONID,'BiomarkerType',
+RELPROP_NEO4J = ['Name', 'Effect', 'Mechanism', 'Source',  RELATIONID,'BiomarkerType',
                   'ChangeType','NCT_ID','QuantitativeType','Phase']+ANATOMICAL_PROPS
+
+ALL_NEOP4J_RELPROPS =  RELPROP_NEO4J + [OBJECT_TYPE, REFCOUNT, SNIPPET_COUNT]
+DEAFAULT_DATABASE_RELPROPS = set(ALL_NEOP4J_RELPROPS + REFERENCE_POSTGRES_COLS + ['URN'])
+
 
 class Cypher:
   @staticmethod
   def __urns(nodes:list[PSObject]):
     return [n.urn() for n in nodes]
-  
+
+
   @staticmethod
   def quoted_prop(prop_name:str)->str:
     escaped = prop_name.replace('`', '``')
@@ -54,12 +59,17 @@ class Cypher:
      searches both Name and Alias properties for the names in the list
     '''
     node = letter + ':' + objtype if objtype else letter
-    cypher = f"""WITH $batch AS rows\n
-              UNWIND rows AS row\n
-              MATCH ({node})
-              WHERE toLower({letter}.Name) = toLower(row) OR toLower(row) IN [x IN {letter}.Alias | toLower(x)]
-              RETURN {letter}
-              """
+    cypher = '\n'.join([
+      "WITH $batch AS rows",
+      'CALL (rows) {',
+      "UNWIND rows AS row",
+      f"MATCH ({node})",
+      f"WHERE toLower({letter}.Name) = toLower(row) OR toLower(row) IN [x IN {letter}.Alias | toLower(x)]",
+      f"RETURN {letter}",
+      '} IN TRANSACTIONS OF 10000 ROWS',
+      f"RETURN {letter}"
+    ])
+ 
     if with_connectivity:
           cypher += f', COUNT{{({letter})-[]-()}} AS {CONNECTIVITY}'
     
@@ -196,12 +206,10 @@ class Cypher:
 
     cypher += f"WITH p, collect(DISTINCT child) AS all_children"
     if max_childs:
-      cypher += f"""
-              WITH size(all_children) AS count, all_children
-              RETURN count, 
-                CASE WHEN count > 0 AND count <= {max_childs} THEN all_children ELSE null 
-                END AS childs
-          """    
+      cypher += '\n'.join([
+              "WITH size(all_children) AS count, all_children",
+              f"RETURN count, CASE WHEN count > 0 AND count <= {max_childs} THEN all_children ELSE null, END AS childs"
+      ])
     else:
       cypher += "\nRETURN size(all_children) AS count, all_children AS childs"
 
@@ -210,10 +218,12 @@ class Cypher:
   
   @staticmethod
   def get_parents(child:PSObject,depth=3):
-    cypher = f"""MATCH (child:{child.objtype()} {{URN:$urn}})
-              OPTIONAL MATCH (parent)<-[:is_a*..{depth}]-(child)
-              WITH child, collect(DISTINCT parent) AS parents
-              RETURN parents AS parents"""
+    cypher = '\n'.join([
+      f'MATCH (child:{child.objtype()} {{URN:$urn}})',
+      f'OPTIONAL MATCH (parent)<-[:is_a*..{depth}]-(child)',
+      'WITH child, collect(DISTINCT parent) AS parents',
+      'RETURN parents AS parents'
+    ])
     return cypher, {'urn':child.urn()} # urn is returned as parametert to overcome URNs with ' sign
 
 
@@ -221,9 +231,12 @@ class Cypher:
   def node_connectivity(nodes:list[PSObject]):
     objtypes = {p.objtype() for p in nodes}
     objtypes_str = '|'.join(objtypes)
-    cypher = f"""WITH $urnList AS urns\nUNWIND urns AS urn\nMATCH (n:{objtypes_str}{{URN:urn}})
-            """
-    cypher += f'\nRETURN urn as urn, COUNT{{(n)-[]-()}} AS {CONNECTIVITY}'
+    cypher = '\n'.join([
+      'WITH $urnList AS urns',
+      'UNWIND urns AS urn',
+      f'MATCH (n:{objtypes_str}{{URN:urn}})',
+      'RETURN urn as urn, COUNT{(n)-[]-()} AS {CONNECTIVITY}'
+    ])
     return cypher, {'urnList':[n.urn() for n in nodes]}
 
 
@@ -231,9 +244,13 @@ class Cypher:
   def _get_childs_(parents:list[PSObject],max_childs=10,letter='c'):
     objtypes = {p.objtype() for p in parents}
     objtypes_str = '|'.join(objtypes)
-    cypher = f'WITH $urnList AS urns\nUNWIND urns AS urn\n'
-    cypher += f'MATCH ({letter}) WHERE ({letter})-[:is_a* ..{max_childs}]->(:{objtypes_str}{{URN:urn}})\n'
-    cypher += f'RETURN {letter}'
+    cypher = '\n'.join([
+      'WITH $urnList AS urns',
+      'UNWIND urns AS urn',
+      f'MATCH ({letter}) WHERE ({letter})-[:is_a* ..{max_childs}]->(:{objtypes_str}{{URN:urn}})',
+      f'RETURN {letter}'
+    ])
+    return cypher, {'urnList':[p.urn() for p in parents]}
   
 
   @staticmethod
@@ -283,37 +300,6 @@ class Cypher:
           return f"{cypher}\nAND {' AND '.join(conditions)}"
     
     return cypher
-
-  '''
-  @staticmethod
-  def add_relPropsOLD(cypher:str, relProps:dict[str,list[str|int|float]]):
-    """
-    input:
-      cypher MUST NOT have WHERE and RETURN clauses yet
-      by_relProps = {propName:[propValue1,propValue2,...]},
-      use OBJECT_TYPE string to specify filtering by relation type
-    """
-    #how2connect can send relProps with empty values
-    my_relprops = {k:v for k,v in relProps.items() if v}
-    if my_relprops:
-      cypher += '\nWHERE '
-      for prop, values in my_relprops.items():
-        if prop == OBJECT_TYPE:
-          cypher += f'type(r) IN [{Cypher.__list2str(values)}]\nAND '
-        elif prop == REFCOUNT:
-          cypher += f'r.{prop} {values}\nAND '
-        elif prop == EFFECT:
-          if 'uknown' in values:
-            vals = values.remove('uknown')
-            if vals:
-              cypher += f'r.Effect IN [{Cypher.__list2str(vals)}]\nAND ' # adding 'positive','negative'
-              cypher += "coalesce(r.Effect, '') IN ['unknown', '']\nAND"
-        else:
-          cypher += f'r.{prop} IN [{Cypher.__list2str(values)}]\nAND '
-      return cypher[:-4] # remove last AND
-    else:
-      return cypher
-    '''
 
 
   @staticmethod
@@ -495,13 +481,13 @@ class Cypher:
     '''
     physical_interactions = '|'.join([v for v in PHYSICAL_INTERACTIONS])
     proteins = '|'.join([v for v in PROTEIN_TYPES])
-    cypher = f'''
-      WITH $urnList AS urns
-      UNWIND urns AS urn
-      MATCH (a:{proteins} {{URN:urn}})-[r:{physical_interactions}]-(b:{proteins})
-      WHERE r.{REFCOUNT} >= {minref}
-      RETURN a, r, b
-    '''
+    cypher = '\n'.join([
+      'WITH $urnList AS urns',
+      'UNWIND urns AS urn',
+      f'MATCH (a:{proteins} {{URN:urn}})-[r:{physical_interactions}]-(b:{proteins})',
+      f'WHERE r.{REFCOUNT} >= {minref}',
+      'RETURN a, r, b'
+    ])
     parameter = {'urnList':[obj.urn() for obj in interactors]}
     return cypher, parameter
 
@@ -557,7 +543,7 @@ class Cypher:
 
   @staticmethod
   def __get_rel_labels(rel:PSRelation):
-    labls = ','.join([k.replace(':', ' ') + ':\"' + v[0] + '\"' for k, v in rel.items() if k in RELPROP_NEO4J])
+    labls = rel.values_dict(list(RELPROP_NEO4J))
     labls = labls + f',{REFCOUNT}:' + str(rel.count_refs()) 
     labls = labls + f',{SNIPPET_COUNT}:' + str(rel.count_snippets())
     return labls
@@ -567,69 +553,110 @@ class Cypher:
   def create_rel(node1:PSObject, node2:PSObject, relation:PSRelation)->str:
     relType = relation.objtype()
     labels = Cypher.__get_rel_labels(relation)
-    return ('MATCH'
-          '(a:' + node1.objtype() + '),'
-          '(b:' + node2.objtype() + ')'
-          'WHERE a.URN = \"' + node1.urn() + '\" AND b.URN = \"' + node2.urn() + '\"'
-          'CREATE (a)-[r:' + relType + ' {' + labels + '}]->(b)'
+    return '\n'.join([
+          'MATCH',
+          '(a:' + node1.objtype() + '),',
+          '(b:' + node2.objtype() + ')',
+          'WHERE a.URN = \"' + node1.urn() + '\" AND b.URN = \"' + node2.urn() + '\"',
+          'CREATE (a)-[r:' + relType + ' {' + labels + '}]->(b)',
           'RETURN a.Name as rName, b.Name as tName, type(r) as rel_type'
-          )
+          ])
 
 
   @staticmethod
-  def create_rels(relation:PSRelation)->tuple[str,dict]:
+  def importRel(relation:PSRelation)->tuple[str,dict]:
     relType = relation.objtype()
-    rel_props = {k.replace(':', ' '): v[0] for k, v in relation.items() if k in RELPROP_NEO4J}
+    rel_props = relation.values_dict(list(RELPROP_NEO4J))
+    for prop, vals in rel_props.items():
+      rel_props[prop] = vals[0] if len(vals) == 1 else vals
     rel_props[REFCOUNT] = relation.count_refs()
     rel_props[SNIPPET_COUNT] = relation.count_snippets()
+    for prop, vals in relation.items():
+      if prop not in DEAFAULT_DATABASE_RELPROPS:
+        rel_props[prop] = vals[0] if isinstance(vals, list) and len(vals) == 1 else vals
 
-    pairs = [{'aUrn': n1.urn(), 'bUrn': n2.urn()} for n1, n2 in relation.node_pairs()]
-
-    cypher = (
-        f'UNWIND $pairs AS pair\n'
-        f'MATCH (a {{URN: pair.aUrn}}), (b {{URN: pair.bUrn}})\n'
-        f'CREATE (a)-[r:`{relType}` $relProps]->(b)\n'
-        f'RETURN a.Name AS rName, b.Name AS tName, type(r) AS rel_type'
-    )
-    return cypher, {'pairs': pairs, 'relProps': rel_props}
+    pairs = [{'aType':n1.objtype(),'aUrn': n1.urn(), 'bType': n2.objtype(), 'bUrn': n2.urn(), 'relProps': rel_props} for n1, n2 in relation.node_pairs()]
+    cyphers_params = []
+    for pair in pairs:
+      cypher = '\n'.join([
+          'UNWIND $pairs AS pair',
+          f'MATCH (a:`{pair["aType"]}` {{URN: pair.aUrn}}), (b:`{pair["bType"]}` {{URN: pair.bUrn}})',
+          f'CREATE (a)-[r:`{relType}` $relProps]->(b)',
+          'RETURN a.Name AS rName, b.Name AS tName, type(r) AS rel_type'
+      ])
+      cyphers_params.append((cypher, {'pairs': [pair], 'relProps': rel_props}))
+    return cyphers_params
   
 
   @staticmethod
-  def create_rels2(rels:list[PSRelation])->list[tuple[str,dict]]:
+  def importRels(rels:list[PSRelation],transaction_size=20000)->list[tuple[str,dict]]:
     """
     input:
       rels - list of PSRelation objects, all nodes must exist in the database
     output:
-      list of (cypher_query, parameters) tuples, one per relation type.
-      Each query is compact and handles all pairs for that type.
-    """
+      list of (cypher_query, parameters) tuples, grouped by relation type and endpoint labels.
+      Groups contain no shared endpoint URNs between pairs; all relationships are preserved.
+      Groups may share endpoints with other groups and are not execution barriers.
+      Each query handles all pairs for that group and returns the count of created relations.
+      parameters['request_name'] holds regulatorType_relType_targetsType"""
     by_type = defaultdict(list)
-    
+    endpoint_groups = defaultdict(list)
+
     for rel in rels:
       relType = rel.objtype()
-      rel_props = {k.replace(':', ' '): v[0] for k, v in rel.items() if k in RELPROP_NEO4J}
+      rel_props = rel.values_dict(list(RELPROP_NEO4J))
+      for prop, vals in rel_props.items():
+        rel_props[prop] = vals[0] if len(vals) == 1 else vals
+
       rel_props[REFCOUNT] = rel.count_refs()
       rel_props[SNIPPET_COUNT] = rel.count_snippets()
-      
-      pairs = [{'aUrn': n1.urn(), 'bUrn': n2.urn(), 'relProps': rel_props} for n1, n2 in rel.node_pairs()]
-      by_type[relType].extend(pairs)
+      for prop, vals in rel.items():
+        if prop not in DEAFAULT_DATABASE_RELPROPS:
+         rel_props[prop] = vals[0] if isinstance(vals, list) and len(vals) == 1 else vals
+      # Group node pairs by endpoint URNs to avoid conflicts within the same transaction.
+      for n1, n2 in rel.node_pairs():
+        key = (relType, n1.objtype(), n2.objtype())
+        a_urn, b_urn = n1.urn(), n2.urn()
+        groups = endpoint_groups[key]
+        for group_index, endpoints in enumerate(groups):
+          if a_urn not in endpoints and b_urn not in endpoints:
+            break #If a suitable group is found, break skips the else.
+        else: #If every existing group conflicts—or groups is empty—the loop finishes without break, so else creates a new group.
+          group_index = len(groups)
+          endpoints = set()
+          groups.append(endpoints)
+        endpoints.update((a_urn, b_urn))
+        by_type[(*key, group_index)].append({'aUrn': a_urn, 'bUrn': b_urn, 'relProps': rel_props})
     
     queries = []
-    for relType, pair_list in by_type.items():
-      cypher = (
-          'UNWIND $pairs AS pair\n'
-          'MATCH (a {URN: pair.aUrn}), (b {URN: pair.bUrn})\n'
-          f'CREATE (a)-[r:`{relType}`]->(b)\n'
-          'SET r = pair.relProps\n'
-          'RETURN count(r) AS relcount'
-      )
-      queries.append((cypher, {'pairs': pair_list}))
-    
+    for (relType, aType, bType, group_index), pair_list in by_type.items():
+      a_label = aType.replace('`', '``')
+      b_label = bType.replace('`', '``')
+      cypher = '\n'.join([
+          #'EXPLAIN',
+          'UNWIND $batch AS pair',
+          'CALL (pair) {',
+          f'MATCH (a:`{a_label}` {{URN: pair.aUrn}}), (b:`{b_label}` {{URN: pair.bUrn}})',
+          f'CREATE (a)-[r:`{relType}`]->(b)',
+          'SET r = pair.relProps',
+          'RETURN count(r) AS relcount}',
+          f'IN TRANSACTIONS OF {transaction_size} ROWS',
+          'RETURN sum(relcount) AS relcount'
+      ])
+      parameters = {'batch': pair_list, 'transaction_size': transaction_size, 'request_name': f'importRels_{aType}_{relType}_{bType}'}
+      queries.append((cypher, parameters))
+
+    print(f'Will import {len(rels)} relations in {len(queries)} batches')
     return queries
   
   
   @staticmethod
-  def create_nodes(nodes:list[PSObject])->list[tuple[str,dict]]:
+  def importNodes(nodes:list[PSObject],transaction_size=50000)->list[tuple[str,dict]]:
+    '''
+    output:
+      list of (node_type, cypher_query, parameters) tuples, one per node type.
+      Each query is compact and handles all nodes for that type, parameters have request_name for use with _unwind_.
+    '''
     by_type = defaultdict(list)
     for node in nodes:
       objtype = node.objtype()
@@ -639,12 +666,17 @@ class Cypher:
 
     queries = []
     for objtype, prop_list in by_type.items():
-      cypher = (
-          'UNWIND $nodes AS nodeProps\n'
-          f'CREATE (n:`{objtype}`)\n'
-          'SET n = nodeProps\n'
-          'RETURN count(n) AS nodecount'
-      )
-      queries.append((cypher, {'nodes': prop_list}))
+      cypher = '\n'.join([
+          'UNWIND $batch AS nodeProps',
+          'CALL (nodeProps) {',
+          f'MERGE (n:`{objtype}` {{URN: nodeProps.URN}})',
+          'ON CREATE SET n = nodeProps, n._created = true',
+          'WITH n, n._created IS NOT NULL AS wasCreated',
+          'REMOVE n._created',
+          'RETURN count(CASE WHEN wasCreated THEN 1 END) AS createdCount, count(n) AS totalProcessed}',
+          f'IN TRANSACTIONS OF {transaction_size} ROWS',
+          'RETURN sum(createdCount) AS createdCount, sum(totalProcessed) AS totalProcessed'
+        ])
+      queries.append((cypher, {'batch': prop_list, 'transaction_size': transaction_size, 'request_name': f'importNodes_{objtype}'}))
     
     return queries

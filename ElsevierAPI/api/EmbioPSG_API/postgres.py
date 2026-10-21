@@ -1,16 +1,20 @@
 import psycopg2,ast
-from time import sleep
+from contextlib import nullcontext
+from psycopg2.sql import SQL,Identifier
+from neo4j import Record
+from threading import Lock
 from collections import defaultdict
-from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID
-from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config,print_error_info,execution_time
+from time import sleep
+from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID, PSObject
+from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config,print_error_info,execution_time,deterministic_hash64,unpack
 from ...utils.pandas.panda_tricks import df,pd
-from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference
+from ..ResnetAPI.references import AUTHORS,JOURNAL,MEDLINETA,SENTENCE,PUBYEAR,TITLE,Reference, ARTICLE_ID_TYPES,REFERENCE_POSTGRES_COLS
 import numpy as np
 
 #  !!!!!!!!!!!!!!!!!RELATIONID != RELATION_ID !!!!!!!!!!!!!!!!
 SNIPPET_ID = 'unique_id'
 RELATION_ID = 'id'
-REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID'}#,'clinvar_rcv_id':'Clinvar RCV ID'}
+REFID2ATTR = {'doi':'DOI','pmid':'PMID','embase':'EMBASE','pii':'PII', 'pui':'PUI','nct_id':'NCT ID','title':TITLE}#,'clinvar_rcv_id':'Clinvar RCV ID'}
 #DB_SCHEMA = 'resnet18'
 DB_SCHEMA = 'resnetcustomnov'
 
@@ -29,6 +33,59 @@ SCOPUS_DATA = {'citation_type':'Article type', 'citation_count':'Citations', 'fw
 'min_asjc_citescore_percentile_raw':f'CiteScore %ile', 'patent_citation_count':'Patent citations', 
 'corporate':'Corporate', 'num_refs':'References', 'independent_ref_count':'Independent References', 
 'document_score':'Document score', 'relation_score':'Relation score'}
+
+IDENTIFIER_COLUMNS = {attr:column for column,attr in REFID2ATTR.items()}
+
+
+#reference table columns:
+#column_name	data_type	character_maximum_length	is_nullable
+#unique_id	bigint		NO
+#authors	text		YES
+#biomarkertype	text		YES
+#celllinename	text		YES
+#cellobject	text		YES
+#celltype	text		YES
+#changetype	text		YES
+#collaborator	text		YES
+#company	text		YES
+#condition	text		YES
+#doi	text		YES
+#embase	text		YES
+#c	text		YES
+#essn	text		YES
+#experimental_system	text		YES
+#intervention	text		YES
+#issn	text		YES
+#journal	text		YES
+#medlineta	text		YES
+#mode_of_action	text		YES
+#mref	text		YES
+#msrc	text		YES
+#nct_id	text		YES
+#organ	text		YES
+#organism	text		YES
+#percent	text		YES
+#phase	text		YES
+#phenotype	text		YES
+#pii	text		YES
+#pmid	text		YES
+#pubversion	text		YES
+#pubyear	integer		YES
+#pui	text		YES
+#px	double precision		YES
+#quantitativetype	text		YES
+#source	text		YES
+#start	text		YES
+#studytype	text		YES
+#textmods	text		YES
+#textref	text		YES
+#tissue	text		YES
+#title	text		YES
+#trialstatus	text		YES
+#url	text		YES
+#id	bigint		YES
+#unique_ref	text		YES
+
 
 class PostgreSQL:
   def __init__(self, APIconfig:dict={}):
@@ -477,14 +534,26 @@ class PostgreSQL:
       df_year[pubyear_col] = df_year[pubyear_col].astype('Int64')
     return df_year
 
-      
-  def nodeid2prop(self,nodeids:list[str], prop:str):
+  # node table columns:
+  #column_name	data_type	character_maximum_length	is_nullable
+  # id	bigint		NO
+  # urn	text		YES
+  # name	text		YES
+  # nodetype	text		YES
+  # attributes	ARRAY		YES
+  
+  # attr table columns:
+  # column_name	data_type	character_maximum_length	is_nullable
+  # id	bigint		NO
+  # name	text		YES
+  # value	text		YES
+  def nodeid2prop(self,nodeids:list[str], prop:str)->dict[int,list[str]]:
     '''
     output:
       {nodeid:prop_value}
     '''
     id_str = ','.join([f"{nodeid}" for nodeid in nodeids])
-    sql = f"""SELECT n.id::text AS id, a.value
+    sql = f"""SELECT n.id::int AS id, a.value
               FROM {self.schema}.node as n
               JOIN {self.schema}.attr as a ON a.id = ANY(n.attributes)
               WHERE a.name = %s
@@ -497,7 +566,9 @@ class PostgreSQL:
         #colnames = [desc[0] for desc in cur.description]
         rows = cur.fetchall()
         if rows:
-          return {str(row[0]):row[1] for row in rows}
+          nodeid2values = defaultdict(list)       
+          [nodeid2values[row[0]].append(row[1]) for row in rows]
+          return dict(nodeid2values)
         else:
           return dict()
       except Exception as e:
@@ -505,3 +576,285 @@ class PostgreSQL:
         print(e)
         self.db.rollback()
         return dict()
+
+
+  def _insert_node_(self,node:PSObject):
+    '''
+    Inserts a node into the Postgres database.
+    input:
+      node: PSObject representing the node to be inserted
+    '''
+    node_attrs = []
+    attr_ids = []
+    for attr_name, attr_values in node.items():
+      for val in attr_values:
+        attr_id = deterministic_hash64(f"{attr_name}|{val}")
+        attr_row = (attr_id, attr_name, val)
+        node_attrs.append(attr_row)
+        attr_ids.append(attr_id)
+
+    sql = f"""INSERT INTO {self.schema}.node (id, urn, name, nodetype, attributes)
+              VALUES (%s, %s, %s, %s, %s)"""
+    with self.db.cursor() as cur:
+      try:
+        cur.execute(sql, (
+          node['id'],
+          node.get('urn'),
+          node.get('name'),
+          node.get('nodetype'),
+          attr_ids
+        ))
+        self.db.commit()
+      except Exception as e:
+        print(f'Error inserting node {node["id"]} into Postgres:')
+        print(e)
+        self.db.rollback()
+
+      if node_attrs:
+        sql_attrs = f"""INSERT INTO {self.schema}.attr (id, name, value)
+                        VALUES (%s, %s, %s)
+                        ON CONFLICT (id) DO NOTHING"""
+        with self.db.cursor() as cur:
+          try:
+            cur.executemany(sql_attrs, node_attrs)
+            self.db.commit()
+          except Exception as e:
+            print(f'Error inserting node attributes for node {node["id"]} into Postgres:')
+            print(e)
+            self.db.rollback()
+
+
+  def _insert_nodes_(self,nodes:list[PSObject],lock:Lock)->int:
+    '''
+    Insert nodes and their attributes using UNNEST in a single transaction.
+    Return the inserted node count; roll back and propagate database errors.
+    '''
+    if not nodes:
+      return 0
+
+    node_rows = []
+    attributes = {}
+    for node in nodes:
+      node_id = node.neo4j_NodeID()
+      attr_ids = []
+      for attr_name, attr_values in node.items():
+        for val in attr_values:
+          attr_id = deterministic_hash64(f"{attr_name}|{val}")
+          attributes[attr_id] = (attr_id, attr_name, str(val))
+          attr_ids.append(attr_id)
+      # Text array literals allow different attribute counts for each node.
+      attr_array = '{' + ','.join(map(str, attr_ids)) + '}'
+      node_rows.append((node_id, node.urn(), node.name(), node.objtype(), attr_array))
+
+    node_sql = SQL(
+      'INSERT INTO {}.{} (id, urn, name, nodetype, attributes) '
+      'SELECT id, urn, name, nodetype, attributes::bigint[] '
+      'FROM UNNEST(%s::bigint[], %s::text[], %s::text[], %s::text[], %s::text[]) '
+      'AS incoming(id, urn, name, nodetype, attributes)'
+      'ON CONFLICT (id) DO NOTHING'
+    ).format(Identifier(self.schema), Identifier('node'))
+
+    attr_sql = SQL(
+      'INSERT INTO {}.{} (id, name, value) '
+      'SELECT id, name, value FROM UNNEST(%s::bigint[], %s::text[], %s::text[]) '
+      'AS incoming(id, name, value) ON CONFLICT (id) DO NOTHING'
+    ).format(Identifier(self.schema), Identifier('attr'))
+
+    lock_context = lock if lock is not None else nullcontext()
+    with lock_context, self.db:
+      with self.db.cursor() as cur:
+        if attributes:
+          cur.execute(attr_sql, [list(values) for values in zip(*attributes.values())])
+        cur.execute(node_sql, [list(values) for values in zip(*node_rows)])
+        inserted_count = cur.rowcount
+        print(f'Inserted {inserted_count} out of {len(node_rows)} nodes into Postgres.')
+    return len(node_rows)
+
+
+  def refExists(self, ref:Reference, _4relid:int)->bool:
+    matches = [
+      (IDENTIFIER_COLUMNS[idtype], value)
+      for idtype,value in ref.Identifiers.items()
+      if idtype in IDENTIFIER_COLUMNS and value not in (None, '')
+    ]
+    if not matches:
+      return False
+
+    clauses = [SQL('{} = %s').format(Identifier(column)) for column,_ in matches]
+    query = SQL(
+      'SELECT EXISTS (SELECT 1 FROM {}.{} WHERE {} = %s AND ({}))'
+    ).format(
+      Identifier(self.schema), Identifier('reference'), Identifier(RELATION_ID),
+      SQL(' OR ').join(clauses)
+    )
+    parameters = [_4relid] + [value for _,value in matches]
+    with self.db.cursor() as cur:
+      try:
+        cur.execute(query, parameters)
+        return bool(cur.fetchone()[0])
+      except Exception:
+        self.db.rollback()
+        raise
+
+
+  def __refsNotExist(self, idtype:str, identifiers:list[tuple[str,int]])->list[tuple[str,int]]:
+    '''
+    input:
+      idtype: PMID, DOI, etc.,
+      identifiers: [(identifier_value:str, relid:int)]
+    output:
+      a list of tuples containing the identifier value and relation ID that do not exist in the database
+    '''
+    print(f'Checking existence of {len(identifiers)} identifiers for idtype {idtype}',flush=True)
+    if idtype not in IDENTIFIER_COLUMNS:
+      return list(identifiers)
+
+    entries = []
+    missing_positions = set()
+    for position,(value,relid) in enumerate(identifiers):
+      if value in (None, ''):
+        missing_positions.add(position)
+      else:
+        entries.append((position,value,relid))
+    if not entries:
+      return list(identifiers)
+
+    column = IDENTIFIER_COLUMNS[idtype]
+    query = SQL(
+      'SELECT incoming.position '
+      'FROM UNNEST(%s::integer[], %s::text[], %s::bigint[]) '
+      'AS incoming(position, value, relid) '
+      'WHERE NOT EXISTS (SELECT 1 FROM {}.{} AS reference_row '
+      'WHERE reference_row.{} = incoming.relid '
+      'AND reference_row.{} = incoming.value)'
+    ).format(
+      Identifier(self.schema), Identifier('reference'),
+      Identifier(RELATION_ID), Identifier(column)
+    )
+    positions,values,relids = zip(*entries)
+    parameters = [list(positions), list(values), list(relids)]
+    with self.db.cursor() as cur:
+      try:
+        cur.execute(query, parameters)
+        missing_positions.update(row[0] for row in cur.fetchall())
+      except Exception:
+        self.db.rollback()
+        raise
+    return [entry for position,entry in enumerate(identifiers) if position in missing_positions]
+
+
+  def refsNotExist(self, rels:list[PSRelation])->dict[int,list[Reference]]:
+    '''
+    output:
+      {RelationID: [Reference]}
+    '''
+    relid2PSrelation = {rel.neo4j_relationID(): rel for rel in rels}
+    def _remap_(identifiers:list[tuple[str,int]],fromIDtype:str,toIDtype:str)->list[tuple[str,int]]:
+      remapped_identifiers = []
+      for old_identifier,relid in identifiers:
+        psrel = relid2PSrelation.get(relid)
+        for ref in psrel.refs():
+          if ref.identifier(fromIDtype) == old_identifier:
+            new_identifier = ref.identifier(toIDtype)
+            if new_identifier:
+              remapped_identifiers.append((new_identifier, relid))
+      return remapped_identifiers
+
+    idtype0 = ARTICLE_ID_TYPES[0]
+    identifiers = list(filter(None, [(str(ref.identifier(idtype0)), rel.neo4j_relationID()) for rel in rels for ref in rel.refs()]))
+    missing_identifiers = self.__refsNotExist(idtype0, identifiers)
+
+    for i, idtype in enumerate(ARTICLE_ID_TYPES):  
+      if not missing_identifiers or i+1 == len(ARTICLE_ID_TYPES):
+        break
+      identifiers = _remap_(missing_identifiers, fromIDtype=idtype, toIDtype=ARTICLE_ID_TYPES[i+1])
+      if identifiers:
+        missing_identifiers = self.__refsNotExist(ARTICLE_ID_TYPES[i+1], identifiers)
+
+    # collecting missing refs:
+    missing_refs = defaultdict(list)
+    for missing_identifier, relid in missing_identifiers:
+      psrel = relid2PSrelation.get(relid)
+      missing_refs[relid] =[r for r in psrel.refs() if missing_identifier in r.Identifiers.values()]
+
+    return dict(missing_refs)
+
+
+  def _insert_refs_(self, relid2refs:dict[int,list[Reference]],lock:Lock)->int:
+    '''
+    Insert {relation_id: [missing references]} using one UNNEST statement and commit.
+    Skip rows conflicting with unique or exclusion constraints and report inserted and skipped counts.
+    Roll back and propagate other database errors.
+    Return inserted row count.
+    '''
+    rows = []
+    for relid, missing_refs in relid2refs.items():
+      for ref in missing_refs:
+        rows.extend(ref.postgres_refs(relid))
+
+    if not rows:
+      return 0
+
+    columns = ['unique_id']+[column.lower().replace(' ', '_') for column in REFERENCE_POSTGRES_COLS]
+    columns.extend([RELATION_ID, 'unique_ref'])
+    if any(len(row) != len(columns) for row in rows):
+      raise ValueError('Reference row length does not match the insert columns')
+
+    numeric_types = {'unique_id':'bigint', RELATION_ID:'bigint', 'pubyear':'integer', 'px':'double precision'}
+    expressions = [
+      SQL("NULLIF(incoming.{}, '')::{}").format(Identifier(column), SQL(numeric_types[column]))
+      if column in numeric_types else SQL('incoming.{}').format(Identifier(column))
+      for column in columns
+    ]
+    column_names = SQL(', ').join(Identifier(column) for column in columns)
+    query = SQL(
+      'INSERT INTO {}.{} ({}) SELECT {} FROM UNNEST({}) AS incoming ({}) '
+      'ON CONFLICT DO NOTHING'
+    ).format(
+      Identifier(self.schema), Identifier('reference'),
+      column_names, SQL(', ').join(expressions),
+      SQL(', ').join(SQL('%s::text[]') for column in columns), column_names
+    )
+    parameters = [list(values) for values in zip(*rows)]
+    with lock or nullcontext(), self.db:
+      with self.db.cursor() as cur:
+        try:
+          cur.execute(query, parameters)
+          inserted_count = cur.rowcount
+        except Exception as e:
+          self.db.rollback()
+          raise e
+  
+    print(f'Inserted {inserted_count} references; skipped {len(rows)-inserted_count} duplicate rows')
+    return inserted_count
+
+
+  def import_refs(self,fromExistRels:list[PSRelation], fromNewRels:list[PSRelation], lock:Lock)->tuple[list[Record],str]:
+    '''Return ([Record(relType, relcount)], request_name), including zero inserted rows.'''
+    newrefcount = 0
+
+    if fromNewRels:
+      new_refs = {r.neo4j_relationID(): r.refs() for r in fromNewRels}
+      if len(new_refs) == 0:
+        print("!!!! No new references to insert from new relations !!!!")
+      else:
+        newrefcount = self._insert_refs_(new_refs,lock)
+        print(f"Inserted {newrefcount} new references from new relations",flush=True)
+    else:
+      print('No new relations to insert references from',flush=True)
+
+    if fromExistRels:
+      missing_refs = self.refsNotExist(fromExistRels)
+      if missing_refs:
+        insert_row_count = self._insert_refs_(missing_refs,lock)
+        if insert_row_count == 0:
+          print(f"No missing references to insert for {len(fromExistRels)} existing relation(s)",flush=True)
+        newrefcount += insert_row_count
+        print(f"Inserted {insert_row_count} missing references for existing relations",flush=True)
+      else:
+        print("No existing relations to insert references from")
+  
+    return newrefcount
+
+
+  

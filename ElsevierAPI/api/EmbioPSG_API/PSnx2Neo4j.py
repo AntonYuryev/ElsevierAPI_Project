@@ -1,9 +1,12 @@
 import atexit, csv, neo4j, time
+from contextlib import nullcontext
+from threading import Lock
 from numpy import nan as NAN
+from collections import Counter
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID,df
-from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,print_error_info
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT
-from neo4j import GraphDatabase, NotificationSeverity
+from neo4j import GraphDatabase, NotificationSeverity,Record
 from neo4j import ManagedTransaction as tx
 from .cypher import Cypher, ENTPROP_NEO4J
 from .postgres import PostgreSQL,pd
@@ -45,48 +48,74 @@ class neo4j_nx(GraphDatabase):
 
   def session(self,**kwargs):
     return self.__driver__.session(database=self.database, **kwargs)
-  
 
-  def run_cypher(self,cypher:str,parameters:dict={},request_name=''):
+
+  def run_cypher(self,cypher:str,parameters:dict=None,lock:Lock=None)->tuple[list[Record], str]:
+    if parameters is None: parameters = dict()
     '''
     output:
-      (result,request_name) where result is the list of records returned by Neo4j for the query
+      (result,request_name) where result is [Record] returned by Neo4j for the cypher
     '''
-    with self.session() as session:
+    row_count = max([len(par) for par in parameters.values() if isinstance(par, list)], default=0)
+    request_name = parameters.get('request_name', cypher[:25])
+    print(f'Executing cypher query "{request_name}" with {row_count} rows',flush=True)
+    with lock or nullcontext(),self.session() as session:
       result = list(session.run(cypher,parameters))
-      if request_name:
-        print(f'Cypher query "{request_name}" returned {len(result)} records')
+      print(f'Cypher query "{request_name}" returned {len(result)} records',flush=True)
       return result,request_name
+    
+
+  def write(self,cypher:str,parameters:dict=None,lock:Lock=None):
+    if parameters is None: parameters = dict()
+    reqname = parameters.get('request_name',cypher[:25])
+    with lock or nullcontext(),self.session() as session:
+      result = session.execute_write(lambda tx: list(tx.run(cypher, parameters)))
+      print(f'Cypher query "{reqname}" returned {len(result)} records',flush=True)
+    return result,reqname
  
 
-  def _unwind_(self,cypher:str,parameters:dict={},batch_size=10000):
+  def _unwind_(self,cypher_params:list[tuple[str,dict]],lock:Lock=None,max_workers=2):
     '''
-    Cypher example:
-      UNWIND $batch AS row
-      MATCH (a:{RType} {{URN: row.rURN}})-[r:{RelType}]-(b:{TType} {{URN: row.tURN}})
-      WHERE r.RelationID = row.RelationID OR row.RelationID IN r.RelationID
-      SET r.refEnrichment = toFloat(row.RefEnrichment))
-      RETURN count(r) AS updated_count
-
-      must have "UNWIND $batch AS row", where row={propName1:value1,propName2:value2..}\n
-      parameters must have "batch" key with [row1,row2,...] as value
-      "request_name" is optional parameters for messaging purposes, but is not used in the cypher query itself
-      submits each batch in parallel using threads, then yields results as they are completed. Use this for large updates/inserts to avoid transaction timeouts and speed up the process by parallelization.
-      output:
-        yields tuples of (result,request_name) for each batch processed, where result is the list of records returned by Neo4j for the batch
+    input:
+      cypher_params - list of tuples, each containing (cypher query string, parameters dictionary)
+    output:
+      Yields tuples of ([Record], request_name) for each cypher query executed in parallel.
     '''
-    request_name = parameters.pop('request_name','')
-    print(f'Multithreading cypher "{request_name}" for {len(parameters["batch"])} input list. Batch size: {batch_size}')
-    with ThreadPoolExecutor() as ex:
-      futures = []
-      for i in range(0, len(parameters['batch']), batch_size):
-        batch = parameters['batch'][i:i+batch_size]
-        params = parameters.copy()
-        params['batch'] = batch
-        futures.append(ex.submit(self.run_cypher,cypher,params))
+    print(f'Executing {len(cypher_params)} cypher batches in parallel',flush=True)
+    with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='unwind') as ex:
+      futures = dict()
+      for c,p in cypher_params:
+        request_name = p.get('request_name', c[:25])
+        futures[ex.submit(self.run_cypher,c,p,lock=lock)] = request_name
 
+      # run_cypher returns query result as [Records] and request_name
       for future in as_completed(futures):
-        yield future.result()
+        request_name = futures[future]
+        result = future.result()
+        print(f'Cypher query "{request_name}" completed with {len(result[0])} records')
+        yield result # yields ([Record], request_name) tuple
+
+
+  def _unwind_write_(self,cypher_params:list[tuple[str,dict]],lock:Lock=None,max_workers=2):
+    '''
+    input:
+      cypher_params - list of tuples, each containing (cypher query string, parameters dictionary)
+    output:
+      Yields tuples of ([Record], request_name) for each cypher batch executed in parallel.
+    '''
+    print(f'Executing {len(cypher_params)} cypher batches in parallel',flush=True)
+    with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='unwind_write') as ex:
+      futures = dict()
+      for c, p in cypher_params:
+        request_name = p.get('request_name', c[:25])
+        futures[ex.submit(self.write,c,p,lock=lock)] = request_name
+
+    # write returns ([Record], request_name) tuple
+    for future in as_completed(futures):
+      request_name = futures[future]
+      result = future.result()
+      print(f'Cypher query "{request_name}" completed with {len(result[0])} records',flush=True)
+      yield result # yields ([Record], request_name) tuple
 
 
   def DBrelTypes(self):
@@ -142,15 +171,15 @@ class neo4j_nx(GraphDatabase):
     nodes = []
     # _unwind_ yields (records_list, request_name) tuples
     params['request_name'] = f'Find {len(names)} nodes by names'
-    for records, _  in self._unwind_(cypher,params,batch_size=10):
-      if with_connectivity:
-        for record in records:
-          if record:
-            node = self.__record2psobj(record[0])
-            node.update_with_value(CONNECTIVITY,record[1])
-            nodes.append(node)
-      else:
-        nodes.extend([self.__record2psobj(record[0]) for record in records if record])
+    records, request_name = self.run_cypher(cypher,params)
+    if with_connectivity:
+      for record in records:
+        if record:
+          node = self.__record2psobj(record[0])
+          node.update_with_value(CONNECTIVITY,record[1])
+          nodes.append(node)
+    else:
+      nodes.extend([self.__record2psobj(record[0]) for record in records if record])
     return nodes
 
 
@@ -262,8 +291,6 @@ class neo4j_nx(GraphDatabase):
     params['with_references'] = with_references
     params['edge_duplication'] = edge_duplication
     return self.fetch_graph(cypher, params, request_name=request_name)
-
-
 
 
   def connect_objs(self,regulators:set[PSObject],targets:set[PSObject],
@@ -474,11 +501,10 @@ class neo4j_nx(GraphDatabase):
     return my_graph
   
 
-  
   def __quintuple2psrel(self, quintuple:neo4j.Record)->PSRelation:
     '''
-    used by fetch_common_neighbors(). Input:
-      quintuple: (n1)-[r1]-(common)-[r2]-(n2)
+    input:
+      quintuple: (n1)-[r1]-(common)-[r2]-(n2), used by fetch_common_neighbors()
     '''
     assert(len(quintuple) == 5), 'Only quintuples (n1)-[r1]-(common)-[r2]-(n2) are considered'
     n1 = quintuple['n1']
@@ -628,13 +654,17 @@ class neo4j_nx(GraphDatabase):
     match = f'(a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})'
     print(f'updating {len(from_rels)} relations matched by {match}')
 
-    cypher = f"""UNWIND $batch AS row 
-          MATCH {match}
-          WHERE r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = '')
-          AND r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = '')
-          SET r.`{with_prop}` = row.propValue
-          RETURN COUNT(r) AS updatedCount
-          """
+    cypher = '\n'.join([
+          'UNWIND $batch AS row',
+          'CALL (row) {',
+          f"MATCH {match}",
+          "WHERE (r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = ''))",
+          "AND (r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = ''))",
+          f"SET r.`{with_prop}` = row.propValue",
+          "RETURN COUNT(r) AS updatedCount",
+          "} IN TRANSACTIONS OF 1000 ROWS",
+          "RETURN sum(updatedCount) AS updatedCount"
+        ])
 
     batch = []
     for rel in from_rels:
@@ -655,7 +685,8 @@ class neo4j_nx(GraphDatabase):
     
     total_updated = 0
     #start = time.time()
-    for result,request_name in self._unwind_(cypher,{'batch': batch, 'request_name':f'Update relation with {with_prop}'}):
+    parameters = {'batch': batch, 'request_name': f'Update relation with {with_prop}'} 
+    for result,request_name in self.run_cypher(cypher,parameters):
       batch_updated = result[0]['updatedCount'] if result else 0
       total_updated += batch_updated
       print(f'Batch updated {batch_updated} relations. Total updated so far: {total_updated}')
@@ -718,12 +749,6 @@ class neo4j_nx(GraphDatabase):
 
 
   @staticmethod
-  def __get_node_labels(node: PSObject):
-      lbls = ','.join([k + ':\"' + v[0] + '\"' for k, v in node.items() if k in ENTPROP_NEO4J])
-      return lbls
-
-
-  @staticmethod
   def _find_and_return_node(tx:tx, node:PSObject):
       query = (
           'MATCH (n:{type}) WHERE n.URN = \"{urn}\"'
@@ -763,7 +788,7 @@ class neo4j_nx(GraphDatabase):
                   print(f'Neo4j got node: \"{record[0]}\" of type {record[2]} with URN={record[1]}')
   """
   
-  def __create_nodes(self, tx:tx, nodes:list):
+  def __create_nodes(self, tx:tx, nodes:list): #OLD
       create_node_count = 0
       for n in nodes:
           node_found = self._find_and_return_node(tx, n)
@@ -779,14 +804,14 @@ class neo4j_nx(GraphDatabase):
       return create_node_count
 
   
-  def load_node_list(self, nodes:list):
+  def load_node_list(self, nodes:list):#OLD
       with self.driver.session() as session:
           # Write transactions allow the driver to handle retries and transient errors
           create_node_count = session.execute_write(self.__create_nodes, nodes)
       return create_node_count
 
 
-  def load_nodes(self,resnet:ResnetGraph,max_wokers=5):
+  def load_nodes(self,resnet:ResnetGraph,max_wokers=5):#OLD
       start = time.time()
       nodes = resnet._get_nodes()
       with ThreadPoolExecutor(max_workers=max_wokers, thread_name_prefix='loading nodes') as executor:
@@ -803,76 +828,9 @@ class neo4j_nx(GraphDatabase):
       print('%d nodes were loaded in %s' % (create_node_count,execution_time(start)))
       print('%d nodes were found in database' % (len(nodes) - int(create_node_count)))
 
-  """
-  @staticmethod
-  def __get_rel_labels(rel:PSRelation):
-      labls = ','.join([k.replace(':', ' ') + ':\"' + v[0] + '\"' for k, v in rel.items() if k in RELPROP_NEO4J])
-      labls = labls + f',{REFCOUNT}:' + str(rel.count_refs()) 
-      labls = labls + f',{SNIPPET_COUNT}:' + str(rel.count_refs(count_abstracts=True))
-      return labls
 
-
-  def __create_rel_query(self, node1:PSObject, node2:PSObject, relation:PSRelation):
-    relationType = relation.objtype()
-    node1urn = node1.urn()
-    node2urn = node2.urn()
-    node1type = node1.objtype()
-    node2type = node2.objtype()
-
-    return ('MATCH'
-            '(a:' + node1type + '),'
-            '(b:' + node2type + ')'
-            'WHERE a.URN = \"' + node1urn + '\" AND b.URN = \"' + node2urn + '\"'
-            'CREATE (a)-[r:' + relationType + ' {' + self.__get_rel_labels(relation) + '}]->(b)'
-            'RETURN a.Name as rName, b.Name as tName, type(r) as rel_type'
-            )
-  
-
-  def __create_relations(self, rels:list[PSRelation]):
-    '''
-    input:
-      rel_tuples = [(node1_id, node2_id, PSRelation)]
-    '''
-    create_rel_count = 0
-    with self.session() as session:
-      for rel in rels:
-        query, params = self.__create_relation(rel)
-        session.run(query, params)
-        create_rel_count += 1
-    return create_rel_count
-  
-  def load_relation_list(self, edge_tuples:list,resnet:ResnetGraph):
-      '''
-      input:
-        edge_tuples = [(node1_id, node2_id, PSRelation)]
-      '''
-      with self.session() as session:
-        created_relation_count = session.execute_write(self.__create_relations,edge_tuples,resnet)
-      return int(created_relation_count)
-          
-
-  def load_relations_multithread(self,resnet:ResnetGraph, max_workers=100):
-      start = time.time()
-      max_edge_in_split = int(resnet.number_of_edges()/max_workers)
-      multithreads = resnet.split(max_edge_in_split)
-
-      create_relation_count = 0
-      for multithread in multithreads:
-          with ThreadPoolExecutor(max_workers=len(multithread), thread_name_prefix='loading relations') as executor:
-              futures = list()
-              for thread in multithread:
-                  tread_edges = thread.edges()
-                  futures.append(executor.submit(self.load_relation_list,tread_edges,resnet))
-              
-              for f in futures:
-                  create_relation_count += f.result()
-
-      print('%d relation were loaded in %s' % (create_relation_count,execution_time(start)))
-
-  """
-  
-  def __create_relation(self, relation:PSRelation):
-    cypher, params = Cypher.create_rels(relation)
+  def __import_rel(self, relation:PSRelation):#OLD
+    cypher, params = Cypher.importRel(relation)
     with self.session() as session:
       try:
         session.run(cypher, params)
@@ -882,11 +840,11 @@ class neo4j_nx(GraphDatabase):
         raise
 
 
-  def import_relations(self, rels:list[PSRelation], max_workers=None):
+  def import_rels(self, rels:list[PSRelation], max_workers=None):#OLD
     start = time.time()
     relcount = 0
     with self.session() as session:
-      for cypher, params in Cypher.create_rels2(rels):
+      for cypher, params in Cypher.importRels(rels):
         try:
           relcount += session.run(cypher, params)
         except Exception as e:
@@ -897,11 +855,11 @@ class neo4j_nx(GraphDatabase):
     return relcount
 
 
-  def load_relations_1by1(self, resnet:ResnetGraph):
+  def load_relations_1by1(self, resnet:ResnetGraph):#OLD
     with self.session() as session:
       rel_counter = 0
       for _, _, rel in resnet.edges.data('relation'):
-        neo4j_result = session.execute_write(self.__create_relation, rel)
+        neo4j_result = session.execute_write(self.__import_rel, rel)
         for record in neo4j_result:
           print(f"Created {record[1]}: {record[0]} -> {record[2]} relation")
           rel_counter += 1
@@ -909,17 +867,17 @@ class neo4j_nx(GraphDatabase):
             print(f'\n\nImported {rel_counter} relations\n\n')
 
   
-  def load_graph2neo4j(self, resnet:ResnetGraph):
+  def load_graph2neo4j(self, resnet:ResnetGraph):#OLD
       resnet_size = resnet.number_of_edges()
       print('Importing Resnet with %d edges into local Neo4j' % resnet_size)
       import_start = time.time()
       resnet.load_references()
-      for cypher, params in Cypher.create_nodes(resnet._get_nodes()):
+      for cypher, params in Cypher.importNodes(resnet._get_nodes()):
         with self.session() as session:
           session.run(cypher, params)
         
       if resnet_size > 50000:
-        self.import_relations(resnet._psrels())
+        self.import_rels(resnet._psrels())
       else:
         self.load_relations_1by1(resnet)
 
@@ -928,8 +886,9 @@ class neo4j_nx(GraphDatabase):
 
   from concurrent.futures import ThreadPoolExecutor
 
+
   @staticmethod
-  def __update(tx, update_cypher:str, batch:list):
+  def __update(tx, update_cypher:str, batch:list):#OLD
     """
     This function represents the work done inside a single transaction.
     The 'tx' object is provided by the driver's execute_write method.
@@ -937,7 +896,8 @@ class neo4j_nx(GraphDatabase):
     result = tx.run(update_cypher, batch=batch)
     return list(result)
 
-  def process_update(self, update_cypher:str, chunk:list):
+
+  def process_update(self, update_cypher:str, chunk:list):#OLD
     """
     Each thread runs this: opens a session and calls execute_write.
     """
@@ -946,7 +906,7 @@ class neo4j_nx(GraphDatabase):
 
 
   def _unwind_tx_(self, update_cypher:str, full_list:list, 
-               chunk_size=10000,request_name='',multithread=True):
+               chunk_size=10000,request_name='',multithread=True):#OLD
     '''
       Cypher query must contain UNWIND $batch AS row and use row.{item} to refer to items in the list
     '''
@@ -968,6 +928,106 @@ class neo4j_nx(GraphDatabase):
       for chunk in [full_list[i:i + chunk_size] for i in range(0, len(full_list), chunk_size)]:
         yield self.process_update(update_cypher, chunk)
 
+
+  def ExistnotExist(self, rels:list[PSRelation])->tuple[list[PSRelation],list[PSRelation]]:
+    '''
+    Return (missing relations, existing relations), preserving input order in each list.
+    Use parallel RelationID lookups grouped by relationship type.
+    Database errors propagate to the caller.
+    '''
+    ids_by_type = {}
+    for rel in rels:
+      ids_by_type.setdefault(rel.objtype(), set()).add(rel.neo4j_relationID())
+
+    cypher = '\n'.join([
+      'MATCH ()-[r:`{reltype}`]->()',
+      'WHERE r.RelationID IN $rel_ids',
+      'RETURN collect(DISTINCT r.RelationID) AS found_ids'
+      ])
+    
+    with ThreadPoolExecutor() as ex:
+      futures = {
+        ex.submit(
+          self.run_cypher,
+          cypher.format(reltype=reltype.replace('`', '``')),
+          {'rel_ids': list(rel_ids), 'request_name': f'ExistNotExist4{reltype}'}
+        ): reltype
+        for reltype, rel_ids in ids_by_type.items()
+      }
+
+      exist_ids_by_type = {}
+      for future in as_completed(futures):
+        records, _ = future.result()
+        node_type = futures[future]
+        exist_ids = set()
+        [exist_ids.update(record['found_ids']) for record in records]
+        exist_ids_by_type[node_type] = list(exist_ids)
+
+    missing_rels = []
+    existing_rels = []
+    for rel in rels:
+      if rel.neo4j_relationID() in exist_ids_by_type[rel.objtype()]:
+        existing_rels.append(rel)
+      else:
+        missing_rels.append(rel)
+
+    return existing_rels, missing_rels
+
+
+  def importGraph(self, nodes:list[PSObject], rels:list[PSRelation])->int:
+    '''
+    Import graph data, serializing reference batches that share the PostgreSQL connection.
+    Neo4j batches run in parallel.
+    '''
+    start = time.time()
+    print(f'Start importing {len(rels)} relations for {len(nodes)} nodes',flush=True)
+    if nodes:
+      with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportNodes") as ex:
+        postgres_nodes_future = ex.submit(self.postgres._insert_nodes_, nodes)
+        for records, request_name in self._unwind_(Cypher.importNodes(nodes)):
+          node_type = request_name.split('_')[-1]
+          for record in records:
+            created_count, total_processed = record['createdCount'], record['totalProcessed']
+            print(f'Finished {request_name} for {node_type} with {created_count} created and {total_processed} total processed',flush=True)
+        try:
+          postgres_nodes_future.result()
+        except Exception as e:
+          print_error_info(f"Postgres batch failed: {e}")
+    print(f"Imported {len(nodes)} nodes in: {execution_time(start)}",flush=True)
+
+    # splitting rels into new and existing first in Python is the faster strategy than using node+rel status checks in Neo4j
+    # finding new relations and importing them into Neo4j:
+    exist_rels, new_rels = self.ExistnotExist(rels)
+    print (f"In {len(rels)} relations: {len(exist_rels)} existing, {len(new_rels)} new",flush=True)
+
+    stats = Counter()
+    with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportRels") as ex:
+      postgres_rels_future = ex.submit(self.postgres.import_refs, exist_rels, new_rels)
+      if new_rels:
+        for c,p in Cypher.importRels(new_rels):
+          records,request_name = self.run_cypher(c,p)
+          regulatorType, relType, targetType = request_name.split('_')[1:]
+          for record in records:
+            count = record['relcount']
+            stats[(regulatorType, relType, targetType)] += count
+            print(f'Created {count} relations for {regulatorType}-{relType}->{targetType} triple',flush=True)
+      else:
+        print("No new relations to import into Neo4j")
+
+      try:
+        postgres_rels_future.result()
+      except Exception as e:
+        print_error_info(f"Postgres batch failed: {e}")
+
+    total_created_rel = sum(stats.values())
+    relTypeCounter = Counter()
+    for (regulatorType, relType, targetType), count in stats.items():
+      relTypeCounter[relType] += count
+    print(f"Imported {total_created_rel} out of {len(new_rels)} new relations into Neo4j in {execution_time(start)}.",flush=True)
+    print(f"Created relation type breakdown: {dict(relTypeCounter)}",flush=True)
+    print(f"Created triples breakdown: {dict(stats)}",flush=True)
+    return total_created_rel
+   
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################
   def delete_rels_with(self, values:list[str], in_propName:str):
     cypher = f'UNWIND $relIds AS idToDelete MATCH ()-[r]->() WHERE r.{in_propName} = idToDelete DELETE r'
@@ -978,13 +1038,13 @@ class neo4j_nx(GraphDatabase):
 
   def node_citation_count(self,seedtype='',reltype='', neighbortype='', source='Medscan') -> dict[str, PSObject]:
     '''
-    Calculates citation count and relation count for each node based on relations from the specified source in all directions.
-    Returns a dictionary mapping node URNs to PSObjects updated with 'CitationCount' and 'Connectivity'.
     input:
       seedtype: filter for seed node type (label), if empty retreives data for all node types
       reltype: filter for relation type, if empty retreives data for all relation types linked to each seed node,
       neighbortype: filter for neighbor node type (label), if retreives data for any neighbor type linked to each seed node,
       set neighbortype to empty to calculate citation count for non-directional relations connecting nodes of the same type, e.g. protein-protein interactions
+    output:
+      dict[str, PSObject] - mapping from node URNs to PSObjects updated with 'CitationCount' and 'Connectivity'
     '''
     print('Collecting reference density and connectivity for nodes in Neo4j...')
     s = f's:{seedtype}' if seedtype else 's'
@@ -1064,8 +1124,9 @@ class neo4j_nx(GraphDatabase):
 
   def snippets_df(self,relids: list[str], only_reltypes=[]):
     '''
-    pd.Dataframe with columns: ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score',
-    'RelType,ID','journal','title','doi','pmid']
+    output:
+      pd.Dataframe with columns: ['Regulators','Targets','msrc','Effect','Confidence (%)','Citation score',
+      'RelType,ID','journal','title','doi','pmid']
     '''
     print(f'Fetching snippets from Postgres for {len(relids)} relations ...')
     r = f"r:{'|'.join(only_reltypes)}" if only_reltypes else "r"
@@ -1132,17 +1193,17 @@ class neo4j_nx(GraphDatabase):
     Annotates nodes in input graph with a new property from Neo4j database with_prop containing the count of relations from the specified source in Neo4j connected to each node in the input graph. 
     '''
     nodeids2urn = {node['NodeID'][0] : node['URN'][0] for uid,node in in_graph.nodes(data=True)}
-    nodeids2prop = self.postgres.nodeid2prop(list(nodeids2urn.keys()), with_prop)
-    urn2prop = {nodeids2urn[nodeid]:[prop] for nodeid, prop in nodeids2prop.items()}
+    nodeids2props = self.postgres.nodeid2prop(list(nodeids2urn.keys()), with_prop)
+    urn2props = {nodeids2urn[nodeid]:props for nodeid, props in nodeids2props.items()}
     my_graph = in_graph.copy()
-    my_graph.set_node_annotation(urn2prop, with_prop)
-    print(f'Annotated {len(urn2prop)} nodes in input graph with property {with_prop} from Postgres')
+    my_graph.set_node_annotation(urn2props, with_prop)
+    print(f'Annotated {len(urn2props)} nodes in input graph with property {with_prop} from Postgres')
     return my_graph
   
 
   def import_relprops(self, rel_props_df:df, relid_col:str=RELATIONID, prop_value_col=[]):
     '''
-    Imports relation properties from the input dataframe to Postgres. The dataframe must contain a column with relation ids that match the relation ids in Postgres and a column with the property values to be imported. The relation ids must be in the format "r:{reltype} {effect} {confidence}" to match the relation ids in Postgres.
+    Imports relation properties from the input dataframe to Neo4j. The dataframe must contain a column with relation ids that match the relation ids in Postgres and a column with the property values to be imported. The relation ids must be in the format "r:{reltype} {effect} {confidence}" to match the relation ids in Postgres.
     input:
       rel_props_df: dataframe with columns [relid_col, prop_value_col]
       relid_col: name of the column containing relation ids in the format "r:{reltype} {effect} {confidence}"

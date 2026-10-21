@@ -4,7 +4,7 @@ import networkx as nx
 from networkx.exception import NetworkXError
 from ...utils.pandas.panda_tricks import df,np,pd
 from datetime import timedelta
-import os, math, time, torch,glob,csv
+import os, math, time, torch,csv
 from typing import Generator
 from xml.dom import minidom
 from lxml import etree as et
@@ -16,9 +16,9 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT, RELATIONID
 from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,PHYSICAL_INTERACTIONS,OBJECT_TYPE
 from .references import Reference, pubmed_hyperlink, make_hyperlink
-from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS
+from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS,PS_REFERENCE_PROPS
 from .RefStats import RefStats,IDENTIFIER_COLUMN
-from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize
+from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize,dir2flist
 from ..EmbioPSG_API.postgres import PostgreSQL
 
 
@@ -2541,7 +2541,6 @@ class ResnetGraph (nx.MultiDiGraph):
       
       localid2node[node.get('local_id')] = node_psobj
 
-
     controls = resnet.findall('./controls/control','')
     if controls:
       valid_nodes = set()
@@ -2551,53 +2550,48 @@ class ResnetGraph (nx.MultiDiGraph):
       for control_elem in controls:
         regulators = list()
         targets = list()
+        ps_rel = PSRelation()     
+        #case when relation is Medscan assertion
+        msrc = resnet.get('msrc','')
+        if msrc:
+          ps_rel.PropSetToProps['1'][SENTENCE].append(msrc)
+
+        for attr in control_elem.findall('attr'):
+          prop_id = attr.get('name')
+          if only_relprops and prop_id not in only_relprops: continue
+
+          index = attr.get('index')
+          if index is not None: # Property has an index and therefore must be in SENTENCE_PROPS_SET
+            value = attr.get('value')
+            ps_rel.PropSetToProps[index][prop_id].append(value)
+          elif prop_id == EFFECT: # EFECT is now in SENTENCE_PROPS_SET because of BCE
+            ps_rel.update_with_value(prop_id, attr.get('value'))
+          elif prop_id in PS_REFERENCE_PROPS:# ,<resnet> has single reference assertion
+            ps_rel.PropSetToProps['1'][prop_id].append(attr.get('value'))
+          else: # No index, not a reference prop
+            ps_rel.update_with_value(prop_id, attr.get('value'))
+
+        ps_rel[OBJECT_TYPE] = ps_rel.pop('ControlType')
+        
         for link in control_elem.findall('link'):
           link_type = link.get('type')
-          if link_type == 'out': 
-            targets.append(localid2node[link.get('ref')])
+          link_local_id = link.get('ref')
+          if link_type == 'out' and ps_rel.is_directional(): 
+            targets.append(localid2node[link_local_id])
           else: 
-            regulators.append(localid2node[link.get('ref')])
+            regulators.append(localid2node[link_local_id])
 
-#        if 'biodata:protein/HGNC3535' in [n.urn() for n in regulators]:
-#          if 'biodata:disease/Concept_86428755' in [n.urn() for n in targets]:
-#            print(f'Found relation with HGNC3535 and Concept_86428755')
-#            pass
-
-        if validate(regulators,targets):         
-          valid_nodes.update(regulators)
-          ps_rel = PSRelation()     
+        #ps_rel does not have 'Id' property.This is used by PSRelation.is_from_rnef()
+        if validate(regulators,targets):
+          valid_nodes.update(regulators+targets) 
           [ps_rel.Nodes[REGULATORS].append(r) for r in regulators]
-
           if targets:
-            valid_nodes.update(targets)
             [ps_rel.Nodes[TARGETS].append(t) for t in targets]
 
-          #case when relation is Medscan assertion
-          msrc = resnet.get('msrc','')
-          if msrc:
-            ps_rel.PropSetToProps['1'][SENTENCE].append(msrc)
-
-          for attr in control_elem.findall('attr'):
-            prop_id = attr.get('name')
-            if only_relprops and prop_id not in only_relprops: continue
-
-            index = attr.get('index')
-            if index is not None: # Property has an index and therefore must be in SENTENCE_PROPS_SET
-              value = attr.get('value')
-              ps_rel.PropSetToProps[index][prop_id].append(value)
-            elif prop_id == EFFECT: # EFECT is now in SENTENCE_PROPS_SET because of BCE
-              ps_rel.update_with_value(prop_id, attr.get('value'))
-            elif prop_id in SENTENCE_PROPS_SET:# ,resnet> is MedScan single reference assertion
-              ps_rel.PropSetToProps['1'][prop_id].append(attr.get('value'))
-            else: # No index, not a sentence prop
-              ps_rel.update_with_value(prop_id, attr.get('value'))
-
-          ps_rel[OBJECT_TYPE] = ps_rel.pop('ControlType')
           ps_rel.refs()
           ps_rel.urn(refresh=True) # URN algorithm may change
           ps_rel.neo4j_relationID()
           valid_rels.add(ps_rel)
-      #ps_rel does not have 'Id' property.This is used by PSRelation.is_from_rnef()
       return valid_nodes, valid_rels
     else:
       return list(localid2node.values()),set()
@@ -2626,8 +2620,8 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def read_rnef(rnef_file:str,prop2values:dict=dict(),only_relprops:set=set(),
-    no_mess=False,only4objs:dict[str,PSObject]=dict(),match_ends:int=0):
+  def resnet_read(rnef_file:str,prop2values:dict=dict(),only_relprops:set=set(),
+    no_mess=False,only4objs:dict[str,PSObject]=dict(),match_ends:int=0)->Generator[tuple[set[PSObject],set[PSRelation]],None,None]:
       '''
       input:
         prop2values={prop_name:[values]} - filter to load relations only for nodes with desired properties
@@ -2637,13 +2631,46 @@ class ResnetGraph (nx.MultiDiGraph):
         print ('\nLoading graph from file %s' % rnef_file,flush=True)
       with open(rnef_file, "rb") as f:
         context = et.iterparse(f, tag="resnet")
-        for action, elem in context:
-          yield ResnetGraph._parse_nodes_controls(elem,prop2values,only_relprops,only4objs,match_ends)
-          elem.clear()
-          while elem.getprevious() is not None:
-            del elem.getparent()[0]
+        for action, resnet in context:
+          yield ResnetGraph._parse_nodes_controls(resnet,prop2values,only_relprops,only4objs,match_ends)
+          resnet.clear()
+          while resnet.getprevious() is not None:
+            del resnet.getparent()[0]
         del context
 
+
+  @staticmethod
+  def batch_read(path2dir:str,batch_size:int=5000,include_subdir=True, file_ext='.rnef'):
+    '''
+    output: tuple of (unique nodes set, all relations) in batches
+    nodes outputted in previous batches are not included in subsequent batches
+    '''
+    rnef_files = dir2flist(path2dir, include_subdirs=include_subdir, file_ext=file_ext)
+    print(f'Reading {file_ext} files from: {path2dir}')
+    batch_nodes = []
+    batch_rels = []
+    read_nodes = set()
+    rel_counter = 0
+    for rnef_file in rnef_files:
+      for nodes, rels in ResnetGraph.resnet_read(rnef_file):
+        new_nodes = [node for node in nodes if node not in read_nodes]
+        batch_nodes.extend(new_nodes)
+        read_nodes.update(new_nodes)
+        batch_rels.extend(rels)
+        rel_counter += len(rels)
+        if len(batch_rels) >= batch_size:
+          print(f"Read {len(read_nodes)} nodes and {rel_counter} relations")
+          yield batch_nodes, batch_rels
+          batch_nodes = []
+          batch_rels = []
+    
+    if batch_rels:
+      print(f"Read {len(read_nodes)} nodes and {rel_counter} relations")
+      print(f"Finished reading {file_ext} files from: {path2dir}" )
+      yield batch_nodes, batch_rels
+    else:
+      print(f"Finished reading {file_ext} files from: {path2dir}" )
+    
 
   @classmethod
   def from_resnet(cls,resnet:et._Element,
@@ -2737,7 +2764,7 @@ class ResnetGraph (nx.MultiDiGraph):
       Raises FileNotFoundError if "rnef_file" is not found
       '''
       start = time.time()
-      listing = glob.glob(os.path.join(path2dir, '*.rnef'))+glob.glob(os.path.join(path2dir, '**/*.rnef'),recursive=include_subdirs)
+      listing = dir2flist(path2dir,include_subdirs=include_subdirs,file_ext='.rnef')
       combo_g = ResnetGraph()
       if listing:
         combo_g = ResnetGraph.fromRNEFflist(listing,prop2values,only_relprops,merge,edge_duplication)

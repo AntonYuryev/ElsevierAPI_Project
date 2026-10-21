@@ -1,4 +1,5 @@
-import subprocess,os
+from concurrent.futures import ThreadPoolExecutor
+import subprocess,os, re
 from textblob.blob import TextBlob
 from collections import defaultdict
 from .NetworkxObjects import PSObject
@@ -38,12 +39,12 @@ class MedScan:
   #input_type = 'sentence'
   sentence_maxlen = 3500
   def __init__(self,license,medscan_dir=MEDSCANDIR,user_dir=DEFAULT_USERDIR,org_name = 'Mammal'):
-      self.medscan_dir = medscan_dir
-      self.user_dir = os.path.abspath(user_dir) if user_dir else os.path.abspath(self.medscan_dir)
-      self.organism = org_name
-      self.license = license
-      self.objnames = self.load_objnames() # {msid:(name,urn)}
-
+    self.medscan_dir = medscan_dir
+    self.user_dir = os.path.abspath(user_dir) if user_dir else os.path.abspath(self.medscan_dir)
+    self.organism = org_name
+    self.license = license
+    self.objnames = self.load_objnames() # {msid:(name,urn)}
+    self.tokalias2msid = dict()
 
   def __cmd1(self):
     locscan = os.path.join(self.medscan_dir, 'locscan')
@@ -111,6 +112,82 @@ class MedScan:
           line = f.readline()
 
     return msid2name_urn
+
+  @staticmethod
+  def read_xwords(xword_path:str)->list[str]:
+    xwords = []
+    if os.path.exists(xword_path):
+      with open(xword_path, 'r', encoding='utf-8') as f:
+        for l in f.readlines():
+          l = l.strip()
+          tab_pos = l.find('\t')
+          if tab_pos >= 0:
+            l = l[:tab_pos]
+          xwords.append(l)
+    return xwords
+  
+
+  @staticmethod
+  def tokenize_alias(alias:str, xwords:list[str]=[], match='')->str:
+    if match == 'Literal':
+      return alias
+    if match == 'Exact':
+      return alias.lower()
+
+    assert(xwords), "xwords list cannot be empty"
+    punctuation = []
+    _xwords_ = []
+    [(_xwords_,punctuation)[len(x) == 1].append(x) for x in xwords]
+    punctuation.append(' ')
+    tokenized = re.split(f"[{re.escape(''.join(punctuation))}]", alias.lower())
+    tokenized = [t for t in tokenized if t not in _xwords_]
+    return ' '.join(tokenized)
+
+
+  def load_dicts(self)->dict[str,tuple[str,str]]:
+      """
+      output:
+        {tokenized_alias:msid}
+      """
+      def process_row(line:str,xwords:list[str], match:str):
+        dic_row = line.split('\t')
+        msid = dic_row[0]
+        alias = dic_row[1]
+        return msid, self.tokenize_alias(alias, xwords=xwords, match=match)
+
+      def load_dic(dic_path:str, xwords_path:str, match:str)->dict[str,str]:
+        _alias2msid = dict()
+        xwords = self.read_xwords(xwords_path)
+        with open(dic_path, 'r', encoding='utf-8') as f:
+          line = f.readline()
+          while line:
+            msid, alias = process_row(line, xwords=xwords, match=match)
+            _alias2msid[alias] = msid
+            line = f.readline()
+        return _alias2msid
+
+      
+      dic_path = os.path.join(self.medscan_dir, 'msdata', f'{self.organism}.curNames.tab.e')
+      xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords.tab')
+      alias2msid = load_dic(dic_path, xword_path, match='')
+
+      dic_path = os.path.join(self.medscan_dir, 'msdata', f'{self.organism}.cellDictionary.tab.e')
+      xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords_cells.tab')
+      a2m = load_dic(dic_path, xword_path, match='')
+      alias2msid.update(a2m)
+
+      dic_path = os.path.join(self.medscan_dir, 'msdata', f'{self.organism}.CASDictionary.tab.e')
+      xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords_cas.tab')
+      a2m = load_dic(dic_path, xword_path, match='')
+      alias2msid.update(a2m)
+
+      dic_path = os.path.join(self.medscan_dir, 'msdata', f'{self.organism}.ExactLiteral.tab.e')
+      a2m = load_dic(dic_path, '', match='Literal')
+      alias2msid.update(a2m)
+      a2m = load_dic(dic_path, '', match='Literal')
+      alias2msid.update(a2m)
+
+      return alias2msid
 
 
   def find_concepts(self,paragraph:str) -> dict: 
@@ -201,10 +278,11 @@ class MedScan:
         return NotImplemented
     
 
-  def map_names(self, terms:list[str], fout='terms2map.txt',work_dir='')->dict[str,tuple[str,str]]:
+  def map_names(self, terms:list[str], fout='terms2map.txt',work_dir='')->list[tuple[str,str,str,str]]:
     '''
+    Runs MedScan dict mapping for the given list of terms.
     output:
-      {term:(msid, urn)}
+      list of tuples: (term, msid, ms_name, ms_urn)
     '''
     temp_file = os.path.join(work_dir, fout) if work_dir else fout
     with open(temp_file, 'w', encoding='utf-8') as f:
@@ -245,6 +323,9 @@ class MedScan:
     output:
       [PSObject with added attributes: 'MedScan ID', 'MedScan name', 'MedScan URN']
     '''
+    with ThreadPoolExecutor() as ex:
+      alias2msidfut = ex.submit(self.load_dicts)
+
     obj_names = [o.name() for o in objs]
     mapped_tuples = self.map_names(obj_names, work_dir=work_dir)
     unmapped_objs = []
@@ -284,6 +365,45 @@ class MedScan:
         mapped_obj['MedScan URN'] = [mapped_tuples[i][3]]
         mapped_obj['MedScan objtype'] = [MedScan.id2objtype(int(msid))]
 
+
+    xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords.tab')
+    xwords = self.read_xwords(xword_path)
+    xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords_cells.tab')
+    xwords_cells = self.read_xwords(xword_path)
+    xword_path = os.path.join(self.medscan_dir, 'msdata', 'xwords_cas.tab')
+    xwords_cas = self.read_xwords(xword_path)
+    alias2msid = alias2msidfut.result()
+
+    def maptok(o:PSObject):
+      alias = o.name()
+      try:
+        return alias2msid[self.tokenize_alias(alias, [], 'Exact')]
+      except KeyError:
+        try:
+          return alias2msid[self.tokenize_alias(alias, [], 'Literal')]
+        except KeyError:
+          try:
+            return alias2msid[self.tokenize_alias(alias, xwords)]
+          except KeyError:
+            try:
+              return alias2msid[self.tokenize_alias(alias, xwords_cells)]
+            except KeyError:
+              try:
+                return alias2msid[self.tokenize_alias(alias, xwords_cas)]
+              except KeyError:
+                return None
+
+    for o in objs:
+      if MEDSCAN_ID not in o:
+        msid = maptok(o)
+        if msid:
+          o[MEDSCAN_ID] = [msid]
+          if msid in self.objnames:
+            o['MedScan name'],o['MedScan URN'] = self.objnames[msid]
+          else:
+            print(f"MSID {msid} not found in objnames")
+          o['MedScan objtype'] = [MedScan.id2objtype(int(msid))]
+  
     return objs
   
 
