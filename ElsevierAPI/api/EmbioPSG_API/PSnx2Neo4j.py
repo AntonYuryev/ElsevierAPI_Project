@@ -981,22 +981,23 @@ class neo4j_nx(GraphDatabase):
     Neo4j batches run in parallel.
     '''
     start = time.time()
+    node_created_count = 0
     print(f'Start importing {len(rels)} relations for {len(nodes)} nodes',flush=True)
     if nodes:
-      total_created_count = 0
+      node_created_count = 0
       with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportNodes") as ex:
         postgres_nodes_future = ex.submit(self.postgres._insert_nodes_, nodes)
         for records, request_name in self._unwind_(Cypher.importNodes(nodes)):
           node_type = request_name.split('_')[-1]
           for record in records:
             created_count, total_processed = record['createdCount'], record['totalProcessed']
-            total_created_count += created_count
+            node_created_count += created_count
             print(f'Created {created_count} new {node_type} out of {total_processed} submitted {request_name}',flush=True)
         try:
           postgres_nodes_future.result()
         except Exception as e:
           print_error_info(f"Postgres batch failed: {e}")
-    print(f"Imported {total_created_count} new nodes out of {len(nodes)} in {execution_time(start)}",flush=True)
+    print(f"Imported {node_created_count} new nodes out of {len(nodes)} in {execution_time(start)}",flush=True)
 
     # splitting rels into new and existing first in Python is the faster strategy than using node+rel status checks in Neo4j
     # finding new relations and importing them into Neo4j:
@@ -1032,7 +1033,7 @@ class neo4j_nx(GraphDatabase):
       except Exception as e:
         print_error_info(f"Postgres batch failed: {e}")
 
-    return total_created_rel, total_inserted_ref
+    return node_created_count, total_created_rel, total_inserted_ref
    
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################
   def delete_rels_with(self, values:list[str], in_propName:str):
