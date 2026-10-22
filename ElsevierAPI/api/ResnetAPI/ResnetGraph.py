@@ -1,3 +1,4 @@
+from builtins import list
 from contextlib import nullcontext
 
 import networkx as nx
@@ -17,7 +18,8 @@ from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFF
 from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,PHYSICAL_INTERACTIONS,OBJECT_TYPE
 from .references import Reference, pubmed_hyperlink, make_hyperlink
 from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS,PS_REFERENCE_PROPS
-from .RefStats import RefStats,IDENTIFIER_COLUMN
+# RefStats / IDENTIFIER_COLUMN are imported inside bibliography() (their only user),
+# so importing this module does not require RefStats.py
 from ...utils.utils import execution_time, execution_time2,list2str,unpack,normalize,dir2flist
 from ..EmbioPSG_API.postgres import PostgreSQL
 
@@ -793,6 +795,7 @@ class ResnetGraph (nx.MultiDiGraph):
       df['Resnet Citation index','Citation','Identifier type','Document identifier: PMID or DOI']\n
       where values of 'Document identifier: PMID or DOI' column are hyperlinked to respective sources
       '''
+      from .RefStats import RefStats,IDENTIFIER_COLUMN
       sub_graph = self
       if for_rel_types:
           sub_graph = sub_graph.subgraph_by_relprops(for_rel_types)
@@ -2640,13 +2643,13 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def batch_read(path2dir:str,batch_size:int=5000,include_subdir=True, file_ext='.rnef'):
+  def batch_read(rnef_files:list[str],batch_size:int=5000):
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
     '''
-    rnef_files = dir2flist(path2dir, include_subdirs=include_subdir, file_ext=file_ext)
-    print(f'Reading {file_ext} files from: {path2dir}')
+    #rnef_files = dir2flist(path2dir, include_subdirs=include_subdir, file_ext=file_ext)
+    #print(f'Reading {file_ext} files from: {path2dir}')
     batch_nodes = []
     batch_rels = []
     read_nodes = set()
