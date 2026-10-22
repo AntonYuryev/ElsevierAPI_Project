@@ -2,7 +2,6 @@ import psycopg2,ast
 from contextlib import nullcontext
 from psycopg2.sql import SQL,Identifier
 from neo4j import Record
-from threading import Lock
 from collections import defaultdict
 from time import sleep
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID, PSObject
@@ -624,7 +623,7 @@ class PostgreSQL:
             self.db.rollback()
 
 
-  def _insert_nodes_(self,nodes:list[PSObject],lock:Lock)->int:
+  def _insert_nodes_(self,nodes:list[PSObject])->int:
     '''
     Insert nodes and their attributes using UNNEST in a single transaction.
     Return the inserted node count; roll back and propagate database errors.
@@ -660,8 +659,7 @@ class PostgreSQL:
       'AS incoming(id, name, value) ON CONFLICT (id) DO NOTHING'
     ).format(Identifier(self.schema), Identifier('attr'))
 
-    lock_context = lock if lock is not None else nullcontext()
-    with lock_context, self.db:
+    with self.db:
       with self.db.cursor() as cur:
         if attributes:
           cur.execute(attr_sql, [list(values) for values in zip(*attributes.values())])
@@ -780,7 +778,7 @@ class PostgreSQL:
     return dict(missing_refs)
 
 
-  def _insert_refs_(self, relid2refs:dict[int,list[Reference]],lock:Lock)->int:
+  def _insert_refs_(self, relid2refs:dict[int,list[Reference]])->int:
     '''
     Insert {relation_id: [missing references]} using one UNNEST statement and commit.
     Skip rows conflicting with unique or exclusion constraints and report inserted and skipped counts.
@@ -816,7 +814,7 @@ class PostgreSQL:
       SQL(', ').join(SQL('%s::text[]') for column in columns), column_names
     )
     parameters = [list(values) for values in zip(*rows)]
-    with lock or nullcontext(), self.db:
+    with self.db:
       with self.db.cursor() as cur:
         try:
           cur.execute(query, parameters)
@@ -829,7 +827,7 @@ class PostgreSQL:
     return inserted_count
 
 
-  def import_refs(self,fromExistRels:list[PSRelation], fromNewRels:list[PSRelation], lock:Lock)->tuple[list[Record],str]:
+  def import_refs(self,fromExistRels:list[PSRelation], fromNewRels:list[PSRelation])->tuple[list[Record],str]:
     '''Return ([Record(relType, relcount)], request_name), including zero inserted rows.'''
     newrefcount = 0
 
@@ -838,7 +836,7 @@ class PostgreSQL:
       if len(new_refs) == 0:
         print("!!!! No new references to insert from new relations !!!!")
       else:
-        newrefcount = self._insert_refs_(new_refs,lock)
+        newrefcount = self._insert_refs_(new_refs)
         print(f"Inserted {newrefcount} new references from new relations",flush=True)
     else:
       print('No new relations to insert references from',flush=True)
@@ -846,7 +844,7 @@ class PostgreSQL:
     if fromExistRels:
       missing_refs = self.refsNotExist(fromExistRels)
       if missing_refs:
-        insert_row_count = self._insert_refs_(missing_refs,lock)
+        insert_row_count = self._insert_refs_(missing_refs)
         if insert_row_count == 0:
           print(f"No missing references to insert for {len(fromExistRels)} existing relation(s)",flush=True)
         newrefcount += insert_row_count
