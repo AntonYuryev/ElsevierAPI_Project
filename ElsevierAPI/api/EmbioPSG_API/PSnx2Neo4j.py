@@ -61,7 +61,8 @@ class neo4j_nx(GraphDatabase):
     print(f'Executing cypher query "{request_name}" with {row_count} rows',flush=True)
     with lock or nullcontext(),self.session() as session:
       result = list(session.run(cypher,parameters))
-      print(f'Cypher query "{request_name}" returned {len(result)} records',flush=True)
+      if len(result) > 1:
+        print(f'Cypher query "{request_name}" returned {len(result)} records',flush=True)
       return result,request_name
     
 
@@ -988,7 +989,7 @@ class neo4j_nx(GraphDatabase):
           node_type = request_name.split('_')[-1]
           for record in records:
             created_count, total_processed = record['createdCount'], record['totalProcessed']
-            print(f'Finished {request_name} for {node_type} with {created_count} created and {total_processed} total processed',flush=True)
+            print(f'Created {created_count} new {node_type} out of {total_processed} submitted {request_name}',flush=True)
         try:
           postgres_nodes_future.result()
         except Exception as e:
@@ -1001,6 +1002,7 @@ class neo4j_nx(GraphDatabase):
     print (f"In {len(rels)} relations: {len(exist_rels)} existing, {len(new_rels)} new",flush=True)
 
     stats = Counter()
+    total_created_rel = 0
     with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportRels") as ex:
       postgres_rels_future = ex.submit(self.postgres.import_refs, exist_rels, new_rels)
       if new_rels:
@@ -1011,21 +1013,22 @@ class neo4j_nx(GraphDatabase):
             count = record['relcount']
             stats[(regulatorType, relType, targetType)] += count
             print(f'Created {count} relations for {regulatorType}-{relType}->{targetType} triple',flush=True)
+        
+        relTypeCounter = Counter()
+        for (regulatorType, relType, targetType), count in stats.items():
+          relTypeCounter[relType] += count
+        print(f"Created relation type breakdown: {dict(relTypeCounter)}",flush=True)
+        print(f"Created triples breakdown: {dict(stats)}",flush=True)
+        total_created_rel = sum(stats.values())
+        print(f"Imported {total_created_rel} out of {len(new_rels)} new relations into Neo4j in {execution_time(start)}.",flush=True)
       else:
         print("No new relations to import into Neo4j")
-
+        
       try:
         postgres_rels_future.result()
       except Exception as e:
         print_error_info(f"Postgres batch failed: {e}")
 
-    total_created_rel = sum(stats.values())
-    relTypeCounter = Counter()
-    for (regulatorType, relType, targetType), count in stats.items():
-      relTypeCounter[relType] += count
-    print(f"Imported {total_created_rel} out of {len(new_rels)} new relations into Neo4j in {execution_time(start)}.",flush=True)
-    print(f"Created relation type breakdown: {dict(relTypeCounter)}",flush=True)
-    print(f"Created triples breakdown: {dict(stats)}",flush=True)
     return total_created_rel
    
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################

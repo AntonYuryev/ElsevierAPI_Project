@@ -1,6 +1,6 @@
 import psycopg2,ast
-from contextlib import nullcontext
-from psycopg2.sql import SQL,Identifier
+from psycopg2.sql import SQL,Identifier,Literal
+from psycopg2.extras import Json
 from neo4j import Record
 from collections import defaultdict
 from time import sleep
@@ -695,86 +695,61 @@ class PostgreSQL:
         raise
 
 
-  def __refsNotExist(self, idtype:str, identifiers:list[tuple[str,int]])->list[tuple[str,int]]:
+  def refsNotExist(self, relid2refs:dict[int,list[Reference]])->dict[int,list[Reference]]:
     '''
-    input:
-      idtype: PMID, DOI, etc.,
-      identifiers: [(identifier_value:str, relid:int)]
     output:
-      a list of tuples containing the identifier value and relation ID that do not exist in the database
+      a list of identifiers containing the identifier value and relation ID that either empty or do not exist in the database
     '''
-    print(f'Checking existence of {len(identifiers)} identifiers for idtype {idtype}',flush=True)
-    if idtype not in IDENTIFIER_COLUMNS:
-      return list(identifiers)
+    refcount = sum(len(refs) for refs in relid2refs.values())
+    print(f'Checking existence of {refcount} references for {len(relid2refs)} relations using all identifier types',flush=True)
 
-    entries = []
+    search4refs = []
     missing_positions = set()
-    for position,(value,relid) in enumerate(identifiers):
-      if value in (None, ''):
-        missing_positions.add(position)
-      else:
-        entries.append((position,value,relid))
-    if not entries:
-      return list(identifiers)
+    missing_refs = defaultdict(list)
+  
+    identifiers = [(ref.identifiers(ARTICLE_ID_TYPES), relid, ref) for relid,refs in relid2refs.items() for ref in refs]
+    for position,(ids,relid,ref) in enumerate(identifiers):
+      search4refs.append((position,ids,relid))
+      
+    if not search4refs:
+      return dict(missing_refs)
 
-    column = IDENTIFIER_COLUMNS[idtype]
+    clauses = [
+      SQL('(identifier_pair.value->>0 = {} AND reference_row.{} = identifier_pair.value->>1)').format(
+        Literal(idtype), Identifier(column)
+      )
+      for idtype,column in IDENTIFIER_COLUMNS.items()
+    ]
     query = SQL(
       'SELECT incoming.position '
-      'FROM UNNEST(%s::integer[], %s::text[], %s::bigint[]) '
-      'AS incoming(position, value, relid) '
+      'FROM UNNEST(%s::integer[], %s::jsonb[], %s::bigint[]) '
+      'AS incoming(position, ids, relid) '
       'WHERE NOT EXISTS (SELECT 1 FROM {}.{} AS reference_row '
+      'CROSS JOIN LATERAL jsonb_array_elements(incoming.ids) AS identifier_pair(value) '
       'WHERE reference_row.{} = incoming.relid '
-      'AND reference_row.{} = incoming.value)'
+      'AND ({}))'
     ).format(
       Identifier(self.schema), Identifier('reference'),
-      Identifier(RELATION_ID), Identifier(column)
+      Identifier(RELATION_ID), SQL(' OR ').join(clauses)
     )
-    positions,values,relids = zip(*entries)
-    parameters = [list(positions), list(values), list(relids)]
+    positions,idtype2id,relids = zip(*search4refs)
+    parameters = [list(positions), [Json(ids) for ids in idtype2id], list(relids)]
     with self.db.cursor() as cur:
       try:
+        #sql_str = cur.mogrify(query, parameters).decode(self.db.encoding) # for debug only
+        #sql_template = query.as_string(self.db) # for debug only
         cur.execute(query, parameters)
         missing_positions.update(row[0] for row in cur.fetchall())
       except Exception:
         self.db.rollback()
         raise
-    return [entry for position,entry in enumerate(identifiers) if position in missing_positions]
 
+    for position in missing_positions:
+      ids, relid, ref = identifiers[position]
+      missing_refs[relid].append(ref) 
 
-  def refsNotExist(self, rels:list[PSRelation])->dict[int,list[Reference]]:
-    '''
-    output:
-      {RelationID: [Reference]}
-    '''
-    relid2PSrelation = {rel.neo4j_relationID(): rel for rel in rels}
-    def _remap_(identifiers:list[tuple[str,int]],fromIDtype:str,toIDtype:str)->list[tuple[str,int]]:
-      remapped_identifiers = []
-      for old_identifier,relid in identifiers:
-        psrel = relid2PSrelation.get(relid)
-        for ref in psrel.refs():
-          if ref.identifier(fromIDtype) == old_identifier:
-            new_identifier = ref.identifier(toIDtype)
-            if new_identifier:
-              remapped_identifiers.append((new_identifier, relid))
-      return remapped_identifiers
-
-    idtype0 = ARTICLE_ID_TYPES[0]
-    identifiers = list(filter(None, [(str(ref.identifier(idtype0)), rel.neo4j_relationID()) for rel in rels for ref in rel.refs()]))
-    missing_identifiers = self.__refsNotExist(idtype0, identifiers)
-
-    for i, idtype in enumerate(ARTICLE_ID_TYPES):  
-      if not missing_identifiers or i+1 == len(ARTICLE_ID_TYPES):
-        break
-      identifiers = _remap_(missing_identifiers, fromIDtype=idtype, toIDtype=ARTICLE_ID_TYPES[i+1])
-      if identifiers:
-        missing_identifiers = self.__refsNotExist(ARTICLE_ID_TYPES[i+1], identifiers)
-
-    # collecting missing refs:
-    missing_refs = defaultdict(list)
-    for missing_identifier, relid in missing_identifiers:
-      psrel = relid2PSrelation.get(relid)
-      missing_refs[relid] =[r for r in psrel.refs() if missing_identifier in r.Identifiers.values()]
-
+    missing_refcount = sum(len(refs) for refs in missing_refs.values())
+    print(f'{missing_refcount} references out of {refcount} are not found in database', flush=True)
     return dict(missing_refs)
 
 
@@ -842,15 +817,19 @@ class PostgreSQL:
       print('No new relations to insert references from',flush=True)
 
     if fromExistRels:
-      missing_refs = self.refsNotExist(fromExistRels)
+      existing_refs = {r.neo4j_relationID(): r.refs() for r in fromExistRels}
+      missing_refs = self.refsNotExist(existing_refs)
       if missing_refs:
         insert_row_count = self._insert_refs_(missing_refs)
         if insert_row_count == 0:
           print(f"No missing references to insert for {len(fromExistRels)} existing relation(s)",flush=True)
         newrefcount += insert_row_count
-        print(f"Inserted {insert_row_count} missing references for existing relations",flush=True)
+        if insert_row_count > 0:
+          print(f"Inserted {insert_row_count} missing references for {len(fromExistRels)} existing relations",flush=True)
+        else:
+          print(f"{len(fromExistRels)} existing relations have no new references",flush=True)
       else:
-        print("No existing relations to insert references from")
+        print(f"No existing relations to insert references from",flush=True)
   
     return newrefcount
 

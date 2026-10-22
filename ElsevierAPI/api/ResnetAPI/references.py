@@ -616,10 +616,12 @@ class Reference(dict):
     
 
   def identifier(self,identifier_type:str):
-    if identifier_type in self.Identifiers:
-      return self.Identifiers[identifier_type]
-    else:
-      return ''
+    return self.Identifiers.get(identifier_type,'')
+
+
+  def identifiers(self, _4idtypes: list[str]):
+    idtype2value = [(id_type, value) for id_type, value in self.Identifiers.items() if id_type in _4idtypes and value]
+    return idtype2value
 
 
   def sent_keys(self,key_len:int=30)->set[tuple[str,str]]:

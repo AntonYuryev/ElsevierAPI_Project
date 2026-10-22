@@ -5,13 +5,12 @@ import networkx as nx
 from networkx.exception import NetworkXError
 from ...utils.pandas.panda_tricks import df,np,pd
 from datetime import timedelta
-import os, math, time, torch,csv
+import os, math, time,csv
 from typing import Generator
 from xml.dom import minidom
 from lxml import etree as et
 from itertools import product,chain
 from typing import Optional
-from torch_geometric.data import HeteroData
 from collections import defaultdict,deque
 from concurrent.futures import ThreadPoolExecutor,as_completed
 from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT, RELATIONID
@@ -2669,10 +2668,9 @@ class ResnetGraph (nx.MultiDiGraph):
     
     if batch_rels:
       print(f"Read {len(read_nodes)} nodes and {rel_counter} relations")
-      print(f"Finished reading {file_ext} files from: {path2dir}" )
       yield batch_nodes, batch_rels
     else:
-      print(f"Finished reading {file_ext} files from: {path2dir}" )
+      print(f"Finished reading {len(read_nodes)} nodes and {rel_counter} relations from {len(rnef_files)} files")
     
 
   @classmethod
@@ -4025,7 +4023,7 @@ class ResnetGraph (nx.MultiDiGraph):
       return edge_list,node_features,idx2objs,node_stats,edge_stats
   
   
-  def rn2hd4dp(self)->tuple[HeteroData,dict[int,PSObject]]:
+  def rn2hd4dp(self):
       '''
       Return
       ------
@@ -4038,6 +4036,8 @@ class ResnetGraph (nx.MultiDiGraph):
       [SmallMol,Regulation,Disease] edges with effect positive are labeled -1\n
       all other [SmallMol,Regulation,Disease] edges have label = 0
       '''
+      import torch
+      from torch_geometric.data import HeteroData
       node_stats = self.__node_stats()
       # assigning indexes to objects
       urn2idx = dict()
