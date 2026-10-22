@@ -70,7 +70,7 @@ SENTENCE_PROPS = PS_SENTENCE_PROPS + BCE_SENTENCE_PROPS + ['Evidence','msrc','mr
 # SENTENCE_PROPS needs to be a list for ordered printing
 #also TextRef - used as key in Reference.snippets
 
-PS_REFERENCE_PROPS = list(CLINTRIAL_PROPS)+PS_REFIID_TYPES+list(PS_BIBLIO_PROPS_ALL)+PS_SENTENCE_PROPS
+PS_REFERENCE_PROPS = list(CLINTRIAL_PROPS)+PS_REFIID_TYPES+list(PS_BIBLIO_PROPS_ALL)+PS_SENTENCE_PROPS+['TextRef']
 REFERENCE_PROPS = list(PS_BIBLIO_PROPS_ALL)+list(CLINTRIAL_PROPS)+REF_ID_TYPES+SENTENCE_PROPS+['TextRef']
 
 NOT_ALLOWED_IN_SENTENCE='[\t\r\n\v\f]' # regex to clean up special characters in sentences, titles, abstracts

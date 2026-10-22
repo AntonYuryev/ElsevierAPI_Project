@@ -40,6 +40,7 @@ CLINVAR_PMIDS = [['10447503'],['10592272'],['10612825'],['11125122'],['26619011'
                       ['25741868'],['26582918'],['28492532'],['24033266'],['18414213'],
                       ['26467025'],['24728327']]
 
+PS_REFERENCE_PROPS_SET = set(PS_REFERENCE_PROPS)
 
 class ResnetGraph (nx.MultiDiGraph):
   pass
@@ -2568,7 +2569,7 @@ class ResnetGraph (nx.MultiDiGraph):
             ps_rel.PropSetToProps[index][prop_id].append(value)
           elif prop_id == EFFECT: # EFECT is now in SENTENCE_PROPS_SET because of BCE
             ps_rel.update_with_value(prop_id, attr.get('value'))
-          elif prop_id in PS_REFERENCE_PROPS:# ,<resnet> has single reference assertion
+          elif prop_id in PS_REFERENCE_PROPS_SET:# ,<resnet> has single reference assertion
             ps_rel.PropSetToProps['1'][prop_id].append(attr.get('value'))
           else: # No index, not a reference prop
             ps_rel.update_with_value(prop_id, attr.get('value'))
@@ -2622,7 +2623,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def resnet_read(rnef_file:str,prop2values:dict=dict(),only_relprops:set=set(),
+  def resnet_read(path2rnef:str,prop2values:dict=dict(),only_relprops:set=set(),
     no_mess=False,only4objs:dict[str,PSObject]=dict(),match_ends:int=0)->Generator[tuple[set[PSObject],set[PSRelation]],None,None]:
       '''
       input:
@@ -2630,15 +2631,19 @@ class ResnetGraph (nx.MultiDiGraph):
       reads RNEF file with multiple <resnet> sections yielding (nodes,rels) from each section
       '''
       if not no_mess:
-        print ('\nLoading graph from file %s' % rnef_file,flush=True)
-      with open(rnef_file, "rb") as f:
+        print ('\nLoading graph from file %s' % path2rnef,flush=True)
+      resnet_counter = 0
+      with open(path2rnef, "rb") as f:
         context = et.iterparse(f, tag="resnet")
         for action, resnet in context:
           yield ResnetGraph._parse_nodes_controls(resnet,prop2values,only_relprops,only4objs,match_ends)
           resnet.clear()
           while resnet.getprevious() is not None:
             del resnet.getparent()[0]
+          resnet_counter += 1
         del context
+      if not no_mess:
+        print(f"File {os.path.basename(path2rnef)} has {resnet_counter} <resnet> sections")
 
 
   @staticmethod

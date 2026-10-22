@@ -1,7 +1,6 @@
 import psycopg2,ast
 from psycopg2.sql import SQL,Identifier,Literal
 from psycopg2.extras import Json
-from neo4j import Record
 from collections import defaultdict
 from time import sleep
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID, PSObject
@@ -802,8 +801,8 @@ class PostgreSQL:
     return inserted_count
 
 
-  def import_refs(self,fromExistRels:list[PSRelation], fromNewRels:list[PSRelation])->tuple[list[Record],str]:
-    '''Return ([Record(relType, relcount)], request_name), including zero inserted rows.'''
+  def import_refs(self,fromExistRels:list[PSRelation], fromNewRels:list[PSRelation])->int:
+    '''Returns count of newly inserted references'''
     newrefcount = 0
 
     if fromNewRels:
