@@ -1,7 +1,9 @@
 from .NetworkxObjects import PSObject
 from .ResnetGraph import ResnetGraph,RESNET,OBJECT_TYPE
 from lxml import etree as et
-from .rnef2sbgn import rnef2sbgn_str,minidom
+from xml.dom import minidom  # same object rnef2sbgn re-exported
+# rnef2sbgn_str is imported inside to_xml_s() (SBGN export, its only user),
+# so loading this module does not require rnef2sbgn.py
 
 ################################## PSPathway, PSPathway, PSPathway, PSPathway##########################################
 class PSPathway(PSObject):
@@ -114,6 +116,7 @@ class PSPathway(PSObject):
 
     if format == 'SBGN':
       pathway_xml_str = et.tostring(resnet).decode("utf-8")
+      from .rnef2sbgn import rnef2sbgn_str
       pathway_xml_str = rnef2sbgn_str(resnet)
     else:
       if as_batch:
