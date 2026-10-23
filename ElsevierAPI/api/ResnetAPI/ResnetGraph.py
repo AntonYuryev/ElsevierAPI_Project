@@ -2647,7 +2647,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def batch_read(rnef_files:list[str],batch_size:int=5000)->Generator[tuple[list[PSObject],list[PSRelation]],None,None]:
+  def batch_read(rnef_files:list[str],batch_size:int=5000):
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
@@ -2666,13 +2666,13 @@ class ResnetGraph (nx.MultiDiGraph):
         batch_rels.extend(rels)
         rel_counter += len(rels)
         if len(batch_rels) >= batch_size:
-          print(f"Read {len(read_nodes)} nodes and {rel_counter} relations")
+          print(f"Read {len(read_nodes)} nodes and {rel_counter} relations from {rnef_file}")
           yield batch_nodes, batch_rels
           batch_nodes = []
           batch_rels = []
     
     if batch_rels:
-      print(f"Read {len(read_nodes)} nodes and {rel_counter} relations")
+      print(f"Read {len(read_nodes)} nodes and {rel_counter} relations from {rnef_file}")
       yield batch_nodes, batch_rels
     else:
       print(f"Finished reading {len(read_nodes)} nodes and {rel_counter} relations from {len(rnef_files)} files")
