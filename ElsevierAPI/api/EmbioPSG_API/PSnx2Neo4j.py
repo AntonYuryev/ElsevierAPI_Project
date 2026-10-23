@@ -8,7 +8,7 @@ from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, 
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT
 from neo4j import GraphDatabase, NotificationSeverity,Record
 from neo4j import ManagedTransaction as tx
-from .cypher import Cypher, ENTPROP_NEO4J
+from .cypher import Cypher
 from .postgres import PostgreSQL,pd
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
