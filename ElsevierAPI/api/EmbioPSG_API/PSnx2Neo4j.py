@@ -946,23 +946,26 @@ class neo4j_nx(GraphDatabase):
       'RETURN collect(DISTINCT r.RelationID) AS found_ids'
       ])
     
+    CHUNK_SIZE = 5000
+    exist_ids_by_type = {reltype: set() for reltype in ids_by_type}
     with ThreadPoolExecutor() as ex:
-      futures = {
-        ex.submit(
-          self.run_cypher,
-          cypher.format(reltype=reltype.replace('`', '``')),
-          {'rel_ids': list(rel_ids), 'request_name': f'ExistNotExist4{reltype}'}
-        ): reltype
-        for reltype, rel_ids in ids_by_type.items()
-      }
+      futures = {}
+      for reltype, rel_ids in ids_by_type.items():
+        query = cypher.format(reltype=reltype.replace('`', '``'))
+        id_list = list(rel_ids)
+        for start in range(0, len(id_list), CHUNK_SIZE):
+          chunk = id_list[start:start + CHUNK_SIZE]
+          future = ex.submit(
+            self.run_cypher, query,
+            {'rel_ids': chunk, 'request_name': f'ExistNotExist4{reltype}_{start // CHUNK_SIZE}'}
+          )
+          futures[future] = reltype
 
-      exist_ids_by_type = {}
       for future in as_completed(futures):
         records, _ = future.result()
-        node_type = futures[future]
-        exist_ids = set()
-        [exist_ids.update(record['found_ids']) for record in records]
-        exist_ids_by_type[node_type] = list(exist_ids)
+        exist_ids = exist_ids_by_type[futures[future]]
+        for record in records:
+          exist_ids.update(record['found_ids'])
 
     missing_rels = []
     existing_rels = []
