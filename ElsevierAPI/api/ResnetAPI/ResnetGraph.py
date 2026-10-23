@@ -2647,7 +2647,7 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def batch_read(rnef_files:list[str],batch_size:int=5000):
+  def batch_read(rnef_files:list[str],batch_size:int=5000)->Generator[tuple[list[PSObject],list[PSRelation]],None,None]:
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
