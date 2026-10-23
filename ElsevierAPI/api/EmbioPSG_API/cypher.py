@@ -7,6 +7,7 @@ from collections import defaultdict
 
 ENTPROP_NEO4J = ['URN', 'Name', 'Description','Alias', 'CAS_ID','Localization',
                  'NodeID','Reaxys_ID','Pharmapendium_ID','Notes']
+ENTPROP_NEO4J_LISTS = {'Alias'}   # node properties stored in Neo4j as a list of all values
 RELPROP_NEO4J = ['Name', 'Effect', 'Mechanism', 'Source',  RELATIONID,'BiomarkerType',
                   'ChangeType','NCT_ID','QuantitativeType','Phase']+ANATOMICAL_PROPS
 
@@ -659,10 +660,11 @@ class Cypher:
     '''
     by_type = defaultdict(list)
     for node in nodes:
-      objtype = node.objtype()
-      props = {k.replace(':', ' '): v[0] for k, v in node.items() if k in ENTPROP_NEO4J}
-      props['URN'] = node.urn()
-      by_type[objtype].append(props)
+      props = dict()
+      for k,v in list(node.items()):
+        if k in ENTPROP_NEO4J and v:
+            props[k] = v[0] if len(v) == 1 else v
+      by_type[node.objtype()].append(props)
 
     queries = []
     for objtype, prop_list in by_type.items():
