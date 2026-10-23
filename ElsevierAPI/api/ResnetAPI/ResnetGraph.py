@@ -2670,6 +2670,7 @@ class ResnetGraph (nx.MultiDiGraph):
           yield batch_nodes, batch_rels
           batch_nodes = []
           batch_rels = []
+      print(f'\033[92mFinished reading {rnef_file}\033[0m')
     
     if batch_rels:
       print(f"Read {len(read_nodes)} nodes and {rel_counter} relations from {rnef_file}")
