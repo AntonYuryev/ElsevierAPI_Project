@@ -787,12 +787,21 @@ class PostgreSQL:
       column_names, SQL(', ').join(expressions),
       SQL(', ').join(SQL('%s::text[]') for column in columns), column_names
     )
-    parameters = [list(values) for values in zip(*rows)]
+    # Every column travels as ONE text[] array parameter, and PostgreSQL rejects any single
+    # value above 1 GB ("invalid memory alloc request size ..."). A large RNEF <resnet> can
+    # carry hundreds of thousands of relations, so the rows are sent in chunks. All chunks
+    # run in the same transaction (the `with self.db` block), so the batch is still
+    # all-or-nothing.
+    INSERT_CHUNK_ROWS = 20000
+    inserted_count = 0
     with self.db:
       with self.db.cursor() as cur:
         try:
-          cur.execute(query, parameters)
-          inserted_count = cur.rowcount
+          for start in range(0, len(rows), INSERT_CHUNK_ROWS):
+            chunk = rows[start:start + INSERT_CHUNK_ROWS]
+            parameters = [list(values) for values in zip(*chunk)]
+            cur.execute(query, parameters)
+            inserted_count += cur.rowcount
         except Exception as e:
           self.db.rollback()
           raise e
