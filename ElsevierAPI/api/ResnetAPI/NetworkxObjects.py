@@ -1,4 +1,5 @@
-import re,json,itertools,pickle,hashlib,math,copy
+import re,json,itertools,pickle,hashlib,math,copy,threading
+_REFS_LOCK = threading.RLock()  # guards PSRelation.refs(), see there
 from datetime import datetime
 from collections import defaultdict
 
@@ -885,6 +886,14 @@ class PSRelation(PSObject):
 
 
   def refs(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
+    # refs() builds/sorts self.references in place on every call, so concurrent calls on the same
+    # relation (e.g. the Postgres import thread and the Neo4j import in the main thread)
+    # fail with "list modified during sort"; serialize them.
+    with _REFS_LOCK:
+      return self._refs_(refresh,ref_limit,relid2refs)
+
+
+  def _refs_(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
     '''
     input:
       relid2refs - optional dictionary {RelationID:[Reference]} to use when graph is loaded from Neo4j
