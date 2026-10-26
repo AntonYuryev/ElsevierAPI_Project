@@ -2,6 +2,7 @@ import psycopg2,ast
 from psycopg2.sql import SQL,Identifier,Literal
 from psycopg2.extras import Json
 from collections import defaultdict
+from contextlib import closing
 from time import sleep
 from ..ResnetAPI.NetworkxObjects import PSRelation,RELATIONID, PSObject
 from ...utils.utils import ThreadPoolExecutor,time,as_completed,load_api_config,print_error_info,execution_time,deterministic_hash64,unpack
@@ -862,5 +863,76 @@ class PostgreSQL:
   
     return newrefcount
 
+  # The 65,535 Parameter Limit (CRITICAL)
+  # If you are using PostgreSQL (psycopg2), passing a batch of 50,000 tuples with 2 columns means you are sending 100,000 parameters. 
+  # The PostgreSQL extended query protocol has a hard limit of 65,535 parameters per query.
+  def select_refcounts(self, relid_sentnums:list[tuple[list[int] | int,int]], 
+                       chunk_size=30000, attempts=3, only_greater=True)->list[tuple[list[int],int,int]]:
+    '''
+    input:
+      relid_sentnums - [(RelationID, RelationNumberOfSentences)]; RelationID is an integer or list of integers
+      chunk_size - number of relations sent to Postgres per query
+      Up to 10 chunks execute concurrently using independent connections.
+      A chunk that exhausts its retries raises its database error.
+      only_greater - if True, only return relations whose sentence count in Postgres exceeds that in Neo4j
+    output:
+      [(relation_ids, sentcount, refcount)] for relations whose sentence count in Postgres
+      exceeds RelationNumberOfSentences in Neo4j, if only_greater is True.
+      If only_greater is False, all relations whose sentence count unequal to that in Neo4j are returned.
+      Counts are aggregated across each relationship's complete ID list.
+    '''
+    # Prepare the SQL query to fetch reference counts for relations whose sentence count in Postgres exceeds that in Neo4j
+    # JSON records support variable-length ID lists, unlike PostgreSQL multidimensional arrays.
+    sign = '>' if only_greater else '!='
+    refcountSQL = f'''WITH BatchInput AS (
+                          SELECT * FROM jsonb_to_recordset(%s::jsonb)
+                          AS input(id bigint[], sentnum bigint)
+                      )
+                      SELECT b.id AS id,
+                        COUNT(*)::bigint AS sentcount,
+                        CASE WHEN COUNT(r.doi) > 0 THEN COUNT(DISTINCT r.doi)
+                          WHEN COUNT(r.pmid) > 0 THEN COUNT(DISTINCT r.pmid)
+                          WHEN COUNT(r.pii) > 0 THEN COUNT(DISTINCT r.pii)
+                          WHEN COUNT(r.embase) > 0 THEN COUNT(DISTINCT r.embase)
+                          WHEN COUNT(r.pui) > 0 THEN COUNT(DISTINCT r.pui)
+                          ELSE COUNT(DISTINCT r.title) END::bigint AS refcount
+                      FROM {self.schema}.reference r
+                      JOIN BatchInput b ON r.id = ANY(b.id)
+                      GROUP BY b.id, b.sentnum
+                      HAVING COUNT(*) {sign} b.sentnum'''
 
-  
+    if chunk_size <= 0 or attempts <= 0:
+      raise ValueError('chunk_size and attempts must be positive')
+
+    total = len(relid_sentnums)
+    if not total:
+      return []
+
+    def fetch_chunk(start:int)->list[tuple[list[int],int,int]]:
+      chunk = relid_sentnums[start:start+chunk_size]
+      batch = [
+        {'id': relid if isinstance(relid, list) else [relid],
+         'sentnum': sentnum if sentnum is not None else 0}
+        for relid, sentnum in chunk
+      ]
+
+      for attempt in range(attempts):
+        try:
+          with closing(psycopg2.connect(**self.conn_params)) as conn:
+            with conn:
+              with conn.cursor() as cur:
+                cur.execute(refcountSQL, (Json(batch),))
+                rows = [tuple(row) for row in cur.fetchall()]
+            return rows
+        except psycopg2.Error as e:
+          print(f'Error fetching refcounts from Postgres for relations {start}-{start+len(chunk)} (attempt {attempt+1}): {e}')
+          if attempt + 1 == attempts:
+            raise
+          sleep(2**attempt)
+
+    results = []
+    with ThreadPoolExecutor(max_workers=10, thread_name_prefix='RefcountRetriever') as executor:
+      for index, rows in enumerate(executor.map(fetch_chunk, range(0, total, chunk_size)), start=1):
+        results.extend(rows)
+        print(f'Processed {min(index*chunk_size, total)} out of {total} relations: {len(results)} need refcount update', flush=True)
+    return results
