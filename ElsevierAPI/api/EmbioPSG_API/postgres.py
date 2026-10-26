@@ -885,21 +885,30 @@ class PostgreSQL:
     # JSON records support variable-length ID lists, unlike PostgreSQL multidimensional arrays.
     sign = '>' if only_greater else '!='
     refcountSQL = f'''WITH BatchInput AS (
-                          SELECT * FROM jsonb_to_recordset(%s::jsonb)
-                          AS input(id bigint[], sentnum bigint)
-                      )
-                      SELECT b.id AS id,
-                        COUNT(*)::bigint AS sentcount,
-                        CASE WHEN COUNT(r.doi) > 0 THEN COUNT(DISTINCT r.doi)
-                          WHEN COUNT(r.pmid) > 0 THEN COUNT(DISTINCT r.pmid)
-                          WHEN COUNT(r.pii) > 0 THEN COUNT(DISTINCT r.pii)
-                          WHEN COUNT(r.embase) > 0 THEN COUNT(DISTINCT r.embase)
-                          WHEN COUNT(r.pui) > 0 THEN COUNT(DISTINCT r.pui)
-                          ELSE COUNT(DISTINCT r.title) END::bigint AS refcount
-                      FROM {self.schema}.reference r
-                      JOIN BatchInput b ON r.id = ANY(b.id)
-                      GROUP BY b.id, b.sentnum
-                      HAVING COUNT(*) {sign} b.sentnum'''
+                      SELECT * FROM jsonb_to_recordset(%s::jsonb)
+                      AS input(id bigint[], sentnum bigint)
+                    )
+                  SELECT b.id AS id,
+                    -- Calculates sentcount ONLY for rows where msrc is not null (has sentences)
+                    COUNT(r.unique_id) FILTER (WHERE r.msrc IS NOT NULL)::bigint AS sentcount,
+                    
+                    -- Calculates refcount across ALL rows matched to b.id
+                    CASE 
+                        WHEN COUNT(r.doi) > 0 THEN COUNT(DISTINCT r.doi)
+                        WHEN COUNT(r.pmid) > 0 THEN COUNT(DISTINCT r.pmid)
+                        WHEN COUNT(r.pii) > 0 THEN COUNT(DISTINCT r.pii)
+                        WHEN COUNT(r.embase) > 0 THEN COUNT(DISTINCT r.embase)
+                        WHEN COUNT(r.pui) > 0 THEN COUNT(DISTINCT r.pui)
+                        ELSE COUNT(DISTINCT r.title) 
+                      END::bigint AS refcount
+                  FROM BatchInput b
+                  --- LEFT JOIN must be used in the query to retain batches with sentnum = 0 when sign is !=
+                  LEFT JOIN {self.schema}.reference r 
+                    ON r.id = ANY(b.id)
+                  GROUP BY
+                    b.id,
+                    b.sentnum
+                  HAVING COUNT(r.unique_id) FILTER (WHERE r.msrc IS NOT NULL) {sign} b.sentnum'''
 
     if chunk_size <= 0 or attempts <= 0:
       raise ValueError('chunk_size and attempts must be positive')
