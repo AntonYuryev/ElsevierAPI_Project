@@ -2647,7 +2647,8 @@ class ResnetGraph (nx.MultiDiGraph):
 
 
   @staticmethod
-  def batch_read(rnef_files:list[str],batch_size:int=5000):
+  def batch_read(rnef_files:list[str],batch_size:int=5000,
+        retype={'UnknownRegulation':'Regulation','ExpressionControl':'Expression'}):
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
@@ -2659,24 +2660,33 @@ class ResnetGraph (nx.MultiDiGraph):
     read_nodes = set()
     rel_counter = 0
     for rnef_file in rnef_files:
+      nodes_counter = 0
+      relation_counter = 0
       for nodes, rels in ResnetGraph.resnet_read(rnef_file):
+        for rel in rels:
+          reltype = rel.objtype()
+          if reltype in retype:
+            rel.retype(retype[reltype])
+
+        nodes_counter += len(nodes)
         new_nodes = [node for node in nodes if node not in read_nodes]
         batch_nodes.extend(new_nodes)
         read_nodes.update(new_nodes)
         batch_rels.extend(rels)
         rel_counter += len(rels)
+        relation_counter += len(rels)
         if len(batch_rels) >= batch_size:
-          print(f"Read {len(read_nodes)} nodes and {rel_counter} relations from {rnef_file}")
+          print(f"So far read {nodes_counter} nodes and {relation_counter} relations from {rnef_file}")
           yield batch_nodes, batch_rels
           batch_nodes = []
           batch_rels = []
-      print(f'\033[92mFinished reading {rnef_file}\033[0m')
+      print(f'\033[92mFinished reading {rnef_file} with {nodes_counter} nodes and {relation_counter} relations\033[0m')
     
     if batch_rels:
-      print(f"Read {len(read_nodes)} nodes and {rel_counter} relations from {rnef_file}")
+      print(f"Finished reading {len(rnef_files)} files with {nodes_counter} nodes and {relation_counter} relations")
       yield batch_nodes, batch_rels
     else:
-      print(f"Finished reading {len(read_nodes)} nodes and {rel_counter} relations from {len(rnef_files)} files")
+      print(f"Finished reading {len(rnef_files)} files with {len(read_nodes)} nodes and {rel_counter} relations")
     
 
   @classmethod
