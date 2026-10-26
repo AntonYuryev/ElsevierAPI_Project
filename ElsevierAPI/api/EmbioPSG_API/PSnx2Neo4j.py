@@ -5,7 +5,7 @@ from numpy import nan as NAN
 from collections import Counter
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID,df
 from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,print_error_info
-from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT
+from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT, RESNET_REL_TYPES
 from neo4j import GraphDatabase, NotificationSeverity,Record
 from neo4j import ManagedTransaction as tx
 from .cypher import Cypher
@@ -685,7 +685,6 @@ class neo4j_nx(GraphDatabase):
                           'propValue': prop_value})
     
     total_updated = 0
-    #start = time.time()
     parameters = {'batch': batch, 'request_name': f'Update relation with {with_prop}'} 
     for result,request_name in self.run_cypher(cypher,parameters):
       batch_updated = result[0]['updatedCount'] if result else 0
@@ -1336,3 +1335,55 @@ class neo4j_nx(GraphDatabase):
       sentence_format.set_text_wrap()
       worksheet.set_column(col_idx, col_idx, 100, sentence_format)
     print(f'Colored sentences and saved to {outfile}')
+
+
+  def update_refcount(self, only_greater=True):
+    total_retreived = 0
+    total_updated = 0
+    update_batch_size = 10000
+
+    for reltype in RESNET_REL_TYPES:
+      print(f"\nUpdating {reltype} relations")
+      with self.session() as s:
+        # relations from Reaxys have RelationNumberOfSentences = 0 but RelationNumberOfReferences > 0, so we take the max of the two
+        cypher = f'''MATCH ()-[r:{reltype}]->() 
+                  RETURN CASE
+                      WHEN r.RelationID IS NULL THEN []
+                      WHEN r.RelationID IS :: INTEGER NOT NULL THEN [r.RelationID]
+                      ELSE r.RelationID
+                  END AS id,
+                  CASE 
+                      WHEN r.RelationNumberOfSentences >= r.RelationNumberOfReferences THEN r.RelationNumberOfSentences 
+                      ELSE r.RelationNumberOfReferences 
+                  END AS sentnum'''
+        
+        neo4jsentnums = [(record['id'],record['sentnum']) for record in s.run(cypher)]
+      total_retreived += len(neo4jsentnums)
+      if not neo4jsentnums:
+        continue
+
+      relid2update = self.postgres.select_refcounts(neo4jsentnums,only_greater=only_greater)
+      if not relid2update:
+        print(f'No {reltype} relations need refcount update')
+        continue
+
+      rows = []
+      for relids,sentcount,refcount in relid2update:
+        relid = relids if len(relids) > 1 else relids[0]
+        rows.append({'id':relid,'sentences':sentcount,'refs':refcount})
+
+      update_cypher = f'''UNWIND $rows AS row
+                        MATCH ()-[r:{reltype}]->()
+                        USING INDEX r:{reltype}(RelationID)
+                        WHERE r.RelationID = row.id
+                        SET r.RelationNumberOfSentences = row.sentences,
+                            r.RelationNumberOfReferences = row.refs
+                        RETURN count(r) AS updated'''
+      for start in range(0, len(rows), update_batch_size):
+        parameters = {'rows': rows[start:start+update_batch_size], 'request_name': f'{reltype}_{start}_refcount_update'}
+        records, _ = self.run_cypher(update_cypher, parameters)
+        updatedCount = records[0]['updated'] if records else 0
+        total_updated += updatedCount
+        print(f"Relations updated so far: {total_updated} out of {len(rows)} needed refcount update\n")
+
+    print(f"Finished processing all relations\nTotal relations updated: {total_updated}")
