@@ -1346,15 +1346,25 @@ class neo4j_nx(GraphDatabase):
       print(f"\nUpdating {reltype} relations")
       with self.session() as s:
         # relations from Reaxys have RelationNumberOfSentences = 0 but RelationNumberOfReferences > 0, so we take the max of the two
-        cypher = f'''MATCH ()-[r:{reltype}]->() 
+        # Merging relations in Database->Curate ('combine') turns their counts into lists, e.g. RelationNumberOfSentences = [10, 3].
+        # A list is summed into one number (the merged relation holds the sentences of all the relations merged into it);
+        # a missing value stays null, as before.
+        cypher = f'''MATCH ()-[r:{reltype}]->()
+                  WITH r,
+                       CASE WHEN r.RelationNumberOfSentences IS NULL THEN null
+                            ELSE reduce(total = 0, v IN coll.flatten([r.RelationNumberOfSentences]) | total + coalesce(v, 0))
+                       END AS sentences,
+                       CASE WHEN r.RelationNumberOfReferences IS NULL THEN null
+                            ELSE reduce(total = 0, v IN coll.flatten([r.RelationNumberOfReferences]) | total + coalesce(v, 0))
+                       END AS refs
                   RETURN CASE
                       WHEN r.RelationID IS NULL THEN []
                       WHEN r.RelationID IS :: INTEGER NOT NULL THEN [r.RelationID]
                       ELSE r.RelationID
                   END AS id,
-                  CASE 
-                      WHEN r.RelationNumberOfSentences >= r.RelationNumberOfReferences THEN r.RelationNumberOfSentences 
-                      ELSE r.RelationNumberOfReferences 
+                  CASE
+                      WHEN sentences >= refs THEN sentences
+                      ELSE refs
                   END AS sentnum'''
         
         neo4jsentnums = [(record['id'],record['sentnum']) for record in s.run(cypher)]
