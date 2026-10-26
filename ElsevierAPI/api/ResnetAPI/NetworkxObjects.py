@@ -1,5 +1,4 @@
 import re,json,itertools,pickle,hashlib,math,copy,threading
-_REFS_LOCK = threading.RLock()  # guards PSRelation.refs(), see there
 from datetime import datetime
 from collections import defaultdict
 
@@ -197,6 +196,10 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
 
   def set_property(self, PropId:str, PropValue):
       self[PropId] = [PropValue]
+
+
+  def retype(self, new_type:str):
+      self[OBJECT_TYPE] = [new_type]
 
 
   def rename_prop(self, old_prop_name:str, new_prop_name:str):
@@ -642,7 +645,13 @@ class PSRelation(PSObject):
           ref.rename_prop(old_prop_name, new_prop_name)
 
     return
-   
+
+
+  def retype(self, new_type:str):
+    super().retype(new_type)
+    self.__make_urn()
+    self.neo4j_relationID(refresh=True)
+
 
   def _add_refs(self, references:list[Reference])->int:
     '''
@@ -885,15 +894,8 @@ class PSRelation(PSObject):
       return {k:self._prop2str(k,cell_sep) for k in self.keys() if k in prop_ids}
 
 
+
   def refs(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
-    # refs() builds/sorts self.references in place on every call, so concurrent calls on the same
-    # relation (e.g. the Postgres import thread and the Neo4j import in the main thread)
-    # fail with "list modified during sort"; serialize them.
-    with _REFS_LOCK:
-      return self._refs_(refresh,ref_limit,relid2refs)
-
-
-  def _refs_(self,refresh=False,ref_limit=0,relid2refs:dict[str,list[Reference]]=dict())->list[Reference]:
     '''
     input:
       relid2refs - optional dictionary {RelationID:[Reference]} to use when graph is loaded from Neo4j
@@ -983,9 +985,12 @@ class PSRelation(PSObject):
             if _AUTHORS_ in propSet_ref: # converting _AUTHORS_ to AUTHORS
               propSet_ref[AUTHORS] = [x.tostr() for x in propSet_ref[_AUTHORS_]]
 
-    [x.toAuthors() for x in self.references] #converting AUTHORS to _AUTHORS_
-    self.references.sort(key=lambda r: r.pubyear(), reverse=True)
-    [r.deduplicate_sentences() for r in self.references]
+      # do not modify self.references in place on every call, otherwise concurrent calls on the same
+      # relation (e.g. the Postgres import thread and the Neo4j import in the main thread)
+      # fail with "list modified during sort"; serialize them.
+      [x.toAuthors() for x in self.references] #converting AUTHORS to _AUTHORS_
+      self.references.sort(key=lambda r: r.pubyear(), reverse=True)
+      [r.deduplicate_sentences() for r in self.references]
     return self.references[:ref_limit] if ref_limit else self.references
   
   
@@ -1446,8 +1451,8 @@ class PSRelation(PSObject):
     return text_refs
 
 
-  def neo4j_relationID(self):
-    if RELATIONID in self:
+  def neo4j_relationID(self, refresh=False):
+    if RELATIONID in self and not refresh:
       return self[RELATIONID][0]
     inoutref = [n.neo4j_hash() for n in self.regulators()]
     inoutref.sort(reverse=True)
