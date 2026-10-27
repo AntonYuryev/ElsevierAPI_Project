@@ -441,9 +441,9 @@ class neo4j_nx(GraphDatabase):
     
 
   def count_nodes(self, objtype:str,propName='',propVals=[])->int:
-    cypher = f'MATCH (n:{objtype})\n'
+    cypher = f'MATCH (n:{Cypher.ident(objtype)})\n'
     if propName:
-      cypher += f' WHERE n.{propName} IN $propVals\n'
+      cypher += f' WHERE n.{Cypher.ident(propName)} IN $propVals\n'
       params = {'propVals':propVals}
     else:
       params = {}
@@ -590,7 +590,7 @@ class neo4j_nx(GraphDatabase):
     '''
     prop_names = list(relProps.keys())
     reltypes = _4reltypes if _4reltypes else self.DBrelTypes()
-    reltypes = '|'.join(reltypes)
+    reltypes = Cypher.idents(reltypes)
     match = f"MATCH ()-[r:{reltypes}]->()"
     start = time.time()
     
@@ -652,7 +652,7 @@ class neo4j_nx(GraphDatabase):
       (number of updated relations, number of input relations, match used to select relations in Neo4j)
     '''
     dir = '-' if relType in NONDIRECTIONAL  else '->'
-    match = f'(a:{regulatorType} {{URN:row.rURN}})-[r:{relType}]{dir}(b:{targetType} {{URN:row.tURN}})'
+    match = f'(a:{Cypher.ident(regulatorType)} {{URN:row.rURN}})-[r:{Cypher.ident(relType)}]{dir}(b:{Cypher.ident(targetType)} {{URN:row.tURN}})'
     print(f'updating {len(from_rels)} relations matched by {match}')
 
     cypher = '\n'.join([
@@ -661,7 +661,7 @@ class neo4j_nx(GraphDatabase):
           f"MATCH {match}",
           "WHERE (r.Effect = row.effect OR (r.Effect IS NULL AND row.effect = ''))",
           "AND (r.Mechanism = row.mechanism OR (r.Mechanism IS NULL AND row.mechanism = ''))",
-          f"SET r.`{with_prop}` = row.propValue",
+          f"SET r.{Cypher.ident(with_prop)} = row.propValue",
           "RETURN COUNT(r) AS updatedCount",
           "} IN TRANSACTIONS OF 1000 ROWS",
           "RETURN sum(updatedCount) AS updatedCount"
@@ -751,12 +751,12 @@ class neo4j_nx(GraphDatabase):
   @staticmethod
   def _find_and_return_node(tx:tx, node:PSObject):
       query = (
-          'MATCH (n:{type}) WHERE n.URN = \"{urn}\"'
+          'MATCH (n:{type}) WHERE n.URN = $urn '
           'RETURN n.Name AS Name, n.URN as urn, labels(n) as ObjTypeName'
           # labels(n) returns list
       )
-      query = query.format(type=node.objtype(), urn=node.urn())
-      neo4j_result = tx.run(query)
+      query = query.format(type=Cypher.ident(node.objtype()))
+      neo4j_result = tx.run(query, urn=node.urn())
       return {(record["Name"], record["urn"], record['ObjTypeName'][0]) for record in neo4j_result}
   
   """
@@ -950,7 +950,7 @@ class neo4j_nx(GraphDatabase):
     with ThreadPoolExecutor() as ex:
       futures = {}
       for reltype, rel_ids in ids_by_type.items():
-        query = cypher.format(reltype=reltype.replace('`', '``'))
+        query = cypher.format(reltype=Cypher.ident(reltype)[1:-1])
         id_list = list(rel_ids)
         for start in range(0, len(id_list), CHUNK_SIZE):
           chunk = id_list[start:start + CHUNK_SIZE]
@@ -1039,7 +1039,7 @@ class neo4j_nx(GraphDatabase):
    
   ########################### CURATION METHODS ########################### CURATION METHODS ###########################
   def delete_rels_with(self, values:list[str], in_propName:str):
-    cypher = f'UNWIND $relIds AS idToDelete MATCH ()-[r]->() WHERE r.{in_propName} = idToDelete DELETE r'
+    cypher = f'UNWIND $relIds AS idToDelete MATCH ()-[r]->() WHERE r.{Cypher.ident(in_propName)} = idToDelete DELETE r'
     with self.session() as session:
       session.run(cypher, {'relIds': values})
       print(f"Deleted {len(values)} relations with {in_propName}: {values}")
@@ -1056,11 +1056,12 @@ class neo4j_nx(GraphDatabase):
       dict[str, PSObject] - mapping from node URNs to PSObjects updated with 'CitationCount' and 'Connectivity'
     '''
     print('Collecting reference density and connectivity for nodes in Neo4j...')
-    s = f's:{seedtype}' if seedtype else 's'
-    r = f'r:{reltype}' if reltype else 'r'
-    n = f'n:{neighbortype}' if neighbortype else '' #if neighbortype is empty will match any neighbor node
-    
-    cypher = f"MATCH ({s})-[{r}]-({n}) WHERE r.Source = '{source}' RETURN count(DISTINCT s) AS ConnectedNodeCount, count(r) AS TotalRelCount"
+    s = f's:{Cypher.ident(seedtype)}' if seedtype else 's'
+    r = f'r:{Cypher.ident(reltype)}' if reltype else 'r'
+    n = f'n:{Cypher.ident(neighbortype)}' if neighbortype else '' #if neighbortype is empty will match any neighbor node
+    source = Cypher.strlit(source)
+
+    cypher = f"MATCH ({s})-[{r}]-({n}) WHERE r.Source = {source} RETURN count(DISTINCT s) AS ConnectedNodeCount, count(r) AS TotalRelCount"
     if neighbortype:
       cypher += f', count(DISTINCT n) AS NeighborNodeCount'
     result = self.session().run(cypher)
@@ -1087,7 +1088,7 @@ class neo4j_nx(GraphDatabase):
       MATCH ({s})
       WHERE EXISTS {{({s})-[]-()}}
       MATCH ({s})-[{r}]-({n})
-      WHERE r.Source = '{source}'
+      WHERE r.Source = {source}
       RETURN s as seed, count(r) AS relCount, 
       sum(reduce(total = 0, x IN apoc.convert.toList(r.RelationNumberOfReferences) | total + x)) AS citationCount
     """
@@ -1107,7 +1108,7 @@ class neo4j_nx(GraphDatabase):
       if neighbortype:
         target_cypher = f"""
           MATCH ({s})-[{r}]-({n})
-          WHERE r.Source = '{source}'
+          WHERE r.Source = {source}
           RETURN n as target, count(r) AS relCount, 
           sum(reduce(total = 0, x IN apoc.convert.toList(r.RelationNumberOfReferences) | total + x)) AS citationCount
         """
