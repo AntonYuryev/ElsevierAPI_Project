@@ -95,7 +95,8 @@ class PSPathway(PSObject):
     '''
     self.graph.load_references()
     graph_xml_str = self.graph.to_rnefstr(ent_props,rel_props,add_props2rel,add_props2pathway)
-    resnet = et.fromstring(graph_xml_str,parser=None)
+    safe_parser = et.XMLParser(resolve_entities=False, no_network=True) # XXE guard
+    resnet = et.fromstring(graph_xml_str,parser=safe_parser)
     resnet.set('type','Pathway')
     resnet.set('Name',self.name())
     resnet.set('URN',self.urn())
@@ -107,7 +108,7 @@ class PSPathway(PSObject):
           et.SubElement(pathway_props, 'attr', {'name':str(prop_name), 'value':str(val)}, nsmap=None)
 
     if 'layout' in self and self['layout']:
-      my_layout = et.fromstring(self['layout'],parser=None)
+      my_layout = et.fromstring(self['layout'],parser=safe_parser)
       attachments = et.Element('attachments',attrib=None, nsmap=None)
       attachments.append(my_layout)
     else: 
