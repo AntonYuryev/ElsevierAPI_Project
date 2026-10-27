@@ -3,6 +3,7 @@ from ..ResnetAPI.NetworkxObjects import RESNET_REL_TYPES,OBJECT_TYPE,REFCOUNT,SN
 from ..ResnetAPI.ResnetGraph import RELATIONID
 from ..ResnetAPI.references import ANATOMICAL_PROPS,REFERENCE_POSTGRES_COLS
 from collections import defaultdict
+import re
 
 
 ENTPROP_NEO4J = ['URN', 'Name', 'Description','Alias', 'CAS_ID','Localization',
@@ -16,6 +17,37 @@ DEAFAULT_DATABASE_RELPROPS = set(ALL_NEOP4J_RELPROPS + REFERENCE_POSTGRES_COLS +
 
 
 class Cypher:
+  @staticmethod
+  def ident(name:str)->str:
+    """Backtick-quotes a Neo4j label / relationship type / property key; embedded backticks are doubled"""
+    name = str(name)
+    if len(name) > 1 and name.startswith('`') and name.endswith('`') and '`' not in name[1:-1].replace('``',''):
+      return name # already quoted
+    return '`' + name.replace('`', '``') + '`'
+
+  @staticmethod
+  def idents(names)->str:
+    """'`A`|`B`' for labels / relationship types"""
+    return '|'.join(Cypher.ident(n) for n in names)
+
+  @staticmethod
+  def pname(name:str)->str:
+    """makes a safe cypher parameter name"""
+    return re.sub(r'\W', '_', str(name))
+
+  @staticmethod
+  def strlit(value)->str:
+    """Cypher single-quoted string literal with backslashes and quotes escaped"""
+    return "'" + str(value).replace('\\', '\\\\').replace("'", "\\'") + "'"
+
+  @staticmethod
+  def refcount_cmp(val)->str:
+    """validates a REFCOUNT condition such as '>= 2' (comparison operator + integer)"""
+    m = re.fullmatch(r'\s*(>=|<=|<>|=|>|<)?\s*(\d+)\s*', str(val))
+    if not m:
+      raise ValueError(f'Invalid {REFCOUNT} condition: {val!r}')
+    return f"{m.group(1) or '='} {m.group(2)}"
+
   @staticmethod
   def __urns(nodes:list[PSObject]):
     return [n.urn() for n in nodes]
@@ -36,13 +68,13 @@ class Cypher:
     output:
       "r:RelType1|RelType2|RelType3"
     '''
-    return '|'.join(reltypes)
+    return Cypher.idents(reltypes)
 
   @staticmethod
   def match_psobjs(objs:list[PSObject],letter='a'):
     list_name = f'{letter}_urnList'
     objtypes = {o.objtype() for o in objs}
-    objtypes_str = '|'.join(objtypes)
+    objtypes_str = Cypher.idents(objtypes)
     cypher = f"WITH ${list_name} AS urns\nUNWIND urns AS urn\nMATCH ({letter}:{objtypes_str}{{URN:urn}})\n"
     parameter = {f'{list_name}':[obj.urn() for obj in objs]}
     return cypher, parameter
@@ -50,7 +82,7 @@ class Cypher:
 
   def match_nodes_byprop(propValues:list[str|int],propName:str,objtype:str,letter='a'):
     list_name = f'{letter}_propList'
-    cypher = f"WITH ${list_name} AS props\nUNWIND props AS prop\nMATCH ({letter}:{objtype}{{{propName}:prop}})\n"
+    cypher = f"WITH ${list_name} AS props\nUNWIND props AS prop\nMATCH ({letter}:{Cypher.ident(objtype)}{{{Cypher.ident(propName)}:prop}})\n"
     parameter = {f'{list_name}':propValues}
     return cypher, parameter
 
@@ -115,7 +147,7 @@ class Cypher:
       only_from - list of drugs to limit the graph
     '''
     targettypes = {o.objtype() for o in _4targets}
-    targettypes_str = ','.join([f"'{t}'" for t in targettypes])
+    targettypes_str = ','.join(["'" + str(t).replace('\\', '\\\\').replace("'", "\\'") + "'" for t in targettypes])
 
     cypher, params = Cypher.select_drugs(only_from)
     cypher = cypher[:-8] # remove "RETURN d"
@@ -136,7 +168,7 @@ class Cypher:
       Cypher query requires {memberUrns:[urns]} as parameter for session.run(cypher,parameter)
     """
     return f"""
-      MERGE (p:Group {{Name: '{group_name}'}})
+      MERGE (p:Group {{Name: {Cypher.strlit(group_name)}}})
       WITH p, $memberUrns AS memberUrnsList
       UNWIND memberUrnsList AS currentUrn
       OPTIONAL MATCH (c:SmallMol {{URN: currentUrn}})
@@ -155,7 +187,7 @@ class Cypher:
       Cypher query requires {memberUrns:[urns]} as parameter for session.run(cypher,parameter)
     """
     return f"""
-      MERGE (p:{concept_type} {{Name: '{group_name}'}})
+      MERGE (p:{Cypher.ident(concept_type)} {{Name: {Cypher.strlit(group_name)}}})
       WITH p, $memberUrns AS memberUrnsList
       UNWIND memberUrnsList AS currentUrn
       OPTIONAL MATCH (c:SmallMol {{URN: currentUrn}})
@@ -179,8 +211,8 @@ class Cypher:
       if with_connectivity = True, cypher query returns list of (node,connectivity) tuples
       otherwise returns list of nodes
     """
-    cypher = f' MATCH (c:{objtype})' if objtype else ' MATCH (c)'
-    cypher += f'\nWHERE c.{propName} IN $values\n'
+    cypher = f' MATCH (c:{Cypher.ident(objtype)})' if objtype else ' MATCH (c)'
+    cypher += f'\nWHERE c.{Cypher.ident(propName)} IN $values\n'
     cypher +=  ' RETURN c AS node'
     if with_connectivity:
       cypher += f', COUNT{{(c)-[]-()}} AS {CONNECTIVITY}'
@@ -190,7 +222,7 @@ class Cypher:
   @staticmethod
   def match_childs(parent:PSObject,letter='c',max_childs=10):
     return f"""MATCH ({letter})
-      WHERE ({letter})-[:is_a*..{max_childs}]->(:{parent.objtype()}{{{'URN'}:'{parent.urn()}'}})\n"""
+      WHERE ({letter})-[:is_a*..{int(max_childs)}]->(:{Cypher.ident(parent.objtype())}{{{'URN'}:{Cypher.strlit(parent.urn())}}})\n"""
   
 
   @staticmethod
@@ -199,9 +231,9 @@ class Cypher:
       if max_childs is specified, only parents with less than max_childs childs are returned
       set max_childs to None to get all childs
     '''
-    cypher = f"MATCH (p:{parent.objtype()} {{URN:$urn}})"
+    cypher = f"MATCH (p:{Cypher.ident(parent.objtype())} {{URN:$urn}})"
     if depth:
-      cypher += f"OPTIONAL MATCH (child)-[:is_a*..{depth}]->(p)"
+      cypher += f"OPTIONAL MATCH (child)-[:is_a*..{int(depth)}]->(p)"
     else:
       cypher += f"OPTIONAL MATCH (child)-[:is_a*]->(p)\n"
 
@@ -209,7 +241,7 @@ class Cypher:
     if max_childs:
       cypher += '\n'.join([
               "WITH size(all_children) AS count, all_children",
-              f"RETURN count, CASE WHEN count > 0 AND count <= {max_childs} THEN all_children ELSE null, END AS childs"
+              f"RETURN count, CASE WHEN count > 0 AND count <= {int(max_childs)} THEN all_children ELSE null, END AS childs"
       ])
     else:
       cypher += "\nRETURN size(all_children) AS count, all_children AS childs"
@@ -220,8 +252,8 @@ class Cypher:
   @staticmethod
   def get_parents(child:PSObject,depth=3):
     cypher = '\n'.join([
-      f'MATCH (child:{child.objtype()} {{URN:$urn}})',
-      f'OPTIONAL MATCH (parent)<-[:is_a*..{depth}]-(child)',
+      f'MATCH (child:{Cypher.ident(child.objtype())} {{URN:$urn}})',
+      f'OPTIONAL MATCH (parent)<-[:is_a*..{int(depth)}]-(child)',
       'WITH child, collect(DISTINCT parent) AS parents',
       'RETURN parents AS parents'
     ])
@@ -231,7 +263,7 @@ class Cypher:
   @staticmethod
   def node_connectivity(nodes:list[PSObject]):
     objtypes = {p.objtype() for p in nodes}
-    objtypes_str = '|'.join(objtypes)
+    objtypes_str = Cypher.idents(objtypes)
     cypher = '\n'.join([
       'WITH $urnList AS urns',
       'UNWIND urns AS urn',
@@ -244,11 +276,11 @@ class Cypher:
   @staticmethod ## TO DO 
   def _get_childs_(parents:list[PSObject],max_childs=10,letter='c'):
     objtypes = {p.objtype() for p in parents}
-    objtypes_str = '|'.join(objtypes)
+    objtypes_str = Cypher.idents(objtypes)
     cypher = '\n'.join([
       'WITH $urnList AS urns',
       'UNWIND urns AS urn',
-      f'MATCH ({letter}) WHERE ({letter})-[:is_a* ..{max_childs}]->(:{objtypes_str}{{URN:urn}})',
+      f'MATCH ({letter}) WHERE ({letter})-[:is_a* ..{int(max_childs)}]->(:{objtypes_str}{{URN:urn}})',
       f'RETURN {letter}'
     ])
     return cypher, {'urnList':[p.urn() for p in parents]}
@@ -257,7 +289,7 @@ class Cypher:
   @staticmethod
   def __list2str(values:list[str|int|float])->str:
     if isinstance(values[0], str):
-      return ', '.join([f"'{v}'" for v in values])
+      return ', '.join(["'" + str(v).replace('\\', '\\\\').replace("'", "\\'") + "'" for v in values])
     else:
       return ', '.join([str(v) for v in values])
 
@@ -278,7 +310,7 @@ class Cypher:
           conditions.append(f"type({letter}) IN [{Cypher.__list2str(values)}]")
       elif prop == REFCOUNT:
           val = values[0] if isinstance(values, list) else values
-          conditions.append(f"{letter}.{prop} {val}")
+          conditions.append(f"{letter}.{Cypher.ident(prop)} {Cypher.refcount_cmp(val)}")
       elif prop == EFFECT:
         unknown_effect_requested = 'unknown' in values
         standard_effects = [v for v in values if v not in ('unknown')]
@@ -292,7 +324,7 @@ class Cypher:
         if effect_logic_parts:
           conditions.append(f"({' OR '.join(effect_logic_parts)})")
       else:
-        conditions.append(f"{letter}.{prop} IN [{Cypher.__list2str(values)}]")
+        conditions.append(f"{letter}.{Cypher.ident(prop)} IN [{Cypher.__list2str(values)}]")
 
     if conditions:
         if add_where:
@@ -312,17 +344,17 @@ class Cypher:
     '''
     if in_prop == OBJECT_TYPE:
       parameters = dict()
-      seeds = '|'.join(seeds_with_values)
+      seeds = Cypher.idents(seeds_with_values)
       if _2neighbor_types:
-        neigbors = '|'.join(_2neighbor_types)
+        neigbors = Cypher.idents(_2neighbor_types)
         cypher = f'MATCH (n:{neigbors})-[r]-(s:{seeds})\n'
       else:
         cypher = f'MATCH (n)-[r]-(s:{seeds})\n'
     else:
-      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{in_prop}:prop}})'
+      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{Cypher.ident(in_prop)}:prop}})'
       parameters = {'propList':seeds_with_values}
       if _2neighbor_types:
-        neigbors = '|'.join(_2neighbor_types)
+        neigbors = Cypher.idents(_2neighbor_types)
         cypher += f'MATCH (n:{neigbors})-[r]->(s)\n'
       else:
         cypher += 'MATCH (n)-[r]->(s)'
@@ -341,17 +373,17 @@ class Cypher:
     '''
     if in_prop == OBJECT_TYPE:
       parameters = dict()
-      seeds = '|'.join(seeds_with_values)
+      seeds = Cypher.idents(seeds_with_values)
       if _2neighbor_types:
-        neigbors = '|'.join(_2neighbor_types)
+        neigbors = Cypher.idents(_2neighbor_types)
         cypher = f'MATCH (s:{seeds})-[r]->(n:{neigbors})\n'
       else:
         cypher = f'MATCH (s:{seeds})-[r]->(n)\n'
     else:
-      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{in_prop}:prop}})'
+      cypher = f'WITH $propList AS props\nUNWIND props AS prop\nMATCH (s{{{Cypher.ident(in_prop)}:prop}})'
       parameters = {'propList':seeds_with_values}
       if _2neighbor_types:
-        neigbors = '|'.join(_2neighbor_types)
+        neigbors = Cypher.idents(_2neighbor_types)
         cypher += f'MATCH (s)-[r]->(n:{neigbors})\n'
       else:
         cypher += 'MATCH (s)-[r]->(n)'
@@ -369,8 +401,8 @@ class Cypher:
       use OBJECT_TYPE as key in by_relProps to specify filtering by relation type
       dir: '', 'upstream', 'downstream'
     '''
-    seeds = f's:{'|'.join(seeds_with_values)}' if in_prop == OBJECT_TYPE else 's'
-    neigbors = f'n:{'|'.join(_2neighbor_types)}' if _2neighbor_types else 'n'
+    seeds = f's:{Cypher.idents(seeds_with_values)}' if in_prop == OBJECT_TYPE else 's'
+    neigbors = f'n:{Cypher.idents(_2neighbor_types)}' if _2neighbor_types else 'n'
     parameters = dict()
 
     if dir == 'upstream':
@@ -381,7 +413,7 @@ class Cypher:
       cypher = f'MATCH ({neigbors})-[r]-({seeds})\n'
 
     if in_prop != OBJECT_TYPE:
-      cypher += f'WHERE s.{in_prop} IN $propList\n'   
+      cypher += f'WHERE s.{Cypher.ident(in_prop)} IN $propList\n'   
       parameters = {'propList':seeds_with_values}
 
     cypher = Cypher.add_relProps(cypher, by_relProps,add_where=False)
@@ -397,9 +429,9 @@ class Cypher:
         only_with_neighbors is dict {propName:[value1,value2,...]} to specify that seeds must have at least min_neighbors of specified neighbor_objtype connected by specified reltypes regardless of the neighbor_types filter. This allows to keep seeds with important neighbors that would be filtered out by neighbor_types criteria
       expands neighbors of seeds and filters seeds by number of neighbors of specified types and relations
     '''
-    seeds = f's:{'|'.join(seed_types)}'
-    neighbors = f'n:{'|'.join(neighbor_types)}' if neighbor_types else 'n'
-    rels = f'r:{'|'.join(rel_types)}' if rel_types else 'r'
+    seeds = f's:{Cypher.idents(seed_types)}'
+    neighbors = f'n:{Cypher.idents(neighbor_types)}' if neighbor_types else 'n'
+    rels = f'r:{Cypher.idents(rel_types)}' if rel_types else 'r'
     parameters = dict()
 
     if dir == 'upstream':
@@ -411,12 +443,12 @@ class Cypher:
     
     if only_with_neighbors:
       cypher += f'WHERE '
-      cypher += ' OR '.join([f'n.{prop} IN ${prop}List' for prop in only_with_neighbors.keys()])
+      cypher += ' OR '.join([f'n.{Cypher.ident(prop)} IN ${Cypher.pname(prop)}List' for prop in only_with_neighbors.keys()])
       cypher += '\n'
-      parameters = {f'{prop}List': list(only_with_neighbors[prop]) for prop in only_with_neighbors.keys()}
+      parameters = {f'{Cypher.pname(prop)}List': list(only_with_neighbors[prop]) for prop in only_with_neighbors.keys()}
 
     cypher += 'WITH s, count(DISTINCT n) AS neighborCount, collect({rel:r, neighbor:n}) AS connections\n'
-    cypher += f'WHERE neighborCount >= {min_neighbors}\n'
+    cypher += f'WHERE neighborCount >= {int(min_neighbors)}\n'
     cypher += 'UNWIND connections AS conn\n'
 
     cypher += 'RETURN s,conn.rel AS r,conn.neighbor AS n'
@@ -429,16 +461,16 @@ class Cypher:
     by_relProps:dict[str,list[str|int|float]]={}, dir=False):
 
     parameters = dict()
-    a = f'a:{'|'.join(regulator_objtypes)}'
-    b = f'b:{'|'.join(target_objtypes)}'
+    a = f'a:{Cypher.idents(regulator_objtypes)}'
+    b = f'b:{Cypher.idents(target_objtypes)}'
 
     cypher = f'MATCH ({a})'
     if regulator_props:
-      cypher += f'\nWHERE a.{regulator_propName} IN $regpropList\n'
+      cypher += f'\nWHERE a.{Cypher.ident(regulator_propName)} IN $regpropList\n'
       parameters['regpropList'] = regulator_props
     cypher += f'\nMATCH ({b})'
     if target_props:
-      cypher += f'\nWHERE b.{target_propName} IN $tarpropList\n'
+      cypher += f'\nWHERE b.{Cypher.ident(target_propName)} IN $tarpropList\n'
       parameters['tarpropList'] = target_props
     
     if dir:
@@ -456,8 +488,8 @@ class Cypher:
                    by_relProps:dict[str,list[str|int|float]]={}, dir=False):
 
     parameters = dict()
-    a = f'a:{'|'.join({obj.objtype() for obj in regulators})}'
-    b = f'b:{'|'.join({obj.objtype() for obj in targets})}'
+    a = f'a:{Cypher.idents({obj.objtype() for obj in regulators})}'
+    b = f'b:{Cypher.idents({obj.objtype() for obj in targets})}'
 
     parameters['rURNs'] = [obj.urn() for obj in regulators]
     parameters['tURNs'] = [obj.urn() for obj in targets]
@@ -480,13 +512,13 @@ class Cypher:
       output:
         cypher query, parameters for session.run(cypher,parameter)
     '''
-    physical_interactions = '|'.join([v for v in PHYSICAL_INTERACTIONS])
-    proteins = '|'.join([v for v in PROTEIN_TYPES])
+    physical_interactions = Cypher.idents([v for v in PHYSICAL_INTERACTIONS])
+    proteins = Cypher.idents([v for v in PROTEIN_TYPES])
     cypher = '\n'.join([
       'WITH $urnList AS urns',
       'UNWIND urns AS urn',
       f'MATCH (a:{proteins} {{URN:urn}})-[r:{physical_interactions}]-(b:{proteins})',
-      f'WHERE r.{REFCOUNT} >= {minref}',
+      f'WHERE r.{REFCOUNT} >= {int(minref)}',
       'RETURN a, r, b'
     ])
     parameter = {'urnList':[obj.urn() for obj in interactors]}
@@ -502,16 +534,16 @@ class Cypher:
       dir1common,dir2common in ['<','>','']\n
       relProps2node1,relProps2node2 are dicts {propName:[propValue1,propValue2,...]} for filtering relations between common neighbor and nodes1 and nodes2 respectively
     '''
-    common_objtype_str = '|'.join(with_entity_types)
+    common_objtype_str = Cypher.idents(with_entity_types)
     common = f'common:{common_objtype_str}'
 
     objtypes1 = {p.objtype() for p in nodes1}
     objtypes2 = {p.objtype() for p in nodes2}
-    objtypes_str1 = '|'.join(objtypes1)
-    objtypes_str2 = '|'.join(objtypes2)
-    r1_objtypes = '|'.join(relProps2node1.pop(OBJECT_TYPE, []))
+    objtypes_str1 = Cypher.idents(objtypes1)
+    objtypes_str2 = Cypher.idents(objtypes2)
+    r1_objtypes = Cypher.idents(relProps2node1.pop(OBJECT_TYPE, []))
     r1 = f'r1:{r1_objtypes}' if r1_objtypes else 'r1'
-    r2_objtypes = '|'.join(relProps2node2.pop(OBJECT_TYPE, []))
+    r2_objtypes = Cypher.idents(relProps2node2.pop(OBJECT_TYPE, []))
     r2 = f'r2:{r2_objtypes}' if r2_objtypes else 'r2'
 
     n1 = f'n1:{objtypes_str1}'
@@ -556,10 +588,10 @@ class Cypher:
     labels = Cypher.__get_rel_labels(relation)
     return '\n'.join([
           'MATCH',
-          '(a:' + node1.objtype() + '),',
-          '(b:' + node2.objtype() + ')',
-          'WHERE a.URN = \"' + node1.urn() + '\" AND b.URN = \"' + node2.urn() + '\"',
-          'CREATE (a)-[r:' + relType + ' {' + labels + '}]->(b)',
+          '(a:' + Cypher.ident(node1.objtype()) + '),',
+          '(b:' + Cypher.ident(node2.objtype()) + ')',
+          'WHERE a.URN = ' + Cypher.strlit(node1.urn()) + ' AND b.URN = ' + Cypher.strlit(node2.urn()),
+          'CREATE (a)-[r:' + Cypher.ident(relType) + ' {' + labels + '}]->(b)',
           'RETURN a.Name as rName, b.Name as tName, type(r) as rel_type'
           ])
 
@@ -581,8 +613,8 @@ class Cypher:
     for pair in pairs:
       cypher = '\n'.join([
           'UNWIND $pairs AS pair',
-          f'MATCH (a:`{pair["aType"]}` {{URN: pair.aUrn}}), (b:`{pair["bType"]}` {{URN: pair.bUrn}})',
-          f'CREATE (a)-[r:`{relType}` $relProps]->(b)',
+          f'MATCH (a:{Cypher.ident(pair["aType"])} {{URN: pair.aUrn}}), (b:{Cypher.ident(pair["bType"])} {{URN: pair.bUrn}})',
+          f'CREATE (a)-[r:{Cypher.ident(relType)} $relProps]->(b)',
           'RETURN a.Name AS rName, b.Name AS tName, type(r) AS rel_type'
       ])
       cyphers_params.append((cypher, {'pairs': [pair], 'relProps': rel_props}))
@@ -631,17 +663,17 @@ class Cypher:
     
     queries = []
     for (relType, aType, bType, group_index), pair_list in by_type.items():
-      a_label = aType.replace('`', '``')
-      b_label = bType.replace('`', '``')
+      a_label = Cypher.ident(aType)
+      b_label = Cypher.ident(bType)
       cypher = '\n'.join([
           #'EXPLAIN',
           'UNWIND $batch AS pair',
           'CALL (pair) {',
-          f'MATCH (a:`{a_label}` {{URN: pair.aUrn}}), (b:`{b_label}` {{URN: pair.bUrn}})',
-          f'CREATE (a)-[r:`{relType}`]->(b)',
+          f'MATCH (a:{a_label} {{URN: pair.aUrn}}), (b:{b_label} {{URN: pair.bUrn}})',
+          f'CREATE (a)-[r:{Cypher.ident(relType)}]->(b)',
           'SET r = pair.relProps',
           'RETURN count(r) AS relcount}',
-          f'IN TRANSACTIONS OF {transaction_size} ROWS',
+          f'IN TRANSACTIONS OF {int(transaction_size)} ROWS',
           'RETURN sum(relcount) AS relcount'
       ])
       parameters = {'batch': pair_list, 'transaction_size': transaction_size, 'request_name': f'importRels_{aType}_{relType}_{bType}'}
@@ -671,12 +703,12 @@ class Cypher:
       cypher = '\n'.join([
           'UNWIND $batch AS nodeProps',
           'CALL (nodeProps) {',
-          f'MERGE (n:`{objtype}` {{URN: nodeProps.URN}})',
+          f'MERGE (n:{Cypher.ident(objtype)} {{URN: nodeProps.URN}})',
           'ON CREATE SET n = nodeProps, n._created = true',
           'WITH n, n._created IS NOT NULL AS wasCreated',
           'REMOVE n._created',
           'RETURN count(CASE WHEN wasCreated THEN 1 END) AS createdCount, count(n) AS totalProcessed}',
-          f'IN TRANSACTIONS OF {transaction_size} ROWS',
+          f'IN TRANSACTIONS OF {int(transaction_size)} ROWS',
           'RETURN sum(createdCount) AS createdCount, sum(totalProcessed) AS totalProcessed'
         ])
       queries.append((cypher, {'batch': prop_list, 'transaction_size': transaction_size, 'request_name': f'importNodes_{objtype}'}))
