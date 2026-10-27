@@ -132,7 +132,7 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
   @staticmethod
   def urn2uid(urn:str):
       #return hash(urn)
-      my_hash = hashlib.md5(str(urn).encode())
+      my_hash = hashlib.md5(str(urn).encode()) # not a security use
       return int(my_hash.hexdigest(),32)
 
 
@@ -378,10 +378,15 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
   @classmethod
   def load(cls,from_file:str):
       dump_name = from_file+'.pickle'
+      class _PlainDataUnpickler(pickle.Unpickler):
+          '''dump() stores a plain dict of builtin containers; refuse to import any other global (unsafe deserialization guard)'''
+          def find_class(self, module, name):
+              if module == 'builtins' and name in ('set','frozenset','complex','bytearray'):
+                  return super().find_class(module, name)
+              raise pickle.UnpicklingError(f'global {module}.{name} is forbidden')
       try:
-          f = open(dump_name, "rb") 
-          o = cls(pickle.load(f))
-          f.close()
+          with open(dump_name, "rb") as f:
+              o = cls(_PlainDataUnpickler(f).load())
           return o
       except FileNotFoundError:
           raise FileNotFoundError
@@ -502,7 +507,7 @@ class PSRelation(PSObject):
   def __hash__(self):
       #__hash__ needs __eq__ to work properly
       urn = self.urn()
-      my_hash = hashlib.md5(str(urn).encode())
+      my_hash = hashlib.md5(str(urn).encode()) # not a security use
       return int(my_hash.hexdigest(),32)
 
 
