@@ -1,4 +1,4 @@
-import psycopg2,ast
+import psycopg2,ast,re
 from psycopg2.sql import SQL,Identifier,Literal
 from psycopg2.extras import Json
 from collections import defaultdict
@@ -86,11 +86,21 @@ IDENTIFIER_COLUMNS = {attr:column for column,attr in REFID2ATTR.items()}
 #unique_ref	text		YES
 
 
+_SQL_IDENT = re.compile(r'^[A-Za-z_][A-Za-z0-9_]{0,62}$')
+_SQL_COMPARATORS = {'=','<','>','<=','>=','<>','!='}
+
+def _safe_ident(name:str)->str:
+  '''SQL identifiers (schema, table, column names) cannot be bound as parameters, so they are validated strictly'''
+  if not isinstance(name,str) or not _SQL_IDENT.match(name):
+    raise ValueError(f'Invalid SQL identifier: {name!r}')
+  return name
+
+
 class PostgreSQL:
   def __init__(self, APIconfig:dict={}):
     if not APIconfig:
       APIconfig = load_api_config()
-    self.schema = APIconfig.get('postgreSQschema', DB_SCHEMA)
+    self.schema = _safe_ident(APIconfig.get('postgreSQschema', DB_SCHEMA))
     self.rel2refDict = dict() # {int(relid):[Reference]}
     self.executor = ThreadPoolExecutor(thread_name_prefix='postgres')
     self.futures = [] # futures of reference retrieval
@@ -123,7 +133,7 @@ class PostgreSQL:
 
 
   def get_relprops(self,relations_id:list[str]):
-    relid_str = ','.join(map(str, relations_id))
+    relid_str = ','.join(str(int(i)) for i in relations_id) # ints only
     sql = f"SELECT * FROM {self.schema}.control WHERE {self.schema}.control.id IN ({relid_str})"
 
     with self.db.cursor() as cur:
@@ -134,16 +144,23 @@ class PostgreSQL:
     return df.from_rows(data, columns=colnames)
   
 
+  @staticmethod
+  def _comparator(sign:str)->str:
+    if sign not in _SQL_COMPARATORS:
+      raise ValueError(f'Invalid SQL comparator: {sign!r}')
+    return sign
+
+
   def get_stats(self,table:str, columns:list[str],filter:dict[str:tuple[str,int]]=dict()):
     '''
     input:
       filter = {columns_name:(sign,value)}
     '''
-    count_str = ','.join([f'count({c})' for c in columns])
+    count_str = ','.join([f'count({_safe_ident(c)})' for c in columns])
     count_str += ',count(*)'
-    sql = f'SELECT {count_str} from {self.schema}.{table}'
-    if filter:    
-      clauses = [f'{colname} {value[0]} {value[1]}' for colname,value in filter.items()]
+    sql = f'SELECT {count_str} from {self.schema}.{_safe_ident(table)}'
+    if filter:
+      clauses = [f'{_safe_ident(colname)} {self._comparator(value[0])} {float(value[1])!r}' for colname,value in filter.items()]
       sql += ' WHERE '+ ' AND '.join(clauses)
     with self.db.cursor() as cur:
       cur.execute(sql)
@@ -162,10 +179,10 @@ class PostgreSQL:
     input:
       filter = {columns_name:(sign,value)}
     '''
-    count_str = ','.join([f'AVG({c})' for c in columns])
-    sql = f'SELECT {count_str} from {self.schema}.{table}'
-    if min_values:    
-      clauses = [f'{colname} {value[0]} {value[1]}' for colname,value in min_values.items()]
+    count_str = ','.join([f'AVG({_safe_ident(c)})' for c in columns])
+    sql = f'SELECT {count_str} from {self.schema}.{_safe_ident(table)}'
+    if min_values:
+      clauses = [f'{_safe_ident(colname)} {self._comparator(value[0])} {float(value[1])!r}' for colname,value in min_values.items()]
       sql += ' WHERE '+ ' AND '.join(clauses)
     with self.db.cursor() as cur:
       cur.execute(sql)
@@ -188,7 +205,7 @@ class PostgreSQL:
   def plot_distribution(self,table:str,columns:list[str],outdir=''):
     my_df = df(columns=columns)
     for col in columns:
-      sql = f'SELECT {col} FROM {self.schema}.{table}'
+      sql = f'SELECT {_safe_ident(col)} FROM {self.schema}.{_safe_ident(table)}'
       with self.db.cursor() as cur:
         cur.execute(sql)
         rows = [list(r) for r in cur.fetchall()]
@@ -250,7 +267,7 @@ class PostgreSQL:
     '''
       scopus_data.reference_id is joined with reference.unique_id
     '''
-    refid_str = ','.join(map(str, refids))
+    refid_str = ','.join(str(int(i)) for i in refids) # ints only
     sql = f"SELECT * FROM {self.schema}.scopus_data WHERE {self.schema}.scopus_data.reference_id IN ({refid_str})"
     with self.db.cursor() as cur:
       try:
@@ -375,7 +392,7 @@ class PostgreSQL:
     start = time.time()
     vrsn = self.schema
     sql = f'''SELECT * FROM {vrsn}.reference
-          WHERE {vrsn}.reference.msrc ILIKE ANY (ARRAY[{','.join([f"\'%{kw}%\'" for kw in keywords])}]);
+          WHERE {vrsn}.reference.msrc ILIKE ANY (ARRAY[{','.join([f"\'%{str(kw).replace(chr(39),chr(39)*2)}%\'" for kw in keywords])}]);
       '''
     ref_pd = self.get_refs(sql)
     rel2refs = self.__rows2refs(ref_pd)
