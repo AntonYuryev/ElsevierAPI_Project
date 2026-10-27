@@ -652,7 +652,7 @@ RETURN
 
 UNION
 
-//STEP 16. Merge reversed FunctionalAssociation into QuantitativeChange
+//STEP 15. Merge reversed FunctionalAssociation into QuantitativeChange
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (b)-[e:`FunctionalAssociation`]->(a) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -693,7 +693,7 @@ RETURN
 
 UNION
 
-//STEP 17. Merge QuantitativeChange|FunctionalAssociation into Biomarker:
+//STEP 16. Merge QuantitativeChange|FunctionalAssociation into Biomarker:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (a)-[e:`QuantitativeChange`|`FunctionalAssociation`]->(b) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -725,7 +725,7 @@ RETURN
 
 UNION
 
-//STEP 18. Merge reversed FunctionalAssociation to Biomarker:
+//STEP 17. Merge reversed FunctionalAssociation to Biomarker:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (b)-[e:`FunctionalAssociation`]->(a) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -766,7 +766,7 @@ RETURN
 
 UNION
 
-//STEP 19. Merge Regulation|CellExpression|FunctionalAssociation into Moltransport:
+//STEP 18. Merge Regulation|CellExpression|FunctionalAssociation into Moltransport:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (a)-[e:`CellExpression`|`Regulation`|`FunctionalAssociation`]->(b) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -815,7 +815,7 @@ RETURN
 
 UNION
 
-//STEP 20. Merge reversed CellExpression|FunctionalAssociation into MolTransport:
+//STEP 19. Merge reversed CellExpression|FunctionalAssociation into MolTransport:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (b)-[e:`FunctionalAssociation`|`CellExpression`]->(a) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -856,7 +856,7 @@ RETURN
 
 UNION
 
-//STEP 21. Merge Regulation|FunctionalAssociation into MolSynthesis:
+//STEP 20. Merge Regulation|FunctionalAssociation into MolSynthesis:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (a)-[e:`Regulation`|`FunctionalAssociation`]->(b) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
@@ -905,7 +905,7 @@ RETURN
 
 UNION
 
-//STEP 22. Merge reversed FunctionalAssociation to MolSynthesis:
+//STEP 21. Merge reversed FunctionalAssociation to MolSynthesis:
 //ESTIMATE: CALL { {DRIVING} } WITH anchor WHERE rand() < $p WITH collect(anchor) AS sample UNWIND sample AS anchor WITH sample, startNode(anchor) AS a, endNode(anchor) AS b MATCH (b)-[e:`FunctionalAssociation`]->(a) RETURN size(sample) AS sampleN, count(e) AS merges
 // apoc.periodic.iterate: batches of 10000, committed separately; progress is reported by the App.
 CALL apoc.periodic.iterate(
