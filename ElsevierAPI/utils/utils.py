@@ -617,7 +617,7 @@ def deterministic_hash64(text:str):
   """Return a deterministic signed 64-bit hash for text or bytes."""
   text = text.encode("utf8")
   # use md5 to create a hash
-  digest = hashlib.md5(text).hexdigest()
+  digest = hashlib.md5(text).hexdigest() # not a security use
   dint = int(digest, 16)  # create 128 bit integer
 
   # xor high and low halves
