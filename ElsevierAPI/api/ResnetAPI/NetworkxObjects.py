@@ -814,8 +814,11 @@ class PSRelation(PSObject):
   
 
   @classmethod
-  def make_rel(cls,regulator:PSObject,target:PSObject,props:dict[str,list],refs:list[Reference],is_directional=True):
+  def make_rel(cls,regulator:PSObject,target:PSObject,props:dict[str,list],refs:list[Reference],is_directional:bool=None):
     new_rel = cls(props)
+    if is_directional is None:
+      is_directional = new_rel.is_directional()
+      
     if is_directional:
       new_rel.Nodes[REGULATORS] = [regulator]
       new_rel.Nodes[TARGETS] = [target]
