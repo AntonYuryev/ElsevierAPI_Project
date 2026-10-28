@@ -423,6 +423,12 @@ class ResnetGraph (nx.MultiDiGraph):
       return dict(nx.algorithms.centrality.closeness_centrality(self)) 
 
 
+  def annotate_closeness(self):
+    closeness = self.closeness()
+    nx.set_node_attributes(self,closeness,CLOSENESS)
+    return closeness
+
+
   def centrality(self):
       '''
       Returns
