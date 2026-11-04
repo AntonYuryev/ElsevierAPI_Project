@@ -1014,7 +1014,9 @@ class neo4j_nx(GraphDatabase):
       if new_rels:
         for c,p in Cypher.importRels(new_rels):
           records,request_name = self.run_cypher(c,p)
-          regulatorType, relType, targetType = request_name.split('_')[1:]
+          # request_name = 'importRels:{aType}/{relType}/{bType}' (see Cypher.importRels); '/' cannot occur in a type name,
+          # unlike '_' (e.g. SmallMol_is_a_SmallMol, "is_a")
+          regulatorType, relType, targetType = request_name.split(':', 1)[1].split('/')
           for record in records:
             count = record['relcount']
             stats[(regulatorType, relType, targetType)] += count
