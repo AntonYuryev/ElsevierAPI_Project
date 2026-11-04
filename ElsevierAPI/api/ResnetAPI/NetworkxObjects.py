@@ -1482,7 +1482,12 @@ class PSRelation(PSObject):
     return relationID
 
 
-  def sent_keys(self):
+  def sent_keys(self)->set[tuple[str, str]]:
+    '''
+    output:
+      set of sentence keys for all sentences in all snippets in all references for self.
+      Sentence key: (doi_or_id, first key_len characters of the sentence in lowercase).
+    '''
     sent_keys = set()
     [sent_keys.update(ref.sent_keys()) for ref in self.refs()]
     return sent_keys

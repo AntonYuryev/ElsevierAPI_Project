@@ -219,8 +219,8 @@ def doi_hyperlink(identifier:str,display_str=''):
 
 def remove_markup(sentence:str):
   '''Remove Medscan markup from sentence, e.g. ID{123456=name} -> name\n'''
-  pattern = r"ID\{[^=]+=([^}]+)\}"  
-  no_markup = re.sub(pattern, r"\1", sentence)
+  pattern = r"ID\{[^=]+=([^}]+)\}|\s*CONTEXT\{[^}]*\}"
+  no_markup = re.sub(pattern, lambda match: match.group(1) or "", sentence)
   return no_markup.strip('" .,')
 
 
@@ -625,7 +625,11 @@ class Reference(dict):
 
 
   def sent_keys(self,key_len:int=30)->set[tuple[str,str]]:
-    '''Sentence key: (doi_or_id, first key_len characters of the sentence in lowercase).'''
+    '''
+      Adds snippet property "Original sentence" with sentences stripped of markup.
+    output:
+      set of sentence keys as tuples (doi_or_id, first key_len characters of the sentence in lowercase)
+    '''
     keys = set()
     doi = self.doi_or_id()
     for textref, snippet in self.snippets.items():
