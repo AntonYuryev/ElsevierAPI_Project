@@ -676,7 +676,7 @@ class Cypher:
           f'IN TRANSACTIONS OF {int(transaction_size)} ROWS',
           'RETURN sum(relcount) AS relcount'
       ])
-      parameters = {'batch': pair_list, 'transaction_size': transaction_size, 'request_name': f'importRels_{aType}_{relType}_{bType}'}
+      parameters = {'batch': pair_list, 'transaction_size': transaction_size, 'request_name': f'importRels:{aType}/{relType}/{bType}'}
       queries.append((cypher, parameters))
 
     print(f'Will import {len(rels)} relations in {len(queries)} batches')
