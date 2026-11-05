@@ -14,6 +14,21 @@ from .postgres import PostgreSQL,pd
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
 nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL))
 
+POSTGRES2NEO4J_RELPROPS = {'source': 'Source', 
+                          'effect': 'Effect', 
+                          'celllinename': 'CellLineName',
+                          'celltype': 'CellType',
+                          'changetype': 'ChangeType',
+                          'effect': 'Effect',
+                          'mechanism': 'Mechanism',
+                          'modificationtype': 'ModificationType',
+                          'nct_id': 'NCT_ID',
+                          'organ': 'Organ',
+                          'organism': 'Organism',
+                          'quantitativeType': 'QuantitativeType',
+                          'id': RELATIONID,
+                          'tissue': 'Tissue'}
+
 class neo4j_nx(GraphDatabase):
   def __init__(self, APIconfig:dict={},**kwargs):
     '''
@@ -1340,9 +1355,39 @@ class neo4j_nx(GraphDatabase):
     print(f'Colored sentences and saved to {outfile}')
 
 
-  def update_refcount(self, only_greater=True):
+  def ensure_relationid_indexes(self, reltypes, await_seconds=600):
+    '''
+    Creates the range index on RelationID for every relation type that does not have one (CREATE INDEX IF NOT EXISTS).
+    Updating relations matches them by RelationID; without the index every match scans all relations of the type.
+    A user who is not allowed to create indexes gets a message and the update goes on (slowly).
+    '''
+    created = 0
+    for reltype in reltypes:
+      name = f'rel_{reltype}_RelationID'
+      try:
+        with self.session() as s:
+          s.run(f'CREATE INDEX `{name}` IF NOT EXISTS FOR ()-[r:`{reltype}`]-() ON (r.RelationID)').consume()
+        created += 1
+      except Exception as e:
+        print(f'Could not create the RelationID index for {reltype} relations (updates of this type will be slow): {e}',flush=True)
+        break
+    if created:
+      print(f'RelationID indexes checked/created for {created} relation types; waiting for them to come online',flush=True)
+      try:
+        with self.session() as s:
+          s.run(f'CALL db.awaitIndexes({int(await_seconds)})').consume()
+      except Exception as e:
+        print(f'Indexes are still being built, continuing: {e}',flush=True)
+
+  def update_refcount(self, only_greater=True, update_props=True):
+    '''
+    updates RelationNumberOfSentences/RelationNumberOfReferences of Neo4j relations from Postgres and,
+    if update_props is True, the other relation properties of POSTGRES2NEO4J_RELPROPS (see _update_relprops)
+    '''
     total_retreived = 0
     total_updated = 0
+    total_props_updated = 0
+    self.ensure_relationid_indexes(RESNET_REL_TYPES)
     update_batch_size = 10000
 
     for reltype in RESNET_REL_TYPES:
@@ -1375,7 +1420,13 @@ class neo4j_nx(GraphDatabase):
       if not neo4jsentnums:
         continue
 
-      relid2update = self.postgres.select_refcounts(neo4jsentnums,only_greater=only_greater)
+      # The two Postgres reads (counts, property values) are independent, so they run in parallel; the property update
+      # also writes to Neo4j, and the counts are written only after it has finished, so the two never write at once.
+      with ThreadPoolExecutor(max_workers=1,thread_name_prefix='RefcountSelect') as ex:
+        refcounts_future = ex.submit(self.postgres.select_refcounts,neo4jsentnums,only_greater=only_greater)
+        if update_props:
+          total_props_updated += self._update_relprops(reltype, [relid for relid,_ in neo4jsentnums])
+        relid2update = refcounts_future.result()
       if not relid2update:
         print(f'No {reltype} relations need refcount update')
         continue
@@ -1387,16 +1438,80 @@ class neo4j_nx(GraphDatabase):
 
       update_cypher = f'''UNWIND $rows AS row
                         MATCH ()-[r:{reltype}]->()
-                        USING INDEX r:{reltype}(RelationID)
                         WHERE r.RelationID = row.id
                         SET r.RelationNumberOfSentences = row.sentences,
                             r.RelationNumberOfReferences = row.refs
                         RETURN count(r) AS updated'''
+      type_updated = 0
       for start in range(0, len(rows), update_batch_size):
         parameters = {'rows': rows[start:start+update_batch_size], 'request_name': f'{reltype}_{start}_refcount_update'}
         records, _ = self.run_cypher(update_cypher, parameters)
         updatedCount = records[0]['updated'] if records else 0
         total_updated += updatedCount
-        print(f"Relations updated so far: {total_updated} out of {len(rows)} needed refcount update\n")
+        type_updated += updatedCount
+        print(f"{reltype}: counts updated so far: {type_updated} out of {len(rows)} needed refcount update\n")
 
-    print(f"Finished processing all relations\nTotal relations updated: {total_updated}")
+    print(f"Finished processing all relations\nTotal relations with updated reference/sentence counts: {total_updated}")
+    if update_props:
+      print(f"Total relations with updated properties from Postgres references: {total_props_updated}")
+
+  def _update_relprops(self, reltype:str, relids:list, update_batch_size=5000)->int:
+    '''
+    Copies the relation properties of POSTGRES2NEO4J_RELPROPS (except the RelationID) from the Postgres references of
+    the relations of type reltype to the Neo4j relations (matched by RelationID = reference.id). All of them are string properties:
+      1) no such property on the relation  -> it is set to the single string value;
+      2) the property is a single value    -> it becomes a list [old value, new value];
+      3) the property is a list            -> the new value is appended to the list.
+    A value that the relation already has is never added again, so running this repeatedly changes nothing.
+    returns the number of relations whose properties were changed
+    '''
+    col2prop = {c.lower():p for c,p in POSTGRES2NEO4J_RELPROPS.items() if p != RELATIONID}
+    columns = self.postgres.existing_reference_columns(list(col2prop))
+    missing = [c for c in col2prop if c not in columns]
+    if missing:
+      print(f'Skipped properties without a column in the Postgres reference table: {missing}',flush=True)
+    if not columns:
+      return 0
+
+    uniq_ids = []
+    seen = set()
+    for relid in relids:
+      ids = tuple(relid) if isinstance(relid,list) else (relid,)
+      if ids and ids not in seen:
+        seen.add(ids)
+        uniq_ids.append(list(ids))
+    pg_props = self.postgres.select_relprops(uniq_ids, columns)
+    if not pg_props:
+      print(f'No {reltype} relations have property values in Postgres references')
+      return 0
+
+    rows = []
+    for ids, props in pg_props.items():
+      rows.append({'id': ids[0] if len(ids) == 1 else list(ids),
+                   'vals': {col2prop[c]:values for c,values in props.items()}})
+
+    # one WITH/SET pair per property: old value -> list, new values not yet present, single string if only one value results
+    parts = []
+    for prop in (col2prop[c] for c in columns):
+      q = f'`{prop}`'
+      parts.append(f'''WITH r, row, before, CASE WHEN r.{q} IS NULL THEN []
+                                       WHEN valueType(r.{q}) STARTS WITH 'LIST' THEN r.{q}
+                                       ELSE [r.{q}] END AS old
+                       WITH r, row, before, old, [v IN coalesce(row.vals.{q}, []) WHERE NOT v IN old] AS fresh
+                       SET r.{q} = CASE WHEN size(fresh) = 0 THEN r.{q}
+                                        WHEN size(old) + size(fresh) = 1 THEN fresh[0]
+                                        ELSE old + fresh END''')
+    update_cypher = f'''UNWIND $rows AS row
+                        MATCH ()-[r:{reltype}]->()
+                        WHERE r.RelationID = row.id
+                        WITH r, row, properties(r) AS before
+                        {chr(10).join(parts)}
+                        WITH r, before, properties(r) AS after
+                        RETURN count(CASE WHEN before <> after THEN 1 END) AS updated'''
+    updated = 0
+    for start in range(0, len(rows), update_batch_size):
+      parameters = {'rows': rows[start:start+update_batch_size], 'request_name': f'{reltype}_{start}_relprops_update'}
+      records, _ = self.run_cypher(update_cypher, parameters)
+      updated += records[0]['updated'] if records else 0
+      print(f'{reltype}: properties of {updated} relations updated so far out of {len(rows)} with property values in Postgres',flush=True)
+    return updated
