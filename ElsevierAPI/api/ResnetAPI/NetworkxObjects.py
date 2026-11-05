@@ -1497,3 +1497,16 @@ class PSRelation(PSObject):
     for ref in self.refs():
       for text_ref in ref.snippets.keys():
         ref.add_sentence_prop(text_ref, prop, value)
+
+
+  def remap_urn(self, URNremap:dict[str,str]):
+    node_urns = [n.urn() for n in self.regulators() + self.targets()]
+    remaped_urns = [URNremap.get(urn) for urn in node_urns if urn in URNremap]
+    if len(remaped_urns) == len(node_urns):
+      rel_copy = self.copy()
+      for node in rel_copy.regulators() + rel_copy.targets():
+        node['URN'] = URNremap[node.urn()]
+
+      return rel_copy
+    else:
+      return None

@@ -14,7 +14,7 @@ from typing import Optional
 from collections import defaultdict,deque
 from concurrent.futures import ThreadPoolExecutor,as_completed
 from .NetworkxObjects import PSObject,PSRelation,len, DIRECT, INDIRECT, DBID,EFFECT, RELATIONID
-from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,PHYSICAL_INTERACTIONS,OBJECT_TYPE
+from .NetworkxObjects import REGULATORS,TARGETS,CHILDS,REFCOUNT,STATE,PHYSICAL_INTERACTIONS,OBJECT_TYPE, ALL_REL_PROPS
 from .references import Reference, pubmed_hyperlink, make_hyperlink
 from .references import PUBYEAR,TITLE,REFERENCE_PROPS,JOURNAL,INT_PROPS,PS_CITATION_INDEX,SENTENCE_PROPS,SENTENCE,AUTHORS,PS_REFERENCE_PROPS
 # RefStats / IDENTIFIER_COLUMN are imported inside bibliography() (their only user),
@@ -2429,7 +2429,7 @@ class ResnetGraph (nx.MultiDiGraph):
     return to_return
   
 
-  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print:list=[],add_rel_props:dict={},
+  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print=ALL_REL_PROPS,add_rel_props:dict={},
                 with_section_size=0,delete_nodes=False,lock=None):
     '''
     input:
