@@ -2429,7 +2429,7 @@ class ResnetGraph (nx.MultiDiGraph):
     return to_return
   
 
-  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print=ALL_REL_PROPS,add_rel_props:dict={},
+  def dump2rnef(self,fname='',ent_prop2print:list=['Name'],rel_prop2print:list=ALL_REL_PROPS,add_rel_props:dict={},
                 with_section_size=0,delete_nodes=False,lock=None):
     '''
     input:
