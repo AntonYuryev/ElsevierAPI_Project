@@ -1463,6 +1463,8 @@ class neo4j_nx(GraphDatabase):
       2) the property is a single value    -> it becomes a list [old value, new value];
       3) the property is a list            -> the new value is appended to the list.
     A value that the relation already has is never added again, so running this repeatedly changes nothing.
+    List values are kept sorted and without duplicates (the same set of values is always the same list), also when the list
+    already existed in Neo4j and nothing new is added to it.
     returns the number of relations whose properties were changed
     '''
     col2prop = {c.lower():p for c,p in POSTGRES2NEO4J_RELPROPS.items() if p != RELATIONID}
@@ -1498,9 +1500,11 @@ class neo4j_nx(GraphDatabase):
                                        WHEN valueType(r.{q}) STARTS WITH 'LIST' THEN r.{q}
                                        ELSE [r.{q}] END AS old
                        WITH r, row, before, old, [v IN coalesce(row.vals.{q}, []) WHERE NOT v IN old] AS fresh
-                       SET r.{q} = CASE WHEN size(fresh) = 0 THEN r.{q}
+                       SET r.{q} = CASE WHEN size(fresh) = 0 THEN
+                                          CASE WHEN r.{q} IS NOT NULL AND valueType(r.{q}) STARTS WITH 'LIST'
+                                               THEN apoc.coll.sort(apoc.coll.toSet(r.{q})) ELSE r.{q} END
                                         WHEN size(old) + size(fresh) = 1 THEN fresh[0]
-                                        ELSE old + fresh END''')
+                                        ELSE apoc.coll.sort(apoc.coll.toSet(old + fresh)) END''')
     update_cypher = f'''UNWIND $rows AS row
                         MATCH ()-[r:{reltype}]->()
                         WHERE r.RelationID = row.id
