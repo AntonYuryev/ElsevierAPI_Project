@@ -2655,10 +2655,13 @@ class ResnetGraph (nx.MultiDiGraph):
 
   @staticmethod
   def batch_read(rnef_files:list[str],batch_size:int=5000,
-        retype={'UnknownRegulation':'Regulation','ExpressionControl':'Expression'}):
+        retype={'UnknownRegulation':'Regulation','ExpressionControl':'Expression'},
+        files_done:list=None):
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
+    files_done - optional one-element list; before each batch is yielded files_done[0] is set to the number of files
+                 whose relations are ALL contained in the batches yielded so far (this one included)
     '''
     #rnef_files = dir2flist(path2dir, include_subdirs=include_subdir, file_ext=file_ext)
     #print(f'Reading {file_ext} files from: {path2dir}')
@@ -2666,7 +2669,7 @@ class ResnetGraph (nx.MultiDiGraph):
     batch_rels = []
     read_nodes = set()
     rel_counter = 0
-    for rnef_file in rnef_files:
+    for file_idx, rnef_file in enumerate(rnef_files):
       nodes_counter = 0
       relation_counter = 0
       for nodes, rels in ResnetGraph.resnet_read(rnef_file):
@@ -2684,6 +2687,8 @@ class ResnetGraph (nx.MultiDiGraph):
         relation_counter += len(rels)
         if len(batch_rels) >= batch_size:
           print(f"So far read {nodes_counter} nodes and {relation_counter} relations from {rnef_file}")
+          if files_done is not None:
+            files_done[0] = file_idx   # the current file is not finished yet
           yield batch_nodes, batch_rels
           batch_nodes = []
           batch_rels = []
@@ -2691,6 +2696,8 @@ class ResnetGraph (nx.MultiDiGraph):
     
     if batch_rels:
       print(f"Finished reading {len(rnef_files)} files with {nodes_counter} nodes and {relation_counter} relations")
+      if files_done is not None:
+        files_done[0] = len(rnef_files)
       yield batch_nodes, batch_rels
     else:
       print(f"Finished reading {len(rnef_files)} files with {len(read_nodes)} nodes and {rel_counter} relations")
