@@ -952,7 +952,8 @@ class neo4j_nx(GraphDatabase):
     '''
     ids_by_type = {}
     for rel in rels:
-      ids_by_type.setdefault(rel.objtype(), set()).add(rel.neo4j_relationID())
+      # RelationID must go to Cypher as an INTEGER (int64), as it is stored in Neo4j; a string would never match
+      ids_by_type.setdefault(rel.objtype(), set()).add(int(rel.neo4j_relationID()))
     self._ensure_relid_indexes_once(ids_by_type)   # without the index each chunk scans all relations of the type
 
     cypher = '\n'.join([
@@ -1012,7 +1013,8 @@ class neo4j_nx(GraphDatabase):
       return 0
     ids_by_type = defaultdict(set)
     for rel in rels:
-      ids_by_type[rel.objtype()].add(rel.neo4j_relationID())
+      # RelationID must go to Cypher as an INTEGER (int64), as it is stored in Neo4j; a string would never match
+      ids_by_type[rel.objtype()].add(int(rel.neo4j_relationID()))
     # Relations are found by RelationID. Without an index on it every lookup scans ALL relations of the type, so the index
     # is created once per type (IF NOT EXISTS: a no-op when it exists) and the lookup is ONE `IN $ids` match per chunk:
     # an index multi-seek with the index, a single scan per chunk (not one scan per id) without it.
@@ -1024,13 +1026,21 @@ class neo4j_nx(GraphDatabase):
         f'MATCH ()-[r:{Cypher.ident(reltype)}]->()',
         'WHERE r.RelationID IN $ids',
         'WITH r, [] + coalesce(r.Source, []) AS current',    # string -> [string]; list stays a list
-        'WHERE NOT $source IN current',
-        'SET r.Source = current + $source',
-        'RETURN count(r) AS changed'])
+        'WITH r, current, NOT $source IN current AS needs',
+        'FOREACH (_ IN CASE WHEN needs THEN [1] ELSE [] END | SET r.Source = current + $source)',
+        'RETURN count(r) AS matched, sum(CASE WHEN needs THEN 1 ELSE 0 END) AS changed, collect(r.Source)[0] AS sample'])
+      matched = 0
+      type_changed = 0
+      sample = None
       for i in range(0, len(id_list), chunk_size):
         with self.session() as s:
           rec = s.run(cypher, ids=id_list[i:i+chunk_size], source=source).single()
-          changed += rec['changed'] if rec else 0
+          if rec:
+            matched += rec['matched']
+            type_changed += rec['changed'] or 0
+            if sample is None: sample = rec['sample']
+      changed += type_changed
+      print(f"Source '{source}' - {reltype}: {matched} of {len(id_list)} RelationIDs found in Neo4j database '{self.database}' at {self.uri}, Source added to {type_changed}; Source of the first relation now: {sample!r}",flush=True)
     return changed
 
 
