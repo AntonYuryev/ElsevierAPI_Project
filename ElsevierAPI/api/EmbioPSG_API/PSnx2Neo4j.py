@@ -992,6 +992,35 @@ class neo4j_nx(GraphDatabase):
     return existing_rels, missing_rels
 
 
+  def add_source_to_rels(self, rels:list[PSRelation], source:str, chunk_size=5000)->int:
+    '''
+    Adds source to the Source property of the relations in Neo4j that have the RelationID of the rels.
+    An existing Source is never replaced: a string value is converted to a list, and source is appended
+    to it unless it is already there. Returns the number of relations whose Source changed.
+    '''
+    if not source or not rels:
+      return 0
+    ids_by_type = defaultdict(set)
+    for rel in rels:
+      ids_by_type[rel.objtype()].add(rel.neo4j_relationID())
+    changed = 0
+    for reltype, ids in ids_by_type.items():
+      id_list = list(ids)
+      cypher = '\n'.join([
+        'UNWIND $ids AS id',
+        f'MATCH ()-[r:{Cypher.ident(reltype)}]->()',
+        'WHERE r.RelationID = id',
+        'WITH r, [] + coalesce(r.Source, []) AS current',    # string -> [string]; list stays a list
+        'WHERE NOT $source IN current',
+        'SET r.Source = current + $source',
+        'RETURN count(r) AS changed'])
+      for i in range(0, len(id_list), chunk_size):
+        with self.session() as s:
+          rec = s.run(cypher, ids=id_list[i:i+chunk_size], source=source).single()
+          changed += rec['changed'] if rec else 0
+    return changed
+
+
   def _resolve_node_labels(self, nodes:list[PSObject], chunk_size=20000)->tuple[dict[str,str],dict[str,tuple[str,str]]]:
     '''
     A URN identifies ONE node, whatever label the imported file gives it. Returns
@@ -1085,10 +1114,12 @@ class neo4j_nx(GraphDatabase):
     return total
 
 
-  def importGraph(self, nodes:list[PSObject], rels:list[PSRelation])->int:
+  def importGraph(self, nodes:list[PSObject], rels:list[PSRelation], add_source='')->int:
     '''
     Import graph data, serializing reference batches that share the PostgreSQL connection.
     Neo4j batches run in parallel.
+    add_source - if given, it is added to Source of ALL imported relations, also of those that already exist in Neo4j
+                 (same RelationID); an existing Source is kept and extended into a list
     '''
     start = time.time()
     node_created_count = 0
@@ -1133,6 +1164,12 @@ class neo4j_nx(GraphDatabase):
     # finding new relations and importing them into Neo4j:
     exist_rels, new_rels = self.ExistnotExist(rels)
     print (f"In {len(rels)} relations: {len(exist_rels)} existing, {len(new_rels)} new",flush=True)
+    if add_source and exist_rels:
+      try:
+        n_src = self.add_source_to_rels(exist_rels, add_source)
+        print(f"Added Source '{add_source}' to {n_src} of {len(exist_rels)} existing relations",flush=True)
+      except Exception as e:
+        print(f"Could not add Source '{add_source}' to existing relations: {e}",flush=True)
 
     stats = Counter()
     total_created_rel = 0
