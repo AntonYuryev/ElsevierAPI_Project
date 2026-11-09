@@ -1003,13 +1003,20 @@ class neo4j_nx(GraphDatabase):
     ids_by_type = defaultdict(set)
     for rel in rels:
       ids_by_type[rel.objtype()].add(rel.neo4j_relationID())
+    # Relations are found by RelationID. Without an index on it every lookup scans ALL relations of the type, so the index
+    # is created once per type (IF NOT EXISTS: a no-op when it exists) and the lookup is ONE `IN $ids` match per chunk:
+    # an index multi-seek with the index, a single scan per chunk (not one scan per id) without it.
+    checked = self.__dict__.setdefault('_relid_index_types', set())
+    new_types = [t for t in ids_by_type if t not in checked]
+    if new_types:
+      checked.update(new_types)
+      self.ensure_relationid_indexes(new_types)
     changed = 0
     for reltype, ids in ids_by_type.items():
       id_list = list(ids)
       cypher = '\n'.join([
-        'UNWIND $ids AS id',
         f'MATCH ()-[r:{Cypher.ident(reltype)}]->()',
-        'WHERE r.RelationID = id',
+        'WHERE r.RelationID IN $ids',
         'WITH r, [] + coalesce(r.Source, []) AS current',    # string -> [string]; list stays a list
         'WHERE NOT $source IN current',
         'SET r.Source = current + $source',
