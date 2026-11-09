@@ -121,11 +121,12 @@ class PSObject(defaultdict):  # {PropId:[values], PropName:[values]}
       return repressed_self
 
 
-  def neo4j_NodeID(self):
+  def neo4j_NodeID(self, refresh=True):
     if NODE_ID in self:
       return self[NODE_ID][0]
     nodeID = deterministic_hash64(self.urn())
-    self[NODE_ID] = [nodeID]
+    if refresh:
+      self[NODE_ID] = [nodeID]
     return nodeID
 
 
@@ -1499,14 +1500,41 @@ class PSRelation(PSObject):
         ref.add_sentence_prop(text_ref, prop, value)
 
 
-  def remap_urn(self, URNremap:dict[str,str]):
-    node_urns = [n.urn() for n in self.regulators() + self.targets()]
-    remaped_urns = [URNremap.get(urn) for urn in node_urns if urn in URNremap]
-    if len(remaped_urns) == len(node_urns):
+  def remap(self, URNremap:dict[str,str], type_remap:dict[str,str]={}, remap_partially=False):
+    '''
+    input:
+      type_remap: dictionary mapping old types to new types for nodes and relations
+    '''
+    if remap_partially:
       rel_copy = self.copy()
       for node in rel_copy.regulators() + rel_copy.targets():
-        node['URN'] = URNremap[node.urn()]
-
+        node_urn = node.urn()
+        node['URN'] = [URNremap.get(node_urn, node_urn)]
+        node_objtype = node.objtype()
+        node[OBJECT_TYPE] = [type_remap.get(node.objtype(),node_objtype)]
+        node.neo4j_NodeID()
+      rel_objtype = rel_copy.objtype()
+      rel_copy[OBJECT_TYPE] = [type_remap.get(rel_objtype, rel_objtype)]
+      rel_copy.__make_urn()
+      rel_copy.neo4j_relationID(refresh=True)
       return rel_copy
     else:
-      return None
+      node_urns = [n.urn() for n in self.regulators() + self.targets()]
+      remaped_urns = [URNremap.get(urn) for urn in node_urns if urn in URNremap]
+    
+      if len(remaped_urns) == len(node_urns):
+        rel_copy = self.copy()
+        for node in rel_copy.regulators() + rel_copy.targets():
+          node['URN'] = [URNremap[node.urn()]]
+          node_objtype = node.objtype()
+          node[OBJECT_TYPE] = [type_remap.get(node.objtype(),node_objtype)]
+          node.neo4j_NodeID()
+
+        rel_objtype = rel_copy.objtype()
+        rel_copy[OBJECT_TYPE] = [type_remap.get(rel_objtype, rel_objtype)]
+        rel_copy.__make_urn()
+        rel_copy.neo4j_relationID(refresh=True)
+        return rel_copy
+      else:
+        return None
+
