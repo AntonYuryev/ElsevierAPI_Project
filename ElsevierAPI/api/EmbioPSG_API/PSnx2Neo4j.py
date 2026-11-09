@@ -1,10 +1,10 @@
-import atexit, csv, neo4j, time
+import atexit, csv, neo4j, re, time
 from contextlib import nullcontext
 from threading import Lock
 from numpy import nan as NAN
-from collections import Counter
+from collections import Counter, defaultdict
 from ..ResnetAPI.ResnetGraph import ResnetGraph, PSObject, PSRelation, RELATIONID,df
-from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,print_error_info
+from ...utils.utils import execution_time, load_api_config, ThreadPoolExecutor, unpack,as_completed,print_error_info,deterministic_hash64
 from ..ResnetAPI.NetworkxObjects import OBJECT_TYPE,CHILDS,CONNECTIVITY,DBID, NONDIRECTIONAL, REFCOUNT, RESNET_REL_TYPES
 from neo4j import GraphDatabase, NotificationSeverity,Record
 from neo4j import ManagedTransaction as tx
@@ -13,6 +13,21 @@ from .postgres import PostgreSQL,pd
 
 NODECOLUMN2ATTR = {'id':DBID,'urn':'URN'}
 nondirectional_reltype = list(map(str.upper,NONDIRECTIONAL))
+
+POSTGRES2NEO4J_RELPROPS = {'source': 'Source', 
+                          'effect': 'Effect', 
+                          'celllinename': 'CellLineName',
+                          'celltype': 'CellType',
+                          'changetype': 'ChangeType',
+                          'effect': 'Effect',
+                          'mechanism': 'Mechanism',
+                          'modificationtype': 'ModificationType',
+                          'nct_id': 'NCT_ID',
+                          'organ': 'Organ',
+                          'organism': 'Organism',
+                          'quantitativeType': 'QuantitativeType',
+                          'id': RELATIONID,
+                          'tissue': 'Tissue'}
 
 class neo4j_nx(GraphDatabase):
   def __init__(self, APIconfig:dict={},**kwargs):
@@ -977,6 +992,99 @@ class neo4j_nx(GraphDatabase):
     return existing_rels, missing_rels
 
 
+  def _resolve_node_labels(self, nodes:list[PSObject], chunk_size=20000)->tuple[dict[str,str],dict[str,tuple[str,str]]]:
+    '''
+    A URN identifies ONE node, whatever label the imported file gives it. Returns
+      urn2label - {URN: label to use}: the label the node already has in the database, else the label of the first
+                  node with that URN in this batch
+      changed   - {URN: (label in the file, label used)} for the nodes whose label differs, i.e. the ones merged
+                  into an existing node (or into another node of this batch) of another type
+    '''
+    wanted = dict()
+    for n in nodes:
+      wanted.setdefault(n.urn(), n.objtype())
+    urns = list(wanted)
+    in_db = dict()
+    if urns:
+      for label in self.DBnodeLabels():
+        for i in range(0, len(urns), chunk_size):
+          part = urns[i:i+chunk_size]
+          with self.session() as s:
+            for rec in s.run(f'MATCH (n:{Cypher.ident(label)}) WHERE n.URN IN $urns RETURN n.URN AS urn', urns=part):
+              urn = rec['urn']
+              if urn not in in_db or label == wanted.get(urn):  # a node that already has the file's own label wins
+                in_db[urn] = label
+    urn2label = {urn: in_db.get(urn, label) for urn, label in wanted.items()}
+    changed = {urn: (wanted[urn], used) for urn, used in urn2label.items() if used != wanted[urn]}
+    return urn2label, changed
+
+
+  def ensure_urn_constraints(self, labels, await_seconds=600):
+    '''
+    Uniqueness constraint on URN for every label (CREATE CONSTRAINT ... IF NOT EXISTS): MERGE alone does not stop two
+    concurrent writers from both creating the same node. A constraint is per label, so the same URN under two
+    labels is stopped by _resolve_node_labels, not by the constraint.
+    Cannot be created while the label already holds duplicate URNs (or an index on URN exists): a message says so, the import goes on.
+    '''
+    checked = self.__dict__.setdefault('_urn_constraint_labels', set())
+    created = 0
+    for label in sorted(set(labels) - checked):
+      checked.add(label)
+      name = 'urn_unique_' + re.sub(r'\W', '_', label)
+      try:
+        with self.session() as s:
+          s.run(f'CREATE CONSTRAINT `{name}` IF NOT EXISTS FOR (n:{Cypher.ident(label)}) REQUIRE n.URN IS UNIQUE').consume()
+        created += 1
+      except Exception as e:
+        print(f'Could not create the URN uniqueness constraint for {label} nodes (duplicate URNs, an existing index on URN, or no permission): {str(e)[:300]}',flush=True)
+    if created:
+      try:
+        with self.session() as s:
+          s.run(f'CALL db.awaitIndexes({int(await_seconds)})').consume()
+      except Exception as e:
+        print(f'URN constraints are still being built, continuing: {e}',flush=True)
+
+
+  def _ensure_nodeids(self, nodes:list[PSObject], urn2label:dict[str,str], chunk_size=20000)->int:
+    '''
+    Sets NodeID (PSObject.neo4j_NodeID(), the hash of the URN) on the nodes of the batch that are in Neo4j without it:
+    nodes written by an older import or by another tool, including the existing node an imported node was merged into.
+    Returns the number of nodes that got a NodeID.
+    '''
+    rows_by_label = defaultdict(dict)
+    for n in nodes:
+      rows_by_label[urn2label.get(n.urn(), n.objtype())][n.urn()] = n.neo4j_NodeID()
+    fixed = 0
+    for label, id_by_urn in rows_by_label.items():
+      rows = [{'urn':u, 'id':i} for u,i in id_by_urn.items()]
+      for i in range(0, len(rows), chunk_size):
+        with self.session() as s:
+          rec = s.run(f'UNWIND $rows AS row MATCH (n:{Cypher.ident(label)} {{URN: row.urn}}) WHERE n.NodeID IS NULL '
+                      'SET n.NodeID = row.id RETURN count(n) AS fixed', rows=rows[i:i+chunk_size]).single()
+          fixed += rec['fixed'] if rec else 0
+    return fixed
+
+
+  def add_missing_nodeids(self, batch_size=50000)->int:
+    '''
+    Gives every node in the database that has a URN but no NodeID its NodeID = deterministic_hash64(URN) (the same value
+    PSObject.neo4j_NodeID() computes). Run once to repair nodes imported before NodeID was always written.
+    '''
+    total = 0
+    while True:
+      with self.session() as s:
+        urns = [r['urn'] for r in s.run('MATCH (n) WHERE n.URN IS NOT NULL AND n.NodeID IS NULL RETURN n.URN AS urn LIMIT $n', n=batch_size)]
+        if not urns:
+          break
+        rows = [{'urn':u, 'id':deterministic_hash64(u)} for u in urns]
+        fixed = s.run('UNWIND $rows AS row MATCH (n {URN: row.urn}) WHERE n.NodeID IS NULL SET n.NodeID = row.id RETURN count(n) AS fixed', rows=rows).single()['fixed']
+      total += fixed
+      print(f'NodeID added to {total} nodes so far',flush=True)
+      if not fixed:
+        break
+    return total
+
+
   def importGraph(self, nodes:list[PSObject], rels:list[PSRelation])->int:
     '''
     Import graph data, serializing reference batches that share the PostgreSQL connection.
@@ -985,11 +1093,24 @@ class neo4j_nx(GraphDatabase):
     start = time.time()
     node_created_count = 0
     print(f'Start importing {len(rels)} relations for {len(nodes)} nodes',flush=True)
+    urn2label = dict()
+    nodes_for_postgres = nodes
+    for n in nodes:
+      n.neo4j_NodeID()   # set NodeID now, before the Postgres thread and the Cypher builder read the node in parallel
+    if nodes:
+      # one URN = one node: a node whose URN is already in the database under another label is merged into that node
+      urn2label, merged = self._resolve_node_labels(nodes)
+      self.ensure_urn_constraints(set(urn2label.values()))
+      if merged:
+        print(f'{len(merged)} node(s) have a URN that already exists with another label and are merged into the existing node, e.g.:',flush=True)
+        for urn, (file_label, used_label) in list(merged.items())[:5]:
+          print(f'    {urn}: {file_label} -> {used_label}',flush=True)
+        nodes_for_postgres = [n for n in nodes if n.urn() not in merged]
     if nodes:
       node_created_count = 0
       with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportNodes") as ex:
-        postgres_nodes_future = ex.submit(self.postgres._insert_nodes_, nodes)
-        for records, request_name in self._unwind_(Cypher.importNodes(nodes)):
+        postgres_nodes_future = ex.submit(self.postgres._insert_nodes_, nodes_for_postgres)
+        for records, request_name in self._unwind_(Cypher.importNodes(nodes, urn2label=urn2label)):
           node_type = request_name.split('_')[-1]
           for record in records:
             created_count, total_processed = record['createdCount'], record['totalProcessed']
@@ -1000,6 +1121,13 @@ class neo4j_nx(GraphDatabase):
         except Exception as e:
           print_error_info(f"Postgres batch failed: {e}")
     print(f"Imported {node_created_count} new nodes out of {len(nodes)} in {execution_time(start)}",flush=True)
+    if nodes:
+      try:
+        fixed = self._ensure_nodeids(nodes, urn2label)
+        if fixed:
+          print(f'Added the missing NodeID to {fixed} existing node(s)',flush=True)
+      except Exception as e:
+        print(f'Could not add the missing NodeIDs: {e}',flush=True)
 
     # splitting rels into new and existing first in Python is the faster strategy than using node+rel status checks in Neo4j
     # finding new relations and importing them into Neo4j:
@@ -1012,7 +1140,7 @@ class neo4j_nx(GraphDatabase):
     with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportRels") as ex:
       postgres_rels_future = ex.submit(self.postgres.import_refs, exist_rels, new_rels)
       if new_rels:
-        for c,p in Cypher.importRels(new_rels):
+        for c,p in Cypher.importRels(new_rels, urn2label=urn2label):
           records,request_name = self.run_cypher(c,p)
           # request_name = 'importRels:{aType}/{relType}/{bType}' (see Cypher.importRels); '/' cannot occur in a type name,
           # unlike '_' (e.g. SmallMol_is_a_SmallMol, "is_a")
@@ -1340,9 +1468,39 @@ class neo4j_nx(GraphDatabase):
     print(f'Colored sentences and saved to {outfile}')
 
 
-  def update_refcount(self, only_greater=True):
+  def ensure_relationid_indexes(self, reltypes, await_seconds=600):
+    '''
+    Creates the range index on RelationID for every relation type that does not have one (CREATE INDEX IF NOT EXISTS).
+    Updating relations matches them by RelationID; without the index every match scans all relations of the type.
+    A user who is not allowed to create indexes gets a message and the update goes on (slowly).
+    '''
+    created = 0
+    for reltype in reltypes:
+      name = f'rel_{reltype}_RelationID'
+      try:
+        with self.session() as s:
+          s.run(f'CREATE INDEX `{name}` IF NOT EXISTS FOR ()-[r:`{reltype}`]-() ON (r.RelationID)').consume()
+        created += 1
+      except Exception as e:
+        print(f'Could not create the RelationID index for {reltype} relations (updates of this type will be slow): {e}',flush=True)
+        break
+    if created:
+      print(f'RelationID indexes checked/created for {created} relation types; waiting for them to come online',flush=True)
+      try:
+        with self.session() as s:
+          s.run(f'CALL db.awaitIndexes({int(await_seconds)})').consume()
+      except Exception as e:
+        print(f'Indexes are still being built, continuing: {e}',flush=True)
+
+  def update_refcount(self, only_greater=True, update_props=True):
+    '''
+    updates RelationNumberOfSentences/RelationNumberOfReferences of Neo4j relations from Postgres and,
+    if update_props is True, the other relation properties of POSTGRES2NEO4J_RELPROPS (see _update_relprops)
+    '''
     total_retreived = 0
     total_updated = 0
+    total_props_updated = 0
+    self.ensure_relationid_indexes(RESNET_REL_TYPES)
     update_batch_size = 10000
 
     for reltype in RESNET_REL_TYPES:
@@ -1375,7 +1533,13 @@ class neo4j_nx(GraphDatabase):
       if not neo4jsentnums:
         continue
 
-      relid2update = self.postgres.select_refcounts(neo4jsentnums,only_greater=only_greater)
+      # The two Postgres reads (counts, property values) are independent, so they run in parallel; the property update
+      # also writes to Neo4j, and the counts are written only after it has finished, so the two never write at once.
+      with ThreadPoolExecutor(max_workers=1,thread_name_prefix='RefcountSelect') as ex:
+        refcounts_future = ex.submit(self.postgres.select_refcounts,neo4jsentnums,only_greater=only_greater)
+        if update_props:
+          total_props_updated += self._update_relprops(reltype, [relid for relid,_ in neo4jsentnums])
+        relid2update = refcounts_future.result()
       if not relid2update:
         print(f'No {reltype} relations need refcount update')
         continue
@@ -1387,16 +1551,84 @@ class neo4j_nx(GraphDatabase):
 
       update_cypher = f'''UNWIND $rows AS row
                         MATCH ()-[r:{reltype}]->()
-                        USING INDEX r:{reltype}(RelationID)
                         WHERE r.RelationID = row.id
                         SET r.RelationNumberOfSentences = row.sentences,
                             r.RelationNumberOfReferences = row.refs
                         RETURN count(r) AS updated'''
+      type_updated = 0
       for start in range(0, len(rows), update_batch_size):
         parameters = {'rows': rows[start:start+update_batch_size], 'request_name': f'{reltype}_{start}_refcount_update'}
         records, _ = self.run_cypher(update_cypher, parameters)
         updatedCount = records[0]['updated'] if records else 0
         total_updated += updatedCount
-        print(f"Relations updated so far: {total_updated} out of {len(rows)} needed refcount update\n")
+        type_updated += updatedCount
+        print(f"{reltype}: counts updated so far: {type_updated} out of {len(rows)} needed refcount update\n")
 
-    print(f"Finished processing all relations\nTotal relations updated: {total_updated}")
+    print(f"Finished processing all relations\nTotal relations with updated reference/sentence counts: {total_updated}")
+    if update_props:
+      print(f"Total relations with updated properties from Postgres references: {total_props_updated}")
+
+  def _update_relprops(self, reltype:str, relids:list, update_batch_size=5000)->int:
+    '''
+    Copies the relation properties of POSTGRES2NEO4J_RELPROPS (except the RelationID) from the Postgres references of
+    the relations of type reltype to the Neo4j relations (matched by RelationID = reference.id). All of them are string properties:
+      1) no such property on the relation  -> it is set to the single string value;
+      2) the property is a single value    -> it becomes a list [old value, new value];
+      3) the property is a list            -> the new value is appended to the list.
+    A value that the relation already has is never added again, so running this repeatedly changes nothing.
+    List values are kept sorted and without duplicates (the same set of values is always the same list), also when the list
+    already existed in Neo4j and nothing new is added to it.
+    returns the number of relations whose properties were changed
+    '''
+    col2prop = {c.lower():p for c,p in POSTGRES2NEO4J_RELPROPS.items() if p != RELATIONID}
+    columns = self.postgres.existing_reference_columns(list(col2prop))
+    missing = [c for c in col2prop if c not in columns]
+    if missing:
+      print(f'Skipped properties without a column in the Postgres reference table: {missing}',flush=True)
+    if not columns:
+      return 0
+
+    uniq_ids = []
+    seen = set()
+    for relid in relids:
+      ids = tuple(relid) if isinstance(relid,list) else (relid,)
+      if ids and ids not in seen:
+        seen.add(ids)
+        uniq_ids.append(list(ids))
+    pg_props = self.postgres.select_relprops(uniq_ids, columns)
+    if not pg_props:
+      print(f'No {reltype} relations have property values in Postgres references')
+      return 0
+
+    rows = []
+    for ids, props in pg_props.items():
+      rows.append({'id': ids[0] if len(ids) == 1 else list(ids),
+                   'vals': {col2prop[c]:values for c,values in props.items()}})
+
+    # one WITH/SET pair per property: old value -> list, new values not yet present, single string if only one value results
+    parts = []
+    for prop in (col2prop[c] for c in columns):
+      q = f'`{prop}`'
+      parts.append(f'''WITH r, row, before, CASE WHEN r.{q} IS NULL THEN []
+                                       WHEN valueType(r.{q}) STARTS WITH 'LIST' THEN r.{q}
+                                       ELSE [r.{q}] END AS old
+                       WITH r, row, before, old, [v IN coalesce(row.vals.{q}, []) WHERE NOT v IN old] AS fresh
+                       SET r.{q} = CASE WHEN size(fresh) = 0 THEN
+                                          CASE WHEN r.{q} IS NOT NULL AND valueType(r.{q}) STARTS WITH 'LIST'
+                                               THEN apoc.coll.sort(apoc.coll.toSet(r.{q})) ELSE r.{q} END
+                                        WHEN size(old) + size(fresh) = 1 THEN fresh[0]
+                                        ELSE apoc.coll.sort(apoc.coll.toSet(old + fresh)) END''')
+    update_cypher = f'''UNWIND $rows AS row
+                        MATCH ()-[r:{reltype}]->()
+                        WHERE r.RelationID = row.id
+                        WITH r, row, properties(r) AS before
+                        {chr(10).join(parts)}
+                        WITH r, before, properties(r) AS after
+                        RETURN count(CASE WHEN before <> after THEN 1 END) AS updated'''
+    updated = 0
+    for start in range(0, len(rows), update_batch_size):
+      parameters = {'rows': rows[start:start+update_batch_size], 'request_name': f'{reltype}_{start}_relprops_update'}
+      records, _ = self.run_cypher(update_cypher, parameters)
+      updated += records[0]['updated'] if records else 0
+      print(f'{reltype}: properties of {updated} relations updated so far out of {len(rows)} with property values in Postgres',flush=True)
+    return updated

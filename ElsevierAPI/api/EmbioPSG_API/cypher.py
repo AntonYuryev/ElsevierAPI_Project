@@ -622,7 +622,7 @@ class Cypher:
   
 
   @staticmethod
-  def importRels(rels:list[PSRelation],transaction_size=20000)->list[tuple[str,dict]]:
+  def importRels(rels:list[PSRelation],transaction_size=20000,urn2label:dict[str,str]=None)->list[tuple[str,dict]]:
     """
     input:
       rels - list of PSRelation objects, all nodes must exist in the database
@@ -631,7 +631,10 @@ class Cypher:
       Groups contain no shared endpoint URNs between pairs; all relationships are preserved.
       Groups may share endpoints with other groups and are not execution barriers.
       Each query handles all pairs for that group and returns the count of created relations.
-      parameters['request_name'] holds regulatorType_relType_targetsType"""
+      parameters['request_name'] holds regulatorType_relType_targetsType
+      urn2label - {URN: label of the node that URN has in the database} (see neo4j_nx._resolve_node_labels): a URN is ONE node whatever
+                  label the imported file gives it, so the endpoints are matched with the label the node really has"""
+    urn2label = urn2label or {}
     by_type = defaultdict(list)
     endpoint_groups = defaultdict(list)
 
@@ -648,8 +651,8 @@ class Cypher:
          rel_props[prop] = vals[0] if isinstance(vals, list) and len(vals) == 1 else vals
       # Group node pairs by endpoint URNs to avoid conflicts within the same transaction.
       for n1, n2 in rel.node_pairs():
-        key = (relType, n1.objtype(), n2.objtype())
         a_urn, b_urn = n1.urn(), n2.urn()
+        key = (relType, urn2label.get(a_urn, n1.objtype()), urn2label.get(b_urn, n2.objtype()))
         groups = endpoint_groups[key]
         for group_index, endpoints in enumerate(groups):
           if a_urn not in endpoints and b_urn not in endpoints:
@@ -684,19 +687,23 @@ class Cypher:
   
   
   @staticmethod
-  def importNodes(nodes:list[PSObject],transaction_size=50000)->list[tuple[str,dict]]:
+  def importNodes(nodes:list[PSObject],transaction_size=50000,urn2label:dict[str,str]=None)->list[tuple[str,dict]]:
     '''
     output:
       list of (node_type, cypher_query, parameters) tuples, one per node type.
       Each query is compact and handles all nodes for that type, parameters have request_name for use with _unwind_.
+      urn2label - {URN: label}; a node whose URN already exists in the database under another label is merged into that
+                  existing node (MERGE finds it, nothing is created and its properties stay as they are)
     '''
+    urn2label = urn2label or {}
     by_type = defaultdict(list)
     for node in nodes:
+      node.neo4j_NodeID()   # NodeID = hash of the URN, stored on the node by this call; without it the node was written without a NodeID
       props = dict()
       for k,v in list(node.items()):
         if k in ENTPROP_NEO4J and v:
             props[k] = v[0] if len(v) == 1 else v
-      by_type[node.objtype()].append(props)
+      by_type[urn2label.get(node.urn(), node.objtype())].append(props)
 
     queries = []
     for objtype, prop_list in by_type.items():

@@ -883,7 +883,70 @@ class PostgreSQL:
   # The 65,535 Parameter Limit (CRITICAL)
   # If you are using PostgreSQL (psycopg2), passing a batch of 50,000 tuples with 2 columns means you are sending 100,000 parameters. 
   # The PostgreSQL extended query protocol has a hard limit of 65,535 parameters per query.
-  def select_refcounts(self, relid_sentnums:list[tuple[list[int] | int,int]], 
+  def existing_reference_columns(self, columns:list[str])->list[str]:
+    '''returns those of the (lowercased) column names that exist in the reference table, in the given order'''
+    wanted = [_safe_ident(c.lower()) for c in columns]
+    with closing(psycopg2.connect(**self.conn_params)) as conn:
+      with conn.cursor() as cur:
+        cur.execute('SELECT column_name FROM information_schema.columns WHERE table_schema = %s AND table_name = %s',
+                    (self.schema,'reference'))
+        have = {row[0] for row in cur.fetchall()}
+    return [c for c in wanted if c in have]
+
+
+  def select_relprops(self, relids:list[list[int]|int], columns:list[str],
+                      chunk_size=20000, attempts=3)->dict[tuple[int,...],dict[str,list[str]]]:
+    '''
+    input:
+      relids - RelationID of Neo4j relations: an integer or a list of integers (relations merged by Database->Curate have a list)
+      columns - columns of the reference table (must exist, see existing_reference_columns)
+    output:
+      {tuple(relation ids): {column: [distinct non-empty values as text, sorted]}}; columns without values are omitted
+      and relations without any value are not in the result. Values are collected from all references of all ids of the relation.
+    '''
+    if chunk_size <= 0 or attempts <= 0:
+      raise ValueError('chunk_size and attempts must be positive')
+    cols = [_safe_ident(c.lower()) for c in columns]
+    total = len(relids)
+    if not total or not cols:
+      return {}
+    aggs = ',\n'.join(
+      f"array_remove(array_agg(DISTINCT NULLIF(btrim(r.{c}::text),'')),NULL) AS {c}" for c in cols)
+    sql = f'''WITH BatchInput AS (
+                SELECT * FROM jsonb_to_recordset(%s::jsonb) AS input(id bigint[])
+              )
+              SELECT b.id AS id, {aggs}
+              FROM BatchInput b
+              JOIN {self.schema}.reference r ON r.id = ANY(b.id)
+              GROUP BY b.id'''
+
+    def fetch_chunk(start:int):
+      batch = [{'id': i if isinstance(i,list) else [i]} for i in relids[start:start+chunk_size]]
+      for attempt in range(attempts):
+        try:
+          with closing(psycopg2.connect(**self.conn_params)) as conn:
+            with conn:
+              with conn.cursor() as cur:
+                cur.execute(sql, (Json(batch),))
+                return cur.fetchall()
+        except psycopg2.Error as e:
+          print(f'Error fetching relation properties from Postgres for relations {start}-{start+len(batch)} (attempt {attempt+1}): {e}')
+          if attempt + 1 == attempts:
+            raise
+          sleep(2**attempt)
+
+    result = {}
+    with ThreadPoolExecutor(max_workers=10, thread_name_prefix='RelPropRetriever') as executor:
+      for index, rows in enumerate(executor.map(fetch_chunk, range(0, total, chunk_size)), start=1):
+        for row in rows:
+          props = {c:sorted(v) for c,v in zip(cols,row[1:]) if v}
+          if props:
+            result[tuple(row[0])] = props
+        print(f'Retrieved properties of {min(index*chunk_size, total)} out of {total} relations from Postgres', flush=True)
+    return result
+
+
+  def select_refcounts(self, relid_sentnums:list[tuple[list[int] | int,int]],
                        chunk_size=30000, attempts=3, only_greater=True)->list[tuple[list[int],int,int]]:
     '''
     input:

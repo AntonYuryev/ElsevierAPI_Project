@@ -1,4 +1,3 @@
-statement
 CREATE INDEX smallmol_node_id IF NOT EXISTS FOR (n:SmallMol) ON (n.NodeID);
 CREATE INDEX protein_node_id IF NOT EXISTS FOR (n:Protein) ON (n.NodeID);
 CREATE INDEX geneticvariant_node_id IF NOT EXISTS FOR (n:GeneticVariant) ON (n.NodeID);
