@@ -1106,7 +1106,7 @@ class neo4j_nx(GraphDatabase):
         for urn, (file_label, used_label) in list(merged.items())[:5]:
           print(f'    {urn}: {file_label} -> {used_label}',flush=True)
         nodes_for_postgres = [n for n in nodes if n.urn() not in merged]
-    if nodes:
+
       node_created_count = 0
       with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportNodes") as ex:
         postgres_nodes_future = ex.submit(self.postgres._insert_nodes_, nodes_for_postgres)
@@ -1121,6 +1121,7 @@ class neo4j_nx(GraphDatabase):
         except Exception as e:
           print_error_info(f"Postgres batch failed: {e}")
     print(f"Imported {node_created_count} new nodes out of {len(nodes)} in {execution_time(start)}",flush=True)
+    
     if nodes:
       try:
         fixed = self._ensure_nodeids(nodes, urn2label)
