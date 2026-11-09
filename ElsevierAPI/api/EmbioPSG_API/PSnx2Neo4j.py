@@ -953,6 +953,7 @@ class neo4j_nx(GraphDatabase):
     ids_by_type = {}
     for rel in rels:
       ids_by_type.setdefault(rel.objtype(), set()).add(rel.neo4j_relationID())
+    self._ensure_relid_indexes_once(ids_by_type)   # without the index each chunk scans all relations of the type
 
     cypher = '\n'.join([
       'MATCH ()-[r:`{reltype}`]->()',
@@ -992,6 +993,15 @@ class neo4j_nx(GraphDatabase):
     return existing_rels, missing_rels
 
 
+  def _ensure_relid_indexes_once(self, reltypes):
+    '''ensure_relationid_indexes() for the relation types not yet checked by this object (cheap when called per batch)'''
+    checked = self.__dict__.setdefault('_relid_index_types', set())
+    new_types = [t for t in reltypes if t not in checked]
+    if new_types:
+      checked.update(new_types)
+      self.ensure_relationid_indexes(new_types)
+
+
   def add_source_to_rels(self, rels:list[PSRelation], source:str, chunk_size=5000)->int:
     '''
     Adds source to the Source property of the relations in Neo4j that have the RelationID of the rels.
@@ -1006,11 +1016,7 @@ class neo4j_nx(GraphDatabase):
     # Relations are found by RelationID. Without an index on it every lookup scans ALL relations of the type, so the index
     # is created once per type (IF NOT EXISTS: a no-op when it exists) and the lookup is ONE `IN $ids` match per chunk:
     # an index multi-seek with the index, a single scan per chunk (not one scan per id) without it.
-    checked = self.__dict__.setdefault('_relid_index_types', set())
-    new_types = [t for t in ids_by_type if t not in checked]
-    if new_types:
-      checked.update(new_types)
-      self.ensure_relationid_indexes(new_types)
+    self._ensure_relid_indexes_once(ids_by_type)
     changed = 0
     for reltype, ids in ids_by_type.items():
       id_list = list(ids)
