@@ -1011,6 +1011,7 @@ class neo4j_nx(GraphDatabase):
     if not source or not rels:
       return 0
     ids_by_type = defaultdict(set)
+    print(f"Adding source '{source}' to {len(rels)} relations...")
     for rel in rels:
       ids_by_type[rel.objtype()].add(rel.neo4j_relationID())
     # Relations are found by RelationID. Without an index on it every lookup scans ALL relations of the type, so the index
