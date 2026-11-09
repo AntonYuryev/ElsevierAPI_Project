@@ -1165,18 +1165,14 @@ class neo4j_nx(GraphDatabase):
     # finding new relations and importing them into Neo4j:
     exist_rels, new_rels = self.ExistnotExist(rels)
     print (f"In {len(rels)} relations: {len(exist_rels)} existing, {len(new_rels)} new",flush=True)
-    if add_source and exist_rels:
-      try:
-        n_src = self.add_source_to_rels(exist_rels, add_source)
-        print(f"Added Source '{add_source}' to {n_src} of {len(exist_rels)} existing relations",flush=True)
-      except Exception as e:
-        print(f"Could not add Source '{add_source}' to existing relations: {e}",flush=True)
-
+   
     stats = Counter()
     total_created_rel = 0
     total_inserted_ref = 0
     with ThreadPoolExecutor(max_workers=2,thread_name_prefix="ImportRels") as ex:
       postgres_rels_future = ex.submit(self.postgres.import_refs, exist_rels, new_rels)
+      if add_source and exist_rels:
+        n_src_future = ex.submit(self.add_source_to_rels, exist_rels, add_source)
       if new_rels:
         for c,p in Cypher.importRels(new_rels, urn2label=urn2label):
           records,request_name = self.run_cypher(c,p)
@@ -1202,6 +1198,13 @@ class neo4j_nx(GraphDatabase):
         total_inserted_ref = postgres_rels_future.result()
       except Exception as e:
         print_error_info(f"Postgres batch failed: {e}")
+        
+      if add_source and exist_rels:
+        try:
+          n_src = n_src_future.result()
+          print(f"Added Source '{add_source}' to {n_src} of {len(exist_rels)} existing relations",flush=True)
+        except Exception as e:
+          print(f"Could not add Source '{add_source}' to existing relations: {e}",flush=True)
 
     return node_created_count, total_created_rel, total_inserted_ref
    
