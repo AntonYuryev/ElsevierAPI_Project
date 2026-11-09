@@ -23,7 +23,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([v IN apoc.coll.flatten([props[k]]) WHERE v IS NOT NULL]))
        ]
    ) AS uniqueMap
    
@@ -75,7 +75,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -126,7 +126,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -174,7 +186,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -235,7 +247,7 @@ CALL apoc.periodic.iterate(
    WITH newRel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH newRel, apoc.map.fromLists(
@@ -288,7 +300,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -375,7 +387,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -424,7 +436,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -476,7 +488,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -515,7 +539,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -566,7 +590,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -601,6 +637,24 @@ CALL apoc.periodic.iterate(
    WITH anchor, collect(evidence) AS evidenceRels
    CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: 'combine', produceSelfRel: false})
    YIELD rel
+   WITH rel, properties(rel) AS props
+   WITH rel, apoc.map.fromLists(
+       keys(props),
+       [k IN keys(props) |
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
+       ]
+   ) AS uniqueMap
+   WITH rel, apoc.map.fromLists(
+       keys(uniqueMap),
+       [k IN keys(uniqueMap) |
+           CASE size(uniqueMap[k])
+               WHEN 0 THEN null
+               WHEN 1 THEN uniqueMap[k][0]
+               ELSE uniqueMap[k]
+           END
+       ]
+   ) AS finalProps
+   SET rel = finalProps
    RETURN count(rel) AS merged",
 
   // 3. CONFIGURATION
@@ -633,6 +687,24 @@ CALL apoc.periodic.iterate(
    WITH anchor, collect(evidence) AS evidenceRels
    CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: 'combine', produceSelfRel: false})
    YIELD rel
+   WITH rel, properties(rel) AS props
+   WITH rel, apoc.map.fromLists(
+       keys(props),
+       [k IN keys(props) |
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
+       ]
+   ) AS uniqueMap
+   WITH rel, apoc.map.fromLists(
+       keys(uniqueMap),
+       [k IN keys(uniqueMap) |
+           CASE size(uniqueMap[k])
+               WHEN 0 THEN null
+               WHEN 1 THEN uniqueMap[k][0]
+               ELSE uniqueMap[k]
+           END
+       ]
+   ) AS finalProps
+   SET rel = finalProps
    RETURN count(rel) AS merged",
 
   // 3. CONFIGURATION
@@ -671,7 +743,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -706,6 +790,24 @@ CALL apoc.periodic.iterate(
    WITH anchor, collect(evidence) AS evidenceRels
    CALL apoc.refactor.mergeRelationships([anchor] + evidenceRels, {properties: 'combine', produceSelfRel: false})
    YIELD rel
+   WITH rel, properties(rel) AS props
+   WITH rel, apoc.map.fromLists(
+       keys(props),
+       [k IN keys(props) |
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
+       ]
+   ) AS uniqueMap
+   WITH rel, apoc.map.fromLists(
+       keys(uniqueMap),
+       [k IN keys(uniqueMap) |
+           CASE size(uniqueMap[k])
+               WHEN 0 THEN null
+               WHEN 1 THEN uniqueMap[k][0]
+               ELSE uniqueMap[k]
+           END
+       ]
+   ) AS finalProps
+   SET rel = finalProps
    RETURN count(rel) AS merged",
 
   // 3. CONFIGURATION
@@ -744,7 +846,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -783,7 +897,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -834,7 +948,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",
@@ -873,7 +999,7 @@ CALL apoc.periodic.iterate(
    WITH rel, apoc.map.fromLists(
        keys(props),
        [k IN keys(props) |
-           apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL])
+           apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([props[k]]) WHERE x IS NOT NULL]))
        ]
    ) AS uniqueMap
    WITH rel, apoc.map.fromLists(
@@ -924,7 +1050,19 @@ CALL apoc.periodic.iterate(
             apoc.coll.flatten([coalesce(properties(anchor)[k], [])]) +
             apoc.coll.flatten([m IN assoc_props_list | coalesce(m[k], [])])
         ]) AS mergedProps
-   SET anchor = mergedProps
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(mergedProps), [k IN keys(mergedProps) |
+            apoc.coll.sort(apoc.coll.toSet([x IN apoc.coll.flatten([mergedProps[k]]) WHERE x IS NOT NULL]))
+        ]) AS uniqueMap
+   WITH anchor, evidence,
+        apoc.map.fromLists(keys(uniqueMap), [k IN keys(uniqueMap) |
+            CASE size(uniqueMap[k])
+                WHEN 0 THEN null
+                WHEN 1 THEN uniqueMap[k][0]
+                ELSE uniqueMap[k]
+            END
+        ]) AS finalProps
+   SET anchor = finalProps
    WITH anchor, evidence
    UNWIND evidence AS rb
    DELETE rb",

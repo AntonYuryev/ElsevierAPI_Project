@@ -2660,8 +2660,9 @@ class ResnetGraph (nx.MultiDiGraph):
     '''
     output: tuple of (unique nodes set, all relations) in batches
     nodes outputted in previous batches are not included in subsequent batches
-    files_done - optional one-element list; before each batch is yielded files_done[0] is set to the number of files
-                 whose relations are ALL contained in the batches yielded so far (this one included)
+    files_done - optional list; before each batch is yielded files_done[0] is set to the number of files
+                 whose relations are ALL contained in the batches yielded so far (this one included) and
+                 files_done[1] to the path of the file the batch ends in (the one being imported)
     '''
     #rnef_files = dir2flist(path2dir, include_subdirs=include_subdir, file_ext=file_ext)
     #print(f'Reading {file_ext} files from: {path2dir}')
@@ -2689,6 +2690,7 @@ class ResnetGraph (nx.MultiDiGraph):
           print(f"So far read {nodes_counter} nodes and {relation_counter} relations from {rnef_file}")
           if files_done is not None:
             files_done[0] = file_idx   # the current file is not finished yet
+            files_done[1:] = [rnef_file]   # ... it is the file the yielded batch ends in
           yield batch_nodes, batch_rels
           batch_nodes = []
           batch_rels = []
@@ -2698,6 +2700,7 @@ class ResnetGraph (nx.MultiDiGraph):
       print(f"Finished reading {len(rnef_files)} files with {nodes_counter} nodes and {relation_counter} relations")
       if files_done is not None:
         files_done[0] = len(rnef_files)
+        files_done[1:] = [rnef_files[-1]]   # the batch ends in the last file
       yield batch_nodes, batch_rels
     else:
       print(f"Finished reading {len(rnef_files)} files with {len(read_nodes)} nodes and {rel_counter} relations")

@@ -1459,9 +1459,22 @@ class PSRelation(PSObject):
     return text_refs
 
 
-  def neo4j_relationID(self, refresh=False):
+  def neo4j_relationID(self, refresh=False)->int:
+    '''
+    RelationID = hash of the relation's regulators, targets, type, ontology, relationship, effect and mechanism,
+    or the RelationID attribute of the RNEF file when it has one.
+    IMPORTANT: RelationID is an INTEGER (int64) in Neo4j. It must be passed to Cypher queries as an integer
+    (parameters like {'ids': [int, ...]}, or bare digits in the query text), NEVER as a string: a string never equals
+    the integer property, so `r.RelationID IN $ids` silently matches nothing and the relation looks like a new one.
+    A RelationID read from a file is converted to int here.
+    '''
     if RELATIONID in self and not refresh:
-      return self[RELATIONID][0]
+      relid = self[RELATIONID][0]
+      # a RelationID read from an RNEF attribute is a string, but it is an integer in Neo4j (and when computed below)
+      if isinstance(relid, str) and relid.strip().lstrip('-').isdigit():
+        relid = int(relid.strip())
+        self[RELATIONID] = [relid]
+      return relid
     inoutref = [n.neo4j_hash() for n in self.regulators()]
     inoutref.sort(reverse=True)
     outref = [n.neo4j_hash() for n in self.targets()]
